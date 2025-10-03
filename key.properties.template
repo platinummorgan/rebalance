@@ -1,0 +1,15 @@
+# key.properties.template
+# Copy this file to android/key.properties and fill the values with your keystore info.
+# Do NOT commit android/key.properties to version control. Keep the real file secret.
+
+# Path to your keystore file (relative to the android/ folder). Example: ../keystore.jks
+storeFile=../keystore.jks
+
+# Password that protects the keystore
+storePassword=REPLACE_WITH_STORE_PASSWORD
+
+# Password for the key alias (may be same as storePassword)
+keyPassword=REPLACE_WITH_KEY_PASSWORD
+
+# The alias of the key inside the keystore
+keyAlias=REPLACE_WITH_KEY_ALIAS
