@@ -66,7 +66,8 @@ void main() {
       final weight = FinancialHealthCalculator.componentWeights[k] ?? 0.0;
       final contribution = (weight * v).toStringAsFixed(2);
       print(
-          ' - $k: $v (weight ${(weight * 100).toStringAsFixed(0)}% -> contribution $contribution)',);
+        ' - $k: $v (weight ${(weight * 100).toStringAsFixed(0)}% -> contribution $contribution)',
+      );
     });
 
     // Sanity assert

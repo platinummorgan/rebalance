@@ -53,9 +53,10 @@ class HomeBiasCalculator {
 
     // Calculate continuous score using new implementation
     final score = scoreHomeBias(
-        settings: settings,
-        currentIntlPct: intlEquityPct,
-        targetIntlPct: targetIntlPct);
+      settings: settings,
+      currentIntlPct: intlEquityPct,
+      targetIntlPct: targetIntlPct,
+    );
 
     final band = _getBand(intlEquityPct, targetIntlPct);
     final description = _getDescription(intlEquityPct, targetIntlPct, band);

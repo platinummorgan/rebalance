@@ -518,7 +518,8 @@ class Snapshot extends HiveObject {
   late String source; // "auto" or "manual"
 
   @HiveField(11)
-  String? diversificationMode; // Recorded mode at snapshot time for reproducibility
+  String?
+      diversificationMode; // Recorded mode at snapshot time for reproducibility
 
   Snapshot({
     required this.at,
