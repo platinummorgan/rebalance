@@ -16,6 +16,88 @@ import '../../data/calculators/allocation.dart';
 import '../../app.dart';
 import '../../utils/csv_exporter.dart';
 
+// Top-level autosuggest helper so widget-building code can call it from any
+// method inside the file regardless of class method ordering.
+Widget _maybeBuildIntlAutosuggest(
+  BuildContext context,
+  Settings settings,
+  List<Account> accounts,
+  WidgetRef ref,
+) {
+  // If user already muted or set to light, don't suggest
+  if (settings.globalDiversificationMode == 'off' ||
+      settings.globalDiversificationMode == 'light') {
+    return const SizedBox.shrink();
+  }
+
+  final totals = AllocationCalculator.calculateTotals(accounts);
+  final assetsTotal = totals.values.reduce((a, b) => a + b);
+  if (assetsTotal == 0) return const SizedBox.shrink();
+
+  final intlPct = totals['intlEq']! / assetsTotal;
+
+  // Suggest muting when international exposure is extremely low (<1%)
+  if (intlPct < 0.01) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 12.0),
+      child: GestureDetector(
+        onTap: () {
+          final settingsNotifier = ref.read(settingsProvider.notifier);
+          final currentSettings = ref.read(settingsProvider).value;
+          if (currentSettings != null) {
+            final updated = Settings(
+              riskBand: currentSettings.riskBand,
+              monthlyEssentials: currentSettings.monthlyEssentials,
+              driftThresholdPct: currentSettings.driftThresholdPct,
+              notificationsEnabled: currentSettings.notificationsEnabled,
+              usEquityTargetPct: currentSettings.usEquityTargetPct,
+              isPro: currentSettings.isPro,
+              biometricLockEnabled: currentSettings.biometricLockEnabled,
+              darkModeEnabled: currentSettings.darkModeEnabled,
+              colorTheme: currentSettings.colorTheme,
+              homeCountry: currentSettings.homeCountry,
+              globalDiversificationMode: 'off',
+              intlTolerancePct: currentSettings.intlTolerancePct,
+              intlFloorPct: currentSettings.intlFloorPct,
+              intlPenaltyScale: currentSettings.intlPenaltyScale,
+              intlTargetOverride: currentSettings.intlTargetOverride,
+            );
+            settingsNotifier.updateSettings(updated);
+          }
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          decoration: BoxDecoration(
+            color:
+                Theme.of(context).colorScheme.primary.withValues(alpha: 0.12),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                Icons.visibility_off,
+                size: 14,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              const SizedBox(width: 6),
+              Text(
+                'Hide Intl from score',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  return const SizedBox.shrink();
+}
+
 // Design Token System
 class DesignTokens {
   // Border radius tokens
@@ -1018,8 +1100,8 @@ class DashboardScreen extends ConsumerWidget {
                   final settings = ref.watch(settingsProvider).value;
                   if (settings == null) return const SizedBox.shrink();
                   return _maybeBuildIntlAutosuggest(
-                      context, settings, accounts, ref);
-                }),
+                      context, settings, accounts, ref,);
+                },),
 
                 const SizedBox(height: 16),
 
@@ -1062,6 +1144,80 @@ class DashboardScreen extends ConsumerWidget {
     return allocation;
   }
 
+  Widget _buildAllocationEmptyState(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.pie_chart_outline,
+              size: 48,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'No assets yet',
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              'Add an account to see your allocation breakdown.',
+              style: Theme.of(context).textTheme.bodySmall,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAllocationLegend(
+    BuildContext context,
+    Map<String, double> allocation,
+    double totalAssets,
+  ) {
+    final entries = allocation.entries.toList();
+    return Column(
+      children: entries.map((e) {
+        final percent = totalAssets > 0 ? (e.value / totalAssets) * 100 : 0.0;
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 2),
+          child: Row(
+            children: [
+              Container(
+                width: 12,
+                height: 12,
+                margin: const EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .primary
+                      .withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  e.key,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+              Text(
+                '${percent.toStringAsFixed(1)}%',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
+    );
+  }
+
   Widget _buildAllocationDonut(
     BuildContext context,
     WidgetRef ref,
@@ -1098,7 +1254,8 @@ class DashboardScreen extends ConsumerWidget {
           PieChartSectionData(
             color: colors[colorIndex % colors.length],
             value: value,
-            title: percentage > 5 ? '${percentage.toStringAsFixed(0)}%' : '',
+            // Use one decimal to match the legend formatting
+            title: percentage > 5 ? '${percentage.toStringAsFixed(1)}%' : '',
             radius: 30,
             titleStyle: const TextStyle(
               fontSize: 12,
@@ -5219,86 +5376,7 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
     );
   }
 
-  Widget _maybeBuildIntlAutosuggest(
-    BuildContext context,
-    Settings settings,
-    List<Account> accounts,
-    WidgetRef ref,
-  ) {
-    // If user already muted or set to light, don't suggest
-    if (settings.globalDiversificationMode == 'off' ||
-        settings.globalDiversificationMode == 'light') {
-      return const SizedBox.shrink();
-    }
-
-    final totals = AllocationCalculator.calculateTotals(accounts);
-    final assetsTotal = totals.values.reduce((a, b) => a + b);
-    if (assetsTotal == 0) return const SizedBox.shrink();
-
-    final intlPct = totals['intlEq']! / assetsTotal;
-
-    // Suggest muting when international exposure is extremely low (<1%)
-    if (intlPct < 0.01) {
-      return Padding(
-        padding: const EdgeInsets.only(right: 12.0),
-        child: GestureDetector(
-          onTap: () {
-            // Quick action: set mode to off
-            final settingsNotifier = ref.read(settingsProvider.notifier);
-            final currentSettings = ref.read(settingsProvider).value;
-            if (currentSettings != null) {
-              final updated = Settings(
-                riskBand: currentSettings.riskBand,
-                monthlyEssentials: currentSettings.monthlyEssentials,
-                driftThresholdPct: currentSettings.driftThresholdPct,
-                notificationsEnabled: currentSettings.notificationsEnabled,
-                usEquityTargetPct: currentSettings.usEquityTargetPct,
-                isPro: currentSettings.isPro,
-                biometricLockEnabled: currentSettings.biometricLockEnabled,
-                darkModeEnabled: currentSettings.darkModeEnabled,
-                colorTheme: currentSettings.colorTheme,
-                homeCountry: currentSettings.homeCountry,
-                globalDiversificationMode: 'off',
-                intlTolerancePct: currentSettings.intlTolerancePct,
-                intlFloorPct: currentSettings.intlFloorPct,
-                intlPenaltyScale: currentSettings.intlPenaltyScale,
-                intlTargetOverride: currentSettings.intlTargetOverride,
-              );
-              settingsNotifier.updateSettings(updated);
-            }
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-            decoration: BoxDecoration(
-              color:
-                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.visibility_off,
-                  size: 14,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                const SizedBox(width: 6),
-                Text(
-                  'Hide Intl from score',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-
-    return const SizedBox.shrink();
-  }
+  // ...existing code...
 
   Widget _buildDeltaText(double delta) {
     final isPositive = delta >= 0;

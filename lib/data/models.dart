@@ -441,6 +441,14 @@ class Settings extends HiveObject {
   @HiveField(22)
   double intlPenaltyScale; // penalty scale (e.g., 60.0)
 
+  @HiveField(23)
+  double
+      financialHealthBaseline; // baseline score for contribution model (0..100)
+
+  @HiveField(24)
+  double
+      financialHealthGlobalScale; // global damping applied to per-dial impacts
+
   Settings({
     required this.riskBand,
     required this.monthlyEssentials,
@@ -465,6 +473,8 @@ class Settings extends HiveObject {
     this.intlTolerancePct = 0.05,
     this.intlFloorPct = 60.0,
     this.intlPenaltyScale = 60.0,
+    this.financialHealthBaseline = 75.0,
+    this.financialHealthGlobalScale = 0.6,
   });
 
   // Target bond allocation based on risk band

@@ -56,19 +56,7 @@ void main() {
       settings,
     );
 
-    // Print out detailed breakdown
-    print('Overall score: ${result.score}');
-    print('Grade: ${result.grade}');
-    print('Summary: ${result.summary}');
-    print('Description: ${result.description}');
-    print('Component scores:');
-    result.componentScores.forEach((k, v) {
-      final weight = FinancialHealthCalculator.componentWeights[k] ?? 0.0;
-      final contribution = (weight * v).toStringAsFixed(2);
-      print(
-        ' - $k: $v (weight ${(weight * 100).toStringAsFixed(0)}% -> contribution $contribution)',
-      );
-    });
+    // Keep test assertions focused; skip verbose diagnostic prints.
 
     // Sanity assert
     expect(result.score, isA<int>());
