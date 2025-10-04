@@ -1,7 +1,7 @@
 name: rebalance
 description: Portfolio rebalancing and asset allocation tracking - private, offline, and fast.
 publish_to: 'none'
-version: 1.0.2+7
+version: 1.0.3+12
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -68,7 +68,7 @@ dev_dependencies:
   golden_toolkit: ^0.15.0
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.3.5
-
+  
 flutter:
   uses-material-design: true
   
