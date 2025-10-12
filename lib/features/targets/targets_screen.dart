@@ -425,11 +425,17 @@ class TargetsScreen extends ConsumerWidget {
 
   Future<void> _launchURL(String urlString) async {
     final url = Uri.parse(urlString);
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
-    } else {
-      // Fallback - this shouldn't happen in production
-      debugPrint('Could not launch $urlString');
+    try {
+      // For mailto links, don't use externalApplication mode
+      final mode = urlString.startsWith('mailto:')
+          ? LaunchMode.platformDefault
+          : LaunchMode.externalApplication;
+      
+      if (!await launchUrl(url, mode: mode)) {
+        debugPrint('Could not launch $urlString');
+      }
+    } catch (e) {
+      debugPrint('Error launching URL: $e');
     }
   }
 }
