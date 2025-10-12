@@ -237,7 +237,8 @@ class TargetsScreen extends ConsumerWidget {
                     subtitle: const Text('How we protect your data'),
                     trailing: const Icon(Icons.open_in_new, size: 20),
                     onTap: () => _launchURL(
-                        'https://platinummorgan.github.io/rebalance/privacy.html'),
+                      'https://platinummorgan.github.io/rebalance/privacy.html',
+                    ),
                   ),
                   const Divider(height: 1),
                   ListTile(
@@ -246,9 +247,24 @@ class TargetsScreen extends ConsumerWidget {
                     subtitle: const Text('Legal terms and conditions'),
                     trailing: const Icon(Icons.open_in_new, size: 20),
                     onTap: () => _launchURL(
-                        'https://platinummorgan.github.io/rebalance/terms.html'),
+                      'https://platinummorgan.github.io/rebalance/terms.html',
+                    ),
                   ),
                 ],
+              ),
+            ),
+
+            // Feedback Section
+            Card(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: ListTile(
+                leading: const Icon(Icons.feedback),
+                title: const Text('Send Feedback'),
+                subtitle: const Text('Share your thoughts and suggestions'),
+                trailing: const Icon(Icons.open_in_new, size: 20),
+                onTap: () => _launchURL(
+                  'mailto:admin@ripstuff.net?subject=Rebalance%20App%20Feedback',
+                ),
               ),
             ),
 
