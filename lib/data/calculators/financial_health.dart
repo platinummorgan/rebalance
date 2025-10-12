@@ -52,9 +52,13 @@ Mapping functions used for contributions:
 
 Muting behavior:
 - When a dial is muted (for example, Home Bias when `globalDiversificationMode=='off'),
-  its contribution is set to 0.0. Contributions are NOT renormalized — i.e., the
-  sum of remaining contributions is applied to the baseline as-is. This preserves
-  the baseline semantics and avoids surprising renormalization effects.
+  its contribution is set to 0.0 AND the baseline is increased by that component's
+  max positive impact (e.g., +3.6 for intl with globalScale=0.6). This ensures that
+  muting a poorly-performing component increases your score, as if that component
+  doesn't exist at all.
+- 'light' mode for Home Bias: widens the tolerance band and fade range for the
+  international exposure contribution. Standard uses band=0.15, fade=0.30; Light
+  uses band=0.25, fade=0.40, making deviations from the 30% target less punitive.
 
 Clamping and grading:
 - rawScore is clamped to [0.0, 100.0] and then rounded to an integer `score`.
@@ -151,13 +155,21 @@ class FinancialHealthCalculator {
 
     // Score weights (max absolute contribution per dial)
     // Calibrated baseline and a global scale found by grid search.
-    final baseline = settings.financialHealthBaseline;
+    // When a component is muted, we boost the baseline to maintain expected score range.
+    // The baseline of 75.0 assumes all components contribute on average 0. When we mute
+    // a component, we add its max positive impact to the baseline to compensate.
     final double globalScale = settings.financialHealthGlobalScale;
     final debtImpact = 12.0 * globalScale;
     final liquidityImpact = 10.0 * globalScale;
     final fixedImpact = 8.0 * globalScale;
     final concentrationImpact = 10.0 * globalScale;
     final intlImpact = 6.0 * globalScale;
+
+    // Adjust baseline when components are muted
+    double baseline = settings.financialHealthBaseline;
+    if (intlMutedFlag) {
+      baseline += intlImpact; // Add back the max positive contribution
+    }
 
     // Helper mappers (ported from suggested pseudo-code)
     double bipolarScale({
@@ -247,13 +259,18 @@ class FinancialHealthCalculator {
       impact: concentrationImpact,
     );
 
+    // International contribution: respect light mode by widening tolerance band
     final intlContribution = intlMutedFlag
         ? 0.0
         : centeredBand(
             value: intlShare,
             target: 0.30,
-            band: 0.15,
-            fade: 0.30,
+            band: settings.globalDiversificationMode.toLowerCase() == 'light'
+                ? 0.25
+                : 0.15,
+            fade: settings.globalDiversificationMode.toLowerCase() == 'light'
+                ? 0.40
+                : 0.30,
             impact: intlImpact,
           );
 

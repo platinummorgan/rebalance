@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../../routes.dart';
+import '../../routes.dart' show AppRouter;
 import '../../data/repositories.dart';
 import 'mini_trend_chart_painter.dart';
 import '../../data/models.dart';
@@ -38,57 +39,83 @@ Widget _maybeBuildIntlAutosuggest(
 
   // Suggest muting when international exposure is extremely low (<1%)
   if (intlPct < 0.01) {
+    // Redesigned as a compact info banner (less intrusive, no misleading score predictions)
     return Padding(
-      padding: const EdgeInsets.only(right: 12.0),
-      child: GestureDetector(
-        onTap: () {
-          final settingsNotifier = ref.read(settingsProvider.notifier);
-          final currentSettings = ref.read(settingsProvider).value;
-          if (currentSettings != null) {
-            final updated = Settings(
-              riskBand: currentSettings.riskBand,
-              monthlyEssentials: currentSettings.monthlyEssentials,
-              driftThresholdPct: currentSettings.driftThresholdPct,
-              notificationsEnabled: currentSettings.notificationsEnabled,
-              usEquityTargetPct: currentSettings.usEquityTargetPct,
-              isPro: currentSettings.isPro,
-              biometricLockEnabled: currentSettings.biometricLockEnabled,
-              darkModeEnabled: currentSettings.darkModeEnabled,
-              colorTheme: currentSettings.colorTheme,
-              homeCountry: currentSettings.homeCountry,
-              globalDiversificationMode: 'off',
-              intlTolerancePct: currentSettings.intlTolerancePct,
-              intlFloorPct: currentSettings.intlFloorPct,
-              intlPenaltyScale: currentSettings.intlPenaltyScale,
-              intlTargetOverride: currentSettings.intlTargetOverride,
-            );
-            settingsNotifier.updateSettings(updated);
-          }
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-          decoration: BoxDecoration(
-            color:
-                Theme.of(context).colorScheme.primary.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Row(
-            children: [
-              Icon(
-                Icons.visibility_off,
-                size: 14,
-                color: Theme.of(context).colorScheme.primary,
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            final settingsNotifier = ref.read(settingsProvider.notifier);
+            final currentSettings = ref.read(settingsProvider).value;
+            if (currentSettings != null) {
+              final updated = Settings(
+                riskBand: currentSettings.riskBand,
+                monthlyEssentials: currentSettings.monthlyEssentials,
+                driftThresholdPct: currentSettings.driftThresholdPct,
+                notificationsEnabled: currentSettings.notificationsEnabled,
+                usEquityTargetPct: currentSettings.usEquityTargetPct,
+                isPro: currentSettings.isPro,
+                biometricLockEnabled: currentSettings.biometricLockEnabled,
+                darkModeEnabled: currentSettings.darkModeEnabled,
+                colorTheme: currentSettings.colorTheme,
+                homeCountry: currentSettings.homeCountry,
+                globalDiversificationMode: 'off',
+                intlTolerancePct: currentSettings.intlTolerancePct,
+                intlFloorPct: currentSettings.intlFloorPct,
+                intlPenaltyScale: currentSettings.intlPenaltyScale,
+                intlTargetOverride: currentSettings.intlTargetOverride,
+              );
+              settingsNotifier.updateSettings(updated);
+            }
+          },
+          borderRadius: BorderRadius.circular(8),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            decoration: BoxDecoration(
+              color:
+                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: Theme.of(context)
+                    .colorScheme
+                    .primary
+                    .withValues(alpha: 0.2),
+                width: 1,
               ),
-              const SizedBox(width: 6),
-              Text(
-                'Hide Intl from score',
-                style: TextStyle(
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.lightbulb_outline,
+                  size: 16,
                   color: Theme.of(context).colorScheme.primary,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
                 ),
-              ),
-            ],
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    'Low intl exposure detected — tap to exclude from score',
+                    style: TextStyle(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withValues(alpha: 0.87),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Icon(
+                  Icons.chevron_right,
+                  size: 18,
+                  color: Theme.of(context)
+                      .colorScheme
+                      .primary
+                      .withValues(alpha: 0.6),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -1096,12 +1123,18 @@ class DashboardScreen extends ConsumerWidget {
 
                 const SizedBox(height: 12),
                 // Autosuggest: Offer to mute Home Bias when Intl exposure is extremely low
-                Builder(builder: (ctx) {
-                  final settings = ref.watch(settingsProvider).value;
-                  if (settings == null) return const SizedBox.shrink();
-                  return _maybeBuildIntlAutosuggest(
-                      context, settings, accounts, ref,);
-                },),
+                Builder(
+                  builder: (ctx) {
+                    final settings = ref.watch(settingsProvider).value;
+                    if (settings == null) return const SizedBox.shrink();
+                    return _maybeBuildIntlAutosuggest(
+                      context,
+                      settings,
+                      accounts,
+                      ref,
+                    );
+                  },
+                ),
 
                 const SizedBox(height: 16),
 
@@ -1209,7 +1242,8 @@ class DashboardScreen extends ConsumerWidget {
               Text(
                 '${percent.toStringAsFixed(1)}%',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
               ),
             ],
           ),
@@ -1650,13 +1684,24 @@ class DashboardScreen extends ConsumerWidget {
           ),
         ],
       ),
-      child: GestureDetector(
-        onLongPress: () => _openLastUsedAction(context),
-        child: FloatingActionButton(
-          onPressed: () => _showQuickAddSpeedDial(context),
-          tooltip: 'Quick Add • Long press for last action',
-          elevation: 0, // Remove default elevation since we have custom shadow
-          child: const Icon(Icons.add),
+      child: Semantics(
+        label: 'Quick add button',
+        hint: 'Tap to add account or liability, long press for last action',
+        button: true,
+        child: GestureDetector(
+          onLongPress: () {
+            HapticFeedback.mediumImpact();
+            _openLastUsedAction(context);
+          },
+          child: FloatingActionButton(
+            onPressed: () {
+              HapticFeedback.lightImpact();
+              _showQuickAddSpeedDial(context);
+            },
+            tooltip: 'Quick Add • Long press for last action',
+            elevation: 0, // Remove default elevation since we have custom shadow
+            child: const Icon(Icons.add),
+          ),
         ),
       ),
     );
@@ -2468,17 +2513,6 @@ class DashboardScreen extends ConsumerWidget {
             ),
             child: Stack(
               children: [
-                // Autosuggest for International Exposure mute
-                Positioned(
-                  right: 0,
-                  top: -6,
-                  child: _maybeBuildIntlAutosuggest(
-                    context,
-                    settings,
-                    accounts,
-                    ref,
-                  ),
-                ),
                 // Main column holds the pill content
                 Column(
                   mainAxisSize: MainAxisSize.min,

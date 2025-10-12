@@ -430,7 +430,7 @@ class TargetsScreen extends ConsumerWidget {
       final mode = urlString.startsWith('mailto:')
           ? LaunchMode.platformDefault
           : LaunchMode.externalApplication;
-      
+
       if (!await launchUrl(url, mode: mode)) {
         debugPrint('Could not launch $urlString');
       }

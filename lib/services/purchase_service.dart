@@ -69,19 +69,27 @@ class PurchaseService {
       throw Exception('In-app purchases not available');
     }
 
-    debugPrint('PurchaseService: loadProducts start');
+    debugPrint('PurchaseService: loadProducts start - querying: $_productIds');
     final response = await _iap!.queryProductDetails(_productIds);
 
     if (response.error != null) {
+      debugPrint(
+          'PurchaseService: queryProductDetails ERROR: ${response.error!.code} - ${response.error!.message}');
       throw Exception('Failed to load products: ${response.error!.message}');
     }
 
+    debugPrint(
+        'PurchaseService: Products found: ${response.productDetails.map((p) => p.id).toList()}');
+
     if (response.notFoundIDs.isNotEmpty) {
-      debugPrint('Products not found: ${response.notFoundIDs}');
+      debugPrint(
+          'PurchaseService: Products NOT FOUND in Play Store: ${response.notFoundIDs}');
+      debugPrint(
+          'PurchaseService: These product IDs must be created in Google Play Console');
     }
 
     debugPrint(
-      'PurchaseService: loadProducts finished, found: ${response.productDetails.map((p) => p.id).toList()}',
+      'PurchaseService: loadProducts finished, returning ${response.productDetails.length} products',
     );
     return response.productDetails;
   }
@@ -168,10 +176,10 @@ class PurchaseService {
   Future<void> _grantProAccess(Ref ref, String productId) async {
     debugPrint('Granting Pro access for: $productId');
 
-    // Update settings to enable Pro
-    final currentSettings = ref.read(settingsProvider).valueOrNull;
+    // Wait for settings to load if not ready yet (race condition fix)
+    final currentSettings = await _waitForSettings(ref);
     if (currentSettings == null) {
-      debugPrint('Cannot grant Pro: Settings not loaded');
+      debugPrint('Cannot grant Pro: Settings failed to load after waiting');
       return;
     }
 
@@ -201,6 +209,20 @@ class PurchaseService {
     await ref.read(settingsProvider.notifier).updateSettings(updatedSettings);
 
     debugPrint('Pro access granted!');
+  }
+
+  /// Wait for settings to be loaded (handles race condition on app startup)
+  Future<Settings?> _waitForSettings(Ref ref) async {
+    for (int i = 0; i < 10; i++) {
+      final settings = ref.read(settingsProvider).valueOrNull;
+      if (settings != null) {
+        return settings;
+      }
+      debugPrint(
+          '_grantProAccess: Waiting for settings to load... attempt ${i + 1}/10');
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+    return null;
   }
 
   /// Developer helper to grant Pro locally (useful for testing when you own the product)

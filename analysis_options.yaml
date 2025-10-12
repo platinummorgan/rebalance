@@ -1,0 +1,23 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "MILESTONE_BACKUPS/**"
+    - "backup_pre_refactor/**"
+    - "**/*_backup.dart"
+    - "**/*_WORKING_*.dart"
+    - "**/*_CLEAN_*.dart"
+
+linter:
+  rules:
+    # Recommended additional rules
+    prefer_single_quotes: true
+    require_trailing_commas: true
+    sort_child_properties_last: true
+    use_key_in_widget_constructors: true
+    prefer_const_constructors: true
+    prefer_const_literals_to_create_immutables: true
+    avoid_unnecessary_containers: true
+    sized_box_for_whitespace: true
