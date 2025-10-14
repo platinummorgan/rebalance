@@ -1,16 +1,20 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:go_router/go_router.dart';
 import '../../app.dart';
 import '../../services/purchase_service.dart';
 import '../../data/models.dart';
 import '../../routes.dart' show AppRouter;
+import '../../utils/currency_formatter.dart';
 
 /// Outcome-focused Pro screen showing real financial impact
 class ProScreen extends ConsumerWidget {
   const ProScreen({super.key});
+
+  String _getCurrency(WidgetRef ref) {
+    return ref.watch(settingsProvider).value?.currency ?? 'USD';
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -213,9 +217,10 @@ class ProScreen extends ConsumerWidget {
     WidgetRef ref,
   ) {
     // Calculate personalized savings
-    final personalizedStats = _calculatePersonalizedSavings(
+    final personalizedStats = _calculateRealImpact(
       accounts,
       liabilities,
+      ref,
     );
 
     return Scaffold(
@@ -744,7 +749,8 @@ class ProScreen extends ConsumerWidget {
           .timeout(const Duration(seconds: 10));
 
       debugPrint(
-          'ProScreen: Looking for productId=$productId in ${products.map((p) => p.id).toList()}');
+        'ProScreen: Looking for productId=$productId in ${products.map((p) => p.id).toList()}',
+      );
 
       final product = products.firstWhere(
         (p) => p.id == productId,
@@ -754,10 +760,12 @@ class ProScreen extends ConsumerWidget {
           if (productId == PurchaseService.lifetimeId &&
               availableIds.isNotEmpty) {
             throw Exception(
-                'Founder Lifetime is being activated by Google Play. Please try again in a few hours, or choose Monthly/Annual now.');
+              'Founder Lifetime is being activated by Google Play. Please try again in a few hours, or choose Monthly/Annual now.',
+            );
           }
           return throw Exception(
-              'Product "$productId" not found. Available: $availableIds');
+            'Product "$productId" not found. Available: $availableIds',
+          );
         },
       );
 
@@ -843,11 +851,12 @@ class ProScreen extends ConsumerWidget {
     );
   }
 
-  Map<String, dynamic> _calculatePersonalizedSavings(
+  Map<String, dynamic> _calculateRealImpact(
     List<Account> accounts,
     List<Liability> liabilities,
+    WidgetRef ref,
   ) {
-    final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
+    final currency = _getCurrency(ref);
     final result = <String, dynamic>{
       'hasData': false,
       'heroText': '',
@@ -868,7 +877,7 @@ class ProScreen extends ConsumerWidget {
       if (estimatedSavings > 1000) {
         result['hasData'] = true;
         result['debtSavings'] =
-            'Save est. ${formatter.format(estimatedSavings)}';
+            'Save est. ${CurrencyFormatter.format(estimatedSavings, currency)}';
       }
     }
 

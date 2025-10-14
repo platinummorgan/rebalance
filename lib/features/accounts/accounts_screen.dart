@@ -6,11 +6,17 @@ import 'package:intl/intl.dart';
 import '../../data/models.dart';
 import '../../data/repositories.dart';
 import '../../app.dart';
+import '../../utils/currency_formatter.dart';
 
 class AccountsScreen extends ConsumerWidget {
   final String? assetTypeFilter;
 
   const AccountsScreen({super.key, this.assetTypeFilter});
+
+  // Helper method to get currency code from settings
+  String _getCurrency(WidgetRef ref) {
+    return ref.watch(settingsProvider).value?.currency ?? 'USD';
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -163,10 +169,9 @@ class AccountsScreen extends ConsumerWidget {
     WidgetRef ref, {
     bool fromSnapshot = false,
   }) {
+    final currency = _getCurrency(ref);
     final totalAssets =
         accounts.fold<double>(0.0, (sum, account) => sum + account.balance);
-    final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
-    final fullFormatter = NumberFormat.currency(symbol: '\$', decimalDigits: 2);
 
     return Column(
       children: [
@@ -213,7 +218,7 @@ class AccountsScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      formatter.format(totalAssets),
+                      CurrencyFormatter.format(totalAssets, currency),
                       style:
                           Theme.of(context).textTheme.headlineSmall?.copyWith(
                                 fontWeight: FontWeight.bold,
@@ -413,7 +418,8 @@ class AccountsScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              fullFormatter.format(account.balance),
+                              CurrencyFormatter.format(
+                                  account.balance, currency),
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,

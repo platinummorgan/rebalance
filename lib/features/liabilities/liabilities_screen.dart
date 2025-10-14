@@ -5,9 +5,15 @@ import 'package:intl/intl.dart';
 import '../../data/models.dart';
 import '../../data/repositories.dart';
 import '../../app.dart';
+import '../../utils/currency_formatter.dart';
 
 class LiabilitiesScreen extends ConsumerWidget {
   const LiabilitiesScreen({super.key});
+
+  // Helper method to get currency code from settings
+  String _getCurrency(WidgetRef ref) {
+    return ref.watch(settingsProvider).value?.currency ?? 'USD';
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -128,8 +134,7 @@ class LiabilitiesScreen extends ConsumerWidget {
       0.0,
       (sum, liability) => sum + liability.minPayment,
     );
-    final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
-    final fullFormatter = NumberFormat.currency(symbol: '\$', decimalDigits: 2);
+    final currency = _getCurrency(ref);
 
     return Column(
       children: [
@@ -182,7 +187,7 @@ class LiabilitiesScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          formatter.format(totalDebt),
+                          CurrencyFormatter.format(totalDebt, currency),
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall
@@ -229,7 +234,7 @@ class LiabilitiesScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          formatter.format(totalMinPayments),
+                          CurrencyFormatter.format(totalMinPayments, currency),
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -337,7 +342,9 @@ class LiabilitiesScreen extends ConsumerWidget {
                       ),
                       child: ListTile(
                         contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 12,),
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                         leading: Container(
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
@@ -445,7 +452,7 @@ class LiabilitiesScreen extends ConsumerWidget {
                                   const SizedBox(width: 12),
                                   Flexible(
                                     child: Text(
-                                      'Min: ${fullFormatter.format(liability.minPayment)}/mo',
+                                      'Min: ${CurrencyFormatter.format(liability.minPayment, currency)}/mo',
                                       style: TextStyle(
                                         color: Theme.of(context)
                                             .colorScheme
@@ -465,7 +472,8 @@ class LiabilitiesScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              fullFormatter.format(liability.balance),
+                              CurrencyFormatter.format(
+                                  liability.balance, currency),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,

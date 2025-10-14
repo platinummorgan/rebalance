@@ -10,9 +10,14 @@ import '../../data/calculators/concentration.dart';
 import '../../data/calculators/homebias.dart';
 import '../../data/calculators/fixedincome.dart';
 import '../../data/calculators/debtload.dart';
+import '../../utils/currency_formatter.dart';
 
 class ReportsScreen extends ConsumerWidget {
   const ReportsScreen({super.key});
+
+  String _getCurrency(WidgetRef ref) {
+    return ref.watch(settingsProvider).value?.currency ?? 'USD';
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -207,7 +212,7 @@ class ReportsScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  _buildDetailedLegend(context, allocation, totalAssets),
+                  _buildDetailedLegend(context, ref, allocation, totalAssets),
                 ],
               ),
             ),
@@ -349,6 +354,7 @@ class ReportsScreen extends ConsumerWidget {
 
   Widget _buildDetailedLegend(
     BuildContext context,
+    WidgetRef ref,
     Map<String, double> allocation,
     double totalAssets,
   ) {
@@ -361,7 +367,7 @@ class ReportsScreen extends ConsumerWidget {
       Colors.teal, // Alternative
     ];
 
-    final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
+    final currency = _getCurrency(ref);
     final keys = allocation.keys.toList();
 
     return Column(
@@ -402,7 +408,7 @@ class ReportsScreen extends ConsumerWidget {
               ),
               const SizedBox(width: 16),
               Text(
-                formatter.format(value),
+                CurrencyFormatter.format(value, currency),
                 style: TextStyle(
                   fontSize: 16,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -848,7 +854,7 @@ class ReportsScreen extends ConsumerWidget {
     final toPrimary = (perMonth * 0.67).round();
     final toSecondary = perMonth - toPrimary;
 
-    final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
+    final currency = _getCurrency(ref);
     final now = DateTime.now();
     final finish = DateTime(now.year, now.month + 6, now.day);
 
@@ -915,7 +921,7 @@ class ReportsScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Move ${formatter.format(perMonth)}/mo',
+                    'Move ${CurrencyFormatter.format(perMonth.toDouble(), currency)}/mo',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -938,7 +944,7 @@ class ReportsScreen extends ConsumerWidget {
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          '${formatter.format(toPrimary)} → $primaryDestination (target $primaryTarget%, now ${currentBonds.toStringAsFixed(1)}%)',
+                          '${CurrencyFormatter.format(toPrimary.toDouble(), currency)} → $primaryDestination (target $primaryTarget%, now ${currentBonds.toStringAsFixed(1)}%)',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -967,7 +973,7 @@ class ReportsScreen extends ConsumerWidget {
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          '${formatter.format(toSecondary)} → $secondaryDestination (target $secondaryTarget%, now ${currentIntl.toStringAsFixed(1)}%)',
+                          '${CurrencyFormatter.format(toSecondary.toDouble(), currency)} → $secondaryDestination (target $secondaryTarget%, now ${currentIntl.toStringAsFixed(1)}%)',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,

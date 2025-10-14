@@ -491,7 +491,8 @@ class TargetsScreen extends ConsumerWidget {
         schemaVersion: currentSettings.schemaVersion,
         concentrationRiskSnoozedUntil:
             currentSettings.concentrationRiskSnoozedUntil,
-        concentrationRiskResolvedAt: currentSettings.concentrationRiskResolvedAt,
+        concentrationRiskResolvedAt:
+            currentSettings.concentrationRiskResolvedAt,
         homeCountry: currentSettings.homeCountry,
         globalDiversificationMode: currentSettings.globalDiversificationMode,
         intlTargetOverride: currentSettings.intlTargetOverride,

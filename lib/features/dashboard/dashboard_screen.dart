@@ -13,6 +13,7 @@ import '../../data/models.dart';
 import '../../data/snapshot_service.dart';
 import '../../data/calculators/financial_health.dart';
 import '../../data/calculators/allocation.dart';
+import '../../utils/currency_formatter.dart';
 
 import '../../app.dart';
 import '../../utils/csv_exporter.dart';
@@ -147,6 +148,11 @@ class DesignTokens {
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
 
+  // Helper method to get currency code from settings
+  String _getCurrency(WidgetRef ref) {
+    return ref.watch(settingsProvider).value?.currency ?? 'USD';
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -271,6 +277,7 @@ class DashboardScreen extends ConsumerWidget {
 
                     return _buildEnhancedAccountTile(
                       context,
+                      ref,
                       account,
                       index,
                       accounts.length,
@@ -453,17 +460,13 @@ class DashboardScreen extends ConsumerWidget {
   // Enhanced account tile with all the improvements (restored)
   Widget _buildEnhancedAccountTile(
     BuildContext context,
+    WidgetRef ref,
     Account account,
     int index,
     int totalCount,
     double totalAssets,
   ) {
-    final formatter = NumberFormat.currency(
-      locale: 'en_US',
-      symbol: '\$',
-      decimalDigits: 0,
-    );
-
+    final currency = _getCurrency(ref);
     final percentOfPortfolio = (account.balance / totalAssets) * 100;
     final accountColor = _getAccountKindColor(context, account.kind);
     final lastUpdated = _getLastUpdatedText(account);
@@ -483,7 +486,7 @@ class DashboardScreen extends ConsumerWidget {
         ),
         child: Semantics(
           label:
-              '${_getAccountTypeDisplayName(account.kind)}, ${account.name}, balance ${formatter.format(account.balance)}, ${percentOfPortfolio.toStringAsFixed(1)} percent of portfolio',
+              '${_getAccountTypeDisplayName(account.kind)}, ${account.name}, balance ${CurrencyFormatter.format(account.balance, currency)}, ${percentOfPortfolio.toStringAsFixed(1)} percent of portfolio',
           hint: 'Tap to view details, long press for quick actions',
           button: true,
           child: ListTile(
@@ -527,7 +530,7 @@ class DashboardScreen extends ConsumerWidget {
                 const SizedBox(width: 8),
                 Flexible(
                   child: Text(
-                    formatter.format(account.balance),
+                    CurrencyFormatter.format(account.balance, currency),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
@@ -1399,6 +1402,7 @@ class DashboardScreen extends ConsumerWidget {
     // Check Pro status
     final settingsAsync = ref.watch(settingsProvider);
     final isPro = settingsAsync.value?.isPro ?? false;
+    final settings = settingsAsync.value;
 
     // Calculate concentration risk
     final allocation = _calculateAllocation(accounts);
@@ -1468,22 +1472,21 @@ class DashboardScreen extends ConsumerWidget {
     final shortfall = largestPercentage - 20.0;
     final amountToMove = (shortfall / 100) * totalAssets;
     final movePerMonth = (amountToMove / 6).ceil(); // 6-month glide
-
-    final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
+    final currency = settings?.currency ?? 'USD';
 
     return RiskNudgeCard(
       title: 'Reduce concentration risk',
       diagnosis:
           'Largest bucket $largestBucket (${largestPercentage.toStringAsFixed(1)}%). Cap ≤20% per bucket.',
       action:
-          'Shift ${formatter.format(movePerMonth)}/mo for ~6 months to Bonds/Intl.',
+          'Shift ${CurrencyFormatter.format(movePerMonth.toDouble(), currency)}/mo for ~6 months to Bonds/Intl.',
       ctaText: 'Create Rebalancing Plan',
       severityColor: Colors.amber,
       showPro: !isPro,
       personalizationChips: [
         '$largestBucket ${largestPercentage.toStringAsFixed(1)}%',
         'Cap 20%',
-        'Target shift ${formatter.format(amountToMove.round())}',
+        'Target shift ${CurrencyFormatter.format(amountToMove.round().toDouble(), currency)}',
       ],
       detectedAt: DateTime.now()
           .subtract(const Duration(hours: 2)), // Simulated: spotted 2h ago
@@ -1699,7 +1702,8 @@ class DashboardScreen extends ConsumerWidget {
               _showQuickAddSpeedDial(context);
             },
             tooltip: 'Quick Add • Long press for last action',
-            elevation: 0, // Remove default elevation since we have custom shadow
+            elevation:
+                0, // Remove default elevation since we have custom shadow
             child: const Icon(Icons.add),
           ),
         ),
@@ -1895,7 +1899,7 @@ class DashboardScreen extends ConsumerWidget {
     // Calculate net worth
     final totalAssets =
         accounts.fold<double>(0.0, (sum, account) => sum + account.balance);
-    final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
+    final currency = _getCurrency(ref);
 
     // Auto-create snapshot if it's been more than 24 hours
     _maybeCreateSnapshot(ref);
@@ -1908,20 +1912,20 @@ class DashboardScreen extends ConsumerWidget {
         context,
         totalAssets,
         accounts.length,
-        formatter,
+        currency,
       ),
       error: (error, stack) => _buildNetWorthCardLoading(
         context,
         totalAssets,
         accounts.length,
-        formatter,
+        currency,
       ),
       data: (snapshots) {
         return _buildNetWorthCardWithData(
           context,
           totalAssets,
           accounts.length,
-          formatter,
+          currency,
           snapshots,
         );
       },
@@ -1932,7 +1936,7 @@ class DashboardScreen extends ConsumerWidget {
     BuildContext context,
     double totalAssets,
     int accountCount,
-    NumberFormat formatter,
+    String currency,
   ) {
     return Container(
       margin: const EdgeInsets.all(16),
@@ -2027,7 +2031,7 @@ class DashboardScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  formatter.format(totalAssets),
+                  CurrencyFormatter.format(totalAssets, currency),
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 36,
@@ -2081,7 +2085,7 @@ class DashboardScreen extends ConsumerWidget {
     BuildContext context,
     double totalAssets,
     int accountCount,
-    NumberFormat formatter,
+    String currency,
     List<Snapshot> snapshots,
   ) {
     // Calculate 30-day delta
@@ -2098,7 +2102,7 @@ class DashboardScreen extends ConsumerWidget {
         deltaAmount = totalAssets - oldSnapshot.netWorth;
         final isPositive = deltaAmount >= 0;
         deltaText =
-            '${isPositive ? '+' : ''}${formatter.format(deltaAmount)} (30d)';
+            '${isPositive ? '+' : ''}${CurrencyFormatter.format(deltaAmount, currency)} (30d)';
       }
     }
 
@@ -2156,7 +2160,7 @@ class DashboardScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  formatter.format(totalAssets),
+                  CurrencyFormatter.format(totalAssets, currency),
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 36,
@@ -4411,6 +4415,9 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
   Snapshot? compareFromSnapshot;
   Snapshot? compareToSnapshot;
 
+  // Helper to get currency
+  String get _currency => ref.read(settingsProvider).value?.currency ?? 'USD';
+
   // Delta calculation based on your specification
   Map<String, dynamic> calculateDelta(
     List<Snapshot> snapshots,
@@ -4488,8 +4495,7 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
   }
 
   Widget _buildContent(BuildContext context, List<Snapshot> snapshots) {
-    final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
-    final compactFormatter = NumberFormat.compact(locale: 'en_US');
+    final currency = _currency;
 
     return Container(
       padding: const EdgeInsets.all(24),
@@ -4734,7 +4740,8 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      formatter.format(snapshot.netWorth),
+                                      CurrencyFormatter.format(
+                                          snapshot.netWorth, currency),
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16,
@@ -4755,7 +4762,7 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
                                     if (deltaAbs.abs() > 0.01) ...[
                                       const SizedBox(height: 2),
                                       Text(
-                                        '${isPositive ? '▲' : '▼'} ${isPositive ? '+' : '−'}\$${compactFormatter.format(deltaAbs.abs())} (${_getDeltaTimeframe(snapshots, index)})',
+                                        '${isPositive ? '▲' : '▼'} ${isPositive ? '+' : '−'}${CurrencyFormatter.formatCompact(deltaAbs.abs(), currency)} (${_getDeltaTimeframe(snapshots, index)})',
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: isPositive
@@ -5090,10 +5097,7 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            NumberFormat.currency(
-                              symbol: '\$',
-                              decimalDigits: 0,
-                            ).format(assetsTotal),
+                            CurrencyFormatter.format(assetsTotal, _currency),
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
@@ -5156,10 +5160,8 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            NumberFormat.currency(
-                              symbol: '\$',
-                              decimalDigits: 0,
-                            ).format(snapshot.netWorth),
+                            CurrencyFormatter.format(
+                                snapshot.netWorth, _currency),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -5341,7 +5343,7 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
     double? priorValue, {
     bool isLiability = false,
   }) {
-    final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
+    final currency = _currency;
 
     // Calculate percentage (vs assets, not net worth)
     final percentage = assetsTotal > 0 ? (value / assetsTotal * 100) : 0.0;
@@ -5377,7 +5379,8 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        formatter.format(isLiability ? value : value),
+                        CurrencyFormatter.format(
+                            isLiability ? value : value, currency),
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
@@ -5414,10 +5417,9 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
 
   Widget _buildDeltaText(double delta) {
     final isPositive = delta >= 0;
-    final compactFormatter = NumberFormat.compact(locale: 'en_US');
 
     return Text(
-      '${isPositive ? '+' : '−'}\$${compactFormatter.format(delta.abs())}',
+      '${isPositive ? '+' : '−'}${CurrencyFormatter.formatCompact(delta.abs(), _currency)}',
       style: TextStyle(
         fontSize: 11,
         color: Theme.of(context)
@@ -5442,8 +5444,6 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
     final daysDiff = current.at.difference(prior.at).inDays;
     final horizon = daysDiff <= 7 ? '7d' : '30d';
 
-    final compactFormatter = NumberFormat.compact(locale: 'en_US');
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
@@ -5464,7 +5464,7 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
           ),
           const SizedBox(width: 6),
           Text(
-            '${isPositive ? '▲ +' : '▼ '}${compactFormatter.format(deltaAbs.abs())} ($horizon)',
+            '${isPositive ? '▲ +' : '▼ '}${CurrencyFormatter.formatCompact(deltaAbs.abs(), _currency)} ($horizon)',
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
@@ -5764,7 +5764,7 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
                           ),
                         ),
                         Text(
-                          'Net Worth: ${NumberFormat.currency(symbol: '\$', decimalDigits: 0).format(snapshot.netWorth)}',
+                          'Net Worth: ${CurrencyFormatter.format(snapshot.netWorth, _currency)}',
                           style: TextStyle(
                             color:
                                 Theme.of(context).colorScheme.onErrorContainer,
@@ -5893,6 +5893,7 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
       builder: (context) => _CompareSnapshotsDialog(
         diff: diff,
         onSaveComparison: () => _saveComparison(diff),
+        currency: _currency,
       ),
     );
 
@@ -6053,7 +6054,7 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       Text(
-                        'Net Change: ${NumberFormat.currency(symbol: '\$').format(diff.netDelta)}',
+                        'Net Change: ${CurrencyFormatter.format(diff.netDelta, _currency)}',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
@@ -6206,7 +6207,7 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
                             children: [
                               Text('$fromDate → $toDate'),
                               Text(
-                                '$deltaPrefix${NumberFormat.currency(symbol: '\$').format(delta)}',
+                                '$deltaPrefix${CurrencyFormatter.format(delta, _currency)}',
                                 style: TextStyle(
                                   color: deltaColor,
                                   fontWeight: FontWeight.w500,
@@ -6345,6 +6346,7 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
           builder: (context) => _CompareSnapshotsDialog(
             diff: diff,
             onSaveComparison: () => _saveComparison(diff),
+            currency: _currency,
           ),
         );
 
@@ -6664,15 +6666,16 @@ class OnboardingStepsSheet extends StatelessWidget {
 class _CompareSnapshotsDialog extends StatelessWidget {
   final SnapshotDiff diff;
   final VoidCallback? onSaveComparison;
+  final String currency;
 
   const _CompareSnapshotsDialog({
     required this.diff,
     this.onSaveComparison,
+    this.currency = 'USD',
   });
 
   @override
   Widget build(BuildContext context) {
-    final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
     final daysDiff = diff.to.difference(diff.from).inDays;
     final netDeltaPct =
         diff.netFrom.abs() > 0 ? diff.netDelta / diff.netFrom.abs() : 0.0;
@@ -6730,7 +6733,7 @@ class _CompareSnapshotsDialog extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    '${formatter.format(diff.netFrom)} → ${formatter.format(diff.netTo)}',
+                    '${CurrencyFormatter.format(diff.netFrom, currency)} → ${CurrencyFormatter.format(diff.netTo, currency)}',
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 4),
@@ -6742,7 +6745,7 @@ class _CompareSnapshotsDialog extends StatelessWidget {
                       final displayNetPct = (netDeltaPct * 100).abs() < 0.05
                           ? 0.0
                           : netDeltaPct * 100;
-                      return 'Δ ${displayNetDelta >= 0 ? '+' : ''}${NumberFormat.currency(symbol: '\$', decimalDigits: 0).format(displayNetDelta.round())} (${displayNetPct.toStringAsFixed(1)}%)';
+                      return 'Δ ${displayNetDelta >= 0 ? '+' : ''}${CurrencyFormatter.format(displayNetDelta.round().toDouble(), currency)} (${displayNetPct.toStringAsFixed(1)}%)';
                     }(),
                     style: TextStyle(
                       fontSize: 16,
@@ -6807,7 +6810,7 @@ class _CompareSnapshotsDialog extends StatelessWidget {
                           .where((bucket) => bucket.delta.abs() >= 1.0)
                           .map(
                             (bucket) =>
-                                _buildComparisonRow(context, bucket, formatter),
+                                _buildComparisonRow(context, bucket, currency),
                           ),
 
                     const SizedBox(height: 16),
@@ -6826,7 +6829,7 @@ class _CompareSnapshotsDialog extends StatelessWidget {
                                 diff.assetsFrom
                             : 0.0,
                       ),
-                      formatter,
+                      currency,
                       isBold: true,
                     ),
 
@@ -6843,7 +6846,7 @@ class _CompareSnapshotsDialog extends StatelessWidget {
                                 diff.liabilitiesFrom.abs()
                             : 0.0,
                       ),
-                      formatter,
+                      currency,
                       isLiability: true,
                     ),
                   ],
@@ -6881,7 +6884,7 @@ class _CompareSnapshotsDialog extends StatelessWidget {
                   final displayNetPct = (netDeltaPct * 100).abs() < 0.05
                       ? 0.0
                       : netDeltaPct * 100;
-                  return 'Net: ${NumberFormat.currency(symbol: '\$', decimalDigits: 0).format(diff.netFrom)} → ${NumberFormat.currency(symbol: '\$', decimalDigits: 0).format(diff.netTo)} | Δ ${displayNetDelta >= 0 ? '+' : ''}${NumberFormat.currency(symbol: '\$', decimalDigits: 0).format(displayNetDelta.round())} (${displayNetPct.toStringAsFixed(1)}%)';
+                  return 'Net: ${CurrencyFormatter.format(diff.netFrom, currency)} → ${CurrencyFormatter.format(diff.netTo, currency)} | Δ ${displayNetDelta >= 0 ? '+' : ''}${CurrencyFormatter.format(displayNetDelta.round().toDouble(), currency)} (${displayNetPct.toStringAsFixed(1)}%)';
                 }(),
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
@@ -7076,7 +7079,7 @@ class _CompareSnapshotsDialog extends StatelessWidget {
   Widget _buildComparisonRow(
     BuildContext context,
     BucketDiff bucket,
-    NumberFormat formatter, {
+    String currency, {
     bool isBold = false,
     bool isLiability = false,
   }) {
@@ -7104,7 +7107,7 @@ class _CompareSnapshotsDialog extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Text(
-              '${formatter.format(bucket.from)} → ${formatter.format(bucket.to)}',
+              '${CurrencyFormatter.format(bucket.from, currency)} → ${CurrencyFormatter.format(bucket.to, currency)}',
               style: TextStyle(
                 fontWeight: isBold ? FontWeight.w600 : FontWeight.w400,
                 fontSize: 13,
@@ -7116,7 +7119,7 @@ class _CompareSnapshotsDialog extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              '${displayDelta >= 0 ? '+' : ''}${NumberFormat.currency(symbol: '\$', decimalDigits: 0).format(displayDelta.round())}\n(${displayPct.toStringAsFixed(1)}%)',
+              '${displayDelta >= 0 ? '+' : ''}${CurrencyFormatter.format(displayDelta.round().toDouble(), currency)}\n(${displayPct.toStringAsFixed(1)}%)',
               style: TextStyle(
                 fontWeight: FontWeight.w500,
                 color: bucket.name == 'Net Worth'
@@ -7338,11 +7341,17 @@ class _CompareSnapshotsPickerDialogState
     final diff = _calculateSnapshotDiff(from, to);
     showDialog(
       context: context,
-      builder: (context) => _CompareSnapshotsDialog(
-        diff: diff,
-        onSaveComparison: widget.onSaveComparison != null
-            ? () => widget.onSaveComparison!(diff)
-            : null,
+      builder: (context) => Consumer(
+        builder: (context, ref, _) {
+          final currency = ref.read(settingsProvider).value?.currency ?? 'USD';
+          return _CompareSnapshotsDialog(
+            diff: diff,
+            onSaveComparison: widget.onSaveComparison != null
+                ? () => widget.onSaveComparison!(diff)
+                : null,
+            currency: currency,
+          );
+        },
       ),
     );
   }

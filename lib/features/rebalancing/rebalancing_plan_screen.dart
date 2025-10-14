@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../data/models.dart';
 import '../../app.dart';
+import '../../utils/currency_formatter.dart';
 
 /// Interactive Pro-only rebalancing plan builder with customization and tracking
 class RebalancingPlanScreen extends ConsumerStatefulWidget {
@@ -15,6 +16,8 @@ class RebalancingPlanScreen extends ConsumerStatefulWidget {
 }
 
 class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
+  String get _currency => ref.watch(settingsProvider).value?.currency ?? 'USD';
+
   // User-customizable settings
   int _glideLengthMonths = 6; // 3, 6, or 12 months
   String _strategy = 'dollar-cost'; // 'dollar-cost' or 'immediate'
@@ -215,7 +218,6 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
     Map<String, dynamic> data,
     Settings settings,
   ) {
-    final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
     final totalToMove = data['totalToMove'] as double;
     final perMonth = (_strategy == 'immediate')
         ? totalToMove
@@ -293,7 +295,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
           ],
 
           // Summary Card
-          _buildSummaryCard(context, formatter, perMonth, totalToMove, data),
+          _buildSummaryCard(context, perMonth, totalToMove, data),
 
           const SizedBox(height: 24),
 
@@ -304,7 +306,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
 
           // Execution Checklist
           if (_strategy == 'dollar-cost')
-            _buildExecutionChecklist(context, formatter, perMonth, data),
+            _buildExecutionChecklist(context, perMonth, data),
 
           const SizedBox(height: 24),
 
@@ -321,7 +323,6 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
     BuildContext context,
     Map<String, dynamic> data,
   ) {
-    final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
     final lockedAssets = data['lockedAssets'] as double;
     final unlockedAssets = data['unlockedAssets'] as double;
 
@@ -351,7 +352,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '${formatter.format(lockedAssets)} in retirement/locked accounts can\'t be moved. Plan shows only actionable moves from your ${formatter.format(unlockedAssets)} in unlocked accounts.',
+                    '${CurrencyFormatter.format(lockedAssets, _currency)} in retirement/locked accounts can\'t be moved. Plan shows only actionable moves from your ${CurrencyFormatter.format(unlockedAssets, _currency)} in unlocked accounts.',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.blue.shade800,
@@ -616,7 +617,6 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
 
   Widget _buildSummaryCard(
     BuildContext context,
-    NumberFormat formatter,
     double perMonth,
     double totalToMove,
     Map<String, dynamic> data,
@@ -638,7 +638,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                formatter.format(totalToMove),
+                CurrencyFormatter.format(totalToMove, _currency),
                 style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
@@ -665,7 +665,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                '${formatter.format(perMonth)}/mo',
+                '${CurrencyFormatter.format(perMonth, _currency)}/mo',
                 style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
@@ -674,7 +674,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
               ),
               const SizedBox(height: 4),
               Text(
-                'Over $_glideLengthMonths months • Total: ${formatter.format(totalToMove)}',
+                'Over $_glideLengthMonths months • Total: ${CurrencyFormatter.format(totalToMove, _currency)}',
                 style: TextStyle(
                   color: Theme.of(context)
                       .colorScheme
@@ -708,7 +708,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        '${formatter.format(amount)}${_strategy == 'dollar-cost' ? '/mo' : ''} → ${m['destination']}',
+                        '${CurrencyFormatter.format(amount, _currency)}${_strategy == 'dollar-cost' ? '/mo' : ''} → ${m['destination']}',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -843,7 +843,6 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
 
   Widget _buildExecutionChecklist(
     BuildContext context,
-    NumberFormat formatter,
     double perMonth,
     Map<String, dynamic> data,
   ) {
@@ -887,7 +886,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                   ),
                 ),
                 subtitle: Text(
-                  'Transfer ${formatter.format(perMonth)}',
+                  'Transfer ${CurrencyFormatter.format(perMonth, _currency)}',
                   style: TextStyle(
                     decoration: isChecked ? TextDecoration.lineThrough : null,
                   ),

@@ -24,6 +24,15 @@ class CurrencyFormatter {
     }
   }
 
+  /// Get a NumberFormat.currency configured for the specified currency
+  /// This is useful for migrating existing code that uses NumberFormat
+  static NumberFormat getFormatter(String currencyCode, {int? decimalDigits}) {
+    return NumberFormat.currency(
+      symbol: _getSymbol(currencyCode),
+      decimalDigits: decimalDigits ?? _getDecimalDigits(currencyCode),
+    );
+  }
+
   /// Get currency symbol
   static String _getSymbol(String currencyCode) {
     switch (currencyCode) {
