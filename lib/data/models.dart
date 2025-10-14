@@ -449,6 +449,9 @@ class Settings extends HiveObject {
   double
       financialHealthGlobalScale; // global damping applied to per-dial impacts
 
+  @HiveField(25)
+  String currency; // Currency code: 'USD', 'EUR', 'INR', 'THB'
+
   Settings({
     required this.riskBand,
     required this.monthlyEssentials,
@@ -475,6 +478,7 @@ class Settings extends HiveObject {
     this.intlPenaltyScale = 60.0,
     this.financialHealthBaseline = 75.0,
     this.financialHealthGlobalScale = 0.6,
+    this.currency = 'USD', // Default to USD
   });
 
   // Target bond allocation based on risk band

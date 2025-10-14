@@ -235,13 +235,16 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       intlTolerancePct: fields[20] as double,
       intlFloorPct: fields[21] as double,
       intlPenaltyScale: fields[22] as double,
+      financialHealthBaseline: fields[23] as double,
+      financialHealthGlobalScale: fields[24] as double,
+      currency: fields[25] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Settings obj) {
     writer
-      ..writeByte(23)
+      ..writeByte(26)
       ..writeByte(0)
       ..write(obj.riskBand)
       ..writeByte(1)
@@ -287,7 +290,13 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       ..writeByte(21)
       ..write(obj.intlFloorPct)
       ..writeByte(22)
-      ..write(obj.intlPenaltyScale);
+      ..write(obj.intlPenaltyScale)
+      ..writeByte(23)
+      ..write(obj.financialHealthBaseline)
+      ..writeByte(24)
+      ..write(obj.financialHealthGlobalScale)
+      ..writeByte(25)
+      ..write(obj.currency);
   }
 
   @override

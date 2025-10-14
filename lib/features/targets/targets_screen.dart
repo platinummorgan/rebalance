@@ -137,6 +137,77 @@ class TargetsScreen extends ConsumerWidget {
               ),
             ),
 
+            // Currency Section
+            Card(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.attach_money,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        const SizedBox(width: 12),
+                        const Text(
+                          'Currency',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Display amounts in your preferred currency',
+                      style: TextStyle(color: Colors.grey, fontSize: 14),
+                    ),
+                    const SizedBox(height: 16),
+                    DropdownButtonFormField<String>(
+                      value: settings.currency,
+                      decoration: InputDecoration(
+                        labelText: 'Select Currency',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
+                      items: const [
+                        DropdownMenuItem(
+                          value: 'USD',
+                          child: Text('🇺🇸 US Dollar (USD)'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'EUR',
+                          child: Text('🇪🇺 Euro (EUR)'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'INR',
+                          child: Text('🇮🇳 Indian Rupee (INR)'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'THB',
+                          child: Text('🇹🇭 Thai Baht (THB)'),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        if (value != null) {
+                          _updateCurrency(ref, value);
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
             // Dark Mode Toggle
             Card(
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -393,6 +464,43 @@ class TargetsScreen extends ConsumerWidget {
         biometricLockEnabled: currentSettings.biometricLockEnabled,
         darkModeEnabled: enabled,
         colorTheme: currentSettings.colorTheme,
+      );
+      settingsNotifier.updateSettings(updatedSettings);
+    }
+  }
+
+  void _updateCurrency(WidgetRef ref, String currency) {
+    final settingsNotifier = ref.read(settingsProvider.notifier);
+    final currentSettings = ref.read(settingsProvider).value;
+    if (currentSettings != null) {
+      final updatedSettings = Settings(
+        riskBand: currentSettings.riskBand,
+        monthlyEssentials: currentSettings.monthlyEssentials,
+        driftThresholdPct: currentSettings.driftThresholdPct,
+        notificationsEnabled: currentSettings.notificationsEnabled,
+        usEquityTargetPct: currentSettings.usEquityTargetPct,
+        isPro: currentSettings.isPro,
+        biometricLockEnabled: currentSettings.biometricLockEnabled,
+        darkModeEnabled: currentSettings.darkModeEnabled,
+        colorTheme: currentSettings.colorTheme,
+        liquidityBondHaircut: currentSettings.liquidityBondHaircut,
+        bucketCap: currentSettings.bucketCap,
+        employerStockThreshold: currentSettings.employerStockThreshold,
+        monthlyIncome: currentSettings.monthlyIncome,
+        incomeMultiplierFallback: currentSettings.incomeMultiplierFallback,
+        schemaVersion: currentSettings.schemaVersion,
+        concentrationRiskSnoozedUntil:
+            currentSettings.concentrationRiskSnoozedUntil,
+        concentrationRiskResolvedAt: currentSettings.concentrationRiskResolvedAt,
+        homeCountry: currentSettings.homeCountry,
+        globalDiversificationMode: currentSettings.globalDiversificationMode,
+        intlTargetOverride: currentSettings.intlTargetOverride,
+        intlTolerancePct: currentSettings.intlTolerancePct,
+        intlFloorPct: currentSettings.intlFloorPct,
+        intlPenaltyScale: currentSettings.intlPenaltyScale,
+        financialHealthBaseline: currentSettings.financialHealthBaseline,
+        financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
+        currency: currency, // Update currency
       );
       settingsNotifier.updateSettings(updatedSettings);
     }

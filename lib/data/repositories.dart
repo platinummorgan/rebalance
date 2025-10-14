@@ -23,7 +23,7 @@ class RepositoryService {
 
   static bool _initialized = false;
   static const int _currentSchemaVersion =
-      1; // Increment when adding new fields
+      2; // Increment when adding new fields - v2: Added currency field
 
   static Future<void> initialize() async {
     if (_initialized) return;
@@ -278,6 +278,9 @@ class RepositoryService {
         debugPrint('[Migration] v1: Migrated ${accounts.length} accounts');
       }
 
+      // Migration v1 → v2: Added currency field to Settings
+      // No action needed - defaults to 'USD' in constructor
+
       // Update schema version in settings
       final updatedSettings = Settings(
         riskBand: settings.riskBand,
@@ -295,6 +298,17 @@ class RepositoryService {
         monthlyIncome: settings.monthlyIncome,
         incomeMultiplierFallback: settings.incomeMultiplierFallback,
         schemaVersion: _currentSchemaVersion,
+        concentrationRiskSnoozedUntil: settings.concentrationRiskSnoozedUntil,
+        concentrationRiskResolvedAt: settings.concentrationRiskResolvedAt,
+        homeCountry: settings.homeCountry,
+        globalDiversificationMode: settings.globalDiversificationMode,
+        intlTargetOverride: settings.intlTargetOverride,
+        intlTolerancePct: settings.intlTolerancePct,
+        intlFloorPct: settings.intlFloorPct,
+        intlPenaltyScale: settings.intlPenaltyScale,
+        financialHealthBaseline: settings.financialHealthBaseline,
+        financialHealthGlobalScale: settings.financialHealthGlobalScale,
+        currency: settings.currency, // Will default to 'USD' for existing users
       );
       await _settingsBox.put('main', updatedSettings);
 
