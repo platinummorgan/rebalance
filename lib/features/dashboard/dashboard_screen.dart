@@ -1256,7 +1256,9 @@ class DashboardScreen extends ConsumerWidget {
     final entries = allocation.entries.toList();
     return Column(
       children: entries.map((e) {
-        final percent = totalAssets > 0 ? (e.value / totalAssets) * 100 : 0.0;
+        final percent = totalAssets.abs() > 0
+            ? (e.value.abs() / totalAssets.abs()) * 100
+            : 0.0;
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 2),
           child: Row(
@@ -1299,7 +1301,7 @@ class DashboardScreen extends ConsumerWidget {
     Map<String, double> allocation,
     double totalAssets,
   ) {
-    if (totalAssets == 0) {
+    if (totalAssets.abs() < 0.01) {
       return Center(
         child: Text(
           'No data',
@@ -1313,21 +1315,23 @@ class DashboardScreen extends ConsumerWidget {
     final sections = <PieChartSectionData>[];
     final colors = [
       Theme.of(context).colorScheme.primary,
-      Theme.of(context).colorScheme.secondary,
-      Theme.of(context).colorScheme.tertiary,
-      Colors.orange,
-      Colors.purple,
-      Colors.teal,
+      const Color(0xFF546E7A), // Blue Grey
+      const Color(0xFF7B1FA2), // Purple
+      const Color(0xFFFF8F00), // Orange
+      const Color(0xFF00796B), // Teal
+      const Color(0xFFD32F2F), // Red
     ];
 
     int colorIndex = 0;
     allocation.forEach((key, value) {
-      if (value > 0) {
-        final percentage = (value / totalAssets) * 100;
+      if (value.abs() > 0.01) {
+        // Use absolute value to handle negative totals
+        final absValue = value.abs();
+        final percentage = (absValue / totalAssets.abs()) * 100;
         sections.add(
           PieChartSectionData(
             color: colors[colorIndex % colors.length],
-            value: value,
+            value: absValue,
             // Use one decimal to match the legend formatting
             title: percentage > 5 ? '${percentage.toStringAsFixed(1)}%' : '',
             radius: 45, // Increased from 30 for wider color sections
@@ -1342,23 +1346,39 @@ class DashboardScreen extends ConsumerWidget {
       }
     });
 
-    return Stack(
-      children: [
-        PieChart(
-          PieChartData(
-            sections: sections,
-            sectionsSpace: 2,
-            centerSpaceRadius: 70, // Increased from 50 for larger center area
-            startDegreeOffset: -90,
+    // If no sections, show empty state
+    if (sections.isEmpty) {
+      return Center(
+        child: Text(
+          'No allocation data',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ),
-        // Center with Total Equities percentage
-        Positioned.fill(
-          child: Center(
-            child: _buildEquitiesCenter(context, allocation, totalAssets),
+      );
+    }
+
+    return SizedBox(
+      height: 180,
+      width: 180,
+      child: Stack(
+        children: [
+          PieChart(
+            PieChartData(
+              sections: sections,
+              sectionsSpace: 2,
+              centerSpaceRadius: 70, // Increased from 50 for larger center area
+              startDegreeOffset: -90,
+            ),
           ),
-        ),
-      ],
+          // Center with Total Equities percentage
+          Positioned.fill(
+            child: Center(
+              child: _buildEquitiesCenter(context, allocation, totalAssets),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

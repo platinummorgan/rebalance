@@ -22,6 +22,7 @@ import 'features/tax/tax_smart_allocation_screen.dart';
 import 'features/income/income_screen.dart';
 import 'features/income/income_detail_screen.dart';
 import 'features/import/csv_import_screen.dart';
+import 'features/retirement/retirement_calculator_screen.dart';
 
 class AppRouter {
   static const String onboarding = '/onboarding';
@@ -45,6 +46,7 @@ class AppRouter {
   static const String taxSmart = '/tax-allocation';
   static const String exportData = '/export';
   static const String csvImport = '/import/csv';
+  static const String retirementCalculator = '/retirement-calculator';
   static const String pro = '/pro';
   static const String about = '/about';
 
@@ -207,6 +209,13 @@ class AppRouter {
             path: csvImport,
             name: 'csv-import',
             builder: (context, state) => const CsvImportScreen(),
+          ),
+
+          // Retirement Calculator (Pro Feature)
+          GoRoute(
+            path: retirementCalculator,
+            name: 'retirement-calculator',
+            builder: (context, state) => const RetirementCalculatorScreen(),
           ),
 
           // Pro features
@@ -480,26 +489,34 @@ class _AboutScreenState extends State<AboutScreen> {
             const SizedBox(height: 8),
             _buildComingSoonItem(
               context,
-              icon: Icons.widgets_outlined,
+              icon: Icons.dark_mode_outlined,
               iconColor: Colors.blue.shade600,
-              title: 'Home Screen Widget',
-              description: 'View your net worth at a glance',
+              title: 'Dark Mode Improvements',
+              description: 'Enhanced dark theme with OLED black option',
             ),
             const SizedBox(height: 8),
             _buildComingSoonItem(
               context,
-              icon: Icons.file_upload_outlined,
+              icon: Icons.folder_outlined,
               iconColor: Colors.blue.shade600,
-              title: 'CSV Import',
-              description: 'Import account data from spreadsheets',
+              title: 'Account Grouping',
+              description: 'Organize accounts into custom groups',
             ),
             const SizedBox(height: 8),
             _buildComingSoonItem(
               context,
-              icon: Icons.palette_outlined,
+              icon: Icons.note_outlined,
               iconColor: Colors.blue.shade600,
-              title: 'More Themes',
-              description: 'Additional color schemes and customization',
+              title: 'Quick Notes',
+              description: 'Add notes to accounts and liabilities',
+            ),
+            const SizedBox(height: 8),
+            _buildComingSoonItem(
+              context,
+              icon: Icons.emoji_events_outlined,
+              iconColor: Colors.blue.shade600,
+              title: 'Net Worth Milestones',
+              description: 'Celebrate hitting financial goals',
             ),
 
             const SizedBox(height: 20),
@@ -537,11 +554,10 @@ class _AboutScreenState extends State<AboutScreen> {
                     const SizedBox(height: 8),
                     _buildComingSoonItem(
                       context,
-                      icon: Icons.trending_up,
+                      icon: Icons.receipt_long_outlined,
                       iconColor: Colors.amber.shade600,
-                      title: 'Retirement Calculator',
-                      description:
-                          'Project if you\'re on track for your retirement goals',
+                      title: 'Expense Tracking',
+                      description: 'Categorize spending and set budgets',
                       isPro: true,
                     ),
                     const SizedBox(height: 8),

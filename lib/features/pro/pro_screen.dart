@@ -110,6 +110,16 @@ class ProScreen extends ConsumerWidget {
               onTap: () => context.push(AppRouter.taxSmart),
             ),
 
+            _buildActiveFeatureCard(
+              context,
+              icon: Icons.trending_up,
+              title: 'Retirement Calculator',
+              description: 'Plan for your retirement goals',
+              stat: 'See probability of success',
+              color: Colors.deepOrange,
+              onTap: () => context.push(AppRouter.retirementCalculator),
+            ),
+
             const SizedBox(height: 24),
 
             // Plan details
@@ -383,6 +393,18 @@ class ProScreen extends ConsumerWidget {
                         'Optimize which accounts hold which assets. Identify tax-loss harvesting opportunities. Minimize annual tax drag.',
                     color: Colors.teal,
                     onTap: () => context.push(AppRouter.taxSmart),
+                  ),
+
+                  _buildOutcomeFeatureCard(
+                    context,
+                    icon: Icons.trending_up,
+                    title: 'Retirement Calculator',
+                    personalizedValue: null,
+                    genericOutcome: 'Plan with confidence',
+                    description:
+                        'Monte Carlo simulation (1,000 runs) projects retirement success probability. Adjust savings, timeline, and income to optimize your plan.',
+                    color: Colors.deepOrange,
+                    onTap: () => context.push(AppRouter.retirementCalculator),
                   ),
 
                   _buildOutcomeFeatureCard(
