@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import '../../data/models.dart';
 import '../../app.dart';
 import '../../routes.dart' show AppRouter;
+import '../../utils/currency_formatter.dart';
+import '../../services/exchange_rate_service.dart';
 
 /// Debt payoff optimizer - calculates avalanche/snowball strategies
 /// and shows potential interest savings with Pro upgrade.
@@ -19,10 +21,11 @@ class DebtOptimizerScreen extends ConsumerStatefulWidget {
 class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
   double _extraPayment = 0.0;
   String? _activeStrategy; // user-selected strategy; defaults to recommended
+  String _currency = 'USD'; // Currency code, updated from settings
 
-  // Helper to format currency with commas
+  // Helper to format currency with user's selected currency
   String _formatCurrency(double amount) {
-    return NumberFormat.currency(symbol: '\$', decimalDigits: 0).format(amount);
+    return CurrencyFormatter.format(amount, _currency);
   }
 
   // Helper to calculate payoff date from month number
@@ -36,6 +39,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
   Widget build(BuildContext context) {
     final liabilitiesAsync = ref.watch(liabilitiesProvider);
     final settingsAsync = ref.watch(settingsProvider);
+    final exchangeRateService = ref.watch(exchangeRateServiceProvider);
 
     return liabilitiesAsync.when(
       loading: () => Scaffold(
@@ -55,9 +59,64 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
           appBar: AppBar(title: const Text('Debt Optimizer')),
           body: Center(child: Text('Error: $error')),
         ),
-        data: (settings) => _buildContent(context, liabilities, settings),
+        data: (settings) => FutureBuilder<List<Liability>>(
+          future: _convertLiabilities(
+            liabilities,
+            settings.baseCurrency,
+            settings.currency,
+            exchangeRateService,
+          ),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Scaffold(
+                appBar: AppBar(title: const Text('Debt Optimizer')),
+                body: const Center(child: CircularProgressIndicator()),
+              );
+            }
+            if (snapshot.hasError) {
+              return Scaffold(
+                appBar: AppBar(title: const Text('Debt Optimizer')),
+                body: Center(child: Text('Error: ${snapshot.error}')),
+              );
+            }
+            final convertedLiabilities = snapshot.data ?? liabilities;
+            return _buildContent(context, convertedLiabilities, settings);
+          },
+        ),
       ),
     );
+  }
+
+  // Convert liabilities from base currency to display currency
+  Future<List<Liability>> _convertLiabilities(
+    List<Liability> liabilities,
+    String baseCurrency,
+    String displayCurrency,
+    ExchangeRateService exchangeService,
+  ) async {
+    if (baseCurrency == displayCurrency) {
+      return liabilities;
+    }
+
+    final rate = await exchangeService.getRate(baseCurrency, displayCurrency);
+
+    return liabilities.map((liability) {
+      return Liability(
+        id: liability.id,
+        name: liability.name,
+        kind: liability.kind,
+        balance: liability.balance * rate,
+        apr: liability.apr,
+        minPayment: liability.minPayment * rate,
+        updatedAt: liability.updatedAt,
+        creditLimit: liability.creditLimit != null
+            ? liability.creditLimit! * rate
+            : null,
+        nextPaymentDate: liability.nextPaymentDate,
+        paymentFrequencyDays: liability.paymentFrequencyDays,
+        dayOfMonth: liability.dayOfMonth,
+      );
+    }).toList();
   }
 
   Widget _buildContent(
@@ -65,6 +124,9 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
     List<Liability> liabilities,
     Settings settings,
   ) {
+    // Update currency from settings
+    _currency = settings.currency;
+
     // Pro gate - redirect non-Pro users to upgrade screen
     if (!settings.isPro) {
       return _buildProGate(context);
@@ -169,8 +231,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      NumberFormat.currency(symbol: '\$', decimalDigits: 0)
-                          .format(totalDebt),
+                      CurrencyFormatter.format(totalDebt, _currency),
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
@@ -210,8 +271,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                           ),
                         ),
                         Text(
-                          NumberFormat.currency(symbol: '\$', decimalDigits: 0)
-                              .format(_extraPayment),
+                          CurrencyFormatter.format(_extraPayment, _currency),
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -689,8 +749,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      NumberFormat.currency(symbol: '\$', decimalDigits: 0)
-                          .format(result.totalInterest),
+                      CurrencyFormatter.format(result.totalInterest, _currency),
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -877,11 +936,13 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
 
     // Store initial balances for debt payoff info
     final initialDebts = debts
-        .map((d) => {
-              'name': d.name,
-              'balance': d.balance,
-              'apr': d.apr,
-            },)
+        .map(
+          (d) => {
+            'name': d.name,
+            'balance': d.balance,
+            'apr': d.apr,
+          },
+        )
         .toList();
 
     // Sort based on strategy

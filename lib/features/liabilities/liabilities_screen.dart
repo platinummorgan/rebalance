@@ -5,15 +5,11 @@ import 'package:intl/intl.dart';
 import '../../data/models.dart';
 import '../../data/repositories.dart';
 import '../../app.dart';
+import '../../widgets/currency_text.dart';
 import '../../utils/currency_formatter.dart';
 
 class LiabilitiesScreen extends ConsumerWidget {
   const LiabilitiesScreen({super.key});
-
-  // Helper method to get currency code from settings
-  String _getCurrency(WidgetRef ref) {
-    return ref.watch(settingsProvider).value?.currency ?? 'USD';
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -134,7 +130,6 @@ class LiabilitiesScreen extends ConsumerWidget {
       0.0,
       (sum, liability) => sum + liability.minPayment,
     );
-    final currency = _getCurrency(ref);
 
     return Column(
       children: [
@@ -186,8 +181,8 @@ class LiabilitiesScreen extends ConsumerWidget {
                           ),
                         ),
                         const SizedBox(height: 4),
-                        Text(
-                          CurrencyFormatter.format(totalDebt, currency),
+                        CurrencyText(
+                          totalDebt,
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall
@@ -233,8 +228,8 @@ class LiabilitiesScreen extends ConsumerWidget {
                           ),
                         ),
                         const SizedBox(height: 4),
-                        Text(
-                          CurrencyFormatter.format(totalMinPayments, currency),
+                        CurrencyText(
+                          totalMinPayments,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -451,15 +446,81 @@ class LiabilitiesScreen extends ConsumerWidget {
                                   ),
                                   const SizedBox(width: 12),
                                   Flexible(
-                                    child: Text(
-                                      'Min: ${CurrencyFormatter.format(liability.minPayment, currency)}/mo',
-                                      style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurfaceVariant,
-                                        fontSize: 10,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          'Min: ',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurfaceVariant,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Consumer(
+                                            builder: (context, ref, child) {
+                                              final settingsAsync =
+                                                  ref.watch(settingsProvider);
+                                              final shouldUseOriginal =
+                                                  settingsAsync.maybeWhen(
+                                                data: (settings) =>
+                                                    liability.originalCurrency != null &&
+                                                    liability
+                                                            .originalMinPayment !=
+                                                        null &&
+                                                    liability
+                                                            .originalCurrency ==
+                                                        settings.currency,
+                                                orElse: () => false,
+                                              );
+
+                                              if (shouldUseOriginal) {
+                                                return settingsAsync.when(
+                                                  loading: () =>
+                                                      const SizedBox(),
+                                                  error: (_, __) =>
+                                                      const SizedBox(),
+                                                  data: (settings) => Text(
+                                                    CurrencyFormatter.format(
+                                                      liability
+                                                          .originalMinPayment!,
+                                                      liability
+                                                          .originalCurrency!,
+                                                    ),
+                                                    style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onSurfaceVariant,
+                                                      fontSize: 10,
+                                                    ),
+                                                  ),
+                                                );
+                                              } else {
+                                                return CurrencyText(
+                                                  liability.minPayment,
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onSurfaceVariant,
+                                                    fontSize: 10,
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                        Text(
+                                          '/mo',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurfaceVariant,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
@@ -467,42 +528,74 @@ class LiabilitiesScreen extends ConsumerWidget {
                             ],
                           ),
                         ),
-                        trailing: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              CurrencyFormatter.format(
-                                  liability.balance, currency),
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Theme.of(context).colorScheme.error,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            if (liability.creditLimit != null &&
-                                liability.creditLimit! > 0)
-                              Text(
-                                '${((liability.balance / liability.creditLimit!) * 100).toStringAsFixed(0)}% used',
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant,
-                                  fontSize: 11,
-                                ),
-                              )
-                            else
-                              Text(
-                                'Updated ${_getRelativeTime(liability.updatedAt)}',
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant,
-                                  fontSize: 11,
-                                ),
-                              ),
-                          ],
+                        trailing: Consumer(
+                          builder: (context, ref, child) {
+                            final settingsAsync = ref.watch(settingsProvider);
+                            final shouldUseOriginal = settingsAsync.maybeWhen(
+                              data: (settings) =>
+                                  liability.originalCurrency != null &&
+                                  liability.originalBalance != null &&
+                                  liability.originalCurrency ==
+                                      settings.currency,
+                              orElse: () => false,
+                            );
+
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                if (shouldUseOriginal)
+                                  settingsAsync.when(
+                                    loading: () => const SizedBox(),
+                                    error: (_, __) => const SizedBox(),
+                                    data: (settings) => Text(
+                                      CurrencyFormatter.format(
+                                        liability.originalBalance!,
+                                        liability.originalCurrency!,
+                                      ),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                        color:
+                                            Theme.of(context).colorScheme.error,
+                                      ),
+                                    ),
+                                  )
+                                else
+                                  CurrencyText(
+                                    liability.balance,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                      color:
+                                          Theme.of(context).colorScheme.error,
+                                    ),
+                                  ),
+                                const SizedBox(height: 2),
+                                if (liability.creditLimit != null &&
+                                    liability.creditLimit! > 0)
+                                  Text(
+                                    '${((liability.balance / liability.creditLimit!) * 100).toStringAsFixed(0)}% used',
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant,
+                                      fontSize: 11,
+                                    ),
+                                  )
+                                else
+                                  Text(
+                                    'Updated ${_getRelativeTime(liability.updatedAt)}',
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant,
+                                      fontSize: 11,
+                                    ),
+                                  ),
+                              ],
+                            );
+                          },
                         ),
                         onTap: () =>
                             context.push('/liabilities/${liability.id}'),

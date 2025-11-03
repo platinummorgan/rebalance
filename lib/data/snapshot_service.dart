@@ -246,6 +246,38 @@ class SnapshotService {
       await RepositoryService.saveLiability(liability);
     }
 
+    // Sample income sources
+    final incomes = [
+      Income(
+        id: 'income_salary',
+        name: 'Software Engineer Salary',
+        kind: 'Salary',
+        grossAmount: 8500.0,
+        frequency: 'Monthly',
+        updatedAt: DateTime.now(),
+        federalTax: 1530.0,
+        stateTax: 425.0,
+        socialSecurityTax: 527.0,
+        medicareTax: 123.25,
+        retirement401k: 850.0, // 10% contribution
+        healthInsurance: 320.0,
+        otherDeductions: 0.0,
+      ),
+      Income(
+        id: 'income_rental',
+        name: 'Rental Property Income',
+        kind: 'Rental Income',
+        grossAmount: 1800.0,
+        frequency: 'Monthly',
+        updatedAt: DateTime.now(),
+        // Rental income - no deductions at source
+      ),
+    ];
+
+    for (final income in incomes) {
+      await RepositoryService.saveIncome(income);
+    }
+
     // Generate historical snapshots (simulate 6 months of data)
     final now = DateTime.now();
     for (int i = 180; i >= 0; i -= 7) {

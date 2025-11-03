@@ -15,6 +15,7 @@ class RepositoryService {
 
   static late Box<Account> _accountsBox;
   static late Box<Liability> _liabilitiesBox;
+  static late Box<Income> _incomesBox;
   static late Box<Settings> _settingsBox;
   static late Box<Snapshot> _snapshotsBox;
   static late Box<ActionCard> _actionCardsBox;
@@ -65,6 +66,9 @@ class RepositoryService {
     if (!Hive.isAdapterRegistered(10)) {
       Hive.registerAdapter(AppNotificationAdapter());
     }
+    if (!Hive.isAdapterRegistered(11)) {
+      Hive.registerAdapter(IncomeAdapter());
+    }
 
     // Get or generate encryption key
     final encryptionKey = await _getOrCreateEncryptionKey();
@@ -89,6 +93,16 @@ class RepositoryService {
       );
     } catch (e) {
       debugPrint('[Repository] Failed to open "liabilities" box: $e');
+      rethrow;
+    }
+
+    try {
+      _incomesBox = await Hive.openBox<Income>(
+        'incomes',
+        encryptionCipher: HiveAesCipher(encryptionKey),
+      );
+    } catch (e) {
+      debugPrint('[Repository] Failed to open "incomes" box: $e');
       rethrow;
     }
 
@@ -214,6 +228,7 @@ class RepositoryService {
     final boxNames = [
       'accounts',
       'liabilities',
+      'incomes',
       'settings',
       'snapshots',
       'actionCards',
@@ -319,9 +334,7 @@ class RepositoryService {
   static Future<Uint8List> _getOrCreateEncryptionKey() async {
     String? keyString = await _secureStorage.read(key: _encryptionKeyKey);
 
-    if (keyString != null) {
-      return base64Decode(keyString);
-    }
+    return base64Decode(keyString);
 
     // Generate new key
     final key = Hive.generateSecureKey();
@@ -402,6 +415,25 @@ class RepositoryService {
   static Future<void> deleteLiability(String id) async {
     await initialize();
     await _liabilitiesBox.delete(id);
+  }
+
+  // Income Repository
+  static Future<List<Income>> getIncomes() async {
+    await initialize();
+    return _incomesBox.values.toList();
+  }
+
+  static Future<void> saveIncome(Income income) async {
+    await initialize();
+    debugPrint(
+      '[Repo::saveIncome] Saving income id=${income.id} name=${income.name} kind=${income.kind} monthlyGross=${income.monthlyGross}',
+    );
+    await _incomesBox.put(income.id, income);
+  }
+
+  static Future<void> deleteIncome(String id) async {
+    await initialize();
+    await _incomesBox.delete(id);
   }
 
   // Settings Repository

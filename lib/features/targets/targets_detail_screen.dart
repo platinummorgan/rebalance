@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../app.dart';
 import '../../data/models.dart';
+import '../../utils/currency_formatter.dart';
+import '../../services/exchange_rate_service.dart';
 
 class TargetsDetailScreen extends ConsumerStatefulWidget {
   const TargetsDetailScreen({super.key});
@@ -35,13 +37,21 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
     super.initState();
 
     // Initialize controllers with current settings
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final settings = ref.read(settingsProvider).value;
       if (settings != null) {
+        // Convert monthly essentials from USD to display currency
+        final exchangeService = ExchangeRateService();
+        final convertedMonthlyEssentials = await exchangeService.convert(
+          settings.monthlyEssentials,
+          'USD',
+          settings.currency,
+        );
+
         _usEquityController.text = settings.usEquityTargetPct.toString();
         // _driftThresholdController.text = settings.driftThresholdPct.toString(); // Commented out with drift alerts
         _monthlyEssentialsController.text =
-            settings.monthlyEssentials.toString();
+            convertedMonthlyEssentials.toStringAsFixed(2);
         _selectedRiskBand = settings.riskBand;
         // _notificationsEnabled = settings.notificationsEnabled; // Commented out with drift alerts
       }
@@ -367,33 +377,47 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                   const SizedBox(height: 20),
 
                   // Monthly Essentials
-                  TextFormField(
-                    controller: _monthlyEssentialsController,
-                    focusNode: _monthlyEssentialsFocus,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(7),
-                    ],
-                    decoration: const InputDecoration(
-                      labelText: 'Monthly Essential Expenses',
-                      hintText: '5000',
-                      prefixText: '\$',
-                      helperText:
-                          'Rent, utilities, food, insurance, minimum debt payments',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your monthly essentials';
-                      }
-                      final amount = double.tryParse(value);
-                      if (amount == null) {
-                        return 'Please enter a valid amount';
-                      }
-                      if (amount < 0) {
-                        return 'Amount cannot be negative';
-                      }
-                      return null;
+                  Builder(
+                    builder: (context) {
+                      final currencySymbol =
+                          CurrencyFormatter.format(0, settings.currency)
+                              .replaceAll('0', '')
+                              .replaceAll('.', '')
+                              .replaceAll(',', '')
+                              .trim();
+                      final helperText = settings.currency != 'USD'
+                          ? 'Values stored in USD. Rent, utilities, food, insurance, minimum debt payments'
+                          : 'Rent, utilities, food, insurance, minimum debt payments';
+
+                      return TextFormField(
+                        controller: _monthlyEssentialsController,
+                        focusNode: _monthlyEssentialsFocus,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(7),
+                        ],
+                        decoration: InputDecoration(
+                          labelText: 'Monthly Essential Expenses',
+                          hintText: '5000',
+                          prefixText: '$currencySymbol ',
+                          helperText: helperText,
+                          helperMaxLines: 2,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your monthly essentials';
+                          }
+                          final amount = double.tryParse(value);
+                          if (amount == null) {
+                            return 'Please enter a valid amount';
+                          }
+                          if (amount < 0) {
+                            return 'Amount cannot be negative';
+                          }
+                          return null;
+                        },
+                      );
                     },
                   ),
                 ],
@@ -527,9 +551,19 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
       final currentSettings = ref.read(settingsProvider).value;
       if (currentSettings == null) return;
 
+      // Convert monthly essentials from display currency to USD
+      final exchangeService = ExchangeRateService();
+      final monthlyEssentialsInDisplayCurrency =
+          double.parse(_monthlyEssentialsController.text);
+      final monthlyEssentialsInUSD = await exchangeService.convert(
+        monthlyEssentialsInDisplayCurrency,
+        currentSettings.currency,
+        'USD',
+      );
+
       final updatedSettings = Settings(
         riskBand: _selectedRiskBand,
-        monthlyEssentials: double.parse(_monthlyEssentialsController.text),
+        monthlyEssentials: monthlyEssentialsInUSD,
         driftThresholdPct:
             currentSettings.driftThresholdPct, // Keep existing value
         notificationsEnabled:
@@ -539,6 +573,26 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
         biometricLockEnabled: currentSettings.biometricLockEnabled,
         darkModeEnabled: currentSettings.darkModeEnabled,
         colorTheme: currentSettings.colorTheme,
+        liquidityBondHaircut: currentSettings.liquidityBondHaircut,
+        bucketCap: currentSettings.bucketCap,
+        employerStockThreshold: currentSettings.employerStockThreshold,
+        monthlyIncome: currentSettings.monthlyIncome,
+        incomeMultiplierFallback: currentSettings.incomeMultiplierFallback,
+        schemaVersion: currentSettings.schemaVersion,
+        concentrationRiskSnoozedUntil:
+            currentSettings.concentrationRiskSnoozedUntil,
+        concentrationRiskResolvedAt:
+            currentSettings.concentrationRiskResolvedAt,
+        homeCountry: currentSettings.homeCountry,
+        globalDiversificationMode: currentSettings.globalDiversificationMode,
+        intlTargetOverride: currentSettings.intlTargetOverride,
+        intlTolerancePct: currentSettings.intlTolerancePct,
+        intlFloorPct: currentSettings.intlFloorPct,
+        intlPenaltyScale: currentSettings.intlPenaltyScale,
+        financialHealthBaseline: currentSettings.financialHealthBaseline,
+        financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
+        currency: currentSettings.currency,
+        baseCurrency: currentSettings.baseCurrency,
       );
 
       await ref.read(settingsProvider.notifier).updateSettings(updatedSettings);

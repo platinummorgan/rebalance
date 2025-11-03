@@ -6,17 +6,13 @@ import 'package:intl/intl.dart';
 import '../../data/models.dart';
 import '../../data/repositories.dart';
 import '../../app.dart';
+import '../../widgets/currency_text.dart';
 import '../../utils/currency_formatter.dart';
 
 class AccountsScreen extends ConsumerWidget {
   final String? assetTypeFilter;
 
   const AccountsScreen({super.key, this.assetTypeFilter});
-
-  // Helper method to get currency code from settings
-  String _getCurrency(WidgetRef ref) {
-    return ref.watch(settingsProvider).value?.currency ?? 'USD';
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -169,7 +165,6 @@ class AccountsScreen extends ConsumerWidget {
     WidgetRef ref, {
     bool fromSnapshot = false,
   }) {
-    final currency = _getCurrency(ref);
     final totalAssets =
         accounts.fold<double>(0.0, (sum, account) => sum + account.balance);
 
@@ -217,8 +212,8 @@ class AccountsScreen extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      CurrencyFormatter.format(totalAssets, currency),
+                    CurrencyText(
+                      totalAssets,
                       style:
                           Theme.of(context).textTheme.headlineSmall?.copyWith(
                                 fontWeight: FontWeight.bold,
@@ -413,29 +408,57 @@ class AccountsScreen extends ConsumerWidget {
                             ],
                           ),
                         ),
-                        trailing: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              CurrencyFormatter.format(
-                                  account.balance, currency),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'Updated ${_getRelativeTime(account.updatedAt)}',
-                              style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
+                        trailing: Consumer(
+                          builder: (context, ref, child) {
+                            final settingsAsync = ref.watch(settingsProvider);
+                            final shouldUseOriginal = settingsAsync.maybeWhen(
+                              data: (settings) =>
+                                  account.originalCurrency != null &&
+                                  account.originalBalance != null &&
+                                  account.originalCurrency == settings.currency,
+                              orElse: () => false,
+                            );
+
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                if (shouldUseOriginal)
+                                  settingsAsync.when(
+                                    loading: () => const SizedBox(),
+                                    error: (_, __) => const SizedBox(),
+                                    data: (settings) => Text(
+                                      CurrencyFormatter.format(
+                                        account.originalBalance!,
+                                        account.originalCurrency!,
+                                      ),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  )
+                                else
+                                  CurrencyText(
+                                    account.balance,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'Updated ${_getRelativeTime(account.updatedAt)}',
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
                         ),
                         onTap: () => context.push('/accounts/${account.id}'),
                       ),

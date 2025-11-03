@@ -1,6 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../data/models.dart';
+import '../../utils/currency_formatter.dart';
+import '../../app.dart';
+import '../../services/exchange_rate_service.dart';
 
 // Simple heuristic yields (could be refined later or user-configurable)
 const _defaultYields = <String, double>{
@@ -16,8 +19,10 @@ const _defaultYields = <String, double>{
 class TaxAssumptions {
   final double ordinaryRate; // e.g. 24%
   final double qualifiedDivRate; // e.g. 15%
-  const TaxAssumptions(
-      {this.ordinaryRate = 0.24, this.qualifiedDivRate = 0.15,});
+  const TaxAssumptions({
+    this.ordinaryRate = 0.24,
+    this.qualifiedDivRate = 0.15,
+  });
 }
 
 // Classification of account kind -> tax bucket
@@ -67,7 +72,12 @@ final taxSmartAnalysisProvider =
     FutureProvider.family<TaxSmartAnalysis, List<Account>>(
         (ref, accounts) async {
   final assumptions = ref.watch(taxAssumptionsProvider);
-  final fmt = NumberFormat.compactCurrency(symbol: '\$', decimalDigits: 0);
+  final settingsAsync = ref.watch(settingsProvider);
+  final settings = settingsAsync.valueOrNull;
+  final currency = settings?.currency ?? 'USD';
+  final baseCurrency = settings?.baseCurrency ?? 'USD';
+  final fmt = CurrencyFormatter.getFormatter(currency, decimalDigits: 0);
+
   if (accounts.isEmpty) {
     return TaxSmartAnalysis(
       currentDrag: 0,
@@ -78,6 +88,10 @@ final taxSmartAnalysisProvider =
       assumptionsText: _assumptionsText(assumptions),
     );
   }
+
+  // Get exchange rate for currency conversion
+  final exchangeService = ref.watch(exchangeRateServiceProvider);
+  final exchangeRate = await exchangeService.getRate(baseCurrency, currency);
 
   // Aggregate assets by account bucket
   final Map<TaxBucket, Map<String, double>> bucketAlloc = {
@@ -93,14 +107,16 @@ final taxSmartAnalysisProvider =
   // totalAssets reserved for future ratio metrics
   double totalAssets = 0; // ignore: unused_local_variable
   for (final a in accounts) {
-    totalAssets += a.balance;
+    // Convert balance from base currency to display currency
+    final convertedBalance = a.balance * exchangeRate;
+    totalAssets += convertedBalance;
     final b = classifyAccount(a.kind);
-    addAlloc(b, 'cash', a.balance * a.pctCash);
-    addAlloc(b, 'bonds', a.balance * a.pctBonds);
-    addAlloc(b, 'usEq', a.balance * a.pctUsEq);
-    addAlloc(b, 'intlEq', a.balance * a.pctIntlEq);
-    addAlloc(b, 'realEstate', a.balance * a.pctRealEstate);
-    addAlloc(b, 'alt', a.balance * a.pctAlt);
+    addAlloc(b, 'cash', convertedBalance * a.pctCash);
+    addAlloc(b, 'bonds', convertedBalance * a.pctBonds);
+    addAlloc(b, 'usEq', convertedBalance * a.pctUsEq);
+    addAlloc(b, 'intlEq', convertedBalance * a.pctIntlEq);
+    addAlloc(b, 'realEstate', convertedBalance * a.pctRealEstate);
+    addAlloc(b, 'alt', convertedBalance * a.pctAlt);
   }
 
   double taxDragForBucket(TaxBucket b, Map<String, double> alloc) {
@@ -170,11 +186,13 @@ final taxSmartAnalysisProvider =
               : assumptions.qualifiedDivRate);
       // After move, assume zero current drag for that amount.
       optimizedDrag -= currentAssetDrag;
-      moves.add(TaxSmartMove(
-        description:
-            'Move ${fmt.format(amt)} of $asset to tax-advantaged account',
-        annualImpact: currentAssetDrag,
-      ),);
+      moves.add(
+        TaxSmartMove(
+          description:
+              'Move ${fmt.format(amt)} of $asset to tax-advantaged account',
+          annualImpact: currentAssetDrag,
+        ),
+      );
     }
   }
 

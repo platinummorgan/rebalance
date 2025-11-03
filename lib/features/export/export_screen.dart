@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:csv/csv.dart';
 import 'package:intl/intl.dart';
 import '../../data/repositories.dart';
-import '../../utils/csv_exporter.dart';
+import '../../services/file_saver_service.dart';
 
 class ExportScreen extends ConsumerWidget {
   const ExportScreen({super.key});
@@ -31,7 +31,7 @@ class ExportScreen extends ConsumerWidget {
                 subtitle: const Text(
                   'Free • Export account balances for spreadsheet analysis',
                 ),
-                onTap: () => _exportToCSV(context, ref),
+                onTap: () => _showExportOptions(context, ref),
               ),
             ),
             const Card(
@@ -60,7 +60,97 @@ class ExportScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _exportToCSV(BuildContext context, WidgetRef ref) async {
+  Future<void> _showExportOptions(BuildContext context, WidgetRef ref) async {
+    final result = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Export CSV'),
+        content: const Text(
+          'Your CSV file will be saved directly to your Downloads folder.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'cancel'),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, 'export'),
+            child: const Text('Export'),
+          ),
+        ],
+      ),
+    );
+
+    if (!context.mounted) return;
+
+    if (result == 'export') {
+      await _exportToCSV(context, ref);
+    }
+  }
+
+  Future<String> _generateCSV(WidgetRef ref) async {
+    debugPrint('[Export] Fetching accounts and liabilities...');
+    final accounts = await RepositoryService.getAccounts();
+    final liabilities = await RepositoryService.getLiabilities();
+    debugPrint(
+      '[Export] Found ${accounts.length} accounts and ${liabilities.length} liabilities',
+    );
+
+    final List<List<dynamic>> rows = [];
+    rows.add([
+      'Type',
+      'Name',
+      'Balance',
+      'Cash %',
+      'Bonds %',
+      'US Equity %',
+      'Intl Equity %',
+      'Real Estate %',
+      'Alternatives %',
+      'Employer Stock %',
+    ]);
+
+    for (final account in accounts) {
+      rows.add([
+        'Account',
+        account.name,
+        account.balance,
+        account.pctCash,
+        account.pctBonds,
+        account.pctUsEq,
+        account.pctIntlEq,
+        account.pctRealEstate,
+        account.pctAlt,
+        account.employerStockPct,
+      ]);
+    }
+
+    for (final liability in liabilities) {
+      rows.add([
+        'Liability',
+        liability.name,
+        -liability.balance,
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+      ]);
+    }
+
+    debugPrint('[Export] Converting to CSV...');
+    final csvString = const ListToCsvConverter().convert(rows);
+    debugPrint('[Export] CSV size: ${csvString.length} bytes');
+
+    return csvString;
+  }
+
+  Future<void> _exportToCSV(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
     NavigatorState? rootNavigator;
     var dialogVisible = false;
 
@@ -73,7 +163,7 @@ class ExportScreen extends ConsumerWidget {
     }
 
     try {
-      debugPrint('[Export] Starting CSV export...');
+      debugPrint('[Export] Starting CSV export (share mode)...');
 
       if (!context.mounted) return;
       rootNavigator = Navigator.of(context, rootNavigator: true);
@@ -87,68 +177,14 @@ class ExportScreen extends ConsumerWidget {
       );
       dialogVisible = true;
 
-      debugPrint('[Export] Fetching accounts and liabilities...');
-      final accounts = await RepositoryService.getAccounts();
-      final liabilities = await RepositoryService.getLiabilities();
-      debugPrint(
-        '[Export] Found ${accounts.length} accounts and ${liabilities.length} liabilities',
-      );
-
-      final List<List<dynamic>> rows = [];
-      rows.add([
-        'Type',
-        'Name',
-        'Balance',
-        'Cash %',
-        'Bonds %',
-        'US Equity %',
-        'Intl Equity %',
-        'Real Estate %',
-        'Alternatives %',
-        'Employer Stock %',
-      ]);
-
-      for (final account in accounts) {
-        rows.add([
-          'Account',
-          account.name,
-          account.balance,
-          account.pctCash,
-          account.pctBonds,
-          account.pctUsEq,
-          account.pctIntlEq,
-          account.pctRealEstate,
-          account.pctAlt,
-          account.employerStockPct,
-        ]);
-      }
-
-      for (final liability in liabilities) {
-        rows.add([
-          'Liability',
-          liability.name,
-          -liability.balance,
-          '',
-          '',
-          '',
-          '',
-          '',
-          '',
-          '',
-        ]);
-      }
-
-      debugPrint('[Export] Converting to CSV...');
-      final csvString = const ListToCsvConverter().convert(rows);
-      debugPrint('[Export] CSV size: ${csvString.length} bytes');
-
+      final csvString = await _generateCSV(ref);
       final timestamp = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
       final fileBaseName = 'rebalance_export_$timestamp';
       debugPrint('[Export] Saving file: $fileBaseName.csv');
 
-      await CsvExporter.save(
-        fileName: fileBaseName,
-        csvContent: csvString,
+      final filePath = await FileSaverService.saveToDownloads(
+        fileName: '$fileBaseName.csv',
+        content: csvString,
       );
 
       dismissDialog();
@@ -156,11 +192,18 @@ class ExportScreen extends ConsumerWidget {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Saved to Downloads/$fileBaseName.csv'),
+          content: Text('Saved to Downloads:\n$fileBaseName.csv'),
           backgroundColor: Colors.green,
-          duration: const Duration(seconds: 3),
+          duration: const Duration(seconds: 4),
+          action: SnackBarAction(
+            label: 'OK',
+            textColor: Colors.white,
+            onPressed: () {},
+          ),
         ),
       );
+
+      debugPrint('[Export] CSV export completed: $filePath');
     } catch (e, stackTrace) {
       debugPrint('[Export] Error during export: $e');
       debugPrint('[Export] Stack trace: $stackTrace');

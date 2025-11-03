@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'app.dart';
 import 'features/onboarding/onboarding_screen.dart';
@@ -20,10 +19,15 @@ import 'features/debt/debt_optimizer_screen.dart';
 import 'features/scenario/scenario_engine_screen.dart';
 import 'features/alerts/custom_alerts_screen.dart';
 import 'features/tax/tax_smart_allocation_screen.dart';
+import 'features/income/income_screen.dart';
+import 'features/income/income_detail_screen.dart';
 
 class AppRouter {
   static const String onboarding = '/onboarding';
   static const String dashboard = '/dashboard';
+  static const String income = '/income';
+  static const String incomeDetail = '/income/:id';
+  static const String addIncome = '/income/add';
   static const String accounts = '/accounts';
   static const String accountDetail = '/accounts/:id';
   static const String addAccount = '/accounts/add';
@@ -62,6 +66,28 @@ class AppRouter {
             path: dashboard,
             name: 'dashboard',
             builder: (context, state) => const DashboardScreen(),
+          ),
+
+          // Income section
+          GoRoute(
+            path: income,
+            name: 'income',
+            builder: (context, state) => const IncomeScreen(),
+            routes: [
+              GoRoute(
+                path: 'add',
+                name: 'add-income',
+                builder: (context, state) => const IncomeDetailScreen(),
+              ),
+              GoRoute(
+                path: ':id',
+                name: 'income-detail',
+                builder: (context, state) {
+                  final incomeId = state.pathParameters['id']!;
+                  return IncomeDetailScreen(incomeId: incomeId);
+                },
+              ),
+            ],
           ),
 
           // Accounts section
@@ -234,6 +260,11 @@ class MainShell extends StatelessWidget {
             label: 'Dashboard',
           ),
           NavigationDestination(
+            icon: Icon(Icons.attach_money),
+            selectedIcon: Icon(Icons.attach_money),
+            label: 'Income',
+          ),
+          NavigationDestination(
             icon: Icon(Icons.account_balance_wallet_outlined),
             selectedIcon: Icon(Icons.account_balance_wallet),
             label: 'Accounts',
@@ -256,13 +287,14 @@ class MainShell extends StatelessWidget {
   int _getSelectedIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
 
-    if (location.startsWith('/accounts')) return 1;
-    if (location.startsWith('/liabilities')) return 2;
+    if (location.startsWith('/income')) return 1;
+    if (location.startsWith('/accounts')) return 2;
+    if (location.startsWith('/liabilities')) return 3;
     if (location.startsWith('/targets') ||
         location.startsWith('/export') ||
         location.startsWith('/pro') ||
         location.startsWith('/about')) {
-      return 3;
+      return 4;
     }
 
     return 0; // Dashboard
@@ -274,12 +306,15 @@ class MainShell extends StatelessWidget {
         context.go(AppRouter.dashboard);
         break;
       case 1:
-        context.go(AppRouter.accounts);
+        context.go(AppRouter.income);
         break;
       case 2:
-        context.go(AppRouter.liabilities);
+        context.go(AppRouter.accounts);
         break;
       case 3:
+        context.go(AppRouter.liabilities);
+        break;
+      case 4:
         context.go(AppRouter.targets);
         break;
     }
@@ -587,62 +622,6 @@ class _AboutScreenState extends State<AboutScreen> {
         ),
       ),
     );
-  }
-}
-
-// Helper function to send feedback via Google Form
-Future<void> _sendFeedback(BuildContext context) async {
-  const String feedbackFormUrl = 'https://forms.gle/68XLBtDxWnmSKhhj8';
-
-  final Uri formUri = Uri.parse(feedbackFormUrl);
-
-  try {
-    if (await canLaunchUrl(formUri)) {
-      await launchUrl(
-        formUri,
-        mode: LaunchMode.externalApplication, // Opens in browser
-      );
-    } else {
-      throw 'Could not launch form';
-    }
-  } catch (e) {
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content:
-              Text('Could not open feedback form. Please try again later.'),
-          duration: Duration(seconds: 3),
-        ),
-      );
-    }
-  }
-}
-
-// Helper function to report a bug via Google Form
-Future<void> _reportBug(BuildContext context) async {
-  const String bugReportFormUrl = 'https://forms.gle/CRXdzsBrRoMrQmsU9';
-
-  final Uri formUri = Uri.parse(bugReportFormUrl);
-
-  try {
-    if (await canLaunchUrl(formUri)) {
-      await launchUrl(
-        formUri,
-        mode: LaunchMode.externalApplication, // Opens in browser
-      );
-    } else {
-      throw 'Could not launch form';
-    }
-  } catch (e) {
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content:
-              Text('Could not open bug report form. Please try again later.'),
-          duration: Duration(seconds: 3),
-        ),
-      );
-    }
   }
 }
 

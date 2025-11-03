@@ -91,13 +91,15 @@ class AccountAdapter extends TypeAdapter<Account> {
       updatedAt: fields[10] as DateTime,
       employerStockPct: fields[11] as double,
       isLocked: fields[12] as bool,
+      originalCurrency: fields[13] as String?,
+      originalBalance: fields[14] as double?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Account obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(15)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -123,7 +125,11 @@ class AccountAdapter extends TypeAdapter<Account> {
       ..writeByte(11)
       ..write(obj.employerStockPct)
       ..writeByte(12)
-      ..write(obj.isLocked);
+      ..write(obj.isLocked)
+      ..writeByte(13)
+      ..write(obj.originalCurrency)
+      ..writeByte(14)
+      ..write(obj.originalBalance);
   }
 
   @override
@@ -159,13 +165,17 @@ class LiabilityAdapter extends TypeAdapter<Liability> {
       nextPaymentDate: fields[8] as DateTime?,
       paymentFrequencyDays: fields[9] as int?,
       dayOfMonth: fields[10] as int?,
+      originalCurrency: fields[11] as String?,
+      originalBalance: fields[12] as double?,
+      originalMinPayment: fields[13] as double?,
+      originalCreditLimit: fields[14] as double?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Liability obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(15)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -187,7 +197,15 @@ class LiabilityAdapter extends TypeAdapter<Liability> {
       ..writeByte(9)
       ..write(obj.paymentFrequencyDays)
       ..writeByte(10)
-      ..write(obj.dayOfMonth);
+      ..write(obj.dayOfMonth)
+      ..writeByte(11)
+      ..write(obj.originalCurrency)
+      ..writeByte(12)
+      ..write(obj.originalBalance)
+      ..writeByte(13)
+      ..write(obj.originalMinPayment)
+      ..writeByte(14)
+      ..write(obj.originalCreditLimit);
   }
 
   @override
@@ -238,13 +256,14 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       financialHealthBaseline: fields[23] as double,
       financialHealthGlobalScale: fields[24] as double,
       currency: fields[25] as String,
+      baseCurrency: fields[26] == null ? 'USD' : fields[26] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Settings obj) {
     writer
-      ..writeByte(26)
+      ..writeByte(27)
       ..writeByte(0)
       ..write(obj.riskBand)
       ..writeByte(1)
@@ -296,7 +315,9 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       ..writeByte(24)
       ..write(obj.financialHealthGlobalScale)
       ..writeByte(25)
-      ..write(obj.currency);
+      ..write(obj.currency)
+      ..writeByte(26)
+      ..write(obj.baseCurrency);
   }
 
   @override
@@ -486,6 +507,82 @@ class PaymentAdapter extends TypeAdapter<Payment> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is PaymentAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class IncomeAdapter extends TypeAdapter<Income> {
+  @override
+  final int typeId = 11;
+
+  @override
+  Income read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return Income(
+      id: fields[0] as String,
+      name: fields[1] as String,
+      kind: fields[2] as String,
+      grossAmount: fields[3] as double,
+      frequency: fields[4] as String,
+      updatedAt: fields[5] as DateTime,
+      federalTax: fields[6] as double?,
+      stateTax: fields[7] as double?,
+      socialSecurityTax: fields[8] as double?,
+      medicareTax: fields[9] as double?,
+      retirement401k: fields[10] as double?,
+      healthInsurance: fields[11] as double?,
+      otherDeductions: fields[12] as double?,
+      originalCurrency: fields[13] as String?,
+      originalAmount: fields[14] as double?,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, Income obj) {
+    writer
+      ..writeByte(15)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.kind)
+      ..writeByte(3)
+      ..write(obj.grossAmount)
+      ..writeByte(4)
+      ..write(obj.frequency)
+      ..writeByte(5)
+      ..write(obj.updatedAt)
+      ..writeByte(6)
+      ..write(obj.federalTax)
+      ..writeByte(7)
+      ..write(obj.stateTax)
+      ..writeByte(8)
+      ..write(obj.socialSecurityTax)
+      ..writeByte(9)
+      ..write(obj.medicareTax)
+      ..writeByte(10)
+      ..write(obj.retirement401k)
+      ..writeByte(11)
+      ..write(obj.healthInsurance)
+      ..writeByte(12)
+      ..write(obj.otherDeductions)
+      ..writeByte(13)
+      ..write(obj.originalCurrency)
+      ..writeByte(14)
+      ..write(obj.originalAmount);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is IncomeAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

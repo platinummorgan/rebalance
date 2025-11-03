@@ -1,0 +1,23 @@
+🎉 Version 1.0.5 - Currency Conversion & Income Tracking!
+
+💰 NEW: Income Tracking
+• Track multiple income sources (salary, freelance, rental, etc.)
+• Detailed tax & deduction breakdowns (federal, state, 401k, health insurance)
+• Automatic monthly/annual income calculations
+• New dedicated Income tab in navigation
+
+💱 NEW: Live Currency Conversion
+• Support for 150+ currencies (USD, EUR, JPY, CNY, INR, THB & more!)
+• Real-time exchange rates with offline support
+• Works across all screens - Dashboard, Accounts, Liabilities, Reports
+• One-time setup, automatic conversion everywhere
+
+🎨 IMPROVED: Dashboard UI
+• 50% larger pie chart for better readability
+• Enhanced text visibility in chart center
+
+🐛 FIXED: Currency persistence
+• Currency selection now saves correctly across restarts
+• Settings stability improvements
+
+Perfect for comprehensive financial tracking with multi-currency support!

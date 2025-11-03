@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned Features
+- Income integration with Financial Health calculator
+- Income summary card on Dashboard
+- Income vs. expenses tracking
 - Local notifications for bill due dates
 - PDF wealth reports
 - Encrypted backup/restore
@@ -16,6 +19,59 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Financial Health aggregator replaced with a contribution model (baseline + signed per-component contributions). Calibrated constants: baseline=75.0, globalScale=0.6. Added regression tests to lock outputs and verify muting behavior.
+
+---
+
+## [1.0.5] - 2025-10-14 (build 19)
+
+### Added - Income Tracking 💰
+- **Income Management**: Track multiple income sources with detailed tax breakdowns
+- New Income tab in bottom navigation (2nd position with 💵 icon)
+- Support for 10 income types: Salary, Hourly Wage, Bonus, Commission, Freelance, Rental Income, Investment Income, Pension, Social Security, Other
+- 8 frequency options: Hourly, Daily, Weekly, Bi-Weekly, Semi-Monthly, Monthly, Quarterly, Annually
+- Optional tax/deduction breakdown: Federal Tax, State Tax, Social Security, Medicare, 401k, Health Insurance, Other Deductions
+- Automatic calculations: Monthly/Annual Gross & Net Income, Effective Tax Rate
+- `Income` model (HiveType typeId: 11) with 13 fields and computed properties
+- `IncomeScreen` with summary cards showing total income breakdown
+- `IncomeDetailScreen` with comprehensive add/edit form
+- Sample income data included in "Load Sample Data" feature
+
+### Added - Currency Conversion 💱
+- **Multi-Currency Support**: Live currency conversion for 150+ currencies
+- Real-time exchange rates with 24-hour caching
+- `CurrencyText` widget with automatic conversion
+- `ExchangeRateService` for API calls and rate management
+- Currency picker in Settings with country flags and search
+- Works across all 16+ screens (Dashboard, Accounts, Liabilities, Reports, Pro features)
+- Offline support with cached rates
+- Added `currency` and `baseCurrency` fields to Settings model
+
+### Improved
+- Dashboard pie chart enlarged by 50% for better readability
+- Enhanced text visibility in pie chart center
+- **CSV Export**: Now saves directly to Downloads folder using native Android MediaStore API
+  - No more share dialog confusion
+  - Files save directly to `/storage/emulated/0/Download/`
+  - Works on all Android versions (10+)
+  - Files accessible through any file manager app
+- Optimized navigation with 5-tab bottom bar: Dashboard | Income | Accounts | Debts | Settings
+- Better Settings object integrity across all update methods
+
+### Fixed
+- **Critical**: Currency selection now persists correctly across app restarts
+- **Critical**: Fixed currency rounding errors - values now display with perfect accuracy (e.g., 1000 CNY no longer shows as 999.60)
+- Fixed missing `baseCurrency` field in Settings update methods (7 methods updated)
+- Resolved Settings field loss during updates
+- Fixed infinite loop issues in CurrencyText widget
+- Improved state management and lifecycle handling
+- Implemented dual-storage system: USD for calculations, original currency for display accuracy
+
+### Technical
+- Migrated CurrencyText from FutureBuilder to StatefulWidget for better performance
+- Added comprehensive debug logging for currency conversion
+- Enhanced caching system to prevent redundant API calls
+- Schema version incremented to v2 for migration support
+- Added dependencies: `currency_picker: ^2.0.21`, `uuid: ^4.0.0`
 
 ---
 

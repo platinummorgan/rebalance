@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import '../../data/models.dart';
 import '../../data/repositories.dart';
 import '../../app.dart';
+import '../../utils/currency_formatter.dart';
+import '../../services/exchange_rate_service.dart';
 
 // Custom formatter to add commas while typing
 class ThousandsSeparatorInputFormatter extends TextInputFormatter {
@@ -109,8 +111,29 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
       _existingAccount = accounts.firstWhere((a) => a.id == widget.accountId);
 
       if (_existingAccount != null) {
+        // Get user's display currency
+        final settings = await RepositoryService.getSettings();
+        final displayCurrency = settings.currency;
+
+        // Use original currency/balance if available to avoid rounding errors
+        final double displayBalance;
+        if (_existingAccount!.originalCurrency != null &&
+            _existingAccount!.originalBalance != null &&
+            _existingAccount!.originalCurrency == displayCurrency) {
+          // Same currency - use original balance directly (no rounding!)
+          displayBalance = _existingAccount!.originalBalance!;
+        } else {
+          // Different currency or no original - convert from USD
+          final exchangeService = ExchangeRateService();
+          displayBalance = await exchangeService.convert(
+            _existingAccount!.balance,
+            'USD',
+            displayCurrency,
+          );
+        }
+
         _nameController.text = _existingAccount!.name;
-        _balanceController.text = _existingAccount!.balance.toString();
+        _balanceController.text = displayBalance.toStringAsFixed(2);
         _selectedAccountType = _existingAccount!.kind;
         _isLocked = _existingAccount!.isLocked;
         _pctCash = _existingAccount!.pctCash * 100;
@@ -152,12 +175,25 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
     try {
       _normalizeAllocations();
 
+      // Get user's display currency and convert to USD for storage
+      final settings = await RepositoryService.getSettings();
+      final displayCurrency = settings.currency;
+      final exchangeService = ExchangeRateService();
+
+      final balanceInDisplayCurrency =
+          double.parse(_balanceController.text.replaceAll(',', ''));
+      final balanceUSD = await exchangeService.convert(
+        balanceInDisplayCurrency,
+        displayCurrency,
+        'USD',
+      );
+
       final account = Account(
         id: widget.accountId ??
             DateTime.now().millisecondsSinceEpoch.toString(),
         name: _nameController.text.trim(),
         kind: _selectedAccountType,
-        balance: double.parse(_balanceController.text.replaceAll(',', '')),
+        balance: balanceUSD,
         pctCash: _pctCash / 100,
         pctBonds: _pctBonds / 100,
         pctUsEq: _pctUsEq / 100,
@@ -166,6 +202,9 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
         pctAlt: _pctAlt / 100,
         updatedAt: DateTime.now(),
         isLocked: _isLocked,
+        // Store original currency and balance to avoid rounding errors
+        originalCurrency: displayCurrency,
+        originalBalance: balanceInDisplayCurrency,
       );
 
       await ref.read(accountsProvider.notifier).addAccount(account);
@@ -199,6 +238,14 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final isEditing = widget.accountId != null;
+    final settingsAsync = ref.watch(settingsProvider);
+    final currencySymbol = settingsAsync.value != null
+        ? CurrencyFormatter.format(0, settingsAsync.value!.currency)
+            .replaceAll('0', '')
+            .replaceAll('.', '')
+            .replaceAll(',', '')
+            .trim()
+        : '\$';
 
     return Scaffold(
       appBar: AppBar(
@@ -340,11 +387,11 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: _balanceController,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Current Balance',
                           hintText: '0.00',
-                          border: OutlineInputBorder(),
-                          prefixText: '\$',
+                          border: const OutlineInputBorder(),
+                          prefixText: currencySymbol,
                         ),
                         keyboardType: const TextInputType.numberWithOptions(
                           decimal: true,

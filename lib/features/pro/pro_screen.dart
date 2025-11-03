@@ -6,15 +6,11 @@ import '../../app.dart';
 import '../../services/purchase_service.dart';
 import '../../data/models.dart';
 import '../../routes.dart' show AppRouter;
-import '../../utils/currency_formatter.dart';
+import '../../widgets/currency_text.dart';
 
 /// Outcome-focused Pro screen showing real financial impact
 class ProScreen extends ConsumerWidget {
   const ProScreen({super.key});
-
-  String _getCurrency(WidgetRef ref) {
-    return ref.watch(settingsProvider).value?.currency ?? 'USD';
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -503,7 +499,7 @@ class ProScreen extends ConsumerWidget {
     BuildContext context, {
     required IconData icon,
     required String title,
-    required String? personalizedValue,
+    required dynamic personalizedValue,
     required String genericOutcome,
     required String description,
     required Color color,
@@ -542,14 +538,35 @@ class ProScreen extends ConsumerWidget {
                           ),
                         ),
                         const SizedBox(height: 4),
-                        Text(
-                          personalizedValue ?? genericOutcome,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: color,
-                          ),
-                        ),
+                        personalizedValue is Map
+                            ? Row(
+                                children: [
+                                  Text(
+                                    personalizedValue['label'] as String,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: color,
+                                    ),
+                                  ),
+                                  CurrencyText(
+                                    personalizedValue['amount'] as double,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: color,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Text(
+                                personalizedValue as String? ?? genericOutcome,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: color,
+                                ),
+                              ),
                       ],
                     ),
                   ),
@@ -856,7 +873,6 @@ class ProScreen extends ConsumerWidget {
     List<Liability> liabilities,
     WidgetRef ref,
   ) {
-    final currency = _getCurrency(ref);
     final result = <String, dynamic>{
       'hasData': false,
       'heroText': '',
@@ -876,8 +892,10 @@ class ProScreen extends ConsumerWidget {
 
       if (estimatedSavings > 1000) {
         result['hasData'] = true;
-        result['debtSavings'] =
-            'Save est. ${CurrencyFormatter.format(estimatedSavings, currency)}';
+        result['debtSavings'] = {
+          'amount': estimatedSavings,
+          'label': 'Save est. ',
+        };
       }
     }
 
@@ -933,7 +951,8 @@ class ProScreen extends ConsumerWidget {
     if (result['hasData'] as bool) {
       final parts = <String>[];
       if (result['debtSavings'] != null) {
-        parts.add(result['debtSavings'] as String);
+        final debt = result['debtSavings'] as Map;
+        parts.add('${debt['label']}...'); // Simplified for hero text
       }
       if (result['concentrationRisk'] != null) {
         parts.add(result['concentrationRisk'] as String);

@@ -10,14 +10,11 @@ import '../../data/calculators/concentration.dart';
 import '../../data/calculators/homebias.dart';
 import '../../data/calculators/fixedincome.dart';
 import '../../data/calculators/debtload.dart';
+import '../../widgets/currency_text.dart';
 import '../../utils/currency_formatter.dart';
 
 class ReportsScreen extends ConsumerWidget {
   const ReportsScreen({super.key});
-
-  String _getCurrency(WidgetRef ref) {
-    return ref.watch(settingsProvider).value?.currency ?? 'USD';
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -156,15 +153,29 @@ class ReportsScreen extends ConsumerWidget {
                                   ),
                             ),
                             const SizedBox(height: 4),
-                            Text(
-                              'Total Assets: ${NumberFormat.currency(symbol: '\$', decimalDigits: 0).format(totalAssets)}',
-                              style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
+                            Row(
+                              children: [
+                                Text(
+                                  'Total Assets: ',
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                CurrencyText(
+                                  totalAssets,
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 4),
                             Text(
@@ -367,7 +378,6 @@ class ReportsScreen extends ConsumerWidget {
       Colors.teal, // Alternative
     ];
 
-    final currency = _getCurrency(ref);
     final keys = allocation.keys.toList();
 
     return Column(
@@ -407,8 +417,8 @@ class ReportsScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(width: 16),
-              Text(
-                CurrencyFormatter.format(value, currency),
+              CurrencyText(
+                value,
                 style: TextStyle(
                   fontSize: 16,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -688,6 +698,7 @@ class ReportsScreen extends ConsumerWidget {
     // Check Pro status first
     final settingsAsync = ref.watch(settingsProvider);
     final isPro = settingsAsync.value?.isPro ?? false;
+    final currency = settingsAsync.value?.currency ?? 'USD';
 
     // Plan math (6-month glide)
     const capPerBucket = 20.0; // 20% cap per bucket
@@ -854,7 +865,6 @@ class ReportsScreen extends ConsumerWidget {
     final toPrimary = (perMonth * 0.67).round();
     final toSecondary = perMonth - toPrimary;
 
-    final currency = _getCurrency(ref);
     final now = DateTime.now();
     final finish = DateTime(now.year, now.month + 6, now.day);
 
@@ -920,13 +930,36 @@ class ReportsScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Move ${CurrencyFormatter.format(perMonth.toDouble(), currency)}/mo',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        'Move ',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
+                        ),
+                      ),
+                      CurrencyText(
+                        perMonth.toDouble(),
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
+                        ),
+                      ),
+                      Text(
+                        '/mo',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 16),
 
@@ -943,15 +976,33 @@ class ReportsScreen extends ConsumerWidget {
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: Text(
-                          '${CurrencyFormatter.format(toPrimary.toDouble(), currency)} → $primaryDestination (target $primaryTarget%, now ${currentBonds.toStringAsFixed(1)}%)',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer,
-                          ),
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: CurrencyText(
+                                toPrimary.toDouble(),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer,
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Text(
+                                ' → $primaryDestination (target $primaryTarget%, now ${currentBonds.toStringAsFixed(1)}%)',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -972,15 +1023,33 @@ class ReportsScreen extends ConsumerWidget {
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: Text(
-                          '${CurrencyFormatter.format(toSecondary.toDouble(), currency)} → $secondaryDestination (target $secondaryTarget%, now ${currentIntl.toStringAsFixed(1)}%)',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer,
-                          ),
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: CurrencyText(
+                                toSecondary.toDouble(),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer,
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Text(
+                                ' → $secondaryDestination (target $secondaryTarget%, now ${currentIntl.toStringAsFixed(1)}%)',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -1092,6 +1161,7 @@ class ReportsScreen extends ConsumerWidget {
                         toSecondary,
                         primaryDestination,
                         secondaryDestination,
+                        currency,
                       ),
                       icon: const Icon(Icons.save, size: 18),
                       label: const Text('Save plan'),
@@ -1107,6 +1177,7 @@ class ReportsScreen extends ConsumerWidget {
                         toSecondary,
                         primaryDestination,
                         secondaryDestination,
+                        currency,
                       ),
                       icon: const Icon(Icons.picture_as_pdf, size: 18),
                       label: const Text('Preview PDF'),
@@ -1240,6 +1311,7 @@ class ReportsScreen extends ConsumerWidget {
     int toSecondary,
     String primaryDestination,
     String secondaryDestination,
+    String currency,
   ) {
     // Show success message
     ScaffoldMessenger.of(context).showSnackBar(
@@ -1256,7 +1328,7 @@ class ReportsScreen extends ConsumerWidget {
               builder: (context) => AlertDialog(
                 title: const Text('Plan Saved'),
                 content: Text(
-                  'Your 6-month rebalancing plan has been saved.\n\nMove \$${NumberFormat('#,###').format(toPrimary)}/mo to $primaryDestination and \$${NumberFormat('#,###').format(toSecondary)}/mo to $secondaryDestination.',
+                  'Your 6-month rebalancing plan has been saved.\n\nMove ${CurrencyFormatter.format(toPrimary.toDouble(), currency)}/mo to $primaryDestination and ${CurrencyFormatter.format(toSecondary.toDouble(), currency)}/mo to $secondaryDestination.',
                 ),
                 actions: [
                   TextButton(
@@ -1279,6 +1351,7 @@ class ReportsScreen extends ConsumerWidget {
     int toSecondary,
     String primaryDestination,
     String secondaryDestination,
+    String currency,
   ) {
     // Show PDF preview dialog
     showDialog(
@@ -1301,15 +1374,15 @@ class ReportsScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'Monthly Investment: \$${NumberFormat('#,###').format((toPrimary + toSecondary))}',
+              'Monthly Investment: ${CurrencyFormatter.format((toPrimary + toSecondary).toDouble(), currency)}',
             ),
             const SizedBox(height: 8),
             Text(
-              '• \$${NumberFormat('#,###').format(toPrimary)} → $primaryDestination',
+              '• ${CurrencyFormatter.format(toPrimary.toDouble(), currency)} → $primaryDestination',
             ),
             const SizedBox(height: 4),
             Text(
-              '• \$${NumberFormat('#,###').format(toSecondary)} → $secondaryDestination',
+              '• ${CurrencyFormatter.format(toSecondary.toDouble(), currency)} → $secondaryDestination',
             ),
             const SizedBox(height: 16),
             const Text(

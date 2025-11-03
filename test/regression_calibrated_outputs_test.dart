@@ -118,7 +118,7 @@ void main() {
     expect(concResult.score, closeTo(51, 1.0));
   });
 
-  test('muting home bias does not renormalize other contributions', () {
+  test('muting home bias removes its contribution from overall score', () {
     final accounts = [
       Account(
         id: 'a1',
@@ -152,11 +152,17 @@ void main() {
     );
 
     final resOff = FinancialHealthCalculator.calculateOverallHealth(
-        accounts, <Liability>[], settingsOff,);
+      accounts,
+      <Liability>[],
+      settingsOff,
+    );
     final resOn = FinancialHealthCalculator.calculateOverallHealth(
-        accounts, <Liability>[], settingsOn,);
+      accounts,
+      <Liability>[],
+      settingsOn,
+    );
 
-    // Home Bias score in 'off' mode becomes 100
+    // Home Bias score in 'off' mode becomes 100 (not scored)
     expect(resOff.componentScores['Home Bias'], 100);
 
     // Other component scores should be identical (no renormalization)

@@ -3,10 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:currency_picker/currency_picker.dart';
 import '../../app.dart';
 import '../../data/models.dart';
 import '../../theme.dart';
 import '../../utils/premium_helper.dart';
+import '../../utils/currency_formatter.dart';
+import '../../services/exchange_rate_service.dart';
 
 class TargetsScreen extends ConsumerWidget {
   const TargetsScreen({super.key});
@@ -70,7 +73,7 @@ class TargetsScreen extends ConsumerWidget {
                         return GestureDetector(
                           onTap: () => isLocked
                               ? _showColorThemeUpgrade(context, theme)
-                              : _updateColorTheme(ref, theme),
+                              : _updateTheme(ref, theme),
                           child: Container(
                             width: 80,
                             height: 80,
@@ -167,41 +170,42 @@ class TargetsScreen extends ConsumerWidget {
                       style: TextStyle(color: Colors.grey, fontSize: 14),
                     ),
                     const SizedBox(height: 16),
-                    DropdownButtonFormField<String>(
-                      value: settings.currency,
-                      decoration: InputDecoration(
-                        labelText: 'Select Currency',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                      ),
-                      items: const [
-                        DropdownMenuItem(
-                          value: 'USD',
-                          child: Text('🇺🇸 US Dollar (USD)'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'EUR',
-                          child: Text('🇪🇺 Euro (EUR)'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'INR',
-                          child: Text('🇮🇳 Indian Rupee (INR)'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'THB',
-                          child: Text('🇹🇭 Thai Baht (THB)'),
-                        ),
-                      ],
-                      onChanged: (value) {
-                        if (value != null) {
-                          _updateCurrency(ref, value);
-                        }
+                    OutlinedButton.icon(
+                      onPressed: () {
+                        showCurrencyPicker(
+                          context: context,
+                          showFlag: true,
+                          showCurrencyName: true,
+                          showCurrencyCode: true,
+                          onSelect: (Currency currency) {
+                            _updateCurrency(ref, currency.code);
+                          },
+                          favorite: ['USD', 'EUR', 'GBP', 'JPY', 'CNY'],
+                        );
                       },
+                      icon: Text(
+                        CurrencyFormatter.getCurrency(settings.currency)
+                                ?.flag ??
+                            '🌍',
+                        style: const TextStyle(fontSize: 24),
+                      ),
+                      label: Text(
+                        '${CurrencyFormatter.getCurrency(settings.currency)?.name ?? 'US Dollar'} (${settings.currency})',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 16,
+                        ),
+                        alignment: Alignment.centerLeft,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    // Currency Conversion Preview
+                    _CurrencyConversionPreview(
+                      baseCurrency: settings.baseCurrency,
+                      displayCurrency: settings.currency,
                     ),
                   ],
                 ),
@@ -318,7 +322,7 @@ class TargetsScreen extends ConsumerWidget {
                     subtitle: const Text('Legal terms and conditions'),
                     trailing: const Icon(Icons.open_in_new, size: 20),
                     onTap: () => _launchURL(
-                      'https://platinummorgan.github.io/rebalance/terms.html',
+                      'https://platinummorgan.github.io/rebalance/terms_of_service.html',
                     ),
                   ),
                 ],
@@ -422,7 +426,7 @@ class TargetsScreen extends ConsumerWidget {
     );
   }
 
-  void _updateColorTheme(WidgetRef ref, ColorTheme theme) {
+  void _updateTheme(WidgetRef ref, ColorTheme theme) {
     final settingsNotifier = ref.read(settingsProvider.notifier);
     final currentSettings = ref.read(settingsProvider).value;
     if (currentSettings != null) {
@@ -436,6 +440,26 @@ class TargetsScreen extends ConsumerWidget {
         biometricLockEnabled: currentSettings.biometricLockEnabled,
         darkModeEnabled: currentSettings.darkModeEnabled,
         colorTheme: theme,
+        liquidityBondHaircut: currentSettings.liquidityBondHaircut,
+        bucketCap: currentSettings.bucketCap,
+        employerStockThreshold: currentSettings.employerStockThreshold,
+        monthlyIncome: currentSettings.monthlyIncome,
+        incomeMultiplierFallback: currentSettings.incomeMultiplierFallback,
+        schemaVersion: currentSettings.schemaVersion,
+        concentrationRiskSnoozedUntil:
+            currentSettings.concentrationRiskSnoozedUntil,
+        concentrationRiskResolvedAt:
+            currentSettings.concentrationRiskResolvedAt,
+        homeCountry: currentSettings.homeCountry,
+        globalDiversificationMode: currentSettings.globalDiversificationMode,
+        intlTargetOverride: currentSettings.intlTargetOverride,
+        intlTolerancePct: currentSettings.intlTolerancePct,
+        intlFloorPct: currentSettings.intlFloorPct,
+        intlPenaltyScale: currentSettings.intlPenaltyScale,
+        financialHealthBaseline: currentSettings.financialHealthBaseline,
+        financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
+        currency: currentSettings.currency,
+        baseCurrency: currentSettings.baseCurrency,
       );
       settingsNotifier.updateSettings(updatedSettings);
     }
@@ -464,6 +488,26 @@ class TargetsScreen extends ConsumerWidget {
         biometricLockEnabled: currentSettings.biometricLockEnabled,
         darkModeEnabled: enabled,
         colorTheme: currentSettings.colorTheme,
+        liquidityBondHaircut: currentSettings.liquidityBondHaircut,
+        bucketCap: currentSettings.bucketCap,
+        employerStockThreshold: currentSettings.employerStockThreshold,
+        monthlyIncome: currentSettings.monthlyIncome,
+        incomeMultiplierFallback: currentSettings.incomeMultiplierFallback,
+        schemaVersion: currentSettings.schemaVersion,
+        concentrationRiskSnoozedUntil:
+            currentSettings.concentrationRiskSnoozedUntil,
+        concentrationRiskResolvedAt:
+            currentSettings.concentrationRiskResolvedAt,
+        homeCountry: currentSettings.homeCountry,
+        globalDiversificationMode: currentSettings.globalDiversificationMode,
+        intlTargetOverride: currentSettings.intlTargetOverride,
+        intlTolerancePct: currentSettings.intlTolerancePct,
+        intlFloorPct: currentSettings.intlFloorPct,
+        intlPenaltyScale: currentSettings.intlPenaltyScale,
+        financialHealthBaseline: currentSettings.financialHealthBaseline,
+        financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
+        currency: currentSettings.currency,
+        baseCurrency: currentSettings.baseCurrency,
       );
       settingsNotifier.updateSettings(updatedSettings);
     }
@@ -502,6 +546,7 @@ class TargetsScreen extends ConsumerWidget {
         financialHealthBaseline: currentSettings.financialHealthBaseline,
         financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
         currency: currency, // Update currency
+        baseCurrency: currentSettings.baseCurrency, // Preserve baseCurrency
       );
       settingsNotifier.updateSettings(updatedSettings);
     }
@@ -521,12 +566,26 @@ class TargetsScreen extends ConsumerWidget {
         biometricLockEnabled: currentSettings.biometricLockEnabled,
         darkModeEnabled: currentSettings.darkModeEnabled,
         colorTheme: currentSettings.colorTheme,
+        liquidityBondHaircut: currentSettings.liquidityBondHaircut,
+        bucketCap: currentSettings.bucketCap,
+        employerStockThreshold: currentSettings.employerStockThreshold,
+        monthlyIncome: currentSettings.monthlyIncome,
+        incomeMultiplierFallback: currentSettings.incomeMultiplierFallback,
+        schemaVersion: currentSettings.schemaVersion,
+        concentrationRiskSnoozedUntil:
+            currentSettings.concentrationRiskSnoozedUntil,
+        concentrationRiskResolvedAt:
+            currentSettings.concentrationRiskResolvedAt,
         homeCountry: currentSettings.homeCountry,
         globalDiversificationMode: mode,
+        intlTargetOverride: currentSettings.intlTargetOverride,
         intlTolerancePct: currentSettings.intlTolerancePct,
         intlFloorPct: currentSettings.intlFloorPct,
         intlPenaltyScale: currentSettings.intlPenaltyScale,
-        intlTargetOverride: currentSettings.intlTargetOverride,
+        financialHealthBaseline: currentSettings.financialHealthBaseline,
+        financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
+        currency: currentSettings.currency,
+        baseCurrency: currentSettings.baseCurrency,
       );
       settingsNotifier.updateSettings(updatedSettings);
     }
@@ -546,5 +605,168 @@ class TargetsScreen extends ConsumerWidget {
     } catch (e) {
       debugPrint('Error launching URL: $e');
     }
+  }
+}
+
+/// Widget that shows currency conversion preview for user's total assets
+class _CurrencyConversionPreview extends ConsumerWidget {
+  final String baseCurrency;
+  final String displayCurrency;
+
+  const _CurrencyConversionPreview({
+    required this.baseCurrency,
+    required this.displayCurrency,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final exchangeRateService = ref.watch(exchangeRateServiceProvider);
+    final accountsAsync = ref.watch(accountsProvider);
+
+    return accountsAsync.when(
+      loading: () => const SizedBox.shrink(),
+      error: (_, __) => const SizedBox.shrink(),
+      data: (accounts) {
+        final totalAssets = accounts.fold<double>(
+          0.0,
+          (sum, account) => sum + account.balance,
+        );
+
+        if (totalAssets == 0) {
+          return const SizedBox.shrink();
+        }
+
+        // If same currency, no need to show conversion
+        if (baseCurrency == displayCurrency) {
+          return const SizedBox.shrink();
+        }
+
+        return FutureBuilder<String>(
+          future: CurrencyFormatter.formatWithConversion(
+            totalAssets,
+            baseCurrency,
+            displayCurrency,
+            exchangeRateService,
+          ),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .primaryContainer
+                      .withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    const Text(
+                      'Converting currency...',
+                      style: TextStyle(fontSize: 13),
+                    ),
+                  ],
+                ),
+              );
+            }
+
+            final convertedAmount = snapshot.data!;
+            final baseAmount =
+                CurrencyFormatter.format(totalAssets, baseCurrency);
+
+            return Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Theme.of(context)
+                    .colorScheme
+                    .primaryContainer
+                    .withOpacity(0.3),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                  width: 1,
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.info_outline,
+                        size: 16,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Currency Conversion Preview',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Your Total Assets:',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '$baseAmount ($baseCurrency)',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.arrow_forward,
+                        size: 14,
+                        color: Colors.grey[600],
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        '$convertedAmount ($displayCurrency)',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    'Exchange rates update every 24 hours',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.grey[500],
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }

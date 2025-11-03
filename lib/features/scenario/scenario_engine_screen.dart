@@ -6,6 +6,8 @@ import '../../data/models.dart';
 import '../../services/monte_carlo.dart';
 import '../../routes.dart' show AppRouter;
 import '../../app.dart';
+import '../../utils/currency_formatter.dart';
+import '../../services/exchange_rate_service.dart';
 
 // --- Providers ---
 class ScenarioInputs {
@@ -65,12 +67,26 @@ final scenarioInputsProvider = Provider<ScenarioInputs>((ref) {
       ref.watch(_defaultScenarioInputsProvider);
 });
 
-final scenarioResultProvider = Provider<MonteCarloResult?>((ref) {
+final scenarioResultProvider = FutureProvider<MonteCarloResult?>((ref) async {
   final inputs = ref.watch(scenarioInputsProvider);
   final accountsAsync = ref.watch(accountsProvider);
+  final settings = ref.watch(settingsProvider).valueOrNull;
+  final baseCurrency = settings?.baseCurrency ?? 'USD';
+  final displayCurrency = settings?.currency ?? 'USD';
+
   return accountsAsync.maybeWhen(
-    data: (accounts) {
-      final starting = accounts.fold<double>(0, (s, a) => s + a.balance);
+    data: (accounts) async {
+      final baseBalance = accounts.fold<double>(0, (s, a) => s + a.balance);
+
+      // Convert balance if needed
+      double starting = baseBalance;
+      if (baseCurrency != displayCurrency) {
+        final exchangeService = ref.watch(exchangeRateServiceProvider);
+        final rate =
+            await exchangeService.getRate(baseCurrency, displayCurrency);
+        starting = baseBalance * rate;
+      }
+
       if (starting <= 0) return null;
       return MonteCarloEngine.run(
         startingBalance: starting,
@@ -82,7 +98,7 @@ final scenarioResultProvider = Provider<MonteCarloResult?>((ref) {
         simulations: 750,
       );
     },
-    orElse: () => null,
+    orElse: () async => null,
   );
 });
 
@@ -94,15 +110,29 @@ final _scenarioInputsBProvider = StateProvider<ScenarioInputs?>((ref) {
   return null;
 });
 
-final scenarioResultBProvider = Provider<MonteCarloResult?>((ref) {
+final scenarioResultBProvider = FutureProvider<MonteCarloResult?>((ref) async {
   final enabled = ref.watch(compareEnabledProvider);
   if (!enabled) return null;
   final inputsB = ref.watch(_scenarioInputsBProvider);
   if (inputsB == null) return null;
   final accountsAsync = ref.watch(accountsProvider);
+  final settings = ref.watch(settingsProvider).valueOrNull;
+  final baseCurrency = settings?.baseCurrency ?? 'USD';
+  final displayCurrency = settings?.currency ?? 'USD';
+
   return accountsAsync.maybeWhen(
-    data: (accounts) {
-      final starting = accounts.fold<double>(0, (s, a) => s + a.balance);
+    data: (accounts) async {
+      final baseBalance = accounts.fold<double>(0, (s, a) => s + a.balance);
+
+      // Convert balance if needed
+      double starting = baseBalance;
+      if (baseCurrency != displayCurrency) {
+        final exchangeService = ref.watch(exchangeRateServiceProvider);
+        final rate =
+            await exchangeService.getRate(baseCurrency, displayCurrency);
+        starting = baseBalance * rate;
+      }
+
       if (starting <= 0) return null;
       return MonteCarloEngine.run(
         startingBalance: starting,
@@ -114,7 +144,7 @@ final scenarioResultBProvider = Provider<MonteCarloResult?>((ref) {
         simulations: 750,
       );
     },
-    orElse: () => null,
+    orElse: () async => null,
   );
 });
 
@@ -132,8 +162,12 @@ class _ComparisonDeltas {
 }
 
 final scenarioComparisonDeltasProvider = Provider<_ComparisonDeltas?>((ref) {
-  final a = ref.watch(scenarioResultProvider);
-  final b = ref.watch(scenarioResultBProvider);
+  final aAsync = ref.watch(scenarioResultProvider);
+  final bAsync = ref.watch(scenarioResultBProvider);
+
+  final a = aAsync.valueOrNull;
+  final b = bAsync.valueOrNull;
+
   if (a == null || b == null) return null;
   return _ComparisonDeltas(
     successDelta: b.successProbability - a.successProbability,
@@ -217,11 +251,10 @@ class _ScenarioBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final inputs = ref.watch(scenarioInputsProvider);
-    final result = ref.watch(scenarioResultProvider);
+    final resultAsync = ref.watch(scenarioResultProvider);
     final compareEnabled = ref.watch(compareEnabledProvider);
-    final resultB = ref.watch(scenarioResultBProvider);
+    final resultBAsync = ref.watch(scenarioResultBProvider);
     final deltas = ref.watch(scenarioComparisonDeltasProvider);
-    // Removed unused currency variable
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -244,7 +277,17 @@ class _ScenarioBody extends ConsumerWidget {
                           inputs.copyWith();
                     },
                   ),
-                  if (result != null) _ResultsCard(result: result, label: 'A'),
+                  resultAsync.when(
+                    data: (result) => result != null
+                        ? _ResultsCard(result: result, label: 'A')
+                        : const SizedBox(),
+                    loading: () => const SizedBox(
+                      width: 360,
+                      height: 200,
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
+                    error: (_, __) => const SizedBox(),
+                  ),
                   if (compareEnabled)
                     _InputCard(
                       inputs: ref.watch(_scenarioInputsBProvider) ?? inputs,
@@ -259,8 +302,18 @@ class _ScenarioBody extends ConsumerWidget {
                           .read(_scenarioInputsBProvider.notifier)
                           .state = updated,
                     ),
-                  if (resultB != null)
-                    _ResultsCard(result: resultB, label: 'B'),
+                  if (compareEnabled)
+                    resultBAsync.when(
+                      data: (resultB) => resultB != null
+                          ? _ResultsCard(result: resultB, label: 'B')
+                          : const SizedBox(),
+                      loading: () => const SizedBox(
+                        width: 360,
+                        height: 200,
+                        child: Center(child: CircularProgressIndicator()),
+                      ),
+                      error: (_, __) => const SizedBox(),
+                    ),
                   if (deltas != null)
                     _DeltaCard(
                       deltas: deltas,
@@ -268,11 +321,17 @@ class _ScenarioBody extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 24),
-              if (result != null)
-                _DistributionPreview(
-                  result: result,
-                  altResult: resultB,
-                ),
+              resultAsync.when(
+                data: (result) {
+                  if (result == null) return const SizedBox();
+                  return _DistributionPreview(
+                    result: result,
+                    altResult: resultBAsync.valueOrNull,
+                  );
+                },
+                loading: () => const SizedBox(),
+                error: (_, __) => const SizedBox(),
+              ),
             ],
           ),
         );
@@ -299,7 +358,12 @@ class _InputCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formatter = NumberFormat.compactCurrency(symbol: '\$');
+    final settingsAsync = ref.watch(settingsProvider);
+    final currency = settingsAsync.maybeWhen(
+      data: (settings) => settings.currency,
+      orElse: () => 'USD',
+    );
+
     return SizedBox(
       width: 360,
       child: Card(
@@ -338,7 +402,7 @@ class _InputCard extends ConsumerWidget {
                 value: inputs.monthlyContribution,
                 min: 50,
                 max: 5000,
-                format: (v) => formatter.format(v),
+                format: (v) => CurrencyFormatter.format(v, currency),
                 onChanged: (v) {
                   final updated =
                       inputs.copyWith(monthlyContribution: v.roundToDouble());
@@ -399,7 +463,7 @@ class _InputCard extends ConsumerWidget {
                 value: inputs.goalAmount,
                 min: 20000,
                 max: 2000000,
-                format: (v) => formatter.format(v),
+                format: (v) => CurrencyFormatter.format(v, currency),
                 onChanged: (v) {
                   final updated =
                       inputs.copyWith(goalAmount: v.roundToDouble());
@@ -451,15 +515,16 @@ class _InputCard extends ConsumerWidget {
   }
 }
 
-class _ResultsCard extends StatelessWidget {
+class _ResultsCard extends ConsumerWidget {
   final MonteCarloResult result;
   final String label; // A or B
   const _ResultsCard({required this.result, this.label = ''});
 
   @override
-  Widget build(BuildContext context) {
-    final currency =
-        NumberFormat.compactCurrency(symbol: '\$', decimalDigits: 0);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.watch(settingsProvider).valueOrNull;
+    if (settings == null) return const SizedBox();
+    final currency = settings.currency;
     final pct = NumberFormat.percentPattern();
     return SizedBox(
       width: 360,
@@ -479,9 +544,18 @@ class _ResultsCard extends StatelessWidget {
                 'Success Probability',
                 pct.format(result.successProbability),
               ),
-              _statRow('Median Ending', currency.format(result.medianEnding)),
-              _statRow('10th Percentile', currency.format(result.p10Ending)),
-              _statRow('90th Percentile', currency.format(result.p90Ending)),
+              _statRow(
+                'Median Ending',
+                CurrencyFormatter.format(result.medianEnding, currency),
+              ),
+              _statRow(
+                '10th Percentile',
+                CurrencyFormatter.format(result.p10Ending, currency),
+              ),
+              _statRow(
+                '90th Percentile',
+                CurrencyFormatter.format(result.p90Ending, currency),
+              ),
               const SizedBox(height: 12),
               Text(
                 'Simulations: ${result.simulations}\nYears: ${result.years}',
@@ -611,19 +685,21 @@ class _DistributionPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
 
-class _DeltaCard extends StatelessWidget {
+class _DeltaCard extends ConsumerWidget {
   final _ComparisonDeltas deltas;
   const _DeltaCard({required this.deltas});
 
   String _fmtPct(double v) =>
       '${(v * 100).toStringAsFixed(v.abs() < 0.01 ? 2 : 1)}%';
-  String _fmtCurrency(double v) {
-    final f = NumberFormat.compactCurrency(symbol: '\$', decimalDigits: 0);
-    return f.format(v.abs()) * (v < 0 ? -1 : 1);
+  String _fmtCurrency(double v, String currency) {
+    return CurrencyFormatter.format(v.abs() * (v < 0 ? -1 : 1), currency);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.watch(settingsProvider).valueOrNull;
+    if (settings == null) return const SizedBox();
+    final currency = settings.currency;
     Color colorFor(double v) =>
         v >= 0 ? Colors.green.shade600 : Theme.of(context).colorScheme.error;
     return SizedBox(
@@ -646,17 +722,17 @@ class _DeltaCard extends StatelessWidget {
               ),
               _row(
                 'Median',
-                _fmtCurrency(deltas.medianDelta),
+                _fmtCurrency(deltas.medianDelta, currency),
                 colorFor(deltas.medianDelta),
               ),
               _row(
                 'P10',
-                _fmtCurrency(deltas.p10Delta),
+                _fmtCurrency(deltas.p10Delta, currency),
                 colorFor(deltas.p10Delta),
               ),
               _row(
                 'P90',
-                _fmtCurrency(deltas.p90Delta),
+                _fmtCurrency(deltas.p90Delta, currency),
                 colorFor(deltas.p90Delta),
               ),
             ],

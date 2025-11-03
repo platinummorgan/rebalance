@@ -14,6 +14,7 @@ import '../../data/snapshot_service.dart';
 import '../../data/calculators/financial_health.dart';
 import '../../data/calculators/allocation.dart';
 import '../../utils/currency_formatter.dart';
+import '../../widgets/currency_text.dart';
 
 import '../../app.dart';
 import '../../utils/csv_exporter.dart';
@@ -847,7 +848,7 @@ class DashboardScreen extends ConsumerWidget {
                 final navigator = Navigator.of(context);
                 final messenger = ScaffoldMessenger.of(context);
                 navigator.pop();
-                await _loadSampleData(ref);
+                await _loadSampleData(context, ref);
                 messenger.showSnackBar(
                   const SnackBar(content: Text('Sample data loaded!')),
                 );
@@ -860,7 +861,7 @@ class DashboardScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _loadSampleData(WidgetRef ref) async {
+  Future<void> _loadSampleData(BuildContext context, WidgetRef ref) async {
     // Create sample accounts
     final sampleAccounts = [
       Account(
@@ -987,6 +988,34 @@ class DashboardScreen extends ConsumerWidget {
       ),
     ];
 
+    // Create sample income sources
+    final sampleIncomes = [
+      Income(
+        id: 'sample_salary',
+        name: 'Main Job Salary',
+        kind: 'Salary',
+        grossAmount: 6500.0,
+        frequency: 'Monthly',
+        updatedAt: DateTime.now(),
+        federalTax: 1100.0,
+        stateTax: 325.0,
+        socialSecurityTax: 403.0,
+        medicareTax: 94.25,
+        retirement401k: 650.0,
+        healthInsurance: 250.0,
+        otherDeductions: 75.0,
+      ),
+      Income(
+        id: 'sample_freelance',
+        name: 'Freelance Work',
+        kind: 'Freelance',
+        grossAmount: 1200.0,
+        frequency: 'Monthly',
+        updatedAt: DateTime.now(),
+        // No deductions for freelance - user handles taxes
+      ),
+    ];
+
     // Save to repositories
     for (final account in sampleAccounts) {
       await RepositoryService.saveAccount(account);
@@ -996,9 +1025,17 @@ class DashboardScreen extends ConsumerWidget {
       await RepositoryService.saveLiability(liability);
     }
 
+    for (final income in sampleIncomes) {
+      await RepositoryService.saveIncome(income);
+    }
+
     // Refresh the providers to update the UI
-    ref.read(accountsProvider.notifier).reload();
-    ref.read(liabilitiesProvider.notifier).reload();
+    // Check if widget is still mounted before using ref
+    if (context.mounted) {
+      ref.read(accountsProvider.notifier).reload();
+      ref.read(liabilitiesProvider.notifier).reload();
+      ref.read(incomesProvider.notifier).reload();
+    }
   }
 
   Widget _buildAllocationSection(
@@ -1293,7 +1330,7 @@ class DashboardScreen extends ConsumerWidget {
             value: value,
             // Use one decimal to match the legend formatting
             title: percentage > 5 ? '${percentage.toStringAsFixed(1)}%' : '',
-            radius: 30,
+            radius: 45, // Increased from 30 for wider color sections
             titleStyle: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,
@@ -1311,7 +1348,7 @@ class DashboardScreen extends ConsumerWidget {
           PieChartData(
             sections: sections,
             sectionsSpace: 2,
-            centerSpaceRadius: 50,
+            centerSpaceRadius: 70, // Increased from 50 for larger center area
             startDegreeOffset: -90,
           ),
         ),
@@ -1923,9 +1960,9 @@ class DashboardScreen extends ConsumerWidget {
       data: (snapshots) {
         return _buildNetWorthCardWithData(
           context,
+          ref,
           totalAssets,
           accounts.length,
-          currency,
           snapshots,
         );
       },
@@ -2030,8 +2067,8 @@ class DashboardScreen extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  CurrencyFormatter.format(totalAssets, currency),
+                CurrencyText(
+                  totalAssets,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 36,
@@ -2083,14 +2120,13 @@ class DashboardScreen extends ConsumerWidget {
 
   Widget _buildNetWorthCardWithData(
     BuildContext context,
+    WidgetRef ref,
     double totalAssets,
     int accountCount,
-    String currency,
     List<Snapshot> snapshots,
   ) {
     // Calculate 30-day delta
-    double deltaAmount = 0.0;
-    String deltaText = '';
+    double? deltaAmount;
 
     if (snapshots.isNotEmpty) {
       // Find snapshot from ~30 days ago
@@ -2100,11 +2136,11 @@ class DashboardScreen extends ConsumerWidget {
 
       if (oldSnapshot != null) {
         deltaAmount = totalAssets - oldSnapshot.netWorth;
-        final isPositive = deltaAmount >= 0;
-        deltaText =
-            '${isPositive ? '+' : ''}${CurrencyFormatter.format(deltaAmount, currency)} (30d)';
       }
     }
+
+    final hasDelta = deltaAmount != null;
+    final deltaValue = deltaAmount ?? 0.0;
 
     return Container(
       margin: const EdgeInsets.all(16),
@@ -2159,8 +2195,8 @@ class DashboardScreen extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  CurrencyFormatter.format(totalAssets, currency),
+                CurrencyText(
+                  totalAssets,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 36,
@@ -2169,13 +2205,13 @@ class DashboardScreen extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                if (deltaText.isNotEmpty)
+                if (hasDelta)
                   Row(
                     children: [
                       Text(
-                        deltaAmount >= 0 ? '▲' : '▼',
+                        deltaValue >= 0 ? '▲' : '▼',
                         style: TextStyle(
-                          color: deltaAmount >= 0
+                          color: deltaValue >= 0
                               ? Colors.lightGreenAccent
                               : Colors.red.shade300,
                           fontSize: 16,
@@ -2183,9 +2219,20 @@ class DashboardScreen extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(width: 6),
-                      Text(
-                        deltaText,
+                      CurrencyText(
+                        deltaValue,
+                        showSign: true,
+                        useAbsoluteValue: true,
                         style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      const Text(
+                        '(30d)',
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -4741,7 +4788,9 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
                                   children: [
                                     Text(
                                       CurrencyFormatter.format(
-                                          snapshot.netWorth, currency),
+                                        snapshot.netWorth,
+                                        currency,
+                                      ),
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16,
@@ -5161,7 +5210,9 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
                         children: [
                           Text(
                             CurrencyFormatter.format(
-                                snapshot.netWorth, _currency),
+                              snapshot.netWorth,
+                              _currency,
+                            ),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -5380,7 +5431,9 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
                     children: [
                       Text(
                         CurrencyFormatter.format(
-                            isLiability ? value : value, currency),
+                          isLiability ? value : value,
+                          currency,
+                        ),
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
@@ -5416,10 +5469,11 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
   // ...existing code...
 
   Widget _buildDeltaText(double delta) {
-    final isPositive = delta >= 0;
-
-    return Text(
-      '${isPositive ? '+' : '−'}${CurrencyFormatter.formatCompact(delta.abs(), _currency)}',
+    return CurrencyText(
+      delta,
+      compact: true,
+      showSign: true,
+      useAbsoluteValue: true,
       style: TextStyle(
         fontSize: 11,
         color: Theme.of(context)

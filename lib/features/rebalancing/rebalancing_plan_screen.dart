@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../data/models.dart';
 import '../../app.dart';
-import '../../utils/currency_formatter.dart';
+import '../../widgets/currency_text.dart';
 
 /// Interactive Pro-only rebalancing plan builder with customization and tracking
 class RebalancingPlanScreen extends ConsumerStatefulWidget {
@@ -16,8 +16,6 @@ class RebalancingPlanScreen extends ConsumerStatefulWidget {
 }
 
 class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
-  String get _currency => ref.watch(settingsProvider).value?.currency ?? 'USD';
-
   // User-customizable settings
   int _glideLengthMonths = 6; // 3, 6, or 12 months
   String _strategy = 'dollar-cost'; // 'dollar-cost' or 'immediate'
@@ -351,12 +349,43 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    '${CurrencyFormatter.format(lockedAssets, _currency)} in retirement/locked accounts can\'t be moved. Plan shows only actionable moves from your ${CurrencyFormatter.format(unlockedAssets, _currency)} in unlocked accounts.',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.blue.shade800,
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Wrap(
+                          children: [
+                            CurrencyText(
+                              lockedAssets,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.blue.shade800,
+                              ),
+                            ),
+                            Text(
+                              ' in retirement/locked accounts can\'t be moved. Plan shows only actionable moves from your ',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.blue.shade800,
+                              ),
+                            ),
+                            CurrencyText(
+                              unlockedAssets,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.blue.shade800,
+                              ),
+                            ),
+                            Text(
+                              ' in unlocked accounts.',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.blue.shade800,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                   if (unlockedAssets == 0) ...[
                     const SizedBox(height: 8),
@@ -637,8 +666,8 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                     ),
               ),
               const SizedBox(height: 12),
-              Text(
-                CurrencyFormatter.format(totalToMove, _currency),
+              CurrencyText(
+                totalToMove,
                 style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
@@ -664,23 +693,50 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                     ),
               ),
               const SizedBox(height: 12),
-              Text(
-                '${CurrencyFormatter.format(perMonth, _currency)}/mo',
-                style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CurrencyText(
+                    perMonth,
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    ),
+                  ),
+                  Text(
+                    '/mo',
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 4),
-              Text(
-                'Over $_glideLengthMonths months • Total: ${CurrencyFormatter.format(totalToMove, _currency)}',
-                style: TextStyle(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onPrimaryContainer
-                      .withValues(alpha: 0.8),
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Over $_glideLengthMonths months • Total: ',
+                    style: TextStyle(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onPrimaryContainer
+                          .withValues(alpha: 0.8),
+                    ),
+                  ),
+                  CurrencyText(
+                    totalToMove,
+                    style: TextStyle(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onPrimaryContainer
+                          .withValues(alpha: 0.8),
+                    ),
+                  ),
+                ],
               ),
             ],
 
@@ -707,14 +763,31 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: Text(
-                        '${CurrencyFormatter.format(amount, _currency)}${_strategy == 'dollar-cost' ? '/mo' : ''} → ${m['destination']}',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
-                        ),
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: CurrencyText(
+                              amount,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            '${_strategy == 'dollar-cost' ? '/mo' : ''} → ${m['destination']}',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -885,11 +958,23 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                     decoration: isChecked ? TextDecoration.lineThrough : null,
                   ),
                 ),
-                subtitle: Text(
-                  'Transfer ${CurrencyFormatter.format(perMonth, _currency)}',
-                  style: TextStyle(
-                    decoration: isChecked ? TextDecoration.lineThrough : null,
-                  ),
+                subtitle: Row(
+                  children: [
+                    Text(
+                      'Transfer ',
+                      style: TextStyle(
+                        decoration:
+                            isChecked ? TextDecoration.lineThrough : null,
+                      ),
+                    ),
+                    CurrencyText(
+                      perMonth,
+                      style: TextStyle(
+                        decoration:
+                            isChecked ? TextDecoration.lineThrough : null,
+                      ),
+                    ),
+                  ],
                 ),
                 controlAffinity: ListTileControlAffinity.leading,
                 contentPadding: EdgeInsets.zero,

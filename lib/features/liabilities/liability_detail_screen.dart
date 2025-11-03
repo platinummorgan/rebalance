@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import '../../data/models.dart';
 import '../../data/repositories.dart';
 import '../../app.dart';
+import '../../utils/currency_formatter.dart';
+import '../../services/exchange_rate_service.dart';
 
 // Custom formatter to add commas while typing
 class ThousandsSeparatorInputFormatter extends TextInputFormatter {
@@ -159,11 +161,53 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
           liabilities.firstWhere((l) => l.id == widget.liabilityId);
 
       if (_existingLiability != null) {
+        // Get user's display currency
+        final settings = await RepositoryService.getSettings();
+        final displayCurrency = settings.currency;
+        final exchangeService = ExchangeRateService();
+
+        // Use original values if available to avoid rounding errors
+        final double displayBalance;
+        final double displayMinPayment;
+        final double? displayCreditLimit;
+
+        if (_existingLiability!.originalCurrency != null &&
+            _existingLiability!.originalCurrency == displayCurrency &&
+            _existingLiability!.originalBalance != null) {
+          // Same currency - use original values directly (no rounding!)
+          displayBalance = _existingLiability!.originalBalance!;
+          displayMinPayment = _existingLiability!.originalMinPayment ?? 0;
+          displayCreditLimit = _existingLiability!.originalCreditLimit;
+        } else {
+          // Different currency or no original - convert from USD
+          displayBalance = await exchangeService.convert(
+            _existingLiability!.balance,
+            'USD',
+            displayCurrency,
+          );
+
+          displayMinPayment = await exchangeService.convert(
+            _existingLiability!.minPayment,
+            'USD',
+            displayCurrency,
+          );
+
+          if (_existingLiability!.creditLimit != null) {
+            displayCreditLimit = await exchangeService.convert(
+              _existingLiability!.creditLimit!,
+              'USD',
+              displayCurrency,
+            );
+          } else {
+            displayCreditLimit = null;
+          }
+        }
+
         _nameController.text = _existingLiability!.name;
-        _balanceController.text = _existingLiability!.balance.toString();
+        _balanceController.text = displayBalance.toStringAsFixed(2);
         // Format APR for display (e.g. 3.75, not 3.759999999999999)
         _aprController.text = formatAprPercent(_existingLiability!.apr);
-        _minPaymentController.text = _existingLiability!.minPayment.toString();
+        _minPaymentController.text = displayMinPayment.toStringAsFixed(2);
         _selectedLiabilityType = _existingLiability!.kind;
         _selectedDueDate = _existingLiability!.nextPaymentDate;
         _selectedDayOfMonth = _existingLiability!.dayOfMonth ?? 15;
@@ -171,9 +215,8 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
         if (_selectedDayOfMonth < 1) _selectedDayOfMonth = 1;
         if (_selectedDayOfMonth > 31) _selectedDayOfMonth = 31;
 
-        if (_existingLiability!.creditLimit != null) {
-          _creditLimitController.text =
-              _existingLiability!.creditLimit.toString();
+        if (displayCreditLimit != null) {
+          _creditLimitController.text = displayCreditLimit.toStringAsFixed(2);
         }
 
         setState(() {});
@@ -193,6 +236,39 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
     setState(() => _isLoading = true);
 
     try {
+      // Get user's display currency and convert to USD for storage
+      final settings = await RepositoryService.getSettings();
+      final displayCurrency = settings.currency;
+      final exchangeService = ExchangeRateService();
+
+      final balanceInDisplayCurrency =
+          double.parse(_balanceController.text.replaceAll(',', ''));
+      final balanceUSD = await exchangeService.convert(
+        balanceInDisplayCurrency,
+        displayCurrency,
+        'USD',
+      );
+
+      final minPaymentInDisplayCurrency =
+          double.parse(_minPaymentController.text.replaceAll(',', ''));
+      final minPaymentUSD = await exchangeService.convert(
+        minPaymentInDisplayCurrency,
+        displayCurrency,
+        'USD',
+      );
+
+      double? creditLimitUSD;
+      if (_selectedLiabilityType == 'creditCard' &&
+          _creditLimitController.text.isNotEmpty) {
+        final creditLimitInDisplayCurrency =
+            double.parse(_creditLimitController.text.replaceAll(',', ''));
+        creditLimitUSD = await exchangeService.convert(
+          creditLimitInDisplayCurrency,
+          displayCurrency,
+          'USD',
+        );
+      }
+
       // Use selected due date or set default for new liabilities
       final now = DateTime.now();
       final dueDate = _selectedDueDate ??
@@ -203,18 +279,22 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
             DateTime.now().millisecondsSinceEpoch.toString(),
         name: _nameController.text.trim(),
         kind: _selectedLiabilityType,
-        balance: double.parse(_balanceController.text.replaceAll(',', '')),
+        balance: balanceUSD,
         apr: double.parse(_aprController.text) / 100,
-        minPayment:
-            double.parse(_minPaymentController.text.replaceAll(',', '')),
-        creditLimit: _selectedLiabilityType == 'creditCard' &&
-                _creditLimitController.text.isNotEmpty
-            ? double.parse(_creditLimitController.text.replaceAll(',', ''))
-            : null,
+        minPayment: minPaymentUSD,
+        creditLimit: creditLimitUSD,
         nextPaymentDate: dueDate,
         paymentFrequencyDays: 30, // Monthly payments by default
         dayOfMonth: _selectedDayOfMonth,
         updatedAt: DateTime.now(),
+        // Store original currency and values to avoid rounding errors
+        originalCurrency: displayCurrency,
+        originalBalance: balanceInDisplayCurrency,
+        originalMinPayment: minPaymentInDisplayCurrency,
+        originalCreditLimit: _selectedLiabilityType == 'creditCard' &&
+                _creditLimitController.text.isNotEmpty
+            ? double.parse(_creditLimitController.text.replaceAll(',', ''))
+            : null,
       );
 
       await ref.read(liabilitiesProvider.notifier).addLiability(liability);
@@ -266,6 +346,14 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
   Widget build(BuildContext context) {
     final isEditing = widget.liabilityId != null;
     final isCreditCard = _selectedLiabilityType == 'creditCard';
+    final settingsAsync = ref.watch(settingsProvider);
+    final currencySymbol = settingsAsync.value != null
+        ? CurrencyFormatter.format(0, settingsAsync.value!.currency)
+            .replaceAll('0', '')
+            .replaceAll('.', '')
+            .replaceAll(',', '')
+            .trim()
+        : '\$';
 
     // Guard: ensure selected day is valid & represented in dropdown items.
     // (Previously list limited to 28 days; if a stored value 29-31 existed it triggered assertion.)
@@ -344,11 +432,11 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: _balanceController,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Current Balance',
                           hintText: '0.00',
-                          border: OutlineInputBorder(),
-                          prefixText: '\$',
+                          border: const OutlineInputBorder(),
+                          prefixText: currencySymbol,
                         ),
                         keyboardType: const TextInputType.numberWithOptions(
                           decimal: true,
@@ -373,11 +461,11 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                         const SizedBox(height: 16),
                         TextFormField(
                           controller: _creditLimitController,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: 'Credit Limit',
                             hintText: '0.00',
-                            border: OutlineInputBorder(),
-                            prefixText: '\$',
+                            border: const OutlineInputBorder(),
+                            prefixText: currencySymbol,
                           ),
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,
@@ -441,11 +529,11 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                           Expanded(
                             child: TextFormField(
                               controller: _minPaymentController,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 labelText: 'Minimum Payment',
                                 hintText: '0.00',
-                                border: OutlineInputBorder(),
-                                prefixText: '\$',
+                                border: const OutlineInputBorder(),
+                                prefixText: currencySymbol,
                               ),
                               keyboardType:
                                   const TextInputType.numberWithOptions(

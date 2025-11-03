@@ -134,6 +134,13 @@ class Account extends HiveObject {
   bool
       isLocked; // Can't be rebalanced (401k, pension, locked retirement accounts)
 
+  // Original currency tracking (to avoid rounding errors)
+  @HiveField(13)
+  String? originalCurrency; // The currency used when this account was entered
+
+  @HiveField(14)
+  double? originalBalance; // The original balance in original currency
+
   Account({
     required this.id,
     required this.name,
@@ -148,6 +155,8 @@ class Account extends HiveObject {
     required this.updatedAt,
     this.employerStockPct = 0.0,
     this.isLocked = false,
+    this.originalCurrency,
+    this.originalBalance,
   });
 
   double get totalAllocation =>
@@ -287,6 +296,19 @@ class Liability extends HiveObject {
   @HiveField(10)
   int? dayOfMonth; // For monthly payments, which day (e.g., 15th)
 
+  // Original currency tracking (to avoid rounding errors)
+  @HiveField(11)
+  String? originalCurrency; // The currency used when this liability was entered
+
+  @HiveField(12)
+  double? originalBalance; // The original balance in original currency
+
+  @HiveField(13)
+  double? originalMinPayment; // The original minPayment in original currency
+
+  @HiveField(14)
+  double? originalCreditLimit; // The original creditLimit in original currency
+
   Liability({
     required this.id,
     required this.name,
@@ -299,6 +321,10 @@ class Liability extends HiveObject {
     this.nextPaymentDate,
     this.paymentFrequencyDays,
     this.dayOfMonth,
+    this.originalCurrency,
+    this.originalBalance,
+    this.originalMinPayment,
+    this.originalCreditLimit,
   });
 
   double get creditUtilization =>
@@ -450,7 +476,10 @@ class Settings extends HiveObject {
       financialHealthGlobalScale; // global damping applied to per-dial impacts
 
   @HiveField(25)
-  String currency; // Currency code: 'USD', 'EUR', 'INR', 'THB'
+  String currency; // Display currency code: 'USD', 'EUR', 'INR', 'THB', etc.
+
+  @HiveField(26, defaultValue: 'USD')
+  String baseCurrency; // Base currency for stored amounts (typically 'USD')
 
   Settings({
     required this.riskBand,
@@ -471,14 +500,17 @@ class Settings extends HiveObject {
     this.concentrationRiskSnoozedUntil, // Alert snooze timestamp
     this.concentrationRiskResolvedAt, // Concentration % when marked resolved
     this.homeCountry = 'US',
-    this.globalDiversificationMode = 'standard',
+    this.globalDiversificationMode =
+        'off', // Default to off - most users don't have international exposure
     this.intlTargetOverride,
     this.intlTolerancePct = 0.05,
     this.intlFloorPct = 60.0,
     this.intlPenaltyScale = 60.0,
     this.financialHealthBaseline = 75.0,
     this.financialHealthGlobalScale = 0.6,
-    this.currency = 'USD', // Default to USD
+    this.currency = 'USD', // Default display currency to USD
+    this.baseCurrency =
+        'USD', // Default base currency to USD (all amounts stored in USD)
   });
 
   // Target bond allocation based on risk band
@@ -711,5 +743,175 @@ class Payment extends HiveObject {
   String toString() {
     return 'Payment(id: $id, liabilityId: $liabilityId, amount: $amount, '
         'paymentType: $paymentType, paidDate: $paidDate)';
+  }
+}
+
+// ============================================================================
+// Income Model
+// ============================================================================
+
+@HiveType(typeId: 11)
+class Income extends HiveObject {
+  @HiveField(0)
+  late String id;
+
+  @HiveField(1)
+  late String name; // "Primary Salary", "Side Business", "Rental Income"
+
+  @HiveField(2)
+  late String
+      kind; // salary, business, rental, investment, pension, socialSecurity, alimony, childSupport, other
+
+  @HiveField(3)
+  late double grossAmount; // Before any deductions
+
+  @HiveField(4)
+  late String frequency; // monthly, biweekly, weekly, annual, quarterly
+
+  @HiveField(5)
+  late DateTime updatedAt;
+
+  // Tax & Deductions (optional for detailed tracking)
+  @HiveField(6)
+  double? federalTax;
+
+  @HiveField(7)
+  double? stateTax;
+
+  @HiveField(8)
+  double? socialSecurityTax;
+
+  @HiveField(9)
+  double? medicareTax;
+
+  @HiveField(10)
+  double? retirement401k; // Pre-tax retirement contributions
+
+  @HiveField(11)
+  double? healthInsurance;
+
+  @HiveField(12)
+  double? otherDeductions;
+
+  // Original currency tracking (to avoid rounding errors)
+  @HiveField(13)
+  String? originalCurrency; // The currency used when this income was entered
+
+  @HiveField(14)
+  double? originalAmount; // The original amount in original currency
+
+  Income({
+    required this.id,
+    required this.name,
+    required this.kind,
+    required this.grossAmount,
+    required this.frequency,
+    required this.updatedAt,
+    this.federalTax,
+    this.stateTax,
+    this.socialSecurityTax,
+    this.medicareTax,
+    this.retirement401k,
+    this.healthInsurance,
+    this.otherDeductions,
+    this.originalCurrency,
+    this.originalAmount,
+  });
+
+  // Computed properties
+  double get totalDeductions =>
+      (federalTax ?? 0) +
+      (stateTax ?? 0) +
+      (socialSecurityTax ?? 0) +
+      (medicareTax ?? 0) +
+      (retirement401k ?? 0) +
+      (healthInsurance ?? 0) +
+      (otherDeductions ?? 0);
+
+  double get netAmount => grossAmount - totalDeductions;
+
+  // Convert to monthly for consistent calculations
+  double get monthlyGross {
+    switch (frequency) {
+      case 'monthly':
+        return grossAmount;
+      case 'biweekly':
+        return grossAmount * 26 / 12;
+      case 'weekly':
+        return grossAmount * 52 / 12;
+      case 'annual':
+        return grossAmount / 12;
+      case 'quarterly':
+        return grossAmount * 4 / 12;
+      default:
+        return grossAmount;
+    }
+  }
+
+  double get monthlyNet {
+    switch (frequency) {
+      case 'monthly':
+        return netAmount;
+      case 'biweekly':
+        return netAmount * 26 / 12;
+      case 'weekly':
+        return netAmount * 52 / 12;
+      case 'annual':
+        return netAmount / 12;
+      case 'quarterly':
+        return netAmount * 4 / 12;
+      default:
+        return netAmount;
+    }
+  }
+
+  // Yearly amounts
+  double get annualGross => monthlyGross * 12;
+  double get annualNet => monthlyNet * 12;
+
+  // Effective tax rate
+  double get effectiveTaxRate =>
+      grossAmount > 0 ? totalDeductions / grossAmount : 0.0;
+
+  Income copyWith({
+    String? id,
+    String? name,
+    String? kind,
+    double? grossAmount,
+    String? frequency,
+    DateTime? updatedAt,
+    double? federalTax,
+    double? stateTax,
+    double? socialSecurityTax,
+    double? medicareTax,
+    double? retirement401k,
+    double? healthInsurance,
+    double? otherDeductions,
+    String? originalCurrency,
+    double? originalAmount,
+  }) {
+    return Income(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      kind: kind ?? this.kind,
+      grossAmount: grossAmount ?? this.grossAmount,
+      frequency: frequency ?? this.frequency,
+      updatedAt: updatedAt ?? this.updatedAt,
+      federalTax: federalTax ?? this.federalTax,
+      stateTax: stateTax ?? this.stateTax,
+      socialSecurityTax: socialSecurityTax ?? this.socialSecurityTax,
+      medicareTax: medicareTax ?? this.medicareTax,
+      retirement401k: retirement401k ?? this.retirement401k,
+      healthInsurance: healthInsurance ?? this.healthInsurance,
+      otherDeductions: otherDeductions ?? this.otherDeductions,
+      originalCurrency: originalCurrency ?? this.originalCurrency,
+      originalAmount: originalAmount ?? this.originalAmount,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'Income(id: $id, name: $name, kind: $kind, grossAmount: $grossAmount, '
+        'frequency: $frequency, monthlyNet: $monthlyNet)';
   }
 }

@@ -74,18 +74,22 @@ class PurchaseService {
 
     if (response.error != null) {
       debugPrint(
-          'PurchaseService: queryProductDetails ERROR: ${response.error!.code} - ${response.error!.message}');
+        'PurchaseService: queryProductDetails ERROR: ${response.error!.code} - ${response.error!.message}',
+      );
       throw Exception('Failed to load products: ${response.error!.message}');
     }
 
     debugPrint(
-        'PurchaseService: Products found: ${response.productDetails.map((p) => p.id).toList()}');
+      'PurchaseService: Products found: ${response.productDetails.map((p) => p.id).toList()}',
+    );
 
     if (response.notFoundIDs.isNotEmpty) {
       debugPrint(
-          'PurchaseService: Products NOT FOUND in Play Store: ${response.notFoundIDs}');
+        'PurchaseService: Products NOT FOUND in Play Store: ${response.notFoundIDs}',
+      );
       debugPrint(
-          'PurchaseService: These product IDs must be created in Google Play Console');
+        'PurchaseService: These product IDs must be created in Google Play Console',
+      );
     }
 
     debugPrint(
@@ -203,6 +207,16 @@ class PurchaseService {
       concentrationRiskSnoozedUntil:
           currentSettings.concentrationRiskSnoozedUntil,
       concentrationRiskResolvedAt: currentSettings.concentrationRiskResolvedAt,
+      homeCountry: currentSettings.homeCountry,
+      globalDiversificationMode: currentSettings.globalDiversificationMode,
+      intlTargetOverride: currentSettings.intlTargetOverride,
+      intlTolerancePct: currentSettings.intlTolerancePct,
+      intlFloorPct: currentSettings.intlFloorPct,
+      intlPenaltyScale: currentSettings.intlPenaltyScale,
+      financialHealthBaseline: currentSettings.financialHealthBaseline,
+      financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
+      currency: currentSettings.currency,
+      baseCurrency: currentSettings.baseCurrency,
     );
 
     // Save updated settings
@@ -219,7 +233,8 @@ class PurchaseService {
         return settings;
       }
       debugPrint(
-          '_grantProAccess: Waiting for settings to load... attempt ${i + 1}/10');
+        '_grantProAccess: Waiting for settings to load... attempt ${i + 1}/10',
+      );
       await Future.delayed(const Duration(milliseconds: 100));
     }
     return null;
@@ -254,6 +269,16 @@ class PurchaseService {
       concentrationRiskSnoozedUntil:
           currentSettings.concentrationRiskSnoozedUntil,
       concentrationRiskResolvedAt: currentSettings.concentrationRiskResolvedAt,
+      homeCountry: currentSettings.homeCountry,
+      globalDiversificationMode: currentSettings.globalDiversificationMode,
+      intlTargetOverride: currentSettings.intlTargetOverride,
+      intlTolerancePct: currentSettings.intlTolerancePct,
+      intlFloorPct: currentSettings.intlFloorPct,
+      intlPenaltyScale: currentSettings.intlPenaltyScale,
+      financialHealthBaseline: currentSettings.financialHealthBaseline,
+      financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
+      currency: currentSettings.currency,
+      baseCurrency: currentSettings.baseCurrency,
     );
 
     await ref.read(settingsProvider.notifier).updateSettings(updatedSettings);

@@ -165,11 +165,13 @@ class FinancialHealthCalculator {
     final concentrationImpact = 10.0 * globalScale;
     final intlImpact = 6.0 * globalScale;
 
-    // Adjust baseline when components are muted
-    double baseline = settings.financialHealthBaseline;
-    if (intlMutedFlag) {
-      baseline += intlImpact; // Add back the max positive contribution
-    }
+    // No baseline adjustment needed - when a component is muted, the remaining
+    // components naturally renormalize to fill the 0-100 range.
+    // This matches user intuition: if you have 4 perfect scores out of 4, you get 100.
+    final double baseline = settings.financialHealthBaseline;
+    debugPrint(
+      '[FinancialHealth] International exposure ${intlMutedFlag ? 'OFF' : 'ON'} (mode: ${settings.globalDiversificationMode}): baseline=${baseline.toStringAsFixed(2)}',
+    );
 
     // Helper mappers (ported from suggested pseudo-code)
     double bipolarScale({
@@ -274,6 +276,12 @@ class FinancialHealthCalculator {
             impact: intlImpact,
           );
 
+    if (kDebugMode) {
+      debugPrint(
+        '[FinancialHealth] International: intlShare=${(intlShare * 100).toStringAsFixed(1)}%, contribution=${intlContribution.toStringAsFixed(2)}, muted=$intlMutedFlag',
+      );
+    }
+
     final contributions = {
       'Debt Load': debtContribution,
       'Liquidity': liqContribution,
@@ -289,7 +297,7 @@ class FinancialHealthCalculator {
     // Debug log only in debug builds
     if (kDebugMode) {
       debugPrint(
-        '[OverallHealth(contrib)] baseline=$baseline debt=${debtContribution.toStringAsFixed(2)} conc=${concContribution.toStringAsFixed(2)} liq=${liqContribution.toStringAsFixed(2)} fixed=${fixedContribution.toStringAsFixed(2)} home=${intlContribution.toStringAsFixed(2)} => raw=${rawScore.toStringAsFixed(2)} disp=$intScore',
+        '[OverallHealth(contrib)] MODE=${settings.globalDiversificationMode} baseline=$baseline debt=${debtContribution.toStringAsFixed(2)} conc=${concContribution.toStringAsFixed(2)} liq=${liqContribution.toStringAsFixed(2)} fixed=${fixedContribution.toStringAsFixed(2)} home=${intlContribution.toStringAsFixed(2)} => raw=${rawScore.toStringAsFixed(2)} FINAL=$intScore',
       );
     }
 
