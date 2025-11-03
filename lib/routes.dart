@@ -21,6 +21,7 @@ import 'features/alerts/custom_alerts_screen.dart';
 import 'features/tax/tax_smart_allocation_screen.dart';
 import 'features/income/income_screen.dart';
 import 'features/income/income_detail_screen.dart';
+import 'features/import/csv_import_screen.dart';
 
 class AppRouter {
   static const String onboarding = '/onboarding';
@@ -43,6 +44,7 @@ class AppRouter {
   static const String customAlerts = '/custom-alerts';
   static const String taxSmart = '/tax-allocation';
   static const String exportData = '/export';
+  static const String csvImport = '/import/csv';
   static const String pro = '/pro';
   static const String about = '/about';
 
@@ -198,6 +200,13 @@ class AppRouter {
             path: exportData,
             name: 'export',
             builder: (context, state) => const ExportScreen(),
+          ),
+
+          // Import Data
+          GoRoute(
+            path: csvImport,
+            name: 'csv-import',
+            builder: (context, state) => const CsvImportScreen(),
           ),
 
           // Pro features

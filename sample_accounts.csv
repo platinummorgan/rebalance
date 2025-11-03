@@ -1,0 +1,6 @@
+name,account_type,balance,pct_cash,pct_bonds,pct_us_equity,pct_intl_equity,pct_real_estate,pct_alt
+Fidelity 401k,retirement,125000,5,20,50,15,5,5
+Chase Checking,cash,8500,100,0,0,0,0,0
+Vanguard Taxable,taxable,45000,10,30,35,20,5,0
+Emergency Fund,cash,15000,100,0,0,0,0,0
+Roth IRA,retirement,67000,0,15,60,20,0,5

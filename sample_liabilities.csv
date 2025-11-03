@@ -1,0 +1,6 @@
+name,liability_type,balance,apr,min_payment,credit_limit
+Chase Freedom Card,credit_card,2500,18.99,75,5000
+Toyota Camry Loan,auto,18500,4.5,425,0
+Mortgage,mortgage,285000,3.25,1850,0
+Discover Card,credit_card,1200,21.5,35,8000
+Student Loan,student_loan,32000,5.8,350,0

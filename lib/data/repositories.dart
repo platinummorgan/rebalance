@@ -334,7 +334,9 @@ class RepositoryService {
   static Future<Uint8List> _getOrCreateEncryptionKey() async {
     String? keyString = await _secureStorage.read(key: _encryptionKeyKey);
 
-    return base64Decode(keyString);
+    if (keyString != null) {
+      return base64Decode(keyString);
+    }
 
     // Generate new key
     final key = Hive.generateSecureKey();

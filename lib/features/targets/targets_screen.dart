@@ -278,6 +278,13 @@ class TargetsScreen extends ConsumerWidget {
                   ),
                   const Divider(height: 1),
                   ListTile(
+                    leading: const Icon(Icons.file_upload),
+                    title: const Text('Import CSV'),
+                    subtitle: const Text('Import accounts, debts, or income'),
+                    onTap: () => context.push('/import/csv'),
+                  ),
+                  const Divider(height: 1),
+                  ListTile(
                     leading: const Icon(Icons.upload_file),
                     title: const Text('Import & Export'),
                     subtitle: const Text('Backup and restore your data'),

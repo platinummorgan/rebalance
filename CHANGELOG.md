@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **CSV Import**: Bulk import accounts, liabilities, and income from CSV files
+  - File picker with CSV filter for easy file selection
+  - Smart type detection (accounts, liabilities, income) based on headers
+  - Preview with item count and error validation before import
+  - Flexible column name matching (e.g., 'name'/'account_name', 'balance'/'amount')
+  - Type normalization (e.g., '401k'→'retirement', 'checking'→'cash')
+  - Default asset allocations for accounts when not specified
+  - Comprehensive error handling and validation
+  - Sample CSV files included for testing
+  - Accessible from Settings > Import CSV
+
 ### Planned Features
 - Income integration with Financial Health calculator
 - Income summary card on Dashboard

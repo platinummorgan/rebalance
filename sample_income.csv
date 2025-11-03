@@ -1,0 +1,4 @@
+name,income_type,gross_amount,frequency,federal_tax,state_tax,social_security_tax,medicare_tax,retirement_401k,health_insurance,other_deductions
+Tech Corp Salary,salary,8500,monthly,1500,650,527,123,850,300,0
+Freelance Design,freelance,2200,monthly,0,0,0,0,0,0,0
+Rental Property,rental,1800,monthly,0,0,0,0,0,0,150
