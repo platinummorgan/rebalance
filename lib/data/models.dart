@@ -26,6 +26,12 @@ enum ColorTheme {
   orange,
   @HiveField(5)
   teal,
+  @HiveField(6)
+  indigo,
+  @HiveField(7)
+  pink,
+  @HiveField(8)
+  amber,
 }
 
 @HiveType(typeId: 8)

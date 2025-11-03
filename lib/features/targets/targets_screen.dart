@@ -60,8 +60,8 @@ class TargetsScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
                     Wrap(
-                      spacing: 12,
-                      runSpacing: 12,
+                      spacing: 8,
+                      runSpacing: 8,
                       children: ColorTheme.values.map((theme) {
                         final isSelected = settings.colorTheme == theme;
                         final color = AppTheme.getPrimaryColor(theme);
@@ -75,8 +75,8 @@ class TargetsScreen extends ConsumerWidget {
                               ? _showColorThemeUpgrade(context, theme)
                               : _updateTheme(ref, theme),
                           child: Container(
-                            width: 80,
-                            height: 80,
+                            width: 68,
+                            height: 68,
                             decoration: BoxDecoration(
                               color: isLocked
                                   ? color.withValues(alpha: 0.3)
@@ -105,16 +105,16 @@ class TargetsScreen extends ConsumerWidget {
                                       color: isLocked
                                           ? Colors.white54
                                           : Colors.white,
-                                      size: 24,
+                                      size: 20,
                                     ),
-                                    const SizedBox(height: 4),
+                                    const SizedBox(height: 2),
                                     Text(
                                       AppTheme.getColorThemeName(theme),
                                       style: TextStyle(
                                         color: isLocked
                                             ? Colors.white54
                                             : Colors.white,
-                                        fontSize: 12,
+                                        fontSize: 11,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -122,11 +122,11 @@ class TargetsScreen extends ConsumerWidget {
                                 ),
                                 if (isLocked)
                                   Positioned(
-                                    top: 4,
-                                    right: 4,
+                                    top: 2,
+                                    right: 2,
                                     child: PremiumHelper.premiumBadge(
                                       context,
-                                      size: 16,
+                                      size: 14,
                                     ),
                                   ),
                               ],

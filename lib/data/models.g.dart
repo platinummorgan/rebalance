@@ -650,6 +650,12 @@ class ColorThemeAdapter extends TypeAdapter<ColorTheme> {
         return ColorTheme.orange;
       case 5:
         return ColorTheme.teal;
+      case 6:
+        return ColorTheme.indigo;
+      case 7:
+        return ColorTheme.pink;
+      case 8:
+        return ColorTheme.amber;
       default:
         return ColorTheme.blue;
     }
@@ -675,6 +681,15 @@ class ColorThemeAdapter extends TypeAdapter<ColorTheme> {
         break;
       case ColorTheme.teal:
         writer.writeByte(5);
+        break;
+      case ColorTheme.indigo:
+        writer.writeByte(6);
+        break;
+      case ColorTheme.pink:
+        writer.writeByte(7);
+        break;
+      case ColorTheme.amber:
+        writer.writeByte(8);
         break;
     }
   }

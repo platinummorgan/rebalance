@@ -16,6 +16,9 @@ class AppTheme {
     ColorTheme.purple: Color(0xFF7B1FA2),
     ColorTheme.orange: Color(0xFFFF8F00),
     ColorTheme.teal: Color(0xFF00796B),
+    ColorTheme.indigo: Color(0xFF3949AB),
+    ColorTheme.pink: Color(0xFFC2185B),
+    ColorTheme.amber: Color(0xFFF57C00),
   };
 
   static const Map<ColorTheme, Color> _primaryContainerColors = {
@@ -25,6 +28,9 @@ class AppTheme {
     ColorTheme.purple: Color(0xFFE1BEE7),
     ColorTheme.orange: Color(0xFFFFE0B2),
     ColorTheme.teal: Color(0xFFB2DFDB),
+    ColorTheme.indigo: Color(0xFFC5CAE9),
+    ColorTheme.pink: Color(0xFFF8BBD0),
+    ColorTheme.amber: Color(0xFFFFE082),
   };
 
   static const Map<ColorTheme, Color> _primaryDarkColors = {
@@ -34,6 +40,9 @@ class AppTheme {
     ColorTheme.purple: Color(0xFFCE93D8),
     ColorTheme.orange: Color(0xFFFFB74D),
     ColorTheme.teal: Color(0xFF4DB6AC),
+    ColorTheme.indigo: Color(0xFF7986CB),
+    ColorTheme.pink: Color(0xFFF06292),
+    ColorTheme.amber: Color(0xFFFFD54F),
   };
 
   // Light theme color scheme
@@ -676,6 +685,12 @@ class AppTheme {
         return 'Orange';
       case ColorTheme.teal:
         return 'Teal';
+      case ColorTheme.indigo:
+        return 'Indigo';
+      case ColorTheme.pink:
+        return 'Pink';
+      case ColorTheme.amber:
+        return 'Amber';
     }
   }
 
