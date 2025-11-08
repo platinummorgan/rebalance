@@ -487,6 +487,12 @@ class Settings extends HiveObject {
   @HiveField(26, defaultValue: 'USD')
   String baseCurrency; // Base currency for stored amounts (typically 'USD')
 
+  @HiveField(27)
+  bool? proBannerDismissed; // Track if user dismissed the Pro features banner
+
+  @HiveField(28, defaultValue: 'en')
+  String? language; // UI language: 'en', 'hi', 'bn', etc.
+
   Settings({
     required this.riskBand,
     required this.monthlyEssentials,
@@ -517,6 +523,8 @@ class Settings extends HiveObject {
     this.currency = 'USD', // Default display currency to USD
     this.baseCurrency =
         'USD', // Default base currency to USD (all amounts stored in USD)
+    this.proBannerDismissed, // Pro banner dismissed state
+    this.language = 'en', // Default to English
   });
 
   // Target bond allocation based on risk band

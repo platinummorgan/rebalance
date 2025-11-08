@@ -1,0 +1,81 @@
+{
+  "@@locale": "fa",
+  
+  "appTitle": "ریبالانس",
+  
+  "netWorth": "ارزش خالص",
+  "assets": "دارایی‌ها",
+  "liabilities": "بدهی‌ها",
+  "cashFlow": "جریان نقدی",
+  "healthScore": "امتیاز سلامت مالی",
+  
+  "proFeatures": "ویژگی‌های حرفه‌ای",
+  "choosePlan": "طرح خود را انتخاب کنید",
+  "upgradeToProTitle": "ارتقا به نسخه حرفه‌ای",
+  "allProFeatures": "تمام ویژگی‌های حرفه‌ای",
+  "cancelAnytime": "لغو در هر زمان",
+  "freeTrialDays": "7 روز آزمایش رایگان",
+  
+  "proMonthly": "حرفه‌ای ماهانه",
+  "perMonth": "در ماه",
+  "annual": "سالانه",
+  "perYear": "در سال",
+  "founderLifetime": "بنیانگذار مادام‌العمر",
+  "oneTime": "یک بار",
+  
+  "bestValue": "بهترین ارزش",
+  "limited": "محدود",
+  "saveMoney": "صرفه‌جویی {amount}",
+  
+  "everythingForever": "همه چیز برای همیشه",
+  "firstFounders": "1,000 بنیانگذار اول",
+  "priceIncreasesAfter": "قیمت بعداً افزایش می‌یابد",
+  
+  "retirementCalculator": "ماشین‌حساب بازنشستگی",
+  "debtOptimizer": "بهینه‌ساز بدهی",
+  "scenarioEngine": "موتور سناریو",
+  "taxSmartAllocation": "تخصیص هوشمند مالیاتی",
+  "customAlerts": "هشدارهای سفارشی",
+  "advancedAnalytics": "تحلیل‌های پیشرفته",
+  
+  "unlockWithPro": "باز کردن با نسخه حرفه‌ای",
+  "startFreeTrial": "شروع آزمایش رایگان",
+  "choosePlanButton": "انتخاب طرح",
+  
+  "settings": "تنظیمات",
+  "currency": "ارز",
+  "darkMode": "حالت تاریک",
+  "colorTheme": "تم رنگی",
+  "language": "زبان",
+  
+  "accounts": "حساب‌ها",
+  "addAccount": "افزودن حساب",
+  "editAccount": "ویرایش حساب",
+  "accountName": "نام حساب",
+  "accountType": "نوع حساب",
+  "balance": "موجودی",
+  
+  "debts": "بدهی‌ها",
+  "addDebt": "افزودن بدهی",
+  "minimumPayment": "حداقل پرداخت",
+  "interestRate": "نرخ بهره",
+  
+  "rebalancing": "متعادل‌سازی مجدد",
+  "createPlan": "ایجاد طرح متعادل‌سازی",
+  "targetAllocation": "تخصیص هدف",
+  
+  "dashboard": "داشبورد",
+  "reports": "گزارش‌ها",
+  "targets": "اهداف",
+  
+  "save": "ذخیره",
+  "cancel": "لغو",
+  "delete": "حذف",
+  "edit": "ویرایش",
+  "add": "افزودن",
+  "confirm": "تأیید",
+  
+  "loading": "در حال بارگذاری...",
+  "error": "خطا",
+  "success": "موفق"
+}

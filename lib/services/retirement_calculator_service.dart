@@ -35,7 +35,7 @@ class RetirementCalculatorService {
         annualReturnStdDev: annualReturnStdDev,
         inflationRate: inflationRate,
         random: random,
-      ));
+      ),);
     }
 
     // Sort results for percentile analysis

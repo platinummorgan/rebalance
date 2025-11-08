@@ -88,7 +88,8 @@ class CsvImporterService {
 
     if (accounts.isEmpty && errors.isNotEmpty) {
       return CsvImportResult.error(
-          'No valid accounts found:\n${errors.join('\n')}');
+        'No valid accounts found:\n${errors.join('\n')}',
+      );
     }
 
     return CsvImportResult.success(
@@ -100,8 +101,10 @@ class CsvImporterService {
 
   static Account _createAccount(Map<String, dynamic> data) {
     final String name = _getString(
-        data, ['name', 'account_name', 'accountname'],
-        required: true);
+      data,
+      ['name', 'account_name', 'accountname'],
+      required: true,
+    );
     final double balance =
         _getDouble(data, ['balance', 'amount'], required: true);
     final String kind =
@@ -113,17 +116,25 @@ class CsvImporterService {
     final double pctBonds =
         _getDouble(data, ['bonds', 'pct_bonds', 'pctbonds'], defaultValue: 0.0);
     final double pctUsEq = _getDouble(
-        data, ['us_equity', 'pct_us_eq', 'pctuseq', 'us_eq'],
-        defaultValue: 0.0);
+      data,
+      ['us_equity', 'pct_us_eq', 'pctuseq', 'us_eq'],
+      defaultValue: 0.0,
+    );
     final double pctIntlEq = _getDouble(
-        data, ['intl_equity', 'pct_intl_eq', 'pctintleq', 'intl_eq'],
-        defaultValue: 0.0);
+      data,
+      ['intl_equity', 'pct_intl_eq', 'pctintleq', 'intl_eq'],
+      defaultValue: 0.0,
+    );
     final double pctRealEstate = _getDouble(
-        data, ['real_estate', 'pct_real_estate', 'pctrealestate'],
-        defaultValue: 0.0);
+      data,
+      ['real_estate', 'pct_real_estate', 'pctrealestate'],
+      defaultValue: 0.0,
+    );
     final double pctAlt = _getDouble(
-        data, ['alternatives', 'pct_alt', 'pctalt', 'alt'],
-        defaultValue: 0.0);
+      data,
+      ['alternatives', 'pct_alt', 'pctalt', 'alt'],
+      defaultValue: 0.0,
+    );
 
     // If no allocations provided, use defaults based on account type
     bool hasAllocations =
@@ -146,16 +157,19 @@ class CsvImporterService {
       };
     }
 
-    final bool isLocked = _getBool(data, ['locked', 'is_locked', 'islocked'],
-        defaultValue: false);
+    final bool isLocked = _getBool(
+      data,
+      ['locked', 'is_locked', 'islocked'],
+      defaultValue: false,
+    );
     final double employerStockPct = _getDouble(
-        data, ['employer_stock', 'employer_stock_pct'],
-        defaultValue: 0.0);
+      data,
+      ['employer_stock', 'employer_stock_pct'],
+      defaultValue: 0.0,
+    );
 
     return Account(
-      id: DateTime.now().millisecondsSinceEpoch.toString() +
-          '_' +
-          name.replaceAll(' ', '_'),
+      id: '${DateTime.now().millisecondsSinceEpoch}_${name.replaceAll(' ', '_')}',
       name: name,
       kind: _normalizeAccountKind(kind),
       balance: balance,
@@ -229,7 +243,8 @@ class CsvImporterService {
 
     if (liabilities.isEmpty && errors.isNotEmpty) {
       return CsvImportResult.error(
-          'No valid liabilities found:\n${errors.join('\n')}');
+        'No valid liabilities found:\n${errors.join('\n')}',
+      );
     }
 
     return CsvImportResult.success(
@@ -247,18 +262,18 @@ class CsvImporterService {
     final double apr =
         _getDouble(data, ['apr', 'interest_rate', 'rate'], required: true);
     final double minPayment = _getDouble(
-        data, ['min_payment', 'minimum_payment', 'payment'],
-        required: true);
+      data,
+      ['min_payment', 'minimum_payment', 'payment'],
+      required: true,
+    );
     final String kind =
         _getString(data, ['kind', 'type'], defaultValue: 'other');
 
-    final double? creditLimit =
+    final double creditLimit =
         _getDouble(data, ['credit_limit', 'limit'], required: false);
 
     return Liability(
-      id: DateTime.now().millisecondsSinceEpoch.toString() +
-          '_' +
-          name.replaceAll(' ', '_'),
+      id: '${DateTime.now().millisecondsSinceEpoch}_${name.replaceAll(' ', '_')}',
       name: name,
       kind: _normalizeLiabilityKind(kind),
       balance: balance,
@@ -323,7 +338,8 @@ class CsvImporterService {
 
     if (incomes.isEmpty && errors.isNotEmpty) {
       return CsvImportResult.error(
-          'No valid income found:\n${errors.join('\n')}');
+        'No valid income found:\n${errors.join('\n')}',
+      );
     }
 
     return CsvImportResult.success(
@@ -337,37 +353,47 @@ class CsvImporterService {
     final String name =
         _getString(data, ['name', 'income_name'], required: true);
     final double grossAmount = _getDouble(
-        data, ['gross', 'grossamount', 'gross_amount', 'amount'],
-        required: true);
+      data,
+      ['gross', 'grossamount', 'gross_amount', 'amount'],
+      required: true,
+    );
     final String frequency =
         _getString(data, ['frequency', 'period'], required: true);
     final String kind =
         _getString(data, ['kind', 'type'], defaultValue: 'other');
 
     // Optional tax fields
-    final double? federalTax = _getDouble(
-        data, ['federal_tax', 'federaltax', 'federal'],
-        required: false);
-    final double? stateTax =
+    final double federalTax = _getDouble(
+      data,
+      ['federal_tax', 'federaltax', 'federal'],
+      required: false,
+    );
+    final double stateTax =
         _getDouble(data, ['state_tax', 'statetax', 'state'], required: false);
-    final double? socialSecurity = _getDouble(
-        data, ['social_security', 'socialsecurity', 'ss', 'fica'],
-        required: false);
-    final double? medicare = _getDouble(data, ['medicare'], required: false);
-    final double? retirement401k = _getDouble(
-        data, ['401k', 'retirement', '401k_contribution'],
-        required: false);
-    final double? healthInsurance = _getDouble(
-        data, ['health_insurance', 'healthinsurance', 'health'],
-        required: false);
-    final double? otherDeductions = _getDouble(
-        data, ['other_deductions', 'otherdeductions', 'deductions'],
-        required: false);
+    final double socialSecurity = _getDouble(
+      data,
+      ['social_security', 'socialsecurity', 'ss', 'fica'],
+      required: false,
+    );
+    final double medicare = _getDouble(data, ['medicare'], required: false);
+    final double retirement401k = _getDouble(
+      data,
+      ['401k', 'retirement', '401k_contribution'],
+      required: false,
+    );
+    final double healthInsurance = _getDouble(
+      data,
+      ['health_insurance', 'healthinsurance', 'health'],
+      required: false,
+    );
+    final double otherDeductions = _getDouble(
+      data,
+      ['other_deductions', 'otherdeductions', 'deductions'],
+      required: false,
+    );
 
     return Income(
-      id: DateTime.now().millisecondsSinceEpoch.toString() +
-          '_' +
-          name.replaceAll(' ', '_'),
+      id: '${DateTime.now().millisecondsSinceEpoch}_${name.replaceAll(' ', '_')}',
       name: name,
       kind: _normalizeIncomeKind(kind),
       grossAmount: grossAmount,

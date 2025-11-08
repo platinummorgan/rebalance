@@ -1,0 +1,81 @@
+{
+  "@@locale": "hi",
+  
+  "appTitle": "रीबैलेंस",
+  
+  "netWorth": "कुल संपत्ति",
+  "assets": "संपत्ति",
+  "liabilities": "देनदारियां",
+  "cashFlow": "नकदी प्रवाह",
+  "healthScore": "वित्तीय स्वास्थ्य स्कोर",
+  
+  "proFeatures": "प्रो सुविधाएं",
+  "choosePlan": "अपनी योजना चुनें",
+  "upgradeToProTitle": "प्रो में अपग्रेड करें",
+  "allProFeatures": "सभी प्रो सुविधाएं",
+  "cancelAnytime": "कभी भी रद्द करें",
+  "freeTrialDays": "7-दिन का मुफ़्त परीक्षण",
+  
+  "proMonthly": "प्रो मासिक",
+  "perMonth": "प्रति माह",
+  "annual": "वार्षिक",
+  "perYear": "प्रति वर्ष",
+  "founderLifetime": "संस्थापक जीवनकाल",
+  "oneTime": "एक बार",
+  
+  "bestValue": "सर्वश्रेष्ठ मूल्य",
+  "limited": "सीमित",
+  "saveMoney": "{amount} बचाएं",
+  
+  "everythingForever": "हमेशा के लिए सब कुछ",
+  "firstFounders": "पहले 1,000 संस्थापक",
+  "priceIncreasesAfter": "बाद में कीमत बढ़ेगी",
+  
+  "retirementCalculator": "सेवानिवृत्ति कैलकुलेटर",
+  "debtOptimizer": "ऋण अनुकूलक",
+  "scenarioEngine": "परिदृश्य इंजन",
+  "taxSmartAllocation": "कर-स्मार्ट आवंटन",
+  "customAlerts": "कस्टम अलर्ट",
+  "advancedAnalytics": "उन्नत विश्लेषण",
+  
+  "unlockWithPro": "प्रो के साथ अनलॉक करें",
+  "startFreeTrial": "मुफ़्त परीक्षण शुरू करें",
+  "choosePlanButton": "योजना चुनें",
+  
+  "settings": "सेटिंग्स",
+  "currency": "मुद्रा",
+  "darkMode": "डार्क मोड",
+  "colorTheme": "रंग थीम",
+  "language": "भाषा",
+  
+  "accounts": "खाते",
+  "addAccount": "खाता जोड़ें",
+  "editAccount": "खाता संपादित करें",
+  "accountName": "खाते का नाम",
+  "accountType": "खाते का प्रकार",
+  "balance": "शेष राशि",
+  
+  "debts": "ऋण",
+  "addDebt": "ऋण जोड़ें",
+  "minimumPayment": "न्यूनतम भुगतान",
+  "interestRate": "ब्याज दर",
+  
+  "rebalancing": "पुनर्संतुलन",
+  "createPlan": "पुनर्संतुलन योजना बनाएं",
+  "targetAllocation": "लक्ष्य आवंटन",
+  
+  "dashboard": "डैशबोर्ड",
+  "reports": "रिपोर्ट",
+  "targets": "लक्ष्य",
+  
+  "save": "सहेजें",
+  "cancel": "रद्द करें",
+  "delete": "हटाएं",
+  "edit": "संपादित करें",
+  "add": "जोड़ें",
+  "confirm": "पुष्टि करें",
+  
+  "loading": "लोड हो रहा है...",
+  "error": "त्रुटि",
+  "success": "सफल"
+}

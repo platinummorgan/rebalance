@@ -324,6 +324,7 @@ class RepositoryService {
         financialHealthBaseline: settings.financialHealthBaseline,
         financialHealthGlobalScale: settings.financialHealthGlobalScale,
         currency: settings.currency, // Will default to 'USD' for existing users
+        proBannerDismissed: settings.proBannerDismissed,
       );
       await _settingsBox.put('main', updatedSettings);
 
@@ -727,6 +728,7 @@ class RepositoryService {
         'biometricLockEnabled': settings.biometricLockEnabled,
         'darkModeEnabled': settings.darkModeEnabled,
         'colorTheme': settings.colorTheme.name,
+        'proBannerDismissed': settings.proBannerDismissed,
       };
 
   static Settings _settingsFromJson(Map<String, dynamic> json) => Settings(
@@ -742,6 +744,7 @@ class RepositoryService {
           (e) => e.name == json['colorTheme'],
           orElse: () => ColorTheme.green,
         ),
+        proBannerDismissed: json['proBannerDismissed'],
       );
 
   static Map<String, dynamic> _snapshotToJson(Snapshot snapshot) => {

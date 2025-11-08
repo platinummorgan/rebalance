@@ -212,6 +212,120 @@ class TargetsScreen extends ConsumerWidget {
               ),
             ),
 
+            // Language Section
+            Card(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.language,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        const SizedBox(width: 12),
+                        const Text(
+                          'Language',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Choose your preferred language',
+                      style: TextStyle(color: Colors.grey, fontSize: 14),
+                    ),
+                    const SizedBox(height: 16),
+                    DropdownButtonFormField<String>(
+                      value: settings.language ?? 'en',
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
+                      items: [
+                        const DropdownMenuItem(
+                          value: 'en',
+                          child: Row(
+                            children: [
+                              Text('🇺🇸', style: TextStyle(fontSize: 20)),
+                              SizedBox(width: 12),
+                              Text('English'),
+                            ],
+                          ),
+                        ),
+                        const DropdownMenuItem(
+                          value: 'hi',
+                          child: Row(
+                            children: [
+                              Text('🇮🇳', style: TextStyle(fontSize: 20)),
+                              SizedBox(width: 12),
+                              Text('हिन्दी (Hindi)'),
+                            ],
+                          ),
+                        ),
+                        const DropdownMenuItem(
+                          value: 'bn',
+                          child: Row(
+                            children: [
+                              Text('🇧🇩', style: TextStyle(fontSize: 20)),
+                              SizedBox(width: 12),
+                              Text('বাংলা (Bengali)'),
+                            ],
+                          ),
+                        ),
+                        const DropdownMenuItem(
+                          value: 'ar',
+                          child: Row(
+                            children: [
+                              Text('🇸🇩', style: TextStyle(fontSize: 20)),
+                              SizedBox(width: 12),
+                              Text('العربية (Arabic)'),
+                            ],
+                          ),
+                        ),
+                        const DropdownMenuItem(
+                          value: 'fa',
+                          child: Row(
+                            children: [
+                              Text('🇮🇷', style: TextStyle(fontSize: 20)),
+                              SizedBox(width: 12),
+                              Text('فارسی (Persian)'),
+                            ],
+                          ),
+                        ),
+                        const DropdownMenuItem(
+                          value: 'request',
+                          child: Row(
+                            children: [
+                              Icon(Icons.email, size: 20),
+                              SizedBox(width: 12),
+                              Text('Request a language...'),
+                            ],
+                          ),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        if (value == 'request') {
+                          _requestLanguageSupport(context);
+                        } else if (value != null) {
+                          _updateLanguage(ref, value);
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
             // Dark Mode Toggle
             Card(
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -223,6 +337,53 @@ class TargetsScreen extends ConsumerWidget {
                 onChanged: (value) => _updateDarkMode(ref, value),
               ),
             ),
+
+            // Debug Pro Toggle (only visible in debug mode)
+            if (const bool.fromEnvironment('dart.vm.product') == false) ...[
+              Card(
+                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                color: Colors.orange.shade50,
+                child: SwitchListTile(
+                  secondary: Icon(
+                    settings.isPro
+                        ? Icons.workspace_premium
+                        : Icons.star_outline,
+                    color: settings.isPro ? Colors.amber : Colors.grey,
+                  ),
+                  title: Row(
+                    children: [
+                      const Text('Pro Status'),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.orange,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Text(
+                          'DEBUG',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  subtitle: Text(
+                    settings.isPro
+                        ? 'Testing as Pro user'
+                        : 'Testing as Free user',
+                  ),
+                  value: settings.isPro,
+                  onChanged: (value) => _updateProStatus(ref, value),
+                ),
+              ),
+            ],
 
             // Other Settings
             Card(
@@ -467,6 +628,7 @@ class TargetsScreen extends ConsumerWidget {
         financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
         currency: currentSettings.currency,
         baseCurrency: currentSettings.baseCurrency,
+        language: currentSettings.language,
       );
       settingsNotifier.updateSettings(updatedSettings);
     }
@@ -515,6 +677,48 @@ class TargetsScreen extends ConsumerWidget {
         financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
         currency: currentSettings.currency,
         baseCurrency: currentSettings.baseCurrency,
+        language: currentSettings.language,
+      );
+      settingsNotifier.updateSettings(updatedSettings);
+    }
+  }
+
+  void _updateProStatus(WidgetRef ref, bool isPro) {
+    final settingsNotifier = ref.read(settingsProvider.notifier);
+    final currentSettings = ref.read(settingsProvider).value;
+    if (currentSettings != null) {
+      final updatedSettings = Settings(
+        riskBand: currentSettings.riskBand,
+        monthlyEssentials: currentSettings.monthlyEssentials,
+        driftThresholdPct: currentSettings.driftThresholdPct,
+        notificationsEnabled: currentSettings.notificationsEnabled,
+        usEquityTargetPct: currentSettings.usEquityTargetPct,
+        isPro: isPro, // Toggle Pro status for testing
+        biometricLockEnabled: currentSettings.biometricLockEnabled,
+        darkModeEnabled: currentSettings.darkModeEnabled,
+        colorTheme: currentSettings.colorTheme,
+        liquidityBondHaircut: currentSettings.liquidityBondHaircut,
+        bucketCap: currentSettings.bucketCap,
+        employerStockThreshold: currentSettings.employerStockThreshold,
+        monthlyIncome: currentSettings.monthlyIncome,
+        incomeMultiplierFallback: currentSettings.incomeMultiplierFallback,
+        schemaVersion: currentSettings.schemaVersion,
+        concentrationRiskSnoozedUntil:
+            currentSettings.concentrationRiskSnoozedUntil,
+        concentrationRiskResolvedAt:
+            currentSettings.concentrationRiskResolvedAt,
+        homeCountry: currentSettings.homeCountry,
+        globalDiversificationMode: currentSettings.globalDiversificationMode,
+        intlTargetOverride: currentSettings.intlTargetOverride,
+        intlTolerancePct: currentSettings.intlTolerancePct,
+        intlFloorPct: currentSettings.intlFloorPct,
+        intlPenaltyScale: currentSettings.intlPenaltyScale,
+        financialHealthBaseline: currentSettings.financialHealthBaseline,
+        financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
+        currency: currentSettings.currency,
+        baseCurrency: currentSettings.baseCurrency,
+        language: currentSettings.language,
+        proBannerDismissed: isPro ? false : currentSettings.proBannerDismissed,
       );
       settingsNotifier.updateSettings(updatedSettings);
     }
@@ -554,8 +758,72 @@ class TargetsScreen extends ConsumerWidget {
         financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
         currency: currency, // Update currency
         baseCurrency: currentSettings.baseCurrency, // Preserve baseCurrency
+        language: currentSettings.language,
       );
       settingsNotifier.updateSettings(updatedSettings);
+    }
+  }
+
+  void _updateLanguage(WidgetRef ref, String language) {
+    final settingsNotifier = ref.read(settingsProvider.notifier);
+    final currentSettings = ref.read(settingsProvider).value;
+    if (currentSettings != null) {
+      final updatedSettings = Settings(
+        riskBand: currentSettings.riskBand,
+        monthlyEssentials: currentSettings.monthlyEssentials,
+        driftThresholdPct: currentSettings.driftThresholdPct,
+        notificationsEnabled: currentSettings.notificationsEnabled,
+        usEquityTargetPct: currentSettings.usEquityTargetPct,
+        isPro: currentSettings.isPro,
+        biometricLockEnabled: currentSettings.biometricLockEnabled,
+        darkModeEnabled: currentSettings.darkModeEnabled,
+        colorTheme: currentSettings.colorTheme,
+        liquidityBondHaircut: currentSettings.liquidityBondHaircut,
+        bucketCap: currentSettings.bucketCap,
+        employerStockThreshold: currentSettings.employerStockThreshold,
+        monthlyIncome: currentSettings.monthlyIncome,
+        incomeMultiplierFallback: currentSettings.incomeMultiplierFallback,
+        schemaVersion: currentSettings.schemaVersion,
+        concentrationRiskSnoozedUntil:
+            currentSettings.concentrationRiskSnoozedUntil,
+        concentrationRiskResolvedAt:
+            currentSettings.concentrationRiskResolvedAt,
+        homeCountry: currentSettings.homeCountry,
+        globalDiversificationMode: currentSettings.globalDiversificationMode,
+        intlTargetOverride: currentSettings.intlTargetOverride,
+        intlTolerancePct: currentSettings.intlTolerancePct,
+        intlFloorPct: currentSettings.intlFloorPct,
+        intlPenaltyScale: currentSettings.intlPenaltyScale,
+        financialHealthBaseline: currentSettings.financialHealthBaseline,
+        financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
+        currency: currentSettings.currency,
+        baseCurrency: currentSettings.baseCurrency,
+        language: language, // Update language
+      );
+      settingsNotifier.updateSettings(updatedSettings);
+    }
+  }
+
+  void _requestLanguageSupport(BuildContext context) async {
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: 'Support@platovalabs.com',
+      query:
+          'subject=Language Support Request&body=I would like to request support for the following language:%0D%0A%0D%0ALanguage: %0D%0ARegion: %0D%0A%0D%0AThank you!',
+    );
+
+    if (await canLaunchUrl(emailUri)) {
+      await launchUrl(emailUri);
+    } else {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Could not open email. Please email Support@platovalabs.com',
+            ),
+          ),
+        );
+      }
     }
   }
 
@@ -593,6 +861,7 @@ class TargetsScreen extends ConsumerWidget {
         financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
         currency: currentSettings.currency,
         baseCurrency: currentSettings.baseCurrency,
+        language: currentSettings.language,
       );
       settingsNotifier.updateSettings(updatedSettings);
     }

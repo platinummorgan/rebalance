@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import '../app.dart';
-import '../routes.dart' show AppRouter;
+import '../features/pro/pro_screen.dart';
 
 class PremiumHelper {
   /// Check if user has Pro access
@@ -67,7 +66,12 @@ class PremiumHelper {
           FilledButton(
             onPressed: () {
               Navigator.of(context).pop();
-              context.push(AppRouter.pro);
+              // Use root navigator to escape shell route
+              Navigator.of(context, rootNavigator: true).push(
+                MaterialPageRoute(
+                  builder: (context) => const ProScreen(),
+                ),
+              );
             },
             child: const Text('Upgrade Now'),
           ),
@@ -122,8 +126,11 @@ class PremiumHelper {
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.workspace_premium,
-                        color: Colors.white, size: 20,),
+                    Icon(
+                      Icons.workspace_premium,
+                      color: Colors.white,
+                      size: 20,
+                    ),
                     SizedBox(width: 8),
                     Text(
                       'Rebalance Pro',
@@ -156,16 +163,24 @@ class PremiumHelper {
                     child: OutlinedButton(
                       onPressed: () {
                         Navigator.pop(context);
-                        context.push(AppRouter.pro);
+                        Navigator.of(context, rootNavigator: true).push(
+                          MaterialPageRoute(
+                            builder: (context) => const ProScreen(),
+                          ),
+                        );
                       },
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
                       child: const Column(
                         children: [
-                          Text('\$1.49',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold,),),
+                          Text(
+                            '\$1.49',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           Text('per month', style: TextStyle(fontSize: 12)),
                         ],
                       ),
@@ -176,7 +191,11 @@ class PremiumHelper {
                     child: FilledButton(
                       onPressed: () {
                         Navigator.pop(context);
-                        context.push(AppRouter.pro);
+                        Navigator.of(context, rootNavigator: true).push(
+                          MaterialPageRoute(
+                            builder: (context) => const ProScreen(),
+                          ),
+                        );
                       },
                       style: FilledButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
@@ -186,10 +205,13 @@ class PremiumHelper {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('\$9.99',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,),),
+                              Text(
+                                '\$9.99',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                               SizedBox(width: 4),
                               Icon(Icons.star, size: 16),
                             ],
@@ -258,50 +280,51 @@ class PremiumHelper {
     ];
 
     return features
-        .map((feature) => Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Icon(
-                      feature['icon'] as IconData,
-                      color: Theme.of(context).colorScheme.primary,
-                      size: 20,
-                    ),
+        .map(
+          (feature) => Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          feature['title'] as String,
-                          style: const TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          feature['desc'] as String,
-                          style: TextStyle(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Icon(
-                    Icons.check_circle,
+                  child: Icon(
+                    feature['icon'] as IconData,
                     color: Theme.of(context).colorScheme.primary,
                     size: 20,
                   ),
-                ],
-              ),
-            ),)
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        feature['title'] as String,
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        feature['desc'] as String,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.check_circle,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 20,
+                ),
+              ],
+            ),
+          ),
+        )
         .toList();
   }
 
@@ -350,8 +373,11 @@ class PremiumHelper {
 /// Extension to easily check pro status in widgets
 extension PremiumContext on BuildContext {
   void showUpgradeDialog(String feature, {String? description}) {
-    PremiumHelper.showUpgradeDialog(this,
-        feature: feature, description: description,);
+    PremiumHelper.showUpgradeDialog(
+      this,
+      feature: feature,
+      description: description,
+    );
   }
 
   void showUpgradeBottomSheet() {

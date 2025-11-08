@@ -1,0 +1,93 @@
+{
+  "@@locale": "en",
+  
+  "appTitle": "Rebalance",
+  "@appTitle": {
+    "description": "The application name"
+  },
+  
+  "netWorth": "Net Worth",
+  "assets": "Assets",
+  "liabilities": "Liabilities",
+  "cashFlow": "Cash Flow",
+  "healthScore": "Health Score",
+  
+  "proFeatures": "Pro Features",
+  "choosePlan": "Choose Your Plan",
+  "upgradeToProTitle": "Upgrade to Pro",
+  "allProFeatures": "All Pro features",
+  "cancelAnytime": "Cancel anytime",
+  "freeTrialDays": "7-day free trial",
+  
+  "proMonthly": "Pro Monthly",
+  "perMonth": "per month",
+  "annual": "Annual",
+  "perYear": "per year",
+  "founderLifetime": "Founder Lifetime",
+  "oneTime": "one time",
+  
+  "bestValue": "BEST VALUE",
+  "limited": "LIMITED",
+  "saveMoney": "Save {amount}",
+  "@saveMoney": {
+    "description": "Amount saved with annual plan",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "$24"
+      }
+    }
+  },
+  
+  "everythingForever": "Everything forever",
+  "firstFounders": "First 1,000 founders",
+  "priceIncreasesAfter": "Price increases after",
+  
+  "retirementCalculator": "Retirement Calculator",
+  "debtOptimizer": "Debt Optimizer",
+  "scenarioEngine": "Scenario Engine",
+  "taxSmartAllocation": "Tax-Smart Allocation",
+  "customAlerts": "Custom Alerts with Context",
+  "advancedAnalytics": "Advanced Portfolio Analytics",
+  
+  "unlockWithPro": "Unlock with Pro",
+  "startFreeTrial": "Start Free Trial",
+  "choosePlanButton": "Choose Plan",
+  
+  "settings": "Settings",
+  "currency": "Currency",
+  "darkMode": "Dark Mode",
+  "colorTheme": "Color Theme",
+  "language": "Language",
+  
+  "accounts": "Accounts",
+  "addAccount": "Add Account",
+  "editAccount": "Edit Account",
+  "accountName": "Account Name",
+  "accountType": "Account Type",
+  "balance": "Balance",
+  
+  "debts": "Debts",
+  "addDebt": "Add Debt",
+  "minimumPayment": "Minimum Payment",
+  "interestRate": "Interest Rate",
+  
+  "rebalancing": "Rebalancing",
+  "createPlan": "Create Rebalancing Plan",
+  "targetAllocation": "Target Allocation",
+  
+  "dashboard": "Dashboard",
+  "reports": "Reports",
+  "targets": "Targets",
+  
+  "save": "Save",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "edit": "Edit",
+  "add": "Add",
+  "confirm": "Confirm",
+  
+  "loading": "Loading...",
+  "error": "Error",
+  "success": "Success"
+}

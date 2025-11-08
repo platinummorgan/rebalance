@@ -2,18 +2,90 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../generated/app_localizations.dart';
 import '../../app.dart';
 import '../../services/purchase_service.dart';
+import '../../services/analytics_service.dart';
 import '../../data/models.dart';
 import '../../routes.dart' show AppRouter;
 import '../../widgets/currency_text.dart';
 
 /// Outcome-focused Pro screen showing real financial impact
-class ProScreen extends ConsumerWidget {
+class ProScreen extends ConsumerStatefulWidget {
   const ProScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ProScreen> createState() => _ProScreenState();
+}
+
+class _ProScreenState extends ConsumerState<ProScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Track Pro screen view when screen loads
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      AnalyticsService().logProScreenView();
+    });
+  }
+
+  /// Get localized pricing based on user's currency setting
+  Map<String, dynamic> _getPricing(String currencyCode) {
+    switch (currencyCode) {
+      case 'INR':
+        return {
+          'monthly': '₹249',
+          'annual': '₹2,490',
+          'lifetime': '₹3,299',
+          'savings': '₹498',
+        };
+      case 'BDT':
+        return {
+          'monthly': '৳299',
+          'annual': '৳2,990',
+          'lifetime': '৳3,990',
+          'savings': '৳598',
+        };
+      case 'SDG': // Sudanese Pound
+        return {
+          'monthly': 'SDG 2,400',
+          'annual': 'SDG 14,400',
+          'lifetime': 'SDG 24,000',
+          'savings': 'SDG 14,400',
+        };
+      case 'IRR': // Iranian Rial
+        return {
+          'monthly': '۱۶۸,۰۰۰ ﷼',
+          'annual': '۱,۰۰۸,۰۰۰ ﷼',
+          'lifetime': '۱,۶۸۰,۰۰۰ ﷼',
+          'savings': '۱,۰۰۸,۰۰۰ ﷼',
+        };
+      case 'EUR':
+        return {
+          'monthly': '€3.99',
+          'annual': '€39.99',
+          'lifetime': '€49.99',
+          'savings': '€8',
+        };
+      case 'GBP':
+        return {
+          'monthly': '£3.49',
+          'annual': '£34.99',
+          'lifetime': '£44.99',
+          'savings': '£7',
+        };
+      case 'USD':
+      default:
+        return {
+          'monthly': '\$3.99',
+          'annual': '\$23.99',
+          'lifetime': '\$39.99',
+          'savings': '\$24',
+        };
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final settingsAsync = ref.watch(settingsProvider);
     final accountsAsync = ref.watch(accountsProvider);
     final liabilitiesAsync = ref.watch(liabilitiesProvider);
@@ -337,8 +409,7 @@ class ProScreen extends ConsumerWidget {
                     context,
                     icon: Icons.account_balance_wallet,
                     title: 'Debt Payoff Optimizer',
-                    personalizedValue:
-                        personalizedStats['debtSavings'] as String?,
+                    personalizedValue: personalizedStats['debtSavings'],
                     genericOutcome: 'Save thousands in interest',
                     description:
                         'Compare avalanche vs snowball strategies. Get month-by-month payment schedule and see total interest saved.',
@@ -430,53 +501,65 @@ class ProScreen extends ConsumerWidget {
 
                   const SizedBox(height: 16),
 
-                  _buildPricingCard(
-                    context,
-                    ref: ref,
-                    title: 'Pro Monthly',
-                    price: '\$3.99',
-                    period: 'per month',
-                    features: [
-                      'All Pro features',
-                      'Cancel anytime',
-                      '7-day free trial',
-                    ],
-                    recommended: false,
-                  ),
+                  // Get localized pricing
+                  Builder(
+                    builder: (context) {
+                      final settingsAsync = ref.watch(settingsProvider);
+                      final currency = settingsAsync.maybeWhen(
+                        data: (settings) => settings.currency,
+                        orElse: () => 'USD',
+                      );
+                      final pricing = _getPricing(currency);
 
-                  const SizedBox(height: 12),
-
-                  _buildPricingCard(
-                    context,
-                    ref: ref,
-                    title: 'Annual',
-                    price: '\$23.99',
-                    period: 'per year',
-                    badge: 'BEST VALUE',
-                    features: [
-                      'All Pro features',
-                      'Save \$24',
-                      '7-day free trial',
-                    ],
-                    recommended: true,
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  _buildPricingCard(
-                    context,
-                    ref: ref,
-                    title: 'Founder Lifetime',
-                    price: '\$39.99',
-                    period: 'one time',
-                    badge: 'LIMITED',
-                    features: [
-                      'Everything forever',
-                      'First 1,000 founders',
-                      'Price increases after',
-                    ],
-                    recommended: false,
-                    isFounder: true,
+                      return Column(
+                        children: [
+                          _buildPricingCard(
+                            context,
+                            ref: ref,
+                            title: 'Pro Monthly',
+                            price: pricing['monthly'],
+                            period: 'per month',
+                            features: [
+                              'All Pro features',
+                              'Cancel anytime',
+                              '7-day free trial',
+                            ],
+                            recommended: false,
+                          ),
+                          const SizedBox(height: 12),
+                          _buildPricingCard(
+                            context,
+                            ref: ref,
+                            title: 'Annual',
+                            price: pricing['annual'],
+                            period: 'per year',
+                            badge: 'BEST VALUE',
+                            features: [
+                              'All Pro features',
+                              'Save ${pricing['savings']}',
+                              '7-day free trial',
+                            ],
+                            recommended: true,
+                          ),
+                          const SizedBox(height: 12),
+                          _buildPricingCard(
+                            context,
+                            ref: ref,
+                            title: 'Founder Lifetime',
+                            price: pricing['lifetime'],
+                            period: 'one time',
+                            badge: 'LIMITED',
+                            features: [
+                              'Everything forever',
+                              'First 1,000 founders',
+                              'Price increases after',
+                            ],
+                            recommended: false,
+                            isFounder: true,
+                          ),
+                        ],
+                      );
+                    },
                   ),
 
                   const SizedBox(height: 24),
@@ -745,13 +828,23 @@ class ProScreen extends ConsumerWidget {
   ) async {
     // Map title to product id
     String productId;
+    String planType;
     if (title.contains('Monthly') || title.toLowerCase().contains('monthly')) {
       productId = PurchaseService.monthlySubId;
+      planType = 'monthly';
     } else if (title.toLowerCase().contains('annual')) {
       productId = PurchaseService.annualSubId;
+      planType = 'annual';
     } else {
       productId = PurchaseService.lifetimeId;
+      planType = 'lifetime';
     }
+
+    // Track upgrade button tap
+    AnalyticsService().logUpgradeButtonTap(
+      location: 'pro_screen',
+      planType: planType,
+    );
 
     NavigatorState? rootNavigator = Navigator.of(context, rootNavigator: true);
     var dialogVisible = false;
@@ -811,6 +904,9 @@ class ProScreen extends ConsumerWidget {
       // Dismiss loading before launching Play Billing UI
       dismissDialog();
 
+      // Track purchase flow start (Google Play billing sheet opens)
+      AnalyticsService().logPurchaseFlowStart(planType);
+
       final success = await purchaseService.purchaseProduct(product);
 
       debugPrint(
@@ -818,14 +914,30 @@ class ProScreen extends ConsumerWidget {
       );
 
       if (!success) {
+        // Track purchase failure
+        AnalyticsService().logPurchaseFailure(
+          planType: planType,
+          errorMessage: 'Purchase cancelled by user',
+        );
+
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Purchase cancelled or failed')),
           );
         }
+      } else {
+        // Track purchase success (also tracked in PurchaseService)
+        // Note: PurchaseService.dart should also call logPurchaseComplete when Pro is granted
       }
     } catch (e, st) {
       debugPrint('ProScreen: purchase flow error: $e\n$st');
+
+      // Track purchase failure
+      AnalyticsService().logPurchaseFailure(
+        planType: planType,
+        errorMessage: e.toString(),
+      );
+
       // Ensure any dialog is dismissed even if context is no longer mounted
       dismissDialog();
 

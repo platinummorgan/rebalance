@@ -1,0 +1,81 @@
+{
+  "@@locale": "bn",
+  
+  "appTitle": "রিব্যালেন্স",
+  
+  "netWorth": "মোট সম্পদ",
+  "assets": "সম্পদ",
+  "liabilities": "দায়",
+  "cashFlow": "নগদ প্রবাহ",
+  "healthScore": "আর্থিক স্বাস্থ্য স্কোর",
+  
+  "proFeatures": "প্রো বৈশিষ্ট্য",
+  "choosePlan": "আপনার পরিকল্পনা চয়ন করুন",
+  "upgradeToProTitle": "প্রো-তে আপগ্রেড করুন",
+  "allProFeatures": "সমস্ত প্রো বৈশিষ্ট্য",
+  "cancelAnytime": "যেকোনো সময় বাতিল করুন",
+  "freeTrialDays": "৭-দিনের বিনামূল্যে ট্রায়াল",
+  
+  "proMonthly": "প্রো মাসিক",
+  "perMonth": "প্রতি মাসে",
+  "annual": "বার্ষিক",
+  "perYear": "প্রতি বছরে",
+  "founderLifetime": "প্রতিষ্ঠাতা লাইফটাইম",
+  "oneTime": "একবার",
+  
+  "bestValue": "সেরা মূল্য",
+  "limited": "সীমিত",
+  "saveMoney": "{amount} সাশ্রয়",
+  
+  "everythingForever": "সবকিছু চিরকালের জন্য",
+  "firstFounders": "প্রথম ১,০০০ প্রতিষ্ঠাতা",
+  "priceIncreasesAfter": "পরে দাম বাড়বে",
+  
+  "retirementCalculator": "অবসর ক্যালকুলেটর",
+  "debtOptimizer": "ঋণ অপ্টিমাইজার",
+  "scenarioEngine": "দৃশ্যকল্প ইঞ্জিন",
+  "taxSmartAllocation": "ট্যাক্স-স্মার্ট বরাদ্দ",
+  "customAlerts": "কাস্টম সতর্কতা",
+  "advancedAnalytics": "উন্নত বিশ্লেষণ",
+  
+  "unlockWithPro": "প্রো দিয়ে আনলক করুন",
+  "startFreeTrial": "বিনামূল্যে ট্রায়াল শুরু করুন",
+  "choosePlanButton": "পরিকল্পনা চয়ন করুন",
+  
+  "settings": "সেটিংস",
+  "currency": "মুদ্রা",
+  "darkMode": "ডার্ক মোড",
+  "colorTheme": "রঙের থিম",
+  "language": "ভাষা",
+  
+  "accounts": "অ্যাকাউন্ট",
+  "addAccount": "অ্যাকাউন্ট যোগ করুন",
+  "editAccount": "অ্যাকাউন্ট সম্পাদনা করুন",
+  "accountName": "অ্যাকাউন্টের নাম",
+  "accountType": "অ্যাকাউন্টের ধরন",
+  "balance": "ব্যালেন্স",
+  
+  "debts": "ঋণ",
+  "addDebt": "ঋণ যোগ করুন",
+  "minimumPayment": "ন্যূনতম পেমেন্ট",
+  "interestRate": "সুদের হার",
+  
+  "rebalancing": "পুনর্ভারসাম্য",
+  "createPlan": "পুনর্ভারসাম্য পরিকল্পনা তৈরি করুন",
+  "targetAllocation": "লক্ষ্য বরাদ্দ",
+  
+  "dashboard": "ড্যাশবোর্ড",
+  "reports": "রিপোর্ট",
+  "targets": "লক্ষ্য",
+  
+  "save": "সংরক্ষণ করুন",
+  "cancel": "বাতিল করুন",
+  "delete": "মুছুন",
+  "edit": "সম্পাদনা করুন",
+  "add": "যোগ করুন",
+  "confirm": "নিশ্চিত করুন",
+  
+  "loading": "লোড হচ্ছে...",
+  "error": "ত্রুটি",
+  "success": "সফল"
+}

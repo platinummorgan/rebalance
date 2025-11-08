@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'theme.dart';
 import 'routes.dart' show AppRouter;
 import 'services/purchase_service.dart';
 import 'data/repositories.dart';
 import 'data/models.dart';
 import 'utils/diagnostics.dart';
+import 'generated/app_localizations.dart';
 
 class RebalanceApp extends ConsumerWidget {
   const RebalanceApp({super.key});
@@ -57,8 +59,21 @@ class RebalanceApp extends ConsumerWidget {
         // Routing
         routerConfig: AppRouter.router,
 
-        // Localization (US English only for MVP)
-        locale: const Locale('en', 'US'),
+        // Localization
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en'), // English
+          Locale('hi'), // Hindi
+          Locale('bn'), // Bengali
+          Locale('ar'), // Arabic
+          Locale('fa'), // Persian/Farsi
+        ],
+        locale: Locale(settings.language ?? 'en'),
 
         // Accessibility
         builder: (context, child) {

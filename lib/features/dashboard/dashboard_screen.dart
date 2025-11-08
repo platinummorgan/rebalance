@@ -15,6 +15,8 @@ import '../../data/calculators/financial_health.dart';
 import '../../data/calculators/allocation.dart';
 import '../../utils/currency_formatter.dart';
 import '../../widgets/currency_text.dart';
+import '../../services/analytics_service.dart';
+import '../pro/pro_screen.dart';
 
 import '../../app.dart';
 import '../../utils/csv_exporter.dart';
@@ -207,6 +209,11 @@ class DashboardScreen extends ConsumerWidget {
         // Enhanced Net Worth Card with History
         SliverToBoxAdapter(
           child: _buildNetWorthCard(context, ref, accounts),
+        ),
+
+        // Pro Features Banner (dismissible)
+        SliverToBoxAdapter(
+          child: _buildProBanner(context, ref),
         ),
 
         // Allocation Analysis Section
@@ -1448,6 +1455,205 @@ class DashboardScreen extends ConsumerWidget {
           ),
         ],
       ],
+    );
+  }
+
+  Widget _buildProBanner(BuildContext context, WidgetRef ref) {
+    final settingsAsync = ref.watch(settingsProvider);
+    final settings = settingsAsync.value;
+
+    // Don't show banner if:
+    // 1. User is already Pro
+    // 2. User has dismissed it
+    // 3. Settings not loaded yet
+    if (settings == null ||
+        settings.isPro == true ||
+        settings.proBannerDismissed == true) {
+      return const SizedBox.shrink();
+    }
+
+    // Track banner view (only once per session to avoid spam)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      AnalyticsService().logProBannerView();
+    });
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Theme.of(context).colorScheme.primaryContainer,
+              Theme.of(context).colorScheme.secondaryContainer,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+            width: 1.5,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              // Icon
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  Icons.trending_up,
+                  color: Colors.white,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 16),
+
+              // Content
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          '🎉 NEW',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          'Retirement Calculator',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Monte Carlo simulation shows if you\'re on track',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withValues(alpha: 0.7),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+
+                    // CTA Button
+                    GestureDetector(
+                      onTap: () {
+                        AnalyticsService().logProBannerTap();
+                        Navigator.of(context, rootNavigator: true).push(
+                          MaterialPageRoute(
+                            builder: (context) => const ProScreen(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Try Free for 7 Days',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(width: 6),
+                            Icon(
+                              Icons.arrow_forward,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Dismiss button
+              IconButton(
+                icon: Icon(
+                  Icons.close,
+                  size: 20,
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: 0.5),
+                ),
+                onPressed: () {
+                  // Track banner dismiss
+                  AnalyticsService().logProBannerDismiss();
+
+                  // Update settings to mark banner as dismissed
+                  final settingsNotifier = ref.read(settingsProvider.notifier);
+                  final updated = Settings(
+                    riskBand: settings.riskBand,
+                    monthlyEssentials: settings.monthlyEssentials,
+                    driftThresholdPct: settings.driftThresholdPct,
+                    notificationsEnabled: settings.notificationsEnabled,
+                    usEquityTargetPct: settings.usEquityTargetPct,
+                    isPro: settings.isPro,
+                    biometricLockEnabled: settings.biometricLockEnabled,
+                    darkModeEnabled: settings.darkModeEnabled,
+                    colorTheme: settings.colorTheme,
+                    liquidityBondHaircut: settings.liquidityBondHaircut,
+                    bucketCap: settings.bucketCap,
+                    employerStockThreshold: settings.employerStockThreshold,
+                    monthlyIncome: settings.monthlyIncome,
+                    incomeMultiplierFallback: settings.incomeMultiplierFallback,
+                    schemaVersion: settings.schemaVersion,
+                    concentrationRiskSnoozedUntil:
+                        settings.concentrationRiskSnoozedUntil,
+                    concentrationRiskResolvedAt:
+                        settings.concentrationRiskResolvedAt,
+                    homeCountry: settings.homeCountry,
+                    globalDiversificationMode:
+                        settings.globalDiversificationMode,
+                    intlTargetOverride: settings.intlTargetOverride,
+                    intlTolerancePct: settings.intlTolerancePct,
+                    intlFloorPct: settings.intlFloorPct,
+                    intlPenaltyScale: settings.intlPenaltyScale,
+                    financialHealthBaseline: settings.financialHealthBaseline,
+                    financialHealthGlobalScale:
+                        settings.financialHealthGlobalScale,
+                    currency: settings.currency,
+                    baseCurrency: settings.baseCurrency,
+                    proBannerDismissed: true, // Mark as dismissed
+                  );
+                  settingsNotifier.updateSettings(updated);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -9442,7 +9648,12 @@ class _RiskNudgeCardState extends State<RiskNudgeCard>
             : Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(widget.ctaText),
+                  Flexible(
+                    child: Text(
+                      widget.ctaText,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                   if (widget.showPro) ...[
                     const SizedBox(width: 8),
                     Container(

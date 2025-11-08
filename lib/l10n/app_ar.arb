@@ -1,0 +1,81 @@
+{
+  "@@locale": "ar",
+  
+  "appTitle": "ريبالانس",
+  
+  "netWorth": "صافي الثروة",
+  "assets": "الأصول",
+  "liabilities": "الخصوم",
+  "cashFlow": "التدفق النقدي",
+  "healthScore": "نقاط الصحة المالية",
+  
+  "proFeatures": "ميزات برو",
+  "choosePlan": "اختر خطتك",
+  "upgradeToProTitle": "الترقية إلى برو",
+  "allProFeatures": "جميع ميزات برو",
+  "cancelAnytime": "إلغاء في أي وقت",
+  "freeTrialDays": "تجربة مجانية لمدة 7 أيام",
+  
+  "proMonthly": "برو الشهري",
+  "perMonth": "شهرياً",
+  "annual": "السنوي",
+  "perYear": "سنوياً",
+  "founderLifetime": "المؤسس مدى الحياة",
+  "oneTime": "مرة واحدة",
+  
+  "bestValue": "أفضل قيمة",
+  "limited": "محدود",
+  "saveMoney": "وفر {amount}",
+  
+  "everythingForever": "كل شيء للأبد",
+  "firstFounders": "أول 1,000 مؤسس",
+  "priceIncreasesAfter": "السعر يرتفع بعد ذلك",
+  
+  "retirementCalculator": "حاسبة التقاعد",
+  "debtOptimizer": "محسن الديون",
+  "scenarioEngine": "محرك السيناريوهات",
+  "taxSmartAllocation": "التخصيص الضريبي الذكي",
+  "customAlerts": "التنبيهات المخصصة",
+  "advancedAnalytics": "التحليلات المتقدمة",
+  
+  "unlockWithPro": "افتح مع برو",
+  "startFreeTrial": "ابدأ التجربة المجانية",
+  "choosePlanButton": "اختر الخطة",
+  
+  "settings": "الإعدادات",
+  "currency": "العملة",
+  "darkMode": "الوضع الداكن",
+  "colorTheme": "نظام الألوان",
+  "language": "اللغة",
+  
+  "accounts": "الحسابات",
+  "addAccount": "إضافة حساب",
+  "editAccount": "تحرير الحساب",
+  "accountName": "اسم الحساب",
+  "accountType": "نوع الحساب",
+  "balance": "الرصيد",
+  
+  "debts": "الديون",
+  "addDebt": "إضافة دين",
+  "minimumPayment": "الحد الأدنى للدفع",
+  "interestRate": "معدل الفائدة",
+  
+  "rebalancing": "إعادة التوازن",
+  "createPlan": "إنشاء خطة إعادة التوازن",
+  "targetAllocation": "التخصيص المستهدف",
+  
+  "dashboard": "لوحة القيادة",
+  "reports": "التقارير",
+  "targets": "الأهداف",
+  
+  "save": "حفظ",
+  "cancel": "إلغاء",
+  "delete": "حذف",
+  "edit": "تحرير",
+  "add": "إضافة",
+  "confirm": "تأكيد",
+  
+  "loading": "جاري التحميل...",
+  "error": "خطأ",
+  "success": "نجح"
+}

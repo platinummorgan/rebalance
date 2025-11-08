@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../services/retirement_calculator_service.dart';
+import '../../services/analytics_service.dart';
 import '../../utils/premium_helper.dart';
 import '../../utils/currency_formatter.dart';
 
@@ -29,6 +30,12 @@ class _RetirementCalculatorScreenState
   void initState() {
     super.initState();
     _calculate();
+
+    // Track calculator view with Pro status
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final isPro = PremiumHelper.isPro(ref);
+      AnalyticsService().logRetirementCalculatorView(isPro: isPro);
+    });
   }
 
   void _calculate() {
@@ -399,7 +406,7 @@ class _RetirementCalculatorScreenState
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                        'Please enter a value between ${min.round()} and ${max.round()}'),
+                        'Please enter a value between ${min.round()} and ${max.round()}',),
                   ),
                 );
               }
@@ -508,7 +515,7 @@ class _RetirementCalculatorScreenState
   }
 
   Widget _buildStatRow(String label, String value, IconData icon,
-      {Color? color}) {
+      {Color? color,}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -572,7 +579,7 @@ class _RetirementCalculatorScreenState
                             'Low',
                             'Med',
                             'High',
-                            'Excellent'
+                            'Excellent',
                           ];
                           if (value.toInt() >= 0 &&
                               value.toInt() < labels.length) {
@@ -591,16 +598,16 @@ class _RetirementCalculatorScreenState
                         reservedSize: 40,
                         getTitlesWidget: (value, meta) {
                           return Text('${value.toInt()}%',
-                              style: const TextStyle(fontSize: 10));
+                              style: const TextStyle(fontSize: 10),);
                         },
                       ),
                     ),
                     topTitles: const AxisTitles(
-                        sideTitles: SideTitles(showTitles: false)),
+                        sideTitles: SideTitles(showTitles: false),),
                     rightTitles: const AxisTitles(
-                        sideTitles: SideTitles(showTitles: false)),
+                        sideTitles: SideTitles(showTitles: false),),
                   ),
-                  gridData: FlGridData(
+                  gridData: const FlGridData(
                     show: true,
                     drawVerticalLine: false,
                     horizontalInterval: 20,
@@ -688,7 +695,7 @@ class _RetirementCalculatorScreenState
                       ),
                     ],
                   ),
-                )),
+                ),),
           ],
         ),
       ),
@@ -712,15 +719,15 @@ class _RetirementCalculatorScreenState
         color: Colors.orange,
         text:
             'Consider increasing monthly contributions to ${CurrencyFormatter.format(requiredSavings, 'USD')} to improve your odds.',
-      ));
+      ),);
     }
 
     if (result.probabilityOfSuccess >= 0.90) {
-      recommendations.add(_Recommendation(
+      recommendations.add(const _Recommendation(
         icon: Icons.celebration,
         color: Colors.green,
         text: 'Excellent! Your retirement plan is on track.',
-      ));
+      ),);
     }
 
     // Check 4% rule
@@ -733,7 +740,7 @@ class _RetirementCalculatorScreenState
         color: Colors.red,
         text:
             'Your desired income (${CurrencyFormatter.format(_desiredMonthlyIncome, 'USD')}) exceeds the "4% rule" safe withdrawal amount (${CurrencyFormatter.format(safeWithdrawal, 'USD')}).',
-      ));
+      ),);
     }
 
     if (_yearsUntilRetirement > 10) {
@@ -741,17 +748,17 @@ class _RetirementCalculatorScreenState
         icon: Icons.timeline,
         color: Colors.blue,
         text:
-            'With ${_yearsUntilRetirement} years until retirement, time is your biggest advantage. Stay consistent with contributions.',
-      ));
+            'With $_yearsUntilRetirement years until retirement, time is your biggest advantage. Stay consistent with contributions.',
+      ),);
     }
 
     if (recommendations.isEmpty) {
-      recommendations.add(_Recommendation(
+      recommendations.add(const _Recommendation(
         icon: Icons.trending_up,
         color: Colors.blue,
         text:
             'Your plan is reasonable. Review annually and adjust as your situation changes.',
-      ));
+      ),);
     }
 
     return recommendations;

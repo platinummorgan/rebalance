@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "645757352413",
+    "project_id": "rebalance-632cf",
+    "storage_bucket": "rebalance-632cf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645757352413:android:853b10db518a42fc859e34",
+        "android_client_info": {
+          "package_name": "com.wealthdial.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnEhpqWHx69WieJl-zDwK9vr8aFs6wbYY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
