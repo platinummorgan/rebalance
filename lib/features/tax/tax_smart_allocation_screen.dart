@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../data/models.dart';
 import '../../routes.dart' show AppRouter;
 import 'tax_smart_service.dart';
+import '../../generated/app_localizations.dart';
 
 class TaxSmartAllocationScreen extends ConsumerWidget {
   const TaxSmartAllocationScreen({super.key});
@@ -26,7 +27,7 @@ class TaxSmartAllocationScreen extends ConsumerWidget {
         final analysis = ref.watch(taxSmartAnalysisProvider(accounts));
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Tax-Smart Allocation'),
+            title: Text(AppLocalizations.of(context)!.taxSmartAllocation),
             actions: [
               IconButton(
                 tooltip: 'Dashboard',
@@ -50,7 +51,7 @@ class TaxSmartAllocationScreen extends ConsumerWidget {
 
   Widget _buildGate(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Tax-Smart Allocation')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.taxSmartAllocation)),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -68,7 +69,7 @@ class TaxSmartAllocationScreen extends ConsumerWidget {
               const SizedBox(height: 20),
               FilledButton(
                 onPressed: () => context.push(AppRouter.pro),
-                child: const Text('Upgrade to Pro'),
+                child: Text(AppLocalizations.of(context)!.upgradeToProTitle),
               ),
             ],
           ),

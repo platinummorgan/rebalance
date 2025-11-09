@@ -8,6 +8,7 @@ import '../../data/repositories.dart';
 import '../../app.dart';
 import '../../utils/currency_formatter.dart';
 import '../../services/exchange_rate_service.dart';
+import '../../generated/app_localizations.dart';
 
 // Custom formatter to add commas while typing
 class ThousandsSeparatorInputFormatter extends TextInputFormatter {
@@ -260,7 +261,7 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
                     height: 16,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : const Text('Save'),
+                : Text(AppLocalizations.of(context)!.save),
           ),
         ],
       ),
@@ -278,20 +279,22 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Account Details',
+                        AppLocalizations.of(context)!.accountDetails,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: _nameController,
-                        decoration: const InputDecoration(
-                          labelText: 'Account Name',
-                          hintText: 'e.g., Chase Checking',
-                          border: OutlineInputBorder(),
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!.accountName,
+                          hintText:
+                              AppLocalizations.of(context)!.exampleAccountName,
+                          border: const OutlineInputBorder(),
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter an account name';
+                            return AppLocalizations.of(context)!
+                                .pleaseEnterAccountName;
                           }
                           return null;
                         },
@@ -299,9 +302,9 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
                       const SizedBox(height: 16),
                       DropdownButtonFormField<String>(
                         initialValue: _selectedAccountType,
-                        decoration: const InputDecoration(
-                          labelText: 'Account Type',
-                          border: OutlineInputBorder(),
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!.accountType,
+                          border: const OutlineInputBorder(),
                         ),
                         items: _accountTypes.entries.map((entry) {
                           return DropdownMenuItem(
@@ -349,7 +352,7 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Locked Account',
+                                    AppLocalizations.of(context)!.lockedAccount,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 15,
@@ -361,8 +364,10 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
                                   const SizedBox(height: 2),
                                   Text(
                                     _isLocked
-                                        ? 'Can\'t be rebalanced (401k, pension, restricted)'
-                                        : 'Can be included in rebalancing plans',
+                                        ? AppLocalizations.of(context)!
+                                            .cannotBeRebalanced
+                                        : AppLocalizations.of(context)!
+                                            .canBeRebalanced,
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: _isLocked
@@ -388,7 +393,8 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
                       TextFormField(
                         controller: _balanceController,
                         decoration: InputDecoration(
-                          labelText: 'Current Balance',
+                          labelText:
+                              AppLocalizations.of(context)!.currentBalance,
                           hintText: '0.00',
                           border: const OutlineInputBorder(),
                           prefixText: currencySymbol,
@@ -401,13 +407,15 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
                         ],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter a balance';
+                            return AppLocalizations.of(context)!
+                                .pleaseEnterBalance;
                           }
                           // Remove commas before parsing
                           final cleanValue = value.replaceAll(',', '');
                           final balance = double.tryParse(cleanValue);
                           if (balance == null || balance < 0) {
-                            return 'Please enter a valid balance';
+                            return AppLocalizations.of(context)!
+                                .pleaseEnterValidBalance;
                           }
                           return null;
                         },

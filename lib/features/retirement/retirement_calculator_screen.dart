@@ -5,6 +5,7 @@ import '../../services/retirement_calculator_service.dart';
 import '../../services/analytics_service.dart';
 import '../../utils/premium_helper.dart';
 import '../../utils/currency_formatter.dart';
+import '../../generated/app_localizations.dart';
 
 class RetirementCalculatorScreen extends ConsumerStatefulWidget {
   const RetirementCalculatorScreen({super.key});
@@ -72,7 +73,7 @@ class _RetirementCalculatorScreenState
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Retirement Calculator'),
+        title: Text(AppLocalizations.of(context)!.retirementCalculator),
         actions: [
           IconButton(
             icon: const Icon(Icons.help_outline),
@@ -109,7 +110,7 @@ class _RetirementCalculatorScreenState
   Widget _buildUpgradeScreen(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Retirement Calculator'),
+        title: Text(AppLocalizations.of(context)!.retirementCalculator),
       ),
       body: Center(
         child: Padding(
@@ -148,7 +149,7 @@ class _RetirementCalculatorScreenState
                       'Get Monte Carlo simulations, probability analysis, and personalized retirement recommendations.',
                 ),
                 icon: const Icon(Icons.upgrade),
-                label: const Text('Upgrade to Pro'),
+                label: Text(AppLocalizations.of(context)!.upgradeToProTitle),
                 style: FilledButton.styleFrom(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
@@ -394,7 +395,7 @@ class _RetirementCalculatorScreenState
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           FilledButton(
             onPressed: () {

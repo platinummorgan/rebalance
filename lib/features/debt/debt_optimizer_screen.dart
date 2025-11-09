@@ -7,6 +7,7 @@ import '../../app.dart';
 import '../../routes.dart' show AppRouter;
 import '../../utils/currency_formatter.dart';
 import '../../services/exchange_rate_service.dart';
+import '../../generated/app_localizations.dart';
 
 /// Debt payoff optimizer - calculates avalanche/snowball strategies
 /// and shows potential interest savings with Pro upgrade.
@@ -43,20 +44,20 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
 
     return liabilitiesAsync.when(
       loading: () => Scaffold(
-        appBar: AppBar(title: const Text('Debt Optimizer')),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
         body: const Center(child: CircularProgressIndicator()),
       ),
       error: (error, stack) => Scaffold(
-        appBar: AppBar(title: const Text('Debt Optimizer')),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
         body: Center(child: Text('Error: $error')),
       ),
       data: (liabilities) => settingsAsync.when(
         loading: () => Scaffold(
-          appBar: AppBar(title: const Text('Debt Optimizer')),
+          appBar: AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
           body: const Center(child: CircularProgressIndicator()),
         ),
         error: (error, stack) => Scaffold(
-          appBar: AppBar(title: const Text('Debt Optimizer')),
+          appBar: AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
           body: Center(child: Text('Error: $error')),
         ),
         data: (settings) => FutureBuilder<List<Liability>>(
@@ -69,13 +70,13 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Scaffold(
-                appBar: AppBar(title: const Text('Debt Optimizer')),
+                appBar: AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
                 body: const Center(child: CircularProgressIndicator()),
               );
             }
             if (snapshot.hasError) {
               return Scaffold(
-                appBar: AppBar(title: const Text('Debt Optimizer')),
+                appBar: AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
                 body: Center(child: Text('Error: ${snapshot.error}')),
               );
             }
@@ -135,7 +136,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
     if (liabilities.isEmpty) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Debt Optimizer'),
+          title: Text(AppLocalizations.of(context)!.debtOptimizer),
         ),
         body: Center(
           child: Column(
@@ -195,7 +196,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Debt Optimizer'),
+        title: Text(AppLocalizations.of(context)!.debtOptimizer),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -421,7 +422,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                             // Navigate to Pro screen
                             Navigator.pushNamed(context, '/pro');
                           },
-                          child: const Text('Upgrade to Pro'),
+                          child: Text(AppLocalizations.of(context)!.upgradeToProTitle),
                         ),
                       ),
                     ],
@@ -1219,7 +1220,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
   Widget _buildProGate(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Debt Optimizer'),
+        title: Text(AppLocalizations.of(context)!.debtOptimizer),
       ),
       body: Center(
         child: Padding(
@@ -1284,7 +1285,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                   context.push(AppRouter.pro);
                 },
                 icon: const Icon(Icons.star),
-                label: const Text('Upgrade to Pro'),
+                label: Text(AppLocalizations.of(context)!.upgradeToProTitle),
                 style: FilledButton.styleFrom(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 32, vertical: 16),

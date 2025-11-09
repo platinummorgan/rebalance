@@ -20,6 +20,7 @@ import '../pro/pro_screen.dart';
 
 import '../../app.dart';
 import '../../utils/csv_exporter.dart';
+import '../../generated/app_localizations.dart';
 
 // Top-level autosuggest helper so widget-building code can call it from any
 // method inside the file regardless of class method ordering.
@@ -160,7 +161,7 @@ class DashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Rebalance'),
+        title: Text(AppLocalizations.of(context)!.appTitle),
       ),
       body: Consumer(
         builder: (context, ref, child) {
@@ -236,7 +237,7 @@ class DashboardScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Recent Accounts',
+                  AppLocalizations.of(context)!.recentAccounts,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -260,7 +261,7 @@ class DashboardScreen extends ConsumerWidget {
                       ),
                     ),
                     child: Text(
-                      'View all (${accounts.length})',
+                      '${AppLocalizations.of(context)!.viewAll} (${accounts.length})',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.w600,
@@ -477,7 +478,7 @@ class DashboardScreen extends ConsumerWidget {
     final currency = _getCurrency(ref);
     final percentOfPortfolio = (account.balance / totalAssets) * 100;
     final accountColor = _getAccountKindColor(context, account.kind);
-    final lastUpdated = _getLastUpdatedText(account);
+    final lastUpdated = _getLastUpdatedText(context, account);
 
     return Container(
       margin: const EdgeInsets.symmetric(
@@ -537,8 +538,8 @@ class DashboardScreen extends ConsumerWidget {
                 ),
                 const SizedBox(width: 8),
                 Flexible(
-                  child: Text(
-                    CurrencyFormatter.format(account.balance, currency),
+                  child: CurrencyText(
+                    account.balance,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
@@ -546,7 +547,6 @@ class DashboardScreen extends ConsumerWidget {
                         FontFeature.tabularFigures(),
                       ],
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 const SizedBox(width: 4),
@@ -625,12 +625,13 @@ class DashboardScreen extends ConsumerWidget {
   }
 
   // Get last updated text (mock for now)
-  String _getLastUpdatedText(Account account) {
+  String _getLastUpdatedText(BuildContext context, Account account) {
     // In real app, this would check actual last sync time
     final daysAgo = (account.id.hashCode % 7) + 1; // Mock: 1-7 days ago
-    if (daysAgo <= 1) return 'Updated today';
-    if (daysAgo == 2) return 'Updated yesterday';
-    return 'Updated ${daysAgo}d ago';
+    final loc = AppLocalizations.of(context)!;
+    if (daysAgo <= 1) return loc.updatedToday;
+    if (daysAgo == 2) return loc.updatedYesterday;
+    return 'Updated ${daysAgo}d ago'; // Will fix template later
   }
 
   // Quick actions sheet for long press
@@ -732,7 +733,7 @@ class DashboardScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           TextButton(
             onPressed: () {
@@ -782,14 +783,14 @@ class DashboardScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              'No Accounts Yet',
+              AppLocalizations.of(context)!.noAccountsYet,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             const SizedBox(height: 8),
             Text(
-              'Add your first account to start tracking your financial health and get personalized insights.',
+              AppLocalizations.of(context)!.getStarted,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context)
@@ -802,7 +803,7 @@ class DashboardScreen extends ConsumerWidget {
             ElevatedButton.icon(
               onPressed: () => context.push(AppRouter.accounts),
               icon: const Icon(Icons.add),
-              label: const Text('Add Your First Account'),
+              label: Text(AppLocalizations.of(context)!.addYourFirstAccount),
               style: ElevatedButton.styleFrom(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -847,7 +848,7 @@ class DashboardScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           Consumer(
             builder: (context, ref, child) => FilledButton(
@@ -1073,7 +1074,7 @@ class DashboardScreen extends ConsumerWidget {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    'Asset Allocation',
+                    AppLocalizations.of(context)!.assetAllocation,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -1153,7 +1154,7 @@ class DashboardScreen extends ConsumerWidget {
                   width: double.infinity,
                   child: FilledButton.icon(
                     icon: const Icon(Icons.analytics_outlined),
-                    label: const Text('View Full Analysis'),
+                    label: Text(AppLocalizations.of(context)!.viewFullAnalysis),
                     style: FilledButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                         vertical: 16,
@@ -1224,6 +1225,29 @@ class DashboardScreen extends ConsumerWidget {
     return allocation;
   }
 
+  String _translateAssetClass(BuildContext context, String assetClass) {
+    final loc = AppLocalizations.of(context)!;
+    switch (assetClass) {
+      case 'Cash':
+        return loc.cash;
+      case 'Bonds':
+        return loc.bonds;
+      case 'US Equity':
+      case 'Intl Equity':
+      case 'Equities':
+        return loc.equities;
+      case 'Real Estate':
+        return loc.realEstate;
+      case 'Alternative':
+      case 'Commodities':
+        return loc.commodities;
+      case 'Crypto':
+        return loc.crypto;
+      default:
+        return loc.other;
+    }
+  }
+
   Widget _buildAllocationEmptyState(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
@@ -1284,7 +1308,7 @@ class DashboardScreen extends ConsumerWidget {
               ),
               Expanded(
                 child: Text(
-                  e.key,
+                  _translateAssetClass(context, e.key),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
@@ -1434,7 +1458,7 @@ class DashboardScreen extends ConsumerWidget {
         ),
         const SizedBox(height: 2),
         Text(
-          'Total Equities',
+          AppLocalizations.of(context)!.totalEquities,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
                 fontSize: 13,
@@ -1444,7 +1468,7 @@ class DashboardScreen extends ConsumerWidget {
         if (hasTarget) ...[
           const SizedBox(height: 2),
           Text(
-            'vs target ${targetEquitiesPercentage.toStringAsFixed(0)}%',
+            '${AppLocalizations.of(context)!.vsTarget} ${targetEquitiesPercentage.toStringAsFixed(0)}%',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: delta.abs() <= 5
                       ? Colors.green.shade600
@@ -1738,12 +1762,12 @@ class DashboardScreen extends ConsumerWidget {
     final currency = settings?.currency ?? 'USD';
 
     return RiskNudgeCard(
-      title: 'Reduce concentration risk',
+      title: AppLocalizations.of(context)!.reduceConcentrationRisk,
       diagnosis:
-          'Largest bucket $largestBucket (${largestPercentage.toStringAsFixed(1)}%). Cap ≤20% per bucket.',
+          '${AppLocalizations.of(context)!.largestBucket} $largestBucket (${largestPercentage.toStringAsFixed(1)}%). ${AppLocalizations.of(context)!.capPerBucket} ≤20%.',
       action:
-          'Shift ${CurrencyFormatter.format(movePerMonth.toDouble(), currency)}/mo for ~6 months to Bonds/Intl.',
-      ctaText: 'Create Rebalancing Plan',
+          '${AppLocalizations.of(context)!.shiftPerMonth} ${CurrencyFormatter.format(movePerMonth.toDouble(), currency)} for ~6 months to Bonds/Intl.',
+      ctaText: AppLocalizations.of(context)!.createRebalancingPlan,
       severityColor: Colors.amber,
       showPro: !isPro,
       personalizationChips: [
@@ -1843,7 +1867,7 @@ class DashboardScreen extends ConsumerWidget {
                         Navigator.of(sheetCtx).pop();
                         context.push(AppRouter.rebalancing);
                       },
-                      child: const Text('Create Rebalancing Plan'),
+                      child: Text(AppLocalizations.of(context)!.createPlan),
                     ),
                     const SizedBox(height: 8),
                   ],
@@ -2285,7 +2309,7 @@ class DashboardScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Net Worth',
+                  AppLocalizations.of(context)!.netWorthLabel,
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 16,
@@ -2413,7 +2437,7 @@ class DashboardScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Net Worth',
+                  AppLocalizations.of(context)!.netWorth,
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 16,
@@ -2489,7 +2513,7 @@ class DashboardScreen extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          '$accountCount accounts',
+                          '$accountCount ${AppLocalizations.of(context)!.accounts.toLowerCase()}',
                           style: TextStyle(
                             color: Colors.white.withValues(alpha: 0.9),
                             fontSize: 14,
@@ -2500,7 +2524,7 @@ class DashboardScreen extends ConsumerWidget {
                     ),
                     const Spacer(),
                     Text(
-                      'Updated ${DateFormat('MMM d').format(DateTime.now())}',
+                      _getUpdatedDateText(context),
                       style: TextStyle(
                         color: Colors.white.withValues(alpha: 0.8),
                         fontSize: 14,
@@ -2514,6 +2538,27 @@ class DashboardScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  String _getUpdatedDateText(BuildContext context) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final yesterday = today.subtract(const Duration(days: 1));
+    final checkDate = DateTime(now.year, now.month, now.day);
+
+    if (checkDate == today) {
+      return AppLocalizations.of(context)!.updatedToday;
+    } else if (checkDate == yesterday) {
+      return AppLocalizations.of(context)!.updatedYesterday;
+    } else {
+      final daysAgo = today.difference(checkDate).inDays;
+      if (daysAgo < 30) {
+        return AppLocalizations.of(context)!.updatedDaysAgo(daysAgo);
+      } else {
+        // For dates older than 30 days, just use the date format
+        return '${AppLocalizations.of(context)!.updated} ${DateFormat('MMM d').format(now)}';
+      }
+    }
   }
 
   Widget _buildIntegratedHealthScore(BuildContext context) {
@@ -2760,7 +2805,7 @@ class DashboardScreen extends ConsumerWidget {
         preferBelow: false,
         child: Semantics(
           label:
-              'Overall financial health score ${healthResult.grade.name}, ${healthResult.score}. ${scoreDelta != 0 ? '${scoreDelta > 0 ? "Increased" : "Decreased"} by ${scoreDelta.abs()} points over $timeframe.' : ''} ${_getStatusLabel(healthResult.score)}. ${_getOverallHealthSubtitle(healthResult)}.',
+              'Overall financial health score ${healthResult.grade.name}, ${healthResult.score}. ${scoreDelta != 0 ? '${scoreDelta > 0 ? "Increased" : "Decreased"} by ${scoreDelta.abs()} points over $timeframe.' : ''} ${_getStatusLabel(context, healthResult.score)}. ${_getOverallHealthSubtitle(healthResult, context)}.',
           hint: 'Tap to view Trend or Financial score',
           button: true,
           child: Container(
@@ -2848,7 +2893,7 @@ class DashboardScreen extends ConsumerWidget {
                         const SizedBox(width: 12),
                         // Status label (Fair) - secondary hierarchy
                         Text(
-                          _getStatusLabel(healthResult.score),
+                          _getStatusLabel(context, healthResult.score),
                           style: TextStyle(
                             color: Theme.of(context)
                                 .colorScheme
@@ -2919,7 +2964,7 @@ class DashboardScreen extends ConsumerWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          'Overall',
+                          AppLocalizations.of(context)!.overall,
                           style: TextStyle(
                             color: Theme.of(context)
                                 .colorScheme
@@ -2943,6 +2988,7 @@ class DashboardScreen extends ConsumerWidget {
                           child: Text(
                             _getOverallHealthSubtitle(
                               healthResult,
+                              context,
                             ), // Weakest: Debt Load 41/100
                             style: TextStyle(
                               color: Theme.of(context)
@@ -3142,15 +3188,17 @@ class DashboardScreen extends ConsumerWidget {
     }
   }
 
-  String _getStatusLabel(int score) {
+  String _getStatusLabel(BuildContext context, int score) {
     // Align status labels with grade bands for consistency
-    if (score >= 90) return 'Excellent'; // A grade: 90-100
-    if (score >= 80) return 'Good'; // B grade: 80-89
-    if (score >= 70) return 'Fair'; // C grade: 70-79
+    final localizations = AppLocalizations.of(context)!;
+    if (score >= 90) return localizations.excellent; // A grade: 90-100
+    if (score >= 80) return localizations.good; // B grade: 80-89
+    if (score >= 70) return localizations.fair; // C grade: 70-79
     if (score >= 60) {
-      return 'Needs work'; // D grade: 60-69 (consistent with "Needs Attention")
+      return localizations
+          .needsWork; // D grade: 60-69 (consistent with "Needs Attention")
     }
-    return 'Poor'; // F grade: 0-59
+    return localizations.critical; // F grade: 0-59
   }
 
   // Removed: _getStatusLabelColor (unused)
@@ -3284,16 +3332,16 @@ class DashboardScreen extends ConsumerWidget {
     }
   }
 
-  String _getOverallHealthSubtitle(FinancialHealthResult healthResult) {
+  String _getOverallHealthSubtitle(FinancialHealthResult healthResult, BuildContext context) {
     if (healthResult.componentScores.isEmpty) {
-      return 'Health calculated from 5 components';
+      return AppLocalizations.of(context)!.healthCalculatedFromComponents;
     }
 
     // Find the weakest component
     final weakestEntry = healthResult.componentScores.entries
         .reduce((a, b) => a.value < b.value ? a : b);
 
-    return 'Weakest: ${weakestEntry.key} ${weakestEntry.value}/100';
+    return '${AppLocalizations.of(context)!.weakest}: ${weakestEntry.key} ${weakestEntry.value}/100';
   }
 
   Widget _buildGradeBadge(
@@ -3768,7 +3816,7 @@ class DashboardScreen extends ConsumerWidget {
   ) {
     // Enhanced mock trend data with realistic patterns
     final trendData = _generateRealisticTrendData(healthResult);
-    final overallTrend = _calculateOverallTrend(trendData);
+    final overallTrend = _calculateOverallTrend(trendData, context);
 
     showModalBottomSheet(
       context: context,
@@ -3810,7 +3858,7 @@ class DashboardScreen extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Financial Health Trend',
+                        AppLocalizations.of(context)!.financialHealthTrend,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -3861,7 +3909,7 @@ class DashboardScreen extends ConsumerWidget {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              '${healthResult.grade.name} • ${_getGradeText(healthResult.grade)}',
+                              '${healthResult.grade.name} • ${_getGradeText(healthResult.grade, context)}',
                               style: TextStyle(
                                 color: _getSeverityColorForHealth(
                                   healthResult.grade,
@@ -3933,7 +3981,7 @@ class DashboardScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Key Insights',
+                    AppLocalizations.of(context)!.keyInsights,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -4037,6 +4085,7 @@ class DashboardScreen extends ConsumerWidget {
 
   Map<String, dynamic> _calculateOverallTrend(
     List<Map<String, dynamic>> trendData,
+    BuildContext context,
   ) {
     if (trendData.length < 2) {
       return {
@@ -4072,42 +4121,47 @@ class DashboardScreen extends ConsumerWidget {
       trendIcon = Icons.trending_up;
       trendText = '+$delta pts ($percentChange%)';
       insights = [
-        'Strong upward trend over 6 months',
-        if (avgVolatility < 3) 'Consistent improvement pattern',
-        if (lastScore >= 70) 'Approaching excellent financial health',
+        AppLocalizations.of(context)!.strongUpwardTrend,
+        if (avgVolatility < 3)
+          AppLocalizations.of(context)!.consistentImprovementPattern,
+        if (lastScore >= 70)
+          AppLocalizations.of(context)!.approachingExcellentHealth,
       ];
     } else if (delta >= 2) {
       trendColor = Colors.lightGreen.shade600;
       trendIcon = Icons.keyboard_arrow_up;
       trendText = '+$delta pts ($percentChange%)';
       insights = [
-        'Gradual improvement trend',
-        if (avgVolatility < 4) 'Steady progress pattern',
+        AppLocalizations.of(context)!.gradualImprovementTrend,
+        if (avgVolatility < 4)
+          AppLocalizations.of(context)!.steadyProgressPattern,
       ];
     } else if (delta <= -5) {
       trendColor = Colors.red.shade600;
       trendIcon = Icons.trending_down;
       trendText = '$delta pts ($percentChange%)';
       insights = [
-        'Declining trend needs attention',
-        if (avgVolatility > 5) 'High volatility in scores',
-        'Consider reviewing financial strategy',
+        AppLocalizations.of(context)!.decliningTrendNeedsAttention,
+        if (avgVolatility > 5)
+          AppLocalizations.of(context)!.highVolatilityInScores,
+        AppLocalizations.of(context)!.considerReviewingStrategy,
       ];
     } else if (delta <= -2) {
       trendColor = Colors.orange.shade600;
       trendIcon = Icons.keyboard_arrow_down;
       trendText = '$delta pts ($percentChange%)';
       insights = [
-        'Slight downward trend',
-        'Monitor for continued decline',
+        AppLocalizations.of(context)!.slightDownwardTrend,
+        AppLocalizations.of(context)!.monitorForContinuedDecline,
       ];
     } else {
       trendColor = Colors.blue.shade600;
       trendIcon = Icons.horizontal_rule;
       trendText = 'Stable (${delta}pts)';
       insights = [
-        'Stable financial health score',
-        if (avgVolatility < 2) 'Low volatility indicates consistency',
+        AppLocalizations.of(context)!.stableFinancialHealthScore,
+        if (avgVolatility < 2)
+          AppLocalizations.of(context)!.lowVolatilityIndicatesConsistency,
       ];
     }
 
@@ -4184,18 +4238,18 @@ class DashboardScreen extends ConsumerWidget {
     );
   }
 
-  String _getGradeText(HealthGrade grade) {
+  String _getGradeText(HealthGrade grade, BuildContext context) {
     switch (grade) {
       case HealthGrade.A:
-        return 'Excellent Health';
+        return AppLocalizations.of(context)!.excellentHealth;
       case HealthGrade.B:
-        return 'Good Health';
+        return AppLocalizations.of(context)!.goodHealth;
       case HealthGrade.C:
-        return 'Fair Health';
+        return AppLocalizations.of(context)!.fairHealth;
       case HealthGrade.D:
-        return 'Needs Attention';
+        return AppLocalizations.of(context)!.needsWorkHealth;
       case HealthGrade.F:
-        return 'Immediate Action Required';
+        return AppLocalizations.of(context)!.poorHealth;
     }
   }
 
@@ -5897,7 +5951,7 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
               Navigator.pop(context);
               // Would navigate to Pro screen
             },
-            child: const Text('Upgrade to Pro'),
+            child: Text(AppLocalizations.of(context)!.upgradeToProTitle),
           ),
         ],
       ),
@@ -6069,7 +6123,7 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           Consumer(
             builder: (context, ref, _) => FilledButton(
@@ -6080,7 +6134,7 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
               style: FilledButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.error,
               ),
-              child: const Text('Delete'),
+              child: Text(AppLocalizations.of(context)!.delete),
             ),
           ),
         ],
@@ -6346,7 +6400,7 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             FilledButton(
               onPressed: () async {
@@ -6384,7 +6438,7 @@ class _NetWorthHistorySheetState extends ConsumerState<NetWorthHistorySheet> {
                   );
                 }
               },
-              child: const Text('Save'),
+              child: Text(AppLocalizations.of(context)!.save),
             ),
           ],
         );
@@ -7186,7 +7240,7 @@ class _CompareSnapshotsDialog extends StatelessWidget {
                             TextButton.icon(
                               onPressed: onSaveComparison,
                               icon: const Icon(Icons.bookmark_add, size: 16),
-                              label: const Text('Save'),
+                              label: Text(AppLocalizations.of(context)!.save),
                             ),
                           if (onSaveComparison != null)
                             const SizedBox(width: 8),
@@ -7594,7 +7648,7 @@ class _CompareSnapshotsPickerDialogState
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(AppLocalizations.of(context)!.cancel),
         ),
         FilledButton(
           onPressed: canCompare
@@ -8007,7 +8061,7 @@ class EnhancedScoreDetailsSheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Financial Health Score — how balanced is your portfolio?',
+                      '${AppLocalizations.of(context)!.financialHealthScore} — ${AppLocalizations.of(context)!.howBalancedIsYourPortfolio}',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -8028,7 +8082,7 @@ class EnhancedScoreDetailsSheet extends StatelessWidget {
 
                     // Band and rationale
                     Text(
-                      '${_getGradeText(healthResult.grade)} • ${percentage > cap ? '${largestBucket['name']} ${percentage.toStringAsFixed(1)}% (cap ${cap.toStringAsFixed(0)}%)' : 'Well balanced'}',
+                      '${_getGradeText(healthResult.grade, context)} • ${percentage > cap ? '${largestBucket['name']} ${percentage.toStringAsFixed(1)}% (cap ${cap.toStringAsFixed(0)}%)' : AppLocalizations.of(context)!.wellBalanced}',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                         fontSize: 14,
@@ -8048,32 +8102,42 @@ class EnhancedScoreDetailsSheet extends StatelessWidget {
   Widget _buildWeightedBreakdown(BuildContext context) {
     final weights = [
       {
-        'name': 'Concentration Risk',
+        'name': AppLocalizations.of(context)!.concentrationRisk,
         'weight': '30%',
         'score': 65,
         'target': 80,
       },
       {
-        'name': 'Fixed Income Balance',
+        'name': AppLocalizations.of(context)!.fixedIncomeBalance,
         'weight': '25%',
         'score': 72,
         'target': 75,
       },
-      {'name': 'Liquidity Buffer', 'weight': '20%', 'score': 55, 'target': 70},
       {
-        'name': 'International Exposure',
+        'name': AppLocalizations.of(context)!.liquidityBuffer,
+        'weight': '20%',
+        'score': 55,
+        'target': 70
+      },
+      {
+        'name': AppLocalizations.of(context)!.internationalExposure,
         'weight': '15%',
         'score': 78,
         'target': 80,
       },
-      {'name': 'Debt Management', 'weight': '10%', 'score': 85, 'target': 90},
+      {
+        'name': AppLocalizations.of(context)!.debtManagement,
+        'weight': '10%',
+        'score': 85,
+        'target': 90
+      },
     ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Weighted Breakdown',
+          AppLocalizations.of(context)!.weightedBreakdown,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -8175,15 +8239,19 @@ class EnhancedScoreDetailsSheet extends StatelessWidget {
     // Mock data for what changed - in real app, compare with previous calculation
     final changes = [
       {
-        'name': 'Concentration',
+        'name': AppLocalizations.of(context)!.concentration,
         'change': 2,
-        'reason': 'Reduced US Equity position',
+        'reason': AppLocalizations.of(context)!.reducedUsEquityPosition,
       },
-      {'name': 'Bonds', 'change': 1, 'reason': 'Added fixed income allocation'},
       {
-        'name': 'Liquidity',
+        'name': AppLocalizations.of(context)!.bonds,
+        'change': 1,
+        'reason': AppLocalizations.of(context)!.addedFixedIncomeAllocation
+      },
+      {
+        'name': AppLocalizations.of(context)!.liquidity,
         'change': 0,
-        'reason': 'No change in cash position',
+        'reason': AppLocalizations.of(context)!.noChangeInCashPosition,
       },
     ];
 
@@ -8191,14 +8259,14 @@ class EnhancedScoreDetailsSheet extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'What Moved',
+          AppLocalizations.of(context)!.whatMoved,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
         ),
         const SizedBox(height: 8),
         Text(
-          'Since last 30d:',
+          AppLocalizations.of(context)!.sinceLast30d,
           style: TextStyle(
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
@@ -8260,22 +8328,23 @@ class EnhancedScoreDetailsSheet extends StatelessWidget {
   Widget _buildNextActions(BuildContext context) {
     final actions = [
       {
-        'title': 'Open Mix & Dials',
-        'description': 'Review detailed allocation breakdown',
+        'title': AppLocalizations.of(context)!.openMixAndDials,
+        'description':
+            AppLocalizations.of(context)!.reviewDetailedAllocationBreakdown,
         'icon': Icons.donut_large,
         'isPrimary': true,
         'onTap': () => context.push('/reports'),
       },
       {
-        'title': 'Add to Plan',
-        'description': 'Create rebalancing strategy',
+        'title': AppLocalizations.of(context)!.addToPlan,
+        'description': AppLocalizations.of(context)!.createRebalancingStrategy,
         'icon': Icons.auto_fix_high,
         'isPrimary': false,
         'onTap': () => context.push('/reports'),
       },
       {
-        'title': 'Set Target Allocation',
-        'description': 'Adjust your risk preferences',
+        'title': AppLocalizations.of(context)!.setTargetAllocation,
+        'description': AppLocalizations.of(context)!.adjustYourRiskPreferences,
         'icon': Icons.gps_fixed,
         'isPrimary': false,
         'onTap': () {
@@ -8289,7 +8358,7 @@ class EnhancedScoreDetailsSheet extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Next Actions',
+          AppLocalizations.of(context)!.nextActions,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -8410,7 +8479,7 @@ class EnhancedScoreDetailsSheet extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            'See how adding \$1,500 to Bonds affects your score',
+            AppLocalizations.of(context)!.seeHowAddingBondsAffectsScore,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           const SizedBox(height: 16),
@@ -8421,7 +8490,7 @@ class EnhancedScoreDetailsSheet extends StatelessWidget {
               context.push('/reports?scenario=bonds_1500');
             },
             icon: const Icon(Icons.calculate, size: 18),
-            label: const Text('Run Simulation'),
+            label: Text(AppLocalizations.of(context)!.runSimulation),
           ),
         ],
       ),
@@ -8431,45 +8500,45 @@ class EnhancedScoreDetailsSheet extends StatelessWidget {
   Widget _buildGradeBands(BuildContext context) {
     return ExpansionTile(
       title: Text(
-        'Explain Grade Bands',
+        AppLocalizations.of(context)!.explainGradeBands,
         style: Theme.of(context).textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
       ),
-      children: const [
+      children: [
         Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _GradeBandRow(
                 grade: 'A',
                 range: '80-100',
-                label: 'Excellent',
+                label: AppLocalizations.of(context)!.excellent,
                 color: Colors.green,
               ),
               _GradeBandRow(
                 grade: 'B',
                 range: '60-79',
-                label: 'Good',
+                label: AppLocalizations.of(context)!.good,
                 color: Colors.lightGreen,
               ),
               _GradeBandRow(
                 grade: 'C',
                 range: '40-59',
-                label: 'Fair',
+                label: AppLocalizations.of(context)!.fair,
                 color: Colors.orange,
               ),
               _GradeBandRow(
                 grade: 'D',
                 range: '20-39',
-                label: 'Needs Work',
+                label: AppLocalizations.of(context)!.needsWork,
                 color: Colors.deepOrange,
               ),
               _GradeBandRow(
                 grade: 'F',
                 range: '0-19',
-                label: 'Poor',
+                label: AppLocalizations.of(context)!.poor,
                 color: Colors.red,
               ),
             ],
@@ -8507,18 +8576,18 @@ class EnhancedScoreDetailsSheet extends StatelessWidget {
     return Colors.grey.shade600;
   }
 
-  String _getGradeText(HealthGrade grade) {
+  String _getGradeText(HealthGrade grade, BuildContext context) {
     switch (grade) {
       case HealthGrade.A:
-        return 'Excellent Health';
+        return AppLocalizations.of(context)!.excellentHealth;
       case HealthGrade.B:
-        return 'Good Health';
+        return AppLocalizations.of(context)!.goodHealth;
       case HealthGrade.C:
-        return 'Fair Health';
+        return AppLocalizations.of(context)!.fairHealth;
       case HealthGrade.D:
-        return 'Needs Attention';
+        return AppLocalizations.of(context)!.needsWorkHealth;
       case HealthGrade.F:
-        return 'Immediate Action Required';
+        return AppLocalizations.of(context)!.poorHealth;
     }
   }
 
@@ -8640,7 +8709,7 @@ class ScoreDetailsSheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Financial Health Score',
+                      AppLocalizations.of(context)!.financialHealth,
                       style:
                           Theme.of(context).textTheme.headlineSmall?.copyWith(
                                 fontWeight: FontWeight.bold,
@@ -10177,7 +10246,7 @@ class _PaymentDialogState extends State<_PaymentDialog> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Minimum Payment'),
+                        Text(AppLocalizations.of(context)!.minimumPayment),
                         Text(
                           '\$${widget.liability.minPayment.toStringAsFixed(2)}',
                           style: TextStyle(color: Colors.grey.shade600),
@@ -10318,7 +10387,7 @@ class _PaymentDialogState extends State<_PaymentDialog> {
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
-                      child: const Text('Cancel'),
+                      child: Text(AppLocalizations.of(context)!.cancel),
                     ),
                   ),
                   const SizedBox(width: 12),

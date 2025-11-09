@@ -10,6 +10,7 @@ import '../../theme.dart';
 import '../../utils/premium_helper.dart';
 import '../../utils/currency_formatter.dart';
 import '../../services/exchange_rate_service.dart';
+import '../../generated/app_localizations.dart';
 
 class TargetsScreen extends ConsumerWidget {
   const TargetsScreen({super.key});
@@ -20,7 +21,7 @@ class TargetsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(AppLocalizations.of(context)!.settings),
       ),
       body: settingsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -331,7 +332,7 @@ class TargetsScreen extends ConsumerWidget {
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: SwitchListTile(
                 secondary: const Icon(Icons.dark_mode),
-                title: const Text('Dark Mode'),
+                title: Text(AppLocalizations.of(context)!.darkMode),
                 subtitle: const Text('Use dark theme instead of light'),
                 value: settings.darkModeEnabled,
                 onChanged: (value) => _updateDarkMode(ref, value),
@@ -454,7 +455,7 @@ class TargetsScreen extends ConsumerWidget {
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.star),
-                    title: const Text('Pro Features'),
+                    title: Text(AppLocalizations.of(context)!.proFeatures),
                     subtitle: const Text('Unlock advanced features'),
                     onTap: () => context.push('/pro'),
                   ),
@@ -577,7 +578,7 @@ class TargetsScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           FilledButton(
             onPressed: () {

@@ -93,6 +93,7 @@ class _CurrencyTextState extends ConsumerState<CurrencyText> {
     final exchangeRateService = ref.read(exchangeRateServiceProvider);
 
     try {
+      print('CurrencyText: Converting $amount from $from to $to'); // DEBUG
       final result = widget.compact
           ? await CurrencyFormatter.formatCompactWithConversion(
               amount,
@@ -107,6 +108,7 @@ class _CurrencyTextState extends ConsumerState<CurrencyText> {
               exchangeRateService,
             );
 
+      print('CurrencyText: Conversion result: $result'); // DEBUG
       if (mounted && _lastKey != key) {
         setState(() {
           _cachedConversion = result;
@@ -114,6 +116,7 @@ class _CurrencyTextState extends ConsumerState<CurrencyText> {
         });
       }
     } catch (e) {
+      print('CurrencyText: Conversion failed: $e'); // DEBUG
       // Silent fail - will display base currency
     }
   }

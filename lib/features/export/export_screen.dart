@@ -4,6 +4,7 @@ import 'package:csv/csv.dart';
 import 'package:intl/intl.dart';
 import '../../data/repositories.dart';
 import '../../services/file_saver_service.dart';
+import '../../generated/app_localizations.dart';
 
 class ExportScreen extends ConsumerWidget {
   const ExportScreen({super.key});
@@ -71,7 +72,7 @@ class ExportScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, 'cancel'),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, 'export'),

@@ -8,6 +8,7 @@ import '../../data/repositories.dart';
 import '../../app.dart';
 import '../../widgets/currency_text.dart';
 import '../../utils/currency_formatter.dart';
+import '../../generated/app_localizations.dart';
 
 class AccountsScreen extends ConsumerWidget {
   final String? assetTypeFilter;
@@ -694,7 +695,7 @@ void _showDeleteAccountDialog(
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(AppLocalizations.of(context)!.cancel),
         ),
         TextButton(
           onPressed: () async {
@@ -728,7 +729,7 @@ void _showDeleteAccountDialog(
           style: TextButton.styleFrom(
             foregroundColor: Colors.red.shade600,
           ),
-          child: const Text('Delete'),
+          child: Text(AppLocalizations.of(context)!.delete),
         ),
       ],
     ),

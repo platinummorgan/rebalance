@@ -8,6 +8,7 @@ import '../../data/repositories.dart';
 import '../../app.dart';
 import '../../utils/currency_formatter.dart';
 import '../../services/exchange_rate_service.dart';
+import '../../generated/app_localizations.dart';
 
 // Custom formatter to add commas while typing
 class ThousandsSeparatorInputFormatter extends TextInputFormatter {
@@ -374,7 +375,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                     height: 16,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : const Text('Save'),
+                : Text(AppLocalizations.of(context)!.save),
           ),
         ],
       ),

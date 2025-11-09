@@ -8,6 +8,7 @@ import '../../routes.dart' show AppRouter;
 import '../../app.dart';
 import '../../utils/currency_formatter.dart';
 import '../../services/exchange_rate_service.dart';
+import '../../generated/app_localizations.dart';
 
 // --- Providers ---
 class ScenarioInputs {
@@ -188,7 +189,7 @@ class ScenarioEngineScreen extends ConsumerWidget {
       loading: () =>
           const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (e, st) => Scaffold(
-        appBar: AppBar(title: const Text('Scenario Engine')),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.scenarioEngine)),
         body: Center(child: Text('Error: $e')),
       ),
       data: (settings) {
@@ -235,7 +236,7 @@ class ScenarioEngineScreen extends ConsumerWidget {
               const SizedBox(height: 20),
               FilledButton(
                 onPressed: () => context.push(AppRouter.pro),
-                child: const Text('Upgrade to Pro'),
+                child: Text(AppLocalizations.of(context)!.upgradeToProTitle),
               ),
             ],
           ),

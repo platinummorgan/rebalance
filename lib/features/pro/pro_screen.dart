@@ -110,7 +110,7 @@ class _ProScreenState extends ConsumerState<ProScreen> {
   Widget _buildProActiveScreen(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pro Features'),
+        title: Text(AppLocalizations.of(context)!.proFeatures),
         backgroundColor: Colors.green.shade700,
         foregroundColor: Colors.white,
       ),

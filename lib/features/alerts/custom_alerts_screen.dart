@@ -4,6 +4,7 @@ import '../../app.dart';
 import '../../routes.dart' show AppRouter;
 import 'package:go_router/go_router.dart';
 import '../../data/models.dart';
+import '../../generated/app_localizations.dart';
 
 class CustomAlertsScreen extends ConsumerWidget {
   const CustomAlertsScreen({super.key});
@@ -57,7 +58,7 @@ class _UpgradeGate extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               FilledButton(
-                  onPressed: onUpgrade, child: const Text('Upgrade to Pro'),),
+                  onPressed: onUpgrade, child: Text(AppLocalizations.of(context)!.upgradeToProTitle),),
             ],
           ),
         ),
@@ -151,7 +152,7 @@ class _AlertsBodyState extends ConsumerState<_AlertsBody> {
         title: const Text('Custom Alerts'),
         actions: [
           if (_dirty && !_saving)
-            TextButton(onPressed: _save, child: const Text('Save')),
+            TextButton(onPressed: _save, child: Text(AppLocalizations.of(context)!.save)),
           if (_saving)
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),

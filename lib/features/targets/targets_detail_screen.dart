@@ -6,6 +6,7 @@ import '../../app.dart';
 import '../../data/models.dart';
 import '../../utils/currency_formatter.dart';
 import '../../services/exchange_rate_service.dart';
+import '../../generated/app_localizations.dart';
 
 class TargetsDetailScreen extends ConsumerStatefulWidget {
   const TargetsDetailScreen({super.key});
@@ -100,7 +101,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
             if (_hasChanges) ...[
               TextButton(
                 onPressed: _saveSettings,
-                child: const Text('Save'),
+                child: Text(AppLocalizations.of(context)!.save),
               ),
             ],
             IconButton(
@@ -643,7 +644,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
             onPressed: () {
               Navigator.pop(context); // Just close dialog
             },
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           FilledButton(
             onPressed: () async {
@@ -653,7 +654,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                 context.pop(); // Navigate back using Go Router
               }
             },
-            child: const Text('Save'),
+            child: Text(AppLocalizations.of(context)!.save),
           ),
         ],
       ),

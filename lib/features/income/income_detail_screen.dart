@@ -9,6 +9,7 @@ import '../../data/repositories.dart';
 import '../../app.dart';
 import '../../utils/currency_formatter.dart';
 import '../../services/exchange_rate_service.dart';
+import '../../generated/app_localizations.dart';
 
 class IncomeDetailScreen extends ConsumerStatefulWidget {
   final String? incomeId;
@@ -328,14 +329,14 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, true),
             style: FilledButton.styleFrom(
               backgroundColor: Colors.red,
             ),
-            child: const Text('Delete'),
+            child: Text(AppLocalizations.of(context)!.delete),
           ),
         ],
       ),

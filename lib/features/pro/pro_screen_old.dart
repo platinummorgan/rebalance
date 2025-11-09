@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app.dart'; // For settings provider
+import '../../generated/app_localizations.dart';
 
 class ProScreen extends ConsumerWidget {
   const ProScreen({super.key});
@@ -12,7 +13,7 @@ class ProScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pro Features'),
+        title: Text(AppLocalizations.of(context)!.proFeatures),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

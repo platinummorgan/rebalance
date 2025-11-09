@@ -12,6 +12,7 @@ import '../../data/calculators/fixedincome.dart';
 import '../../data/calculators/debtload.dart';
 import '../../widgets/currency_text.dart';
 import '../../utils/currency_formatter.dart';
+import '../../generated/app_localizations.dart';
 
 class ReportsScreen extends ConsumerWidget {
   const ReportsScreen({super.key});
@@ -790,7 +791,7 @@ class ReportsScreen extends ConsumerWidget {
                 width: double.infinity,
                 child: FilledButton(
                   onPressed: () => context.push('/pro'),
-                  child: const Text('Upgrade to Pro'),
+                  child: Text(AppLocalizations.of(context)!.upgradeToProTitle),
                 ),
               ),
             ],
@@ -1456,7 +1457,7 @@ class ReportsScreen extends ConsumerWidget {
               Navigator.pop(context);
               context.push('/pro');
             },
-            child: const Text('Upgrade to Pro'),
+            child: Text(AppLocalizations.of(context)!.upgradeToProTitle),
           ),
         ],
       ),

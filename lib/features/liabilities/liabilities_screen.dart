@@ -7,6 +7,7 @@ import '../../data/repositories.dart';
 import '../../app.dart';
 import '../../widgets/currency_text.dart';
 import '../../utils/currency_formatter.dart';
+import '../../generated/app_localizations.dart';
 
 class LiabilitiesScreen extends ConsumerWidget {
   const LiabilitiesScreen({super.key});
@@ -766,7 +767,7 @@ class LiabilitiesScreen extends ConsumerWidget {
               Navigator.pop(context);
               context.push('/liabilities/add');
             },
-            child: const Text('Add Debt'),
+            child: Text(AppLocalizations.of(context)!.addDebt),
           ),
         ],
       ),
@@ -788,7 +789,7 @@ class LiabilitiesScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           TextButton(
             onPressed: () async {
@@ -822,7 +823,7 @@ class LiabilitiesScreen extends ConsumerWidget {
             style: TextButton.styleFrom(
               foregroundColor: Colors.red.shade600,
             ),
-            child: const Text('Delete'),
+            child: Text(AppLocalizations.of(context)!.delete),
           ),
         ],
       ),

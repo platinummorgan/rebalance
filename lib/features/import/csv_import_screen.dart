@@ -5,6 +5,7 @@ import 'dart:io';
 import '../../services/csv_importer_service.dart';
 import '../../data/models.dart';
 import '../../app.dart';
+import '../../generated/app_localizations.dart';
 
 /// CSV Import screen allowing users to import Accounts, Liabilities, and Income
 class CsvImportScreen extends ConsumerStatefulWidget {
@@ -386,7 +387,7 @@ class _CsvImportScreenState extends ConsumerState<CsvImportScreen> {
                       _selectedFilePath = null;
                     });
                   },
-                  child: const Text('Cancel'),
+                  child: Text(AppLocalizations.of(context)!.cancel),
                 ),
               ),
               const SizedBox(width: 16),
@@ -494,7 +495,7 @@ class _CsvImportScreenState extends ConsumerState<CsvImportScreen> {
               children: [
                 OutlinedButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('Cancel'),
+                  child: Text(AppLocalizations.of(context)!.cancel),
                 ),
                 const SizedBox(width: 16),
                 ElevatedButton.icon(

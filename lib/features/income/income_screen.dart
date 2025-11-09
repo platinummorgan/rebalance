@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../data/models.dart';
+import '../../data/repositories.dart';
 import '../../app.dart';
 import '../../widgets/currency_text.dart';
 import '../../utils/currency_formatter.dart';
+import '../../generated/app_localizations.dart';
 
 class IncomeScreen extends ConsumerWidget {
   const IncomeScreen({super.key});
@@ -108,130 +110,142 @@ class IncomeScreen extends ConsumerWidget {
         incomes.fold<double>(0, (sum, income) => sum + income.monthlyGross);
     final totalMonthlyNet =
         incomes.fold<double>(0, (sum, income) => sum + income.monthlyNet);
-    final totalAnnualGross =
-        incomes.fold<double>(0, (sum, income) => sum + income.annualGross);
-    final totalAnnualNet =
-        incomes.fold<double>(0, (sum, income) => sum + income.annualNet);
 
     return Column(
       children: [
-        // Summary Card
-        Card(
+        // Summary header (matching Assets/Debts style)
+        Container(
           margin: const EdgeInsets.all(16),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Total Income',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Monthly',
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                          const SizedBox(height: 4),
-                          CurrencyText(
-                            totalMonthlyGross,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green[700],
-                                ),
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Net: ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                    ),
-                              ),
-                              CurrencyText(
-                                totalMonthlyNet,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Annual',
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                          const SizedBox(height: 4),
-                          CurrencyText(
-                            totalAnnualGross,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green[700],
-                                ),
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Net: ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                    ),
-                              ),
-                              CurrencyText(
-                                totalAnnualNet,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.green.shade100.withValues(alpha: 0.3),
+                Colors.green.shade50.withValues(alpha: 0.2),
               ],
             ),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: Colors.green.withValues(alpha: 0.2),
+            ),
+          ),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade700,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Icons.attach_money,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Total Monthly Income',
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        CurrencyText(
+                          totalMonthlyGross,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green.shade700,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade100,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      '${incomes.length} source${incomes.length == 1 ? '' : 's'}',
+                      style: TextStyle(
+                        color: Colors.green.shade900,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Net Income',
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            fontSize: 12,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        CurrencyText(
+                          totalMonthlyNet,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          'Tax Rate',
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            fontSize: 12,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          totalMonthlyGross > 0
+                              ? '${(((totalMonthlyGross - totalMonthlyNet) / totalMonthlyGross) * 100).toStringAsFixed(1)}%'
+                              : '0.0%',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
         // Income Sources List
@@ -250,56 +264,117 @@ class IncomeScreen extends ConsumerWidget {
   }
 
   Widget _buildIncomeCard(BuildContext context, Income income, WidgetRef ref) {
-    // Check if we should use original currency amount (to avoid rounding errors)
-    final settingsAsync = ref.watch(settingsProvider);
-    final shouldUseOriginal = settingsAsync.maybeWhen(
-      data: (settings) {
-        return income.originalCurrency != null &&
-            income.originalAmount != null &&
-            income.originalCurrency == settings.currency;
-      },
-      orElse: () => false,
-    );
-
-    return Card(
+    return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      child: InkWell(
-        onTap: () => context.push('/income/${income.id}'),
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          income.name,
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+      child: Stack(
+        children: [
+          Card(
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+              side: BorderSide(
+                color: Theme.of(context)
+                    .colorScheme
+                    .outline
+                    .withValues(alpha: 0.2),
+              ),
+            ),
+            child: ListTile(
+              contentPadding: const EdgeInsets.all(20),
+              leading: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: _getIncomeKindColor(context, income.kind),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  _getIncomeIcon(income.kind),
+                  color: Colors.white,
+                  size: 24,
+                ),
+              ),
+              title: Text(
+                income.name,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                ),
+              ),
+              subtitle: Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
                         ),
-                        Text(
-                          income.kind,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                  ),
+                        decoration: BoxDecoration(
+                          color: _getIncomeKindColor(
+                            context,
+                            income.kind,
+                          ).withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: _getIncomeKindColor(
+                              context,
+                              income.kind,
+                            ).withValues(alpha: 0.3),
+                          ),
                         ),
-                      ],
+                        child: Text(
+                          _getIncomeTypeDisplayName(income.kind),
+                          style: TextStyle(
+                            color: _getIncomeKindColor(
+                              context,
+                              income.kind,
+                            ),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ),
-                  ),
-                  Column(
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade50,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        _capitalizeFrequency(income.frequency),
+                        style: TextStyle(
+                          color: Colors.green.shade700,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              trailing: Consumer(
+                builder: (context, ref, child) {
+                  final settingsAsync = ref.watch(settingsProvider);
+                  final shouldUseOriginal = settingsAsync.maybeWhen(
+                    data: (settings) =>
+                        income.originalCurrency != null &&
+                        income.originalAmount != null &&
+                        income.originalCurrency == settings.currency,
+                    orElse: () => false,
+                  );
+
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Use original amount if currency matches to avoid rounding errors
                       if (shouldUseOriginal)
                         _buildOriginalCurrencyAmount(
                           context,
@@ -309,57 +384,73 @@ class IncomeScreen extends ConsumerWidget {
                       else
                         CurrencyText(
                           income.monthlyGross,
-                          style:
-                              Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.green[700],
-                                  ),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.green.shade700,
+                          ),
                         ),
-                      Text(
-                        '/ month',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      const SizedBox(height: 2),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Net: ',
+                            style: TextStyle(
                               color: Theme.of(context)
                                   .colorScheme
                                   .onSurfaceVariant,
+                              fontSize: 11,
                             ),
+                          ),
+                          if (shouldUseOriginal)
+                            _buildOriginalNetAmount(context, income, ref)
+                          else
+                            CurrencyText(
+                              income.monthlyNet,
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant,
+                                fontSize: 11,
+                              ),
+                            ),
+                        ],
                       ),
                     ],
-                  ),
-                ],
+                  );
+                },
               ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildNetChip(
-                      context,
-                      income.monthlyNet,
-                      shouldUseOriginal,
-                      income,
-                      ref,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: _buildInfoChip(
-                      context,
-                      'Tax Rate',
-                      '${income.effectiveTaxRate.toStringAsFixed(1)}%',
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: _buildInfoChip(
-                      context,
-                      'Frequency',
-                      income.frequency,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              onTap: () => context.push('/income/${income.id}'),
+            ),
           ),
-        ),
+
+          // Delete button in top-right corner
+          Positioned(
+            top: 8,
+            right: 8,
+            child: InkWell(
+              onTap: () => _showDeleteIncomeDialog(context, ref, income),
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: Colors.red.shade50,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: Colors.red.shade200,
+                    width: 1,
+                  ),
+                ),
+                child: Icon(
+                  Icons.close,
+                  size: 16,
+                  color: Colors.red.shade600,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -406,65 +497,131 @@ class IncomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildInfoChip(BuildContext context, String label, String value) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-          ),
-          Text(
-            value,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-          ),
-        ],
-      ),
-    );
+  IconData _getIncomeIcon(String kind) {
+    switch (kind.toLowerCase()) {
+      case 'salary':
+      case 'w2':
+        return Icons.business_center;
+      case 'bonus':
+        return Icons.card_giftcard;
+      case 'freelance':
+      case '1099':
+        return Icons.work_outline;
+      case 'investment':
+        return Icons.trending_up;
+      case 'rental':
+        return Icons.home;
+      case 'pension':
+        return Icons.elderly;
+      case 'social security':
+        return Icons.account_balance;
+      default:
+        return Icons.attach_money;
+    }
   }
 
-  Widget _buildNetChip(
+  Color _getIncomeKindColor(BuildContext context, String kind) {
+    switch (kind.toLowerCase()) {
+      case 'salary':
+      case 'w2':
+        return Colors.blue;
+      case 'bonus':
+        return Colors.purple;
+      case 'freelance':
+      case '1099':
+        return Colors.orange;
+      case 'investment':
+        return Colors.green;
+      case 'rental':
+        return Colors.brown;
+      case 'pension':
+        return Colors.teal;
+      case 'social security':
+        return Colors.indigo;
+      default:
+        return Colors.green.shade700;
+    }
+  }
+
+  String _getIncomeTypeDisplayName(String kind) {
+    switch (kind.toLowerCase()) {
+      case 'salary':
+        return 'Salary';
+      case 'w2':
+        return 'W-2 Income';
+      case 'bonus':
+        return 'Bonus';
+      case 'freelance':
+        return 'Freelance';
+      case '1099':
+        return '1099 Income';
+      case 'investment':
+        return 'Investment';
+      case 'rental':
+        return 'Rental';
+      case 'pension':
+        return 'Pension';
+      case 'social security':
+        return 'Social Security';
+      default:
+        return kind;
+    }
+  }
+
+  String _capitalizeFrequency(String frequency) {
+    if (frequency.isEmpty) return frequency;
+    return frequency[0].toUpperCase() + frequency.substring(1);
+  }
+
+  void _showDeleteIncomeDialog(
     BuildContext context,
-    double amount,
-    bool shouldUseOriginal,
-    Income income,
     WidgetRef ref,
+    Income income,
   ) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Net',
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Income Source'),
+        content: Text(
+          'Are you sure you want to delete "${income.name}"? This action cannot be undone.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
-          // Use original amount if currency matches to avoid rounding errors
-          if (shouldUseOriginal)
-            _buildOriginalNetAmount(context, income, ref)
-          else
-            CurrencyText(
-              amount,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              try {
+                await RepositoryService.deleteIncome(income.id);
+                if (context.mounted) {
+                  await ref.read(incomesProvider.notifier).reload();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${income.name} deleted successfully'),
+                      backgroundColor: Colors.green.shade600,
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Error deleting income: $e'),
+                      backgroundColor: Colors.red.shade600,
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                }
+              }
+            },
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.red.shade600,
             ),
+            child: Text(AppLocalizations.of(context)!.delete),
+          ),
         ],
       ),
     );
@@ -507,9 +664,10 @@ class IncomeScreen extends ConsumerWidget {
 
         return Text(
           formattedAmount,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+            fontSize: 11,
+          ),
         );
       },
     );

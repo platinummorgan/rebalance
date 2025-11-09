@@ -6,6 +6,7 @@ import '../../data/models.dart';
 import '../../app.dart';
 import '../../widgets/currency_text.dart';
 import '../pro/pro_screen.dart';
+import '../../generated/app_localizations.dart';
 
 /// Interactive Pro-only rebalancing plan builder with customization and tracking
 class RebalancingPlanScreen extends ConsumerStatefulWidget {
@@ -118,7 +119,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
             FilledButton.icon(
               onPressed: () => context.push('/accounts/add'),
               icon: const Icon(Icons.add),
-              label: const Text('Add Account'),
+              label: Text(AppLocalizations.of(context)!.addAccount),
             ),
           ],
         ),
@@ -161,7 +162,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                 ),
               ),
               icon: const Icon(Icons.star),
-              label: const Text('Upgrade to Pro'),
+              label: Text(AppLocalizations.of(context)!.upgradeToProTitle),
               style: FilledButton.styleFrom(
                 backgroundColor: Colors.amber.shade600,
                 foregroundColor: Colors.black,
