@@ -225,6 +225,11 @@ class AppLocalizationsHi extends AppLocalizations {
   String get error => 'त्रुटि';
 
   @override
+  String errorWithMessage(String message) {
+    return 'त्रुटि: $message';
+  }
+
+  @override
   String get success => 'सफलता';
 
   @override
@@ -547,4 +552,1650 @@ class AppLocalizationsHi extends AppLocalizations {
   String monthsAgo(Object months) {
     return '$months महीने पहले';
   }
+
+  @override
+  String get incomeSourceName => 'आय स्रोत का नाम';
+
+  @override
+  String get incomeSourceNameHint => 'उदा., टेक कॉर्प वेतन';
+
+  @override
+  String get pleaseEnterName => 'कृपया नाम दर्ज करें';
+
+  @override
+  String get incomeType => 'आय का प्रकार';
+
+  @override
+  String get incomeTypeSalary => 'वेतन';
+
+  @override
+  String get incomeTypeHourlyWage => 'प्रति घंटा मजदूरी';
+
+  @override
+  String get incomeTypeBonus => 'बोनस';
+
+  @override
+  String get incomeTypeCommission => 'कमीशन';
+
+  @override
+  String get incomeTypeFreelance => 'फ्रीलांस';
+
+  @override
+  String get incomeTypeRentalIncome => 'किराये की आय';
+
+  @override
+  String get incomeTypeInvestmentIncome => 'निवेश आय';
+
+  @override
+  String get incomeTypePension => 'पेंशन';
+
+  @override
+  String get incomeTypeSocialSecurity => 'सामाजिक सुरक्षा';
+
+  @override
+  String get incomeTypeOther => 'अन्य';
+
+  @override
+  String get grossAmount => 'सकल राशि';
+
+  @override
+  String get pleaseEnterAmount => 'कृपया राशि दर्ज करें';
+
+  @override
+  String get pleaseEnterValidNumber => 'कृपया मान्य संख्या दर्ज करें';
+
+  @override
+  String get frequency => 'आवृत्ति';
+
+  @override
+  String get addTaxDeductionBreakdown => 'कर और कटौती विवरण जोड़ें';
+
+  @override
+  String get trackFederalTaxStateTax =>
+      'संघीय कर, राज्य कर और कटौतियों को ट्रैक करें';
+
+  @override
+  String get deductionsPerPaymentPeriod => 'कटौतियां (प्रति भुगतान अवधि)';
+
+  @override
+  String get federalTax => 'संघीय कर';
+
+  @override
+  String get stateTax => 'राज्य कर';
+
+  @override
+  String get socialSecurityTax => 'सामाजिक सुरक्षा कर';
+
+  @override
+  String get medicareTax => 'मेडिकेयर कर';
+
+  @override
+  String get retirement401k => 'सेवानिवृत्ति (401k, IRA)';
+
+  @override
+  String get healthInsurancePremium => 'स्वास्थ्य बीमा प्रीमियम';
+
+  @override
+  String get otherDeductions => 'अन्य कटौतियां';
+
+  @override
+  String get addIncome => 'आय जोड़ें';
+
+  @override
+  String get importFromCSV => 'CSV से आयात करें';
+
+  @override
+  String get importDataFromCSV => 'CSV से डेटा आयात करें';
+
+  @override
+  String get selectCSVFileDescription =>
+      'खाते, देनदारियां या आय डेटा आयात करने के लिए CSV फ़ाइल चुनें';
+
+  @override
+  String get selectCSVFile => 'CSV फ़ाइल चुनें';
+
+  @override
+  String get csvFormatRequirements => 'CSV प्रारूप आवश्यकताएं';
+
+  @override
+  String get accountsLabel => 'खाते';
+
+  @override
+  String get accountsCSVFormat =>
+      'name,type,balance,locked,cash,bonds,usEq,intlEq,realEstate,alt';
+
+  @override
+  String get liabilitiesLabel => 'देनदारियां';
+
+  @override
+  String get liabilitiesCSVFormat =>
+      'name,type,balance,interestRate,minPayment';
+
+  @override
+  String get incomeLabel => 'आय';
+
+  @override
+  String get incomeCSVFormat => 'name,type,grossAmount,frequency';
+
+  @override
+  String get readyToImport => 'आयात के लिए तैयार';
+
+  @override
+  String get rowsHadErrors => 'पंक्तियों में त्रुटियां थीं';
+
+  @override
+  String get importError => 'आयात त्रुटि';
+
+  @override
+  String get unknownError => 'अज्ञात त्रुटि';
+
+  @override
+  String get tryAgain => 'पुनः प्रयास करें';
+
+  @override
+  String get income => 'आय';
+
+  @override
+  String get unlockPro => 'प्रो अनलॉक करें';
+
+  @override
+  String get yourProFeatures => 'आपकी प्रो विशेषताएं';
+
+  @override
+  String get debtPayoffOptimizer => 'ऋण भुगतान अनुकूलक';
+
+  @override
+  String get debtPayoffDescription =>
+      'मासिक भुगतान कार्यक्रम के साथ हिमस्खलन बनाम स्नोबॉल रणनीतियों की तुलना करें';
+
+  @override
+  String get saveThousands => 'ब्याज में हजारों बचाएं';
+
+  @override
+  String get rebalancingAutopilot => 'रीबैलेंसिंग ऑटोपायलट';
+
+  @override
+  String get rebalancingDescription =>
+      'पहले/बाद के जोखिम मेट्रिक्स के साथ विशिष्ट व्यापार निर्देश प्राप्त करें';
+
+  @override
+  String get reduceRisk => 'पोर्टफोलियो जोखिम कम करें';
+
+  @override
+  String get whatIfScenarioEngine => 'व्हाट-इफ परिदृश्य इंजन';
+
+  @override
+  String get whatIfDescription =>
+      'मोंटे कार्लो सिमुलेशन समायोज्य मापदंडों के साथ सफलता की संभावना दिखाता है';
+
+  @override
+  String get seeProbability => 'सफलता की संभावना देखें';
+
+  @override
+  String get customAlertsWithContext => 'संदर्भ के साथ कस्टम अलर्ट';
+
+  @override
+  String get customAlertsDescription =>
+      'डॉलर-प्रभाव अलर्ट के साथ कस्टम सीमाएं सेट करें';
+
+  @override
+  String get knowImpact => 'वित्तीय प्रभाव जानें';
+
+  @override
+  String get taxSmartDescription =>
+      'खाता प्लेसमेंट का अनुकूलन करें और कर-हानि कटाई के अवसरों की पहचान करें';
+
+  @override
+  String get saveTaxes => 'वार्षिक करों पर बचत करें';
+
+  @override
+  String get retirementDescription =>
+      'मोंटे कार्लो सिमुलेशन सेवानिवृत्ति सफलता की संभावना का अनुमान लगाता है';
+
+  @override
+  String get advancedPortfolioAnalytics => 'उन्नत पोर्टफोलियो विश्लेषण';
+
+  @override
+  String get advancedAnalyticsDescription =>
+      'HHI एकाग्रता सूचकांक, कारक एक्सपोजर, मल्टी-पोर्टफोलियो ट्रैकिंग';
+
+  @override
+  String get planDetails => 'योजना विवरण';
+
+  @override
+  String get proActive => 'प्रो सक्रिय';
+
+  @override
+  String get rebalancePro => 'रीबैलेंस प्रो';
+
+  @override
+  String get basedOnYourPortfolio => 'आपके पोर्टफोलियो के आधार पर:';
+
+  @override
+  String get saveMoneyReduceRisk =>
+      'बुद्धिमान वित्तीय योजना के साथ पैसे बचाएं और जोखिम कम करें';
+
+  @override
+  String get compareStrategies =>
+      'हिमस्खलन बनाम स्नोबॉल रणनीतियों की तुलना करें। मासिक भुगतान अनुसूची प्राप्त करें और कुल ब्याज बचत देखें।';
+
+  @override
+  String get getSpecificTrades =>
+      'विशिष्ट व्यापार निर्देश प्राप्त करें। पहले/बाद के जोखिम मेट्रिक्स और अस्थिरता में कमी देखें।';
+
+  @override
+  String get monteCarloSimulation =>
+      'मोंटे कार्लो सिमुलेशन (1,000 रन) सफलता की संभावना दिखाता है। अपनी योजना को अनुकूलित करने के लिए योगदान, रिटर्न और समयरेखा को समायोजित करें।';
+
+  @override
+  String get customThresholds =>
+      'एकाग्रता, बहाव, DSCR के लिए कस्टम सीमाएं सेट करें। प्रत्येक अलर्ट डॉलर प्रभाव दिखाता है।';
+
+  @override
+  String get optimizeAccounts =>
+      'अनुकूलित करें कि कौन से खाते कौन सी संपत्ति रखते हैं। कर-हानि कटाई के अवसरों की पहचान करें। वार्षिक कर ड्रैग को कम करें।';
+
+  @override
+  String get projectRetirement =>
+      'मोंटे कार्लो सिमुलेशन (1,000 रन) सेवानिवृत्ति सफलता की संभावना का अनुमान लगाता है। अपनी योजना को अनुकूलित करने के लिए बचत, समयरेखा और आय को समायोजित करें।';
+
+  @override
+  String get hhiConcentration =>
+      'HHI एकाग्रता सूचकांक, कारक एक्सपोजर विवरण, मल्टी-पोर्टफोलियो ट्रैकिंग, कस्टम स्कोरिंग भार।';
+
+  @override
+  String get privacy100 => '100% गोपनीयता';
+
+  @override
+  String get dataOnDevice => 'सभी डेटा आपके डिवाइस पर रहता है';
+
+  @override
+  String get encryptedStorage => 'एन्क्रिप्टेड स्टोरेज';
+
+  @override
+  String get bankGrade => 'बैंक-ग्रेड सुरक्षा';
+
+  @override
+  String get saveEst => 'बचत अनु. ';
+
+  @override
+  String get purchaseCancelled => 'खरीद रद्द की गई';
+
+  @override
+  String get rebalancingPlan => 'पुनर्संतुलन योजना';
+
+  @override
+  String get rebalancingGuide => 'पुनर्संतुलन गाइड';
+
+  @override
+  String get addAccountsForRebalancing =>
+      'अपनी व्यक्तिगत पुनर्संतुलन योजना बनाने के लिए होल्डिंग्स वाले खाते जोड़ें';
+
+  @override
+  String get rebalancingPlanProDescription =>
+      'पहले/बाद जोखिम मेट्रिक्स के साथ विशिष्ट व्यापार निर्देश प्राप्त करें। अपने लक्ष्य आवंटन तक पहुंचने के लिए क्या खरीदना या बेचना है यह स्पष्ट रूप से देखें।';
+
+  @override
+  String get yourPersonalizedPlan => 'आपकी व्यक्तिगत योजना';
+
+  @override
+  String get customizeTrackExecute =>
+      'रणनीति को अनुकूलित करें, प्रगति ट्रैक करें, व्यापार निष्पादित करें';
+
+  @override
+  String get lockedAccountsDetected => 'लॉक किए गए खाते पाए गए';
+
+  @override
+  String get lockedAccountsMessage => 'लॉक है (जैसे, 401k, पेंशन)। योजना केवल';
+
+  @override
+  String get inUnlockedAccounts => 'अनलॉक खातों में उपयोग करती है';
+
+  @override
+  String get lockedAccountsTip =>
+      'सुझाव: 401k/पेंशन के लिए, मौजूदा होल्डिंग्स को पुनर्संतुलित करने के बजाय अपने योगदान आवंटन को अपडेट करें।';
+
+  @override
+  String get rebalancingStrategy => 'पुनर्संतुलन रणनीति';
+
+  @override
+  String get dollarCostAverageRecommended => 'डॉलर-कॉस्ट औसत (अनुशंसित)';
+
+  @override
+  String get dollarCostDescription =>
+      'समय जोखिम को कम करने के लिए कई महीनों में व्यापार फैलाएं';
+
+  @override
+  String get immediateRebalance => 'तत्काल पुनर्संतुलन';
+
+  @override
+  String get immediateRebalanceDescription =>
+      'यदि आपको दृढ़ विश्वास है तो अभी सभी व्यापार निष्पादित करें';
+
+  @override
+  String get glidePathDuration => 'ग्लाइड पाथ अवधि';
+
+  @override
+  String get howManyMonthsToSpread =>
+      'आप कितने महीनों में पुनर्संतुलन फैलाना चाहते हैं?';
+
+  @override
+  String get fast => 'तेज';
+
+  @override
+  String get gradual => 'क्रमिक';
+
+  @override
+  String get months => 'महीने';
+
+  @override
+  String get month => 'महीना';
+
+  @override
+  String get executeNow => 'अभी निष्पादित करें';
+
+  @override
+  String get totalToRebalanceImmediately =>
+      'तुरंत पुनर्संतुलित करने के लिए कुल';
+
+  @override
+  String get monthlyTransferAmount => 'मासिक स्थानांतरण राशि';
+
+  @override
+  String get overMonths => 'से अधिक';
+
+  @override
+  String get total => 'कुल';
+
+  @override
+  String get beforeVsAfter => 'पहले बनाम बाद';
+
+  @override
+  String get current => 'वर्तमान';
+
+  @override
+  String get target => 'लक्ष्य';
+
+  @override
+  String get executionChecklist => 'निष्पादन चेकलिस्ट';
+
+  @override
+  String get trackMonthlyProgress =>
+      'व्यापार निष्पादित करते समय अपनी मासिक प्रगति ट्रैक करें';
+
+  @override
+  String get transfer => 'स्थानांतरण';
+
+  @override
+  String get ofMonthsCompleted => 'का';
+
+  @override
+  String get monthsCompleted => 'महीने पूरे हुए';
+
+  @override
+  String get exportPDF => 'PDF निर्यात करें';
+
+  @override
+  String get pdfExportComingSoon => 'PDF निर्यात जल्द आ रहा है!';
+
+  @override
+  String get whyRebalance => 'पुनर्संतुलन क्यों?';
+
+  @override
+  String get whyRebalanceDescription =>
+      'बाजार की गतिविधियां आपके पोर्टफोलियो को आपके लक्ष्य आवंटन से भटका देती हैं, जोखिम बढ़ाती हैं। पुनर्संतुलन आपकी वांछित जोखिम/रिटर्न प्रोफ़ाइल को पुनर्स्थापित करता है।';
+
+  @override
+  String get dollarCostAveragingTitle => 'डॉलर-कॉस्ट औसत';
+
+  @override
+  String get dollarCostAveragingDescription =>
+      'समय के साथ व्यापार फैलाने से समय जोखिम और बाजार प्रभाव कम हो जाता है। अधिकांश निवेशकों के लिए अनुशंसित।';
+
+  @override
+  String get immediateRebalancingTitle => 'तत्काल पुनर्संतुलन';
+
+  @override
+  String get immediateRebalancingDescription =>
+      'सभी व्यापार एक बार में निष्पादित करें। सर्वोत्तम यदि आपके पास मजबूत बाजार विश्वास है या आपको तुरंत पुनर्संतुलित करने की आवश्यकता है।';
+
+  @override
+  String get youreWellBalanced => 'आप अच्छी तरह से संतुलित हैं!';
+
+  @override
+  String get noRebalancingNeeded =>
+      'आपका पोर्टफोलियो आपके लक्ष्य आवंटन की सहनशीलता के भीतर है। इस समय पुनर्संतुलन की आवश्यकता नहीं है।';
+
+  @override
+  String get accountType529EducationSavings => '529 शिक्षा बचत';
+
+  @override
+  String get accountTypeBrokerage => 'ब्रोकरेज';
+
+  @override
+  String get accountTypeBrokerageAccount => 'ब्रोकरेज खाता';
+
+  @override
+  String get accountTypeCash => 'नकद';
+
+  @override
+  String get accountTypeCashAccount => 'नकद खाता';
+
+  @override
+  String get accountTypeCD => 'सीडी';
+
+  @override
+  String get accountTypeCertificateOfDeposit => 'जमा प्रमाणपत्र';
+
+  @override
+  String get accountTypeChecking => 'चेकिंग';
+
+  @override
+  String get accountTypeCheckingAccount => 'चेकिंग खाता';
+
+  @override
+  String get accountTypeCrypto => 'क्रिप्टो';
+
+  @override
+  String get accountTypeCryptocurrency => 'क्रिप्टोकरेंसी';
+
+  @override
+  String get accountTypeHealthSavingsAccount => 'स्वास्थ्य बचत खाता (HSA)';
+
+  @override
+  String get accountTypeHSA => 'HSA';
+
+  @override
+  String get accountTypeOther => 'अन्य';
+
+  @override
+  String get accountTypeRealEstate => 'रियल एस्टेट';
+
+  @override
+  String get accountTypeRealEstateEquity => 'रियल एस्टेट इक्विटी';
+
+  @override
+  String get accountTypeRetirement => 'सेवानिवृत्ति';
+
+  @override
+  String get accountTypeSavings => 'बचत';
+
+  @override
+  String get accountTypeSavingsAccount => 'बचत खाता';
+
+  @override
+  String get liabilityTypeAutoLoan => 'ऑटो ऋण';
+
+  @override
+  String get liabilityTypeCreditCard => 'क्रेडिट कार्ड';
+
+  @override
+  String get liabilityTypeLineOfCredit => 'क्रेडिट लाइन';
+
+  @override
+  String get liabilityTypeMortgage => 'बंधक';
+
+  @override
+  String get liabilityTypeOther => 'अन्य';
+
+  @override
+  String get liabilityTypePersonalLoan => 'व्यक्तिगत ऋण';
+
+  @override
+  String get liabilityTypeStudentLoan => 'छात्र ऋण';
+
+  @override
+  String get about => 'के बारे में';
+
+  @override
+  String get account => 'खाता';
+
+  @override
+  String get accountDeletedSuccessfully => 'खाता सफलतापूर्वक हटा दिया गया';
+
+  @override
+  String get accountsPlural => 'खाते';
+
+  @override
+  String get addIncomeSource => 'आय स्रोत जोड़ें';
+
+  @override
+  String get addLiability => 'देयता जोड़ें';
+
+  @override
+  String get addNewAccount => 'नया खाता जोड़ें';
+
+  @override
+  String get addYourFirstIncomeSource =>
+      'नकदी प्रवाह ट्रैक करने के लिए अपना पहला आय स्रोत जोड़ें';
+
+  @override
+  String get addYourFirstLiability =>
+      'ऋण ट्रैक करने के लिए अपनी पहली देयता जोड़ें';
+
+  @override
+  String get allocationTargets => 'आवंटन लक्ष्य';
+
+  @override
+  String get allocationTargetsDescription =>
+      'अपने लक्ष्य संपत्ति आवंटन प्रतिशत सेट करें';
+
+  @override
+  String get allPayments => 'सभी भुगतान';
+
+  @override
+  String get alternatives => 'विकल्प';
+
+  @override
+  String get amountCannotBeNegative => 'राशि ऋणात्मक नहीं हो सकती';
+
+  @override
+  String get annualInterestCost => 'वार्षिक ब्याज लागत';
+
+  @override
+  String get appInfoAndDisclaimers => 'ऐप जानकारी और अस्वीकरण';
+
+  @override
+  String get apr => 'APR';
+
+  @override
+  String get arabic => 'अरबी';
+
+  @override
+  String get areYouSureDeleteAccount =>
+      'क्या आप वाकई इस खाते को हटाना चाहते हैं?';
+
+  @override
+  String get areYouSureDeleteIncome =>
+      'क्या आप वाकई इस आय स्रोत को हटाना चाहते हैं?';
+
+  @override
+  String get areYouSureExit => 'क्या आप वाकई बाहर निकलना चाहते हैं?';
+
+  @override
+  String get assetAllocationDescription =>
+      'जोखिम प्रबंधित करने के लिए संपत्ति वर्गों में विविधता लाएं';
+
+  @override
+  String get avgInterestRate => 'औसत ब्याज दर';
+
+  @override
+  String get backToDashboard => 'डैशबोर्ड पर वापस';
+
+  @override
+  String get backToSnapshot => 'स्नैपशॉट पर वापस';
+
+  @override
+  String get backupRestoreData => 'बैकअप और पुनर्स्थापित डेटा';
+
+  @override
+  String get balanced => 'संतुलित';
+
+  @override
+  String get bengali => 'बंगाली';
+
+  @override
+  String get bondsAndFixedIncome => 'बांड और स्थिर आय';
+
+  @override
+  String get budgetAndPlanning => 'बजट और योजना';
+
+  @override
+  String get budgetAndPlanningDescription =>
+      'खर्च ट्रैक करें और लक्ष्यों की योजना बनाएं';
+
+  @override
+  String get cap => 'कैप';
+
+  @override
+  String get cashAndCashEquivalents => 'नकद और नकद समकक्ष';
+
+  @override
+  String get chooseColorScheme => 'रंग योजना चुनें';
+
+  @override
+  String get chooseLanguage => 'भाषा चुनें';
+
+  @override
+  String get closeApplication => 'एप्लिकेशन बंद करें';
+
+  @override
+  String get colorAmber => 'एम्बर';
+
+  @override
+  String get colorBlue => 'नीला';
+
+  @override
+  String get colorGreen => 'हरा';
+
+  @override
+  String get colorIndigo => 'इंडिगो';
+
+  @override
+  String get colorOrange => 'नारंगी';
+
+  @override
+  String get colorPink => 'गुलाबी';
+
+  @override
+  String get colorPurple => 'बैंगनी';
+
+  @override
+  String get colorRed => 'लाल';
+
+  @override
+  String get colorTeal => 'टील';
+
+  @override
+  String get componentConcentration => 'एकाग्रता';
+
+  @override
+  String get componentDebtLoad => 'ऋण भार';
+
+  @override
+  String get componentFixedIncome => 'स्थिर आय';
+
+  @override
+  String get componentHomeBias => 'होम बायस';
+
+  @override
+  String get componentLiquidity => 'तरलता';
+
+  @override
+  String get controlInternationalExposure =>
+      'अंतर्राष्ट्रीय जोखिम नियंत्रित करें';
+
+  @override
+  String get creditLimit => 'क्रेडिट सीमा';
+
+  @override
+  String get creditLimitCannotBeLessThanBalance =>
+      'क्रेडिट सीमा वर्तमान शेष से कम नहीं हो सकती';
+
+  @override
+  String get creditUtilization => 'क्रेडिट उपयोग';
+
+  @override
+  String get dayOfEachMonth => 'प्रत्येक महीने का दिन';
+
+  @override
+  String get debt => 'ऋण';
+
+  @override
+  String get debtsAndLiabilities => 'ऋण और देयताएं';
+
+  @override
+  String get debtsPlural => 'ऋण';
+
+  @override
+  String get defaultPolicyPenalizeLargeDeviations =>
+      'डिफ़ॉल्ट नीति: लक्ष्यों से बड़े विचलन को दंडित करें';
+
+  @override
+  String get deleteAccount => 'खाता हटाएं';
+
+  @override
+  String get deletedSuccessfully => 'सफलतापूर्वक हटाया गया';
+
+  @override
+  String get deleteIncomeSource => 'आय स्रोत हटाएं';
+
+  @override
+  String get discard => 'त्यागें';
+
+  @override
+  String get displayInCurrency => 'मुद्रा में प्रदर्शित करें';
+
+  @override
+  String get editIncome => 'आय संपादित करें';
+
+  @override
+  String get editLiability => 'देयता संपादित करें';
+
+  @override
+  String get english => 'अंग्रेज़ी';
+
+  @override
+  String get enterMinPayment => 'न्यूनतम भुगतान दर्ज करें';
+
+  @override
+  String get enterMonthlyEssentials => 'मासिक आवश्यकताएं दर्ज करें';
+
+  @override
+  String get enterTargetPercentage => 'लक्ष्य प्रतिशत दर्ज करें';
+
+  @override
+  String get enterValidAmount => 'मान्य राशि दर्ज करें';
+
+  @override
+  String get enterValidNumber => 'मान्य संख्या दर्ज करें';
+
+  @override
+  String get enterValidPayment => 'मान्य भुगतान दर्ज करें';
+
+  @override
+  String get errorDeletingAccount => 'खाता हटाने में त्रुटि';
+
+  @override
+  String get errorLoadingAccounts => 'खाते लोड करने में त्रुटि';
+
+  @override
+  String get errorLoadingLiabilities => 'देयताएं लोड करने में त्रुटि';
+
+  @override
+  String get excludeInternationalExposure => 'अंतर्राष्ट्रीय जोखिम बाहर करें';
+
+  @override
+  String get exit => 'बाहर निकलें';
+
+  @override
+  String get exitApp => 'ऐप से बाहर निकलें';
+
+  @override
+  String get filteredFromSnapshot => 'स्नैपशॉट से फ़िल्टर किया गया';
+
+  @override
+  String get financialScore => 'वित्तीय स्कोर';
+
+  @override
+  String get frequencyAnnual => 'वार्षिक';
+
+  @override
+  String get frequencyAnnually => 'वार्षिक रूप से';
+
+  @override
+  String get frequencyBiWeekly => 'द्वि-साप्ताहिक';
+
+  @override
+  String get frequencyBiweekly => 'द्वि-साप्ताहिक';
+
+  @override
+  String get frequencyDaily => 'दैनिक';
+
+  @override
+  String get frequencyHourly => 'प्रति घंटा';
+
+  @override
+  String get frequencyMonthly => 'मासिक';
+
+  @override
+  String get frequencyQuarterly => 'त्रैमासिक';
+
+  @override
+  String get frequencySemiMonthly => 'अर्ध-मासिक';
+
+  @override
+  String get frequencyWeekly => 'साप्ताहिक';
+
+  @override
+  String get goBack => 'वापस जाएं';
+
+  @override
+  String get gotIt => 'समझ गया';
+
+  @override
+  String get help => 'मदद';
+
+  @override
+  String get helpAllocationTargetsText =>
+      'प्रत्येक संपत्ति वर्ग के लिए लक्ष्य प्रतिशत सेट करें। ऐप आपको सचेत करेगा जब आपका वास्तविक आवंटन इन लक्ष्यों से बहुत दूर चला जाता है।';
+
+  @override
+  String get helpAllocationTargetsTitle => 'आवंटन लक्ष्य मदद';
+
+  @override
+  String get helpMonthlyEssentialsText =>
+      'अपने मासिक आवश्यक खर्च (किराया, उपयोगिताएं, किराने का सामान, आदि) दर्ज करें। यह आपके आपातकालीन निधि लक्ष्य की गणना करने में मदद करता है।';
+
+  @override
+  String get helpMonthlyEssentialsTitle => 'मासिक आवश्यकताएं मदद';
+
+  @override
+  String get helpRiskProfileText =>
+      'एक जोखिम प्रोफ़ाइल चुनें जो आपके निवेश लक्ष्यों और समय क्षितिज से मेल खाती है। रूढ़िवादी बांड और नकदी का पक्षधर है, वृद्धि स्टॉक का पक्षधर है, संतुलित बीच में है।';
+
+  @override
+  String get helpRiskProfileTitle => 'जोखिम प्रोफ़ाइल मदद';
+
+  @override
+  String get hindi => 'हिंदी';
+
+  @override
+  String get howWeProtectData => 'हम आपके डेटा की सुरक्षा कैसे करते हैं';
+
+  @override
+  String get importAccountsDebtsIncome => 'खाते, ऋण और आय आयात करें';
+
+  @override
+  String get importAndExport => 'आयात और निर्यात';
+
+  @override
+  String get importCSV => 'CSV आयात करें';
+
+  @override
+  String get income1099 => '1099 आय';
+
+  @override
+  String get incomeBonus => 'बोनस';
+
+  @override
+  String get incomeFreelance => 'फ्रीलांस';
+
+  @override
+  String get incomeInvestment => 'निवेश';
+
+  @override
+  String get incomePension => 'पेंशन';
+
+  @override
+  String get incomeRental => 'किराया';
+
+  @override
+  String get incomeSalary => 'वेतन';
+
+  @override
+  String get incomeSocialSecurity => 'सामाजिक सुरक्षा';
+
+  @override
+  String get incomeSourceAdded => 'आय स्रोत जोड़ा गया';
+
+  @override
+  String get incomeSourceDeleted => 'आय स्रोत हटाया गया';
+
+  @override
+  String get incomeSourceUpdated => 'आय स्रोत अपडेट किया गया';
+
+  @override
+  String get incomeW2 => 'W-2 आय';
+
+  @override
+  String get internationalEquity => 'अंतर्राष्ट्रीय इक्विटी';
+
+  @override
+  String get intlEquity => 'अंतर्राष्ट्रीय इक्विटी';
+
+  @override
+  String get justNow => 'अभी';
+
+  @override
+  String get lastPayment => 'अंतिम भुगतान';
+
+  @override
+  String get legalTermsAndConditions => 'कानूनी शर्तें और शर्तें';
+
+  @override
+  String get lessPunitive => 'कम दंडात्मक';
+
+  @override
+  String get liabilityDetails => 'देयता विवरण';
+
+  @override
+  String get liabilityName => 'देयता नाम';
+
+  @override
+  String get liabilityNameHint => 'जैसे, चेस वीज़ा, छात्र ऋण';
+
+  @override
+  String get liabilitySavedSuccessfully => 'देयता सफलतापूर्वक सहेजी गई';
+
+  @override
+  String get light => 'हल्का';
+
+  @override
+  String get minPayment => 'न्यूनतम भुगतान';
+
+  @override
+  String get monthlyEssentialExpenses => 'मासिक आवश्यक खर्च';
+
+  @override
+  String get monthlyEssentialsHelper => 'अपने मासिक आवश्यक खर्च दर्ज करें';
+
+  @override
+  String get monthlyEssentialsHelperUSD =>
+      'जैसे, किराया, उपयोगिताओं, किराने के लिए \$3000';
+
+  @override
+  String get monthlyInterest => 'मासिक ब्याज';
+
+  @override
+  String get monthlyPaymentDay => 'मासिक भुगतान दिन';
+
+  @override
+  String get monthlyPayments => 'मासिक भुगतान';
+
+  @override
+  String get net => 'शुद्ध';
+
+  @override
+  String get netIncome => 'शुद्ध आय';
+
+  @override
+  String get nextPaymentDueDate => 'अगली भुगतान नियत तिथि';
+
+  @override
+  String get noDebtsTracked => 'अभी तक कोई ऋण ट्रैक नहीं किया गया';
+
+  @override
+  String get noIncomeSourcesYet => 'अभी तक कोई आय स्रोत नहीं';
+
+  @override
+  String get noPaymentsRecordedYet => 'अभी तक कोई भुगतान दर्ज नहीं किया गया';
+
+  @override
+  String get offMute => 'बंद/म्यूट';
+
+  @override
+  String get optimizePayoffStrategy => 'भुगतान रणनीति अनुकूलित करें';
+
+  @override
+  String get paymentHistory => 'भुगतान इतिहास';
+
+  @override
+  String get paymentSchedule => 'भुगतान अनुसूची';
+
+  @override
+  String get paymentsWillAppearHere => 'भुगतान यहां दिखाई देंगे';
+
+  @override
+  String get percentageMustBeBetween => 'प्रतिशत 0 और 100 के बीच होना चाहिए';
+
+  @override
+  String get persian => 'फ़ारसी';
+
+  @override
+  String get pleaseEnterAPR => 'कृपया APR दर्ज करें';
+
+  @override
+  String get pleaseEnterCurrentBalance => 'कृपया वर्तमान शेष दर्ज करें';
+
+  @override
+  String get pleaseEnterLiabilityName => 'कृपया देयता नाम दर्ज करें';
+
+  @override
+  String get pleaseEnterValidAPR => 'कृपया एक मान्य APR दर्ज करें';
+
+  @override
+  String get pleaseEnterValidCreditLimit =>
+      'कृपया एक मान्य क्रेडिट सीमा दर्ज करें';
+
+  @override
+  String get privacyPolicy => 'गोपनीयता नीति';
+
+  @override
+  String get proFeature => 'प्रो सुविधा';
+
+  @override
+  String get proStatus => 'प्रो स्थिति';
+
+  @override
+  String get pts => 'pts';
+
+  @override
+  String get quickStats => 'त्वरित आंकड़े';
+
+  @override
+  String get realEstateREITs => 'रियल एस्टेट और REITs';
+
+  @override
+  String get requestLanguage => 'भाषा का अनुरोध करें';
+
+  @override
+  String get retry => 'पुन: प्रयास करें';
+
+  @override
+  String get riskBalanced => 'संतुलित';
+
+  @override
+  String get riskBalancedAllocation => '60% स्टॉक, 35% बांड, 5% नकद';
+
+  @override
+  String get riskBalancedDescription => 'कुछ स्थिरता के साथ मध्यम वृद्धि';
+
+  @override
+  String get riskConservative => 'रूढ़िवादी';
+
+  @override
+  String get riskConservativeAllocation => '30% स्टॉक, 50% बांड, 20% नकद';
+
+  @override
+  String get riskConservativeDescription =>
+      'स्थिरता और पूंजी संरक्षण को प्राथमिकता दें';
+
+  @override
+  String get riskGrowth => 'वृद्धि';
+
+  @override
+  String get riskGrowthAllocation => '80% स्टॉक, 15% बांड, 5% नकद';
+
+  @override
+  String get riskGrowthDescription => 'दीर्घकालिक वृद्धि क्षमता को अधिकतम करें';
+
+  @override
+  String get riskProfile => 'जोखिम प्रोफ़ाइल';
+
+  @override
+  String get riskProfileDescription => 'अपनी निवेश जोखिम सहनशीलता चुनें';
+
+  @override
+  String get saveChanges => 'परिवर्तन सहेजें';
+
+  @override
+  String get selectNextPaymentDueDate => 'अगली भुगतान नियत तिथि चुनें';
+
+  @override
+  String get sendFeedback => 'फीडबैक भेजें';
+
+  @override
+  String get setTargetsAndThresholds => 'लक्ष्य और सीमाएं सेट करें';
+
+  @override
+  String get settingsSavedSuccessfully => 'सेटिंग्स सफलतापूर्वक सहेजी गईं';
+
+  @override
+  String get shareThoughtsAndSuggestions => 'अपने विचार और सुझाव साझा करें';
+
+  @override
+  String get showAll => 'सभी दिखाएं';
+
+  @override
+  String get source => 'स्रोत';
+
+  @override
+  String get sources => 'स्रोत';
+
+  @override
+  String get stable => 'स्थिर';
+
+  @override
+  String get standard => 'मानक';
+
+  @override
+  String get tapToSelectDate => 'तिथि चुनने के लिए टैप करें';
+
+  @override
+  String get targetsAndAlerts => 'लक्ष्य और सतर्कताएं';
+
+  @override
+  String get targetsAndAlertsHelp => 'लक्ष्य और सतर्कताएं मदद';
+
+  @override
+  String get taxRate => 'कर दर';
+
+  @override
+  String get termsOfService => 'सेवा की शर्तें';
+
+  @override
+  String get testingAsFreeUser => 'मुफ्त उपयोगकर्ता के रूप में परीक्षण';
+
+  @override
+  String get testingAsProUser => 'प्रो उपयोगकर्ता के रूप में परीक्षण';
+
+  @override
+  String get timeframe30d => '30d';
+
+  @override
+  String get totalAllocation => 'कुल आवंटन';
+
+  @override
+  String get totalDebt => 'कुल ऋण';
+
+  @override
+  String get totalMonthlyIncome => 'कुल मासिक आय';
+
+  @override
+  String get totalPaid => 'कुल भुगतान किया गया';
+
+  @override
+  String get totalPayments => 'कुल भुगतान';
+
+  @override
+  String get trackCreditCardsAndLoans => 'क्रेडिट कार्ड और ऋण ट्रैक करें';
+
+  @override
+  String get trackYourIncomeSources => 'अपने आय स्रोतों को ट्रैक करें';
+
+  @override
+  String get trackYourNetWorth => 'अपनी कुल संपत्ति को ट्रैक करें';
+
+  @override
+  String get trend => 'रुझान';
+
+  @override
+  String get unlockAdvancedFeatures => 'उन्नत सुविधाओं को अनलॉक करें';
+
+  @override
+  String get unsavedChanges => 'असहेजे परिवर्तन';
+
+  @override
+  String get unsavedChangesMessage =>
+      'आपके पास असहेजे परिवर्तन हैं। क्या आप उन्हें त्यागना चाहते हैं?';
+
+  @override
+  String get updateAccount => 'खाता अपडेट करें';
+
+  @override
+  String get updateLiability => 'देयता अपडेट करें';
+
+  @override
+  String get used => 'उपयोग किया गया';
+
+  @override
+  String get useDarkTheme => 'डार्क थीम उपयोग करें';
+
+  @override
+  String get usEquity => 'US इक्विटी';
+
+  @override
+  String get usEquityTarget => 'US इक्विटी लक्ष्य';
+
+  @override
+  String get usEquityTargetHelper => 'US स्टॉक के लिए लक्ष्य प्रतिशत';
+
+  @override
+  String get view => 'देखें';
+
+  @override
+  String get viewAllAccounts => 'सभी खाते देखें';
+
+  @override
+  String get whatTypesOfDebt => 'आप किस प्रकार के ऋण ट्रैक कर सकते हैं?';
+
+  @override
+  String get why => 'क्यों';
+
+  @override
+  String cutConcentration(String details) {
+    return 'एकाग्रता कम करें: $details';
+  }
+
+  @override
+  String errorSavingIncome(String error) {
+    return 'आय सहेजने में त्रुटि: $error';
+  }
+
+  @override
+  String deleteIncomeConfirm(String name) {
+    return 'क्या आप वाकई $name को हटाना चाहते हैं?';
+  }
+
+  @override
+  String errorLoadingSettings(String error) {
+    return 'सेटिंग्स लोड करने में त्रुटि: $error';
+  }
+
+  @override
+  String failedToSaveSettings(String error) {
+    return 'सेटिंग्स सहेजने में विफल: $error';
+  }
+
+  @override
+  String dayOfMonth(String day) {
+    return 'महीने का दिन: $day';
+  }
+
+  @override
+  String errorLoadingIncome(String error) {
+    return 'आय लोड करने में त्रुटि: $error';
+  }
+
+  @override
+  String errorDeletingIncome(String error) {
+    return 'आय हटाने में त्रुटि: $error';
+  }
+
+  @override
+  String get mixAndDials => 'मिक्स और डायल';
+
+  @override
+  String errorLoadingDataWithError(String error) {
+    return 'डेटा लोड करने में त्रुटि: $error';
+  }
+
+  @override
+  String errorLoadingDebtData(String error) {
+    return 'ऋण डेटा लोड करने में त्रुटि: $error';
+  }
+
+  @override
+  String get noDataAvailable => 'कोई डेटा उपलब्ध नहीं';
+
+  @override
+  String get dollarCostAveragingCalculations => 'डॉलर-लागत औसत गणना';
+
+  @override
+  String get primarySecondaryRebalancingTargets =>
+      'प्राथमिक/द्वितीयक पुनर्संतुलन लक्ष्य';
+
+  @override
+  String get timelineWithMonitoringAlerts => 'निगरानी अलर्ट के साथ समयरेखा';
+
+  @override
+  String get adjustTargetAllocation => 'लक्ष्य आवंटन समायोजित करें';
+
+  @override
+  String get savePlan => 'योजना सहेजें';
+
+  @override
+  String get previewPdf => 'PDF पूर्वावलोकन';
+
+  @override
+  String get back => 'वापस';
+
+  @override
+  String get aboutMixAndDials => 'मिक्स और डायल के बारे में';
+
+  @override
+  String get mixAndDialsDescription =>
+      'यह स्क्रीन आपके पोर्टफोलियो का विस्तृत विश्लेषण प्रदान करती है:';
+
+  @override
+  String get assetAllocationBreakdown =>
+      '• परिसंपत्ति आवंटन - आपके निवेश का दृश्य विभाजन';
+
+  @override
+  String get diversificationDials =>
+      '• विविधीकरण डायल - जोखिम और भौगोलिक वितरण';
+
+  @override
+  String get rebalancingPlansRecommendations =>
+      '• पुनर्संतुलन योजनाएं - कार्रवाई योग्य सिफारिशें';
+
+  @override
+  String get rebalancingPlanSavedSuccessfully =>
+      'पुनर्संतुलन योजना सफलतापूर्वक सहेजी गई!';
+
+  @override
+  String get planSaved => 'योजना सहेजी गई';
+
+  @override
+  String get ok => 'ठीक है';
+
+  @override
+  String get pdfPreview => 'PDF पूर्वावलोकन';
+
+  @override
+  String get close => 'बंद करें';
+
+  @override
+  String get pdfExportFeatureComingSoon => 'PDF निर्यात सुविधा जल्द आ रही है!';
+
+  @override
+  String get downloadPdf => 'PDF डाउनलोड करें';
+
+  @override
+  String get maybeLater => 'शायद बाद में';
+
+  @override
+  String errorLoadingAccountsWithError(String error) {
+    return 'खाते लोड करने में त्रुटि: $error';
+  }
+
+  @override
+  String get gettingStartedGuide => 'प्रारंभ करने का मार्गदर्शक';
+
+  @override
+  String get previewWithSampleData => 'नमूना डेटा के साथ पूर्वावलोकन';
+
+  @override
+  String get archiveAccount => 'खाता संग्रहित करें';
+
+  @override
+  String get archived => 'संग्रहित';
+
+  @override
+  String get archive => 'संग्रहित करें';
+
+  @override
+  String get loadSampleData => 'नमूना डेटा लोड करें';
+
+  @override
+  String get sampleDataLoaded => 'नमूना डेटा लोड किया गया!';
+
+  @override
+  String get load => 'लोड करें';
+
+  @override
+  String get viewAccountsWithUsEquity => 'US इक्विटी वाले खाते देखें';
+
+  @override
+  String get learnMore => 'और जानें';
+
+  @override
+  String get riskNudgeSnoozed => 'जोखिम नज 30 दिनों के लिए स्नूज़ किया गया';
+
+  @override
+  String get riskMarkedAsResolved => 'जोखिम को हल के रूप में चिह्नित किया गया';
+
+  @override
+  String get howWeCalculateThis => 'हम इसकी गणना कैसे करते हैं';
+
+  @override
+  String get yourFinancialHealthScoreBasedOn =>
+      'आपका वित्तीय स्वास्थ्य स्कोर इस पर आधारित है:';
+
+  @override
+  String get concentrationRiskPercent => '• एकाग्रता जोखिम (30%)';
+
+  @override
+  String get fixedIncomeBalancePercent => '• निश्चित आय संतुलन (25%)';
+
+  @override
+  String get liquidityBufferPercent => '• तरलता बफर (20%)';
+
+  @override
+  String get internationalExposurePercent => '• अंतर्राष्ट्रीय एक्सपोजर (15%)';
+
+  @override
+  String get debtManagementPercent => '• ऋण प्रबंधन (10%)';
+
+  @override
+  String get addAccounts => 'खाते जोड़ें';
+
+  @override
+  String get addMonthlyEssentials => 'मासिक आवश्यकताएं जोड़ें';
+
+  @override
+  String get noTrendDataAvailable => 'कोई रुझान डेटा उपलब्ध नहीं';
+
+  @override
+  String get exportPdfReport => 'PDF रिपोर्ट निर्यात करें';
+
+  @override
+  String get saveAsSnapshot => 'स्नैपशॉट के रूप में सहेजें';
+
+  @override
+  String get viewScoreHistory => 'स्कोर इतिहास देखें';
+
+  @override
+  String get compare => 'तुलना करें';
+
+  @override
+  String get create => 'बनाएं';
+
+  @override
+  String get saved => 'सहेजा गया';
+
+  @override
+  String failedToCreateSnapshot(String error) {
+    return 'स्नैपशॉट बनाने में विफल: $error';
+  }
+
+  @override
+  String get snapshotDetail => 'स्नैपशॉट विवरण';
+
+  @override
+  String get snapshotNote => 'स्नैपशॉट नोट';
+
+  @override
+  String savedToDownloads(String filename) {
+    return 'Downloads/$filename में सहेजा गया';
+  }
+
+  @override
+  String downloadFailed(String error) {
+    return 'डाउनलोड विफल: $error';
+  }
+
+  @override
+  String isAvailableWithRebalancePro(String feature) {
+    return '$feature Rebalance Pro के साथ उपलब्ध है।';
+  }
+
+  @override
+  String get startCompare => 'तुलना प्रारंभ करें';
+
+  @override
+  String get selectThisAsStartingPoint =>
+      'तुलना के लिए इसे प्रारंभिक बिंदु के रूप में चुनें';
+
+  @override
+  String get deleteSnapshot => 'स्नैपशॉट हटाएं?';
+
+  @override
+  String failedToDeleteSnapshot(String error) {
+    return 'स्नैपशॉट हटाने में विफल: $error';
+  }
+
+  @override
+  String get unlockTaxOptimization => 'कर अनुकूलन अनलॉक करें';
+
+  @override
+  String get estimatedAnnualTaxSavings => 'अनुमानित वार्षिक कर बचत';
+
+  @override
+  String potentialSavings(String amount) {
+    return 'संभावित बचत: $amount / वर्ष';
+  }
+
+  @override
+  String get yourAssetsAreAlreadyTaxEfficient =>
+      'आपकी संपत्तियां पहले से ही कर-कुशल रूप से स्थित हैं। 👍';
+
+  @override
+  String get suggestedReallocation => 'सुझाया गया पुनः आवंटन';
+
+  @override
+  String get assumptionsAndMethodology => 'मान्यताएं और पद्धति';
+
+  @override
+  String get enableNotifications => 'सूचनाएं सक्षम करें';
+
+  @override
+  String get getAlertsAboutDrift =>
+      'विचलन और पुनर्संतुलन अवसरों के बारे में अलर्ट प्राप्त करें';
+
+  @override
+  String get set => 'सेट करें';
+
+  @override
+  String get howItWorks => 'यह कैसे काम करता है';
+
+  @override
+  String get averageAnnualReturn => '• औसत वार्षिक रिटर्न: 7%';
+
+  @override
+  String get marketVolatility => '• बाजार अस्थिरता: 15%';
+
+  @override
+  String get inflationRate => '• मुद्रास्फीति: 3% प्रति वर्ष';
+
+  @override
+  String get noDebtsToOptimize => 'अनुकूलित करने के लिए कोई ऋण नहीं!';
+
+  @override
+  String get addLiabilitiesFromTab =>
+      'इस टूल का उपयोग करने के लिए देनदारियां टैब से देनदारियां जोड़ें।';
+
+  @override
+  String get currentDebt => 'वर्तमान ऋण';
+
+  @override
+  String liabilityCount(int count, String minPayment) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'देनदारियां',
+      one: 'देनदारी',
+    );
+    return '$count $_temp0 • $minPayment/माह न्यूनतम';
+  }
+
+  @override
+  String get extraMonthlyPayment => 'अतिरिक्त मासिक भुगतान';
+
+  @override
+  String totalMonthlyPayment(String amount) {
+    return 'कुल मासिक भुगतान: $amount';
+  }
+
+  @override
+  String get payoffStrategies => 'भुगतान रणनीतियां';
+
+  @override
+  String get strategyRecommendation =>
+      'हम कम कुल ब्याज वाले विकल्प की सिफारिश करते हैं। आप फिर भी प्रेरणा जीत के लिए दूसरे को चुन सकते हैं।';
+
+  @override
+  String get avalanche => 'हिमस्खलन';
+
+  @override
+  String get avalancheRecommended => 'हिमस्खलन (अनुशंसित)';
+
+  @override
+  String get avalancheDescription =>
+      'उच्चतम एपीआर पहले – कुल ब्याज को कम करता है';
+
+  @override
+  String get snowball => 'स्नोबॉल';
+
+  @override
+  String get snowballRecommended => 'स्नोबॉल (अनुशंसित)';
+
+  @override
+  String get snowballDescription => 'सबसे छोटा शेष पहले – तेज मनोवैज्ञानिक जीत';
+
+  @override
+  String get unlockDetailedPayoffSchedule =>
+      'विस्तृत भुगतान अनुसूची अनलॉक करें';
+
+  @override
+  String get monthByMonthBreakdown =>
+      'महीने-दर-महीने भुगतान विवरण प्राप्त करें जिसमें दिखाया गया है:';
+
+  @override
+  String get exactPayoffDate => 'प्रत्येक ऋण के लिए सटीक भुगतान तिथि';
+
+  @override
+  String get principalVsInterest => 'मूलधन बनाम ब्याज विवरण';
+
+  @override
+  String get remainingBalanceTracking => 'शेष राशि ट्रैकिंग';
+
+  @override
+  String totalInterestSaved(String amount) {
+    return 'कुल ब्याज बचत: $amount';
+  }
+
+  @override
+  String get debtPayoffOrder => 'ऋण भुगतान क्रम';
+
+  @override
+  String debtsWillBePaidInOrder(String strategy) {
+    return 'ऋण इस क्रम में चुकाए जाएंगे ($strategy रणनीति):';
+  }
+
+  @override
+  String get paidOff => 'भुगतान किया गया';
+
+  @override
+  String get payoffTime => 'भुगतान समय';
+
+  @override
+  String monthsCount(int count) {
+    return '$count महीने';
+  }
+
+  @override
+  String get totalInterest => 'कुल ब्याज';
+
+  @override
+  String saveVsMinimum(String amount) {
+    return 'न्यूनतम भुगतान बनाम $amount बचाएं';
+  }
+
+  @override
+  String get detailedPaymentSchedule => 'विस्तृत भुगतान अनुसूची';
+
+  @override
+  String monthByMonthStrategy(String strategy) {
+    return 'महीने-दर-महीने विवरण ($strategy रणनीति):';
+  }
+
+  @override
+  String monthNumber(int number) {
+    return 'महीना $number';
+  }
+
+  @override
+  String principalAndInterest(String principal, String interest) {
+    return '$principal मूलधन • $interest ब्याज';
+  }
+
+  @override
+  String remaining(String amount) {
+    return 'शेष: $amount';
+  }
+
+  @override
+  String moreMonths(int count) {
+    return '... $count और महीने';
+  }
+
+  @override
+  String get strategyComparison => 'रणनीति तुलना';
+
+  @override
+  String strategySavingsComparison(
+      String strategy, String interestDiff, String monthsInfo) {
+    return '$strategy अन्य दृष्टिकोण की तुलना में $interestDiff अधिक ब्याज बचाता है$monthsInfo।';
+  }
+
+  @override
+  String andFinishesEarlier(int months, String plural) {
+    return ' और $months महीना$plural पहले समाप्त होता है';
+  }
+
+  @override
+  String get unlockDebtPayoffOptimizer => 'ऋण भुगतान अनुकूलक अनलॉक करें';
+
+  @override
+  String get fastestPathToDebtFreedom => 'ऋण मुक्ति का सबसे तेज़ रास्ता खोजें';
+
+  @override
+  String get compareAvalancheSnowball =>
+      'हिमस्खलन बनाम स्नोबॉल रणनीतियों की तुलना करें';
+
+  @override
+  String get seeExactPayoffDates =>
+      'प्रत्येक ऋण के लिए सटीक भुगतान तिथियां देखें';
+
+  @override
+  String get calculateInterestSavings => 'कुल ब्याज बचत की गणना करें';
+
+  @override
+  String get getMonthlySchedule => 'महीने-दर-महीने भुगतान अनुसूची प्राप्त करें';
+
+  @override
+  String get best => 'सर्वश्रेष्ठ';
+
+  @override
+  String get selected => 'चयनित';
+
+  @override
+  String get selectStrategy => 'रणनीति चुनें';
+
+  @override
+  String get typesOfDebtYouCanTrack => 'जिन ऋणों को आप ट्रैक कर सकते हैं';
+
+  @override
+  String get creditCardsDescription =>
+      '• क्रेडिट कार्ड - शेष और क्रेडिट उपयोग को ट्रैक करें';
+
+  @override
+  String get mortgagesDescription => '• गृह ऋण - होम लोन और पुनर्वित्त';
+
+  @override
+  String get autoLoansDescription => '• ऑटो लोन - कार और वाहन वित्तपोषण';
+
+  @override
+  String get studentLoansDescription => '• छात्र ऋण - शिक्षा ऋण';
+
+  @override
+  String get personalLoansDescription => '• व्यक्तिगत ऋण - असुरक्षित ऋण';
+
+  @override
+  String get helocDescription => '• HELOC - होम इक्विटी क्रेडिट लाइनें';
+
+  @override
+  String get businessLoansDescription => '• व्यवसाय ऋण - वाणिज्यिक ऋण';
 }

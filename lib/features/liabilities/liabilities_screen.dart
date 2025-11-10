@@ -14,27 +14,30 @@ class LiabilitiesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final loc = AppLocalizations.of(context)!;
     final liabilitiesAsync = ref.watch(liabilitiesProvider);
     final settingsAsync = ref.watch(settingsProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Debts & Liabilities'),
+        title: Text(loc.debtsAndLiabilities),
       ),
       body: liabilitiesAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => Center(
+          child: CircularProgressIndicator(semanticsLabel: loc.loading),
+        ),
         error: (error, stack) => Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(Icons.error, size: 64, color: Colors.red),
               const SizedBox(height: 16),
-              Text('Error loading liabilities: $error'),
+              Text('${loc.errorLoadingLiabilities}: $error'),
               const SizedBox(height: 16),
               FilledButton(
                 onPressed: () =>
                     ref.read(liabilitiesProvider.notifier).reload(),
-                child: const Text('Retry'),
+                child: Text(loc.retry),
               ),
             ],
           ),
@@ -52,13 +55,14 @@ class LiabilitiesScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/liabilities/add'),
-        tooltip: 'Add Liability',
+        tooltip: loc.addLiability,
         child: const Icon(Icons.add),
       ),
     );
   }
 
   Widget _buildEmptyState(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(32),
       child: Column(
@@ -78,7 +82,7 @@ class LiabilitiesScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 32),
           Text(
-            'No Debts Tracked',
+            loc.noDebtsTracked,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -86,7 +90,7 @@ class LiabilitiesScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Track your credit cards, loans, and mortgages to get your complete net worth picture.',
+            loc.trackCreditCardsAndLoans,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
@@ -96,7 +100,7 @@ class LiabilitiesScreen extends ConsumerWidget {
           FilledButton.icon(
             onPressed: () => context.push('/liabilities/add'),
             icon: const Icon(Icons.add_circle_outline),
-            label: const Text('Add Your First Liability'),
+            label: Text(loc.addYourFirstLiability),
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.error,
               foregroundColor: Colors.white,
@@ -106,7 +110,7 @@ class LiabilitiesScreen extends ConsumerWidget {
           const SizedBox(height: 16),
           TextButton(
             onPressed: () => _showDebtTypesInfo(context),
-            child: const Text('What types of debt can I track?'),
+            child: Text(loc.whatTypesOfDebt),
           ),
         ],
       ),
@@ -119,6 +123,7 @@ class LiabilitiesScreen extends ConsumerWidget {
     List<Liability> liabilities,
     Settings settings,
   ) {
+    final loc = AppLocalizations.of(context)!;
     // Filter out paid-off debts (balance = 0)
     final activeDebts =
         liabilities.where((liability) => liability.balance > 0).toList();
@@ -174,7 +179,7 @@ class LiabilitiesScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Total Debt',
+                          loc.totalDebt,
                           style: TextStyle(
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
@@ -203,7 +208,7 @@ class LiabilitiesScreen extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
-                      '${activeDebts.length} debt${activeDebts.length == 1 ? '' : 's'}',
+                      '${activeDebts.length} ${activeDebts.length == 1 ? loc.debt : loc.debtsPlural}',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onErrorContainer,
                         fontWeight: FontWeight.w600,
@@ -221,7 +226,7 @@ class LiabilitiesScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Monthly Payments',
+                          loc.monthlyPayments,
                           style: TextStyle(
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
@@ -244,7 +249,7 @@ class LiabilitiesScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          'Avg Interest Rate',
+                          loc.avgInterestRate,
                           style: TextStyle(
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
@@ -280,7 +285,7 @@ class LiabilitiesScreen extends ConsumerWidget {
                 label: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text('Optimize Payoff Strategy'),
+                    Text(loc.optimizePayoffStrategy),
                     if (!settings.isPro) ...[
                       const SizedBox(width: 8),
                       Container(
@@ -318,8 +323,6 @@ class LiabilitiesScreen extends ConsumerWidget {
             itemCount: liabilities.length,
             itemBuilder: (context, index) {
               final liability = liabilities[index];
-              final percentage =
-                  totalDebt > 0 ? ((liability.balance / totalDebt) * 100) : 0.0;
 
               return Container(
                 margin: const EdgeInsets.only(bottom: 12),
@@ -365,166 +368,70 @@ class LiabilitiesScreen extends ConsumerWidget {
                         ),
                         subtitle: Padding(
                           padding: const EdgeInsets.only(top: 6),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Row(
                             children: [
-                              Row(
-                                children: [
-                                  Flexible(
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 6,
-                                        vertical: 3,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: _getLiabilityKindColor(
-                                          context,
-                                          liability.kind,
-                                        ).withValues(alpha: 0.1),
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: _getLiabilityKindColor(
-                                            context,
-                                            liability.kind,
-                                          ).withValues(alpha: 0.3),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        _getLiabilityTypeDisplayName(
-                                          liability.kind,
-                                        ),
-                                        style: TextStyle(
-                                          color: _getLiabilityKindColor(
-                                            context,
-                                            liability.kind,
-                                          ),
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .error
+                                      .withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Text(
+                                  '${(liability.apr * 100).toStringAsFixed(1)}%',
+                                  style: TextStyle(
+                                    color: Theme.of(context).colorScheme.error,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                  const SizedBox(width: 6),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 6,
-                                      vertical: 3,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .error
-                                          .withValues(alpha: 0.1),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Text(
-                                      '${percentage.toStringAsFixed(1)}%',
-                                      style: TextStyle(
-                                        color:
-                                            Theme.of(context).colorScheme.error,
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                              const SizedBox(height: 6),
-                              Row(
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      'APR: ${(liability.apr * 100).toStringAsFixed(1)}%',
-                                      style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurfaceVariant,
-                                        fontSize: 11,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Flexible(
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          'Min: ',
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurfaceVariant,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                        Flexible(
-                                          child: Consumer(
-                                            builder: (context, ref, child) {
-                                              final settingsAsync =
-                                                  ref.watch(settingsProvider);
-                                              final shouldUseOriginal =
-                                                  settingsAsync.maybeWhen(
-                                                data: (settings) =>
-                                                    liability.originalCurrency != null &&
-                                                    liability
-                                                            .originalMinPayment !=
-                                                        null &&
-                                                    liability
-                                                            .originalCurrency ==
-                                                        settings.currency,
-                                                orElse: () => false,
+                              const SizedBox(width: 6),
+                              Expanded(
+                                child: Consumer(
+                                  builder: (context, ref, child) {
+                                    final settingsAsync =
+                                        ref.watch(settingsProvider);
+                                    return settingsAsync.maybeWhen(
+                                      data: (settings) {
+                                        final shouldUseOriginal =
+                                            liability.originalCurrency !=
+                                                    null &&
+                                                liability.originalMinPayment !=
+                                                    null &&
+                                                liability.originalCurrency ==
+                                                    settings.currency;
+
+                                        final minPaymentText = shouldUseOriginal
+                                            ? CurrencyFormatter.format(
+                                                liability.originalMinPayment!,
+                                                liability.originalCurrency!,
+                                              )
+                                            : CurrencyFormatter.format(
+                                                liability.minPayment,
+                                                settings.currency,
                                               );
 
-                                              if (shouldUseOriginal) {
-                                                return settingsAsync.when(
-                                                  loading: () =>
-                                                      const SizedBox(),
-                                                  error: (_, __) =>
-                                                      const SizedBox(),
-                                                  data: (settings) => Text(
-                                                    CurrencyFormatter.format(
-                                                      liability
-                                                          .originalMinPayment!,
-                                                      liability
-                                                          .originalCurrency!,
-                                                    ),
-                                                    style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .onSurfaceVariant,
-                                                      fontSize: 10,
-                                                    ),
-                                                  ),
-                                                );
-                                              } else {
-                                                return CurrencyText(
-                                                  liability.minPayment,
-                                                  style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onSurfaceVariant,
-                                                    fontSize: 10,
-                                                  ),
-                                                );
-                                              }
-                                            },
-                                          ),
-                                        ),
-                                        Text(
-                                          '/mo',
+                                        return Text(
+                                          '${loc.minPayment} $minPaymentText/mo',
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .onSurfaceVariant,
-                                            fontSize: 10,
+                                            fontSize: 11,
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                                          overflow: TextOverflow.ellipsis,
+                                        );
+                                      },
+                                      orElse: () => const SizedBox.shrink(),
+                                    );
+                                  },
+                                ),
                               ),
                             ],
                           ),
@@ -576,7 +483,7 @@ class LiabilitiesScreen extends ConsumerWidget {
                                 if (liability.creditLimit != null &&
                                     liability.creditLimit! > 0)
                                   Text(
-                                    '${((liability.balance / liability.creditLimit!) * 100).toStringAsFixed(0)}% used',
+                                    '${((liability.balance / liability.creditLimit!) * 100).toStringAsFixed(0)}% ${loc.used}',
                                     style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -586,7 +493,7 @@ class LiabilitiesScreen extends ConsumerWidget {
                                   )
                                 else
                                   Text(
-                                    'Updated ${_getRelativeTime(liability.updatedAt)}',
+                                    '${loc.updated} ${_getRelativeTime(context, liability.updatedAt)}',
                                     style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -695,41 +602,21 @@ class LiabilitiesScreen extends ConsumerWidget {
     }
   }
 
-  String _getLiabilityTypeDisplayName(String kind) {
-    switch (kind.toLowerCase()) {
-      case 'creditcard':
-        return 'Credit Card';
-      case 'mortgage':
-        return 'Mortgage';
-      case 'autoloan':
-        return 'Auto Loan';
-      case 'studentloan':
-        return 'Student Loan';
-      case 'personalloan':
-        return 'Personal Loan';
-      case 'heloc':
-        return 'HELOC';
-      case 'businessloan':
-        return 'Business Loan';
-      default:
-        return kind.toUpperCase();
-    }
-  }
-
-  String _getRelativeTime(DateTime dateTime) {
+  String _getRelativeTime(BuildContext context, DateTime dateTime) {
+    final loc = AppLocalizations.of(context)!;
     final now = DateTime.now();
     final difference = now.difference(dateTime);
 
     if (difference.inDays > 7) {
       return DateFormat('MMM d').format(dateTime);
     } else if (difference.inDays > 0) {
-      return '${difference.inDays}d ago';
+      return '${difference.inDays}d ${loc.ago}';
     } else if (difference.inHours > 0) {
-      return '${difference.inHours}h ago';
+      return '${difference.inHours}h ${loc.ago}';
     } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes}m ago';
+      return '${difference.inMinutes}m ${loc.ago}';
     } else {
-      return 'Just now';
+      return loc.justNow;
     }
   }
 
@@ -737,30 +624,30 @@ class LiabilitiesScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Types of Debt You Can Track'),
-        content: const Column(
+        title: Text(AppLocalizations.of(context)!.typesOfDebtYouCanTrack),
+        content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('• Credit Cards - Track balances and credit utilization'),
-            SizedBox(height: 8),
-            Text('• Mortgages - Home loans and refinances'),
-            SizedBox(height: 8),
-            Text('• Auto Loans - Car and vehicle financing'),
-            SizedBox(height: 8),
-            Text('• Student Loans - Education debt'),
-            SizedBox(height: 8),
-            Text('• Personal Loans - Unsecured debt'),
-            SizedBox(height: 8),
-            Text('• HELOC - Home equity lines of credit'),
-            SizedBox(height: 8),
-            Text('• Business Loans - Commercial debt'),
+            Text(AppLocalizations.of(context)!.creditCardsDescription),
+            const SizedBox(height: 8),
+            Text(AppLocalizations.of(context)!.mortgagesDescription),
+            const SizedBox(height: 8),
+            Text(AppLocalizations.of(context)!.autoLoansDescription),
+            const SizedBox(height: 8),
+            Text(AppLocalizations.of(context)!.studentLoansDescription),
+            const SizedBox(height: 8),
+            Text(AppLocalizations.of(context)!.personalLoansDescription),
+            const SizedBox(height: 8),
+            Text(AppLocalizations.of(context)!.helocDescription),
+            const SizedBox(height: 8),
+            Text(AppLocalizations.of(context)!.businessLoansDescription),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Got it'),
+            child: Text(AppLocalizations.of(context)!.gotIt),
           ),
           FilledButton(
             onPressed: () {

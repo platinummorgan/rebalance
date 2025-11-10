@@ -45,9 +45,9 @@ class TargetsScreen extends ConsumerWidget {
                           color: Theme.of(context).colorScheme.primary,
                         ),
                         const SizedBox(width: 12),
-                        const Text(
-                          'Color Theme',
-                          style: TextStyle(
+                        Text(
+                          AppLocalizations.of(context)!.colorTheme,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
                           ),
@@ -55,9 +55,9 @@ class TargetsScreen extends ConsumerWidget {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    const Text(
-                      'Choose your preferred color scheme',
-                      style: TextStyle(color: Colors.grey),
+                    Text(
+                      AppLocalizations.of(context)!.chooseColorScheme,
+                      style: const TextStyle(color: Colors.grey),
                     ),
                     const SizedBox(height: 16),
                     Wrap(
@@ -110,7 +110,10 @@ class TargetsScreen extends ConsumerWidget {
                                     ),
                                     const SizedBox(height: 2),
                                     Text(
-                                      AppTheme.getColorThemeName(theme),
+                                      AppTheme.getColorThemeName(
+                                        theme,
+                                        context,
+                                      ),
                                       style: TextStyle(
                                         color: isLocked
                                             ? Colors.white54
@@ -156,9 +159,9 @@ class TargetsScreen extends ConsumerWidget {
                           color: Theme.of(context).colorScheme.primary,
                         ),
                         const SizedBox(width: 12),
-                        const Text(
-                          'Currency',
-                          style: TextStyle(
+                        Text(
+                          AppLocalizations.of(context)!.currency,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
                           ),
@@ -166,9 +169,9 @@ class TargetsScreen extends ConsumerWidget {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      'Display amounts in your preferred currency',
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
+                    Text(
+                      AppLocalizations.of(context)!.displayInCurrency,
+                      style: const TextStyle(color: Colors.grey, fontSize: 14),
                     ),
                     const SizedBox(height: 16),
                     OutlinedButton.icon(
@@ -228,9 +231,9 @@ class TargetsScreen extends ConsumerWidget {
                           color: Theme.of(context).colorScheme.primary,
                         ),
                         const SizedBox(width: 12),
-                        const Text(
-                          'Language',
-                          style: TextStyle(
+                        Text(
+                          AppLocalizations.of(context)!.language,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
                           ),
@@ -238,13 +241,13 @@ class TargetsScreen extends ConsumerWidget {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      'Choose your preferred language',
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
+                    Text(
+                      AppLocalizations.of(context)!.chooseLanguage,
+                      style: const TextStyle(color: Colors.grey, fontSize: 14),
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
-                      value: settings.language ?? 'en',
+                      initialValue: settings.language ?? 'en',
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         contentPadding: EdgeInsets.symmetric(
@@ -253,63 +256,80 @@ class TargetsScreen extends ConsumerWidget {
                         ),
                       ),
                       items: [
-                        const DropdownMenuItem(
+                        DropdownMenuItem(
                           value: 'en',
                           child: Row(
                             children: [
-                              Text('🇺🇸', style: TextStyle(fontSize: 20)),
-                              SizedBox(width: 12),
-                              Text('English'),
+                              const Text(
+                                '🇺🇸',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              const SizedBox(width: 12),
+                              Text(AppLocalizations.of(context)!.english),
                             ],
                           ),
                         ),
-                        const DropdownMenuItem(
+                        DropdownMenuItem(
                           value: 'hi',
                           child: Row(
                             children: [
-                              Text('🇮🇳', style: TextStyle(fontSize: 20)),
-                              SizedBox(width: 12),
-                              Text('हिन्दी (Hindi)'),
+                              const Text(
+                                '🇮🇳',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              const SizedBox(width: 12),
+                              Text(AppLocalizations.of(context)!.hindi),
                             ],
                           ),
                         ),
-                        const DropdownMenuItem(
+                        DropdownMenuItem(
                           value: 'bn',
                           child: Row(
                             children: [
-                              Text('🇧🇩', style: TextStyle(fontSize: 20)),
-                              SizedBox(width: 12),
-                              Text('বাংলা (Bengali)'),
+                              const Text(
+                                '🇧🇩',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              const SizedBox(width: 12),
+                              Text(AppLocalizations.of(context)!.bengali),
                             ],
                           ),
                         ),
-                        const DropdownMenuItem(
+                        DropdownMenuItem(
                           value: 'ar',
                           child: Row(
                             children: [
-                              Text('🇸🇩', style: TextStyle(fontSize: 20)),
-                              SizedBox(width: 12),
-                              Text('العربية (Arabic)'),
+                              const Text(
+                                '🇸🇩',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              const SizedBox(width: 12),
+                              Text(AppLocalizations.of(context)!.arabic),
                             ],
                           ),
                         ),
-                        const DropdownMenuItem(
+                        DropdownMenuItem(
                           value: 'fa',
                           child: Row(
                             children: [
-                              Text('🇮🇷', style: TextStyle(fontSize: 20)),
-                              SizedBox(width: 12),
-                              Text('فارسی (Persian)'),
+                              const Text(
+                                '🇮🇷',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              const SizedBox(width: 12),
+                              Text(AppLocalizations.of(context)!.persian),
                             ],
                           ),
                         ),
-                        const DropdownMenuItem(
+                        DropdownMenuItem(
                           value: 'request',
                           child: Row(
                             children: [
-                              Icon(Icons.email, size: 20),
-                              SizedBox(width: 12),
-                              Text('Request a language...'),
+                              const Icon(Icons.email, size: 20),
+                              const SizedBox(width: 12),
+                              Text(
+                                AppLocalizations.of(context)!.requestLanguage,
+                              ),
                             ],
                           ),
                         ),
@@ -333,7 +353,7 @@ class TargetsScreen extends ConsumerWidget {
               child: SwitchListTile(
                 secondary: const Icon(Icons.dark_mode),
                 title: Text(AppLocalizations.of(context)!.darkMode),
-                subtitle: const Text('Use dark theme instead of light'),
+                subtitle: Text(AppLocalizations.of(context)!.useDarkTheme),
                 value: settings.darkModeEnabled,
                 onChanged: (value) => _updateDarkMode(ref, value),
               ),
@@ -353,7 +373,7 @@ class TargetsScreen extends ConsumerWidget {
                   ),
                   title: Row(
                     children: [
-                      const Text('Pro Status'),
+                      Text(AppLocalizations.of(context)!.proStatus),
                       const SizedBox(width: 8),
                       Container(
                         padding: const EdgeInsets.symmetric(
@@ -377,8 +397,8 @@ class TargetsScreen extends ConsumerWidget {
                   ),
                   subtitle: Text(
                     settings.isPro
-                        ? 'Testing as Pro user'
-                        : 'Testing as Free user',
+                        ? AppLocalizations.of(context)!.testingAsProUser
+                        : AppLocalizations.of(context)!.testingAsFreeUser,
                   ),
                   value: settings.isPro,
                   onChanged: (value) => _updateProStatus(ref, value),
@@ -392,29 +412,34 @@ class TargetsScreen extends ConsumerWidget {
               child: Column(
                 children: [
                   // Diversification Mode
-                  const ListTile(
-                    leading: Icon(Icons.public),
-                    title: Text('International Exposure'),
+                  ListTile(
+                    leading: const Icon(Icons.public),
+                    title: Text(
+                      AppLocalizations.of(context)!.internationalExposure,
+                    ),
                     subtitle: Text(
-                      'Control how international exposure affects your score',
+                      AppLocalizations.of(context)!
+                          .controlInternationalExposure,
                     ),
                     onTap: null,
                   ),
                   RadioListTile<String>(
                     value: 'standard',
                     groupValue: settings.globalDiversificationMode,
-                    title: const Text('Standard'),
-                    subtitle:
-                        const Text('Default policy: penalize large deviations'),
+                    title: Text(AppLocalizations.of(context)!.standard),
+                    subtitle: Text(
+                      AppLocalizations.of(context)!
+                          .defaultPolicyPenalizeLargeDeviations,
+                    ),
                     onChanged: (v) =>
                         _updateDiversificationMode(ref, v ?? 'standard'),
                   ),
                   RadioListTile<String>(
                     value: 'light',
                     groupValue: settings.globalDiversificationMode,
-                    title: const Text('Light'),
-                    subtitle: const Text(
-                      'Less punitive: small deviations are tolerated',
+                    title: Text(AppLocalizations.of(context)!.light),
+                    subtitle: Text(
+                      AppLocalizations.of(context)!.lessPunitive,
                     ),
                     onChanged: (v) =>
                         _updateDiversificationMode(ref, v ?? 'light'),
@@ -422,9 +447,10 @@ class TargetsScreen extends ConsumerWidget {
                   RadioListTile<String>(
                     value: 'off',
                     groupValue: settings.globalDiversificationMode,
-                    title: const Text('Off (Mute)'),
-                    subtitle: const Text(
-                      'Exclude International Exposure from your score',
+                    title: Text(AppLocalizations.of(context)!.offMute),
+                    subtitle: Text(
+                      AppLocalizations.of(context)!
+                          .excludeInternationalExposure,
                     ),
                     onChanged: (v) =>
                         _updateDiversificationMode(ref, v ?? 'off'),
@@ -432,38 +458,45 @@ class TargetsScreen extends ConsumerWidget {
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.tune),
-                    title: const Text('Targets & Alerts'),
-                    subtitle: const Text(
-                      'Set allocation targets and drift thresholds',
+                    title: Text(AppLocalizations.of(context)!.targetsAndAlerts),
+                    subtitle: Text(
+                      AppLocalizations.of(context)!.setTargetsAndThresholds,
                     ),
                     onTap: () => context.push('/targets/detail'),
                   ),
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.file_upload),
-                    title: const Text('Import CSV'),
-                    subtitle: const Text('Import accounts, debts, or income'),
+                    title: Text(AppLocalizations.of(context)!.importCSV),
+                    subtitle: Text(
+                      AppLocalizations.of(context)!.importAccountsDebtsIncome,
+                    ),
                     onTap: () => context.push('/import/csv'),
                   ),
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.upload_file),
-                    title: const Text('Import & Export'),
-                    subtitle: const Text('Backup and restore your data'),
+                    title: Text(AppLocalizations.of(context)!.importAndExport),
+                    subtitle:
+                        Text(AppLocalizations.of(context)!.backupRestoreData),
                     onTap: () => context.push('/export'),
                   ),
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.star),
                     title: Text(AppLocalizations.of(context)!.proFeatures),
-                    subtitle: const Text('Unlock advanced features'),
+                    subtitle: Text(
+                      AppLocalizations.of(context)!.unlockAdvancedFeatures,
+                    ),
                     onTap: () => context.push('/pro'),
                   ),
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.info),
-                    title: const Text('About'),
-                    subtitle: const Text('App info and disclaimers'),
+                    title: Text(AppLocalizations.of(context)!.about),
+                    subtitle: Text(
+                      AppLocalizations.of(context)!.appInfoAndDisclaimers,
+                    ),
                     onTap: () => context.push('/about'),
                   ),
                 ],
@@ -477,8 +510,9 @@ class TargetsScreen extends ConsumerWidget {
                 children: [
                   ListTile(
                     leading: const Icon(Icons.privacy_tip),
-                    title: const Text('Privacy Policy'),
-                    subtitle: const Text('How we protect your data'),
+                    title: Text(AppLocalizations.of(context)!.privacyPolicy),
+                    subtitle:
+                        Text(AppLocalizations.of(context)!.howWeProtectData),
                     trailing: const Icon(Icons.open_in_new, size: 20),
                     onTap: () => _launchURL(
                       'https://platinummorgan.github.io/rebalance/privacy.html',
@@ -487,8 +521,10 @@ class TargetsScreen extends ConsumerWidget {
                   const Divider(height: 1),
                   ListTile(
                     leading: const Icon(Icons.description),
-                    title: const Text('Terms of Service'),
-                    subtitle: const Text('Legal terms and conditions'),
+                    title: Text(AppLocalizations.of(context)!.termsOfService),
+                    subtitle: Text(
+                      AppLocalizations.of(context)!.legalTermsAndConditions,
+                    ),
                     trailing: const Icon(Icons.open_in_new, size: 20),
                     onTap: () => _launchURL(
                       'https://platinummorgan.github.io/rebalance/terms_of_service.html',
@@ -503,8 +539,10 @@ class TargetsScreen extends ConsumerWidget {
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: ListTile(
                 leading: const Icon(Icons.feedback),
-                title: const Text('Send Feedback'),
-                subtitle: const Text('Share your thoughts and suggestions'),
+                title: Text(AppLocalizations.of(context)!.sendFeedback),
+                subtitle: Text(
+                  AppLocalizations.of(context)!.shareThoughtsAndSuggestions,
+                ),
                 trailing: const Icon(Icons.open_in_new, size: 20),
                 onTap: () => _launchURL(
                   'mailto:admin@ripstuff.net?subject=Rebalance%20App%20Feedback',
@@ -533,7 +571,7 @@ class TargetsScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Exit App',
+                              AppLocalizations.of(context)!.exitApp,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -542,7 +580,7 @@ class TargetsScreen extends ConsumerWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Close the application',
+                              AppLocalizations.of(context)!.closeApplication,
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Theme.of(context)
@@ -573,8 +611,8 @@ class TargetsScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Exit App'),
-        content: const Text('Are you sure you want to exit?'),
+        title: Text(AppLocalizations.of(context)!.exitApp),
+        content: Text(AppLocalizations.of(context)!.areYouSureExit),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -588,7 +626,7 @@ class TargetsScreen extends ConsumerWidget {
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.error,
             ),
-            child: const Text('Exit'),
+            child: Text(AppLocalizations.of(context)!.exit),
           ),
         ],
       ),
@@ -638,7 +676,7 @@ class TargetsScreen extends ConsumerWidget {
   void _showColorThemeUpgrade(BuildContext context, ColorTheme theme) {
     PremiumHelper.showUpgradeDialog(
       context,
-      feature: '${AppTheme.getColorThemeName(theme)} Theme',
+      feature: '${AppTheme.getColorThemeName(theme, context)} Theme',
       description:
           'Unlock all color themes with Rebalance Pro! Free users get Green and Blue themes.',
     );

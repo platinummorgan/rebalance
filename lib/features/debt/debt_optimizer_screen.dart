@@ -33,7 +33,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
   String _getPayoffDate(int monthsFromNow) {
     final now = DateTime.now();
     final payoffDate = DateTime(now.year, now.month + monthsFromNow, 1);
-    return DateFormat('MMM yyyy').format(payoffDate);
+    return DateFormat.yMMM(Localizations.localeOf(context).toString()).format(payoffDate);
   }
 
   @override
@@ -44,21 +44,33 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
 
     return liabilitiesAsync.when(
       loading: () => Scaffold(
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
+        appBar:
+            AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
         body: const Center(child: CircularProgressIndicator()),
       ),
       error: (error, stack) => Scaffold(
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
-        body: Center(child: Text('Error: $error')),
+        appBar:
+            AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
+        body: Center(
+          child: Text(
+            AppLocalizations.of(context)!.errorWithMessage(error.toString()),
+          ),
+        ),
       ),
       data: (liabilities) => settingsAsync.when(
         loading: () => Scaffold(
-          appBar: AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
+          appBar:
+              AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
           body: const Center(child: CircularProgressIndicator()),
         ),
         error: (error, stack) => Scaffold(
-          appBar: AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
-          body: Center(child: Text('Error: $error')),
+          appBar:
+              AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
+          body: Center(
+            child: Text(
+              AppLocalizations.of(context)!.errorWithMessage(error.toString()),
+            ),
+          ),
         ),
         data: (settings) => FutureBuilder<List<Liability>>(
           future: _convertLiabilities(
@@ -70,14 +82,23 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Scaffold(
-                appBar: AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
+                appBar: AppBar(
+                  title: Text(AppLocalizations.of(context)!.debtOptimizer),
+                ),
                 body: const Center(child: CircularProgressIndicator()),
               );
             }
             if (snapshot.hasError) {
               return Scaffold(
-                appBar: AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
-                body: Center(child: Text('Error: ${snapshot.error}')),
+                appBar: AppBar(
+                  title: Text(AppLocalizations.of(context)!.debtOptimizer),
+                ),
+                body: Center(
+                  child: Text(
+                    AppLocalizations.of(context)!
+                        .errorWithMessage(snapshot.error.toString()),
+                  ),
+                ),
               );
             }
             final convertedLiabilities = snapshot.data ?? liabilities;
@@ -144,13 +165,13 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
             children: [
               const Icon(Icons.check_circle, size: 64, color: Colors.green),
               const SizedBox(height: 16),
-              const Text(
-                'No debts to optimize!',
+              Text(
+                AppLocalizations.of(context)!.noDebtsToOptimize,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Text(
-                'Add liabilities from the Liabilities tab to use this tool.',
+                AppLocalizations.of(context)!.addLiabilitiesFromTab,
                 style: TextStyle(
                   fontSize: 14,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -220,7 +241,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Current Debt',
+                          AppLocalizations.of(context)!.currentDebt,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -241,7 +262,8 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '${liabilities.length} ${liabilities.length == 1 ? 'liability' : 'liabilities'} • ${_formatCurrency(totalMinPayment)}/mo minimum',
+                      AppLocalizations.of(context)!.liabilityCount(
+                          liabilities.length, _formatCurrency(totalMinPayment)),
                       style: TextStyle(
                         fontSize: 14,
                         color: Theme.of(context).colorScheme.onErrorContainer,
@@ -264,8 +286,8 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Extra Monthly Payment',
+                        Text(
+                          AppLocalizations.of(context)!.extraMonthlyPayment,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -295,7 +317,8 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                       },
                     ),
                     Text(
-                      'Total monthly payment: ${_formatCurrency(totalMinPayment + _extraPayment)}',
+                      AppLocalizations.of(context)!.totalMonthlyPayment(
+                          _formatCurrency(totalMinPayment + _extraPayment)),
                       style: TextStyle(
                         fontSize: 12,
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -311,8 +334,8 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
             // Strategy comparison with toggle
             Row(
               children: [
-                const Text(
-                  'Payoff Strategies',
+                Text(
+                  AppLocalizations.of(context)!.payoffStrategies,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
@@ -321,7 +344,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              'We recommend the option with lower total interest. You can still select the other for motivation wins.',
+              AppLocalizations.of(context)!.strategyRecommendation,
               style: TextStyle(
                 fontSize: 14,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -342,9 +365,10 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
             // Avalanche card
             _buildStrategyCard(
               context,
-              title:
-                  'Avalanche${betterStrategy == 'avalanche' ? ' (Recommended)' : ''}',
-              subtitle: 'Highest APR first – minimizes total interest',
+              title: betterStrategy == 'avalanche'
+                  ? AppLocalizations.of(context)!.avalancheRecommended
+                  : AppLocalizations.of(context)!.avalanche,
+              subtitle: AppLocalizations.of(context)!.avalancheDescription,
               result: avalancheResult,
               isRecommended: betterStrategy == 'avalanche',
               isSelected: _activeStrategy == 'avalanche',
@@ -357,9 +381,10 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
             // Snowball card
             _buildStrategyCard(
               context,
-              title:
-                  'Snowball${betterStrategy == 'snowball' ? ' (Recommended)' : ''}',
-              subtitle: 'Smallest balance first – faster psychological wins',
+              title: betterStrategy == 'snowball'
+                  ? AppLocalizations.of(context)!.snowballRecommended
+                  : AppLocalizations.of(context)!.snowball,
+              subtitle: AppLocalizations.of(context)!.snowballDescription,
               result: snowballResult,
               isRecommended: betterStrategy == 'snowball',
               isSelected: _activeStrategy == 'snowball',
@@ -387,7 +412,8 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            'Unlock Detailed Payoff Schedule',
+                            AppLocalizations.of(context)!
+                                .unlockDetailedPayoffSchedule,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -400,7 +426,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'Get month-by-month payment breakdown showing:',
+                        AppLocalizations.of(context)!.monthByMonthBreakdown,
                         style: TextStyle(
                           fontSize: 14,
                           color:
@@ -408,11 +434,16 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      _buildProFeature('Exact payoff date for each debt'),
-                      _buildProFeature('Principal vs interest breakdown'),
-                      _buildProFeature('Remaining balance tracking'),
                       _buildProFeature(
-                        'Total interest saved: ${_formatCurrency(betterResult.interestSavingsVsMinimum)}',
+                          AppLocalizations.of(context)!.exactPayoffDate),
+                      _buildProFeature(
+                          AppLocalizations.of(context)!.principalVsInterest),
+                      _buildProFeature(AppLocalizations.of(context)!
+                          .remainingBalanceTracking),
+                      _buildProFeature(
+                        AppLocalizations.of(context)!.totalInterestSaved(
+                            _formatCurrency(
+                                betterResult.interestSavingsVsMinimum)),
                       ),
                       const SizedBox(height: 16),
                       SizedBox(
@@ -422,7 +453,9 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                             // Navigate to Pro screen
                             Navigator.pushNamed(context, '/pro');
                           },
-                          child: Text(AppLocalizations.of(context)!.upgradeToProTitle),
+                          child: Text(
+                            AppLocalizations.of(context)!.upgradeToProTitle,
+                          ),
                         ),
                       ),
                     ],
@@ -431,13 +464,17 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
               ),
             ] else ...[
               // Show debt payoff order
-              const Text(
-                'Debt Payoff Order',
+              Text(
+                AppLocalizations.of(context)!.debtPayoffOrder,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Text(
-                'Debts will be paid off in this order (${_activeStrategy!.toUpperCase()} strategy):',
+                AppLocalizations.of(context)!.debtsWillBePaidInOrder(
+                  _activeStrategy == 'avalanche'
+                      ? AppLocalizations.of(context)!.avalanche.toUpperCase()
+                      : AppLocalizations.of(context)!.snowball.toUpperCase(),
+                ),
                 style: TextStyle(
                   fontSize: 14,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -448,13 +485,18 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
               const SizedBox(height: 24),
 
               // Show detailed schedule for Pro users
-              const Text(
-                'Payment Schedule',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              Text(
+                AppLocalizations.of(context)!.paymentSchedule,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Text(
-                'Month-by-month breakdown (${_activeStrategy!.toUpperCase()} strategy):',
+                AppLocalizations.of(context)!.monthByMonthStrategy(
+                  _activeStrategy == 'avalanche'
+                      ? AppLocalizations.of(context)!.avalanche.toUpperCase()
+                      : AppLocalizations.of(context)!.snowball.toUpperCase(),
+                ),
                 style: TextStyle(
                   fontSize: 14,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -545,7 +587,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            'Paid off',
+                            AppLocalizations.of(context)!.paidOff,
                             style: TextStyle(
                               fontSize: 10,
                               color: Theme.of(context)
@@ -647,7 +689,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
-                                'BEST',
+                                AppLocalizations.of(context)!.best,
                                 style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
@@ -671,7 +713,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
-                                'SELECTED',
+                                AppLocalizations.of(context)!.selected,
                                 style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
@@ -698,7 +740,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                 ),
                 if (onSelect != null)
                   IconButton(
-                    tooltip: 'Select strategy',
+                    tooltip: AppLocalizations.of(context)!.selectStrategy,
                     icon: Icon(
                       isSelected
                           ? Icons.check_circle
@@ -719,7 +761,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Payoff Time',
+                      AppLocalizations.of(context)!.payoffTime,
                       style: TextStyle(
                         fontSize: 12,
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -727,7 +769,8 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '${result.monthsToPayoff} months',
+                      AppLocalizations.of(context)!
+                          .monthsCount(result.monthsToPayoff),
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -742,7 +785,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'Total Interest',
+                      AppLocalizations.of(context)!.totalInterest,
                       style: TextStyle(
                         fontSize: 12,
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -776,7 +819,8 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                     const Icon(Icons.savings, size: 16, color: Colors.green),
                     const SizedBox(width: 8),
                     Text(
-                      'Save ${_formatCurrency(result.interestSavingsVsMinimum)} vs minimum payments',
+                      AppLocalizations.of(context)!.saveVsMinimum(
+                          _formatCurrency(result.interestSavingsVsMinimum)),
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -826,7 +870,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Detailed Payment Schedule',
+              AppLocalizations.of(context)!.detailedPaymentSchedule,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -850,7 +894,8 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Month ${month.month}',
+                            AppLocalizations.of(context)!
+                                .monthNumber(month.month),
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
@@ -867,7 +912,10 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                                 ),
                               ),
                               Text(
-                                '${_formatCurrency(month.principalPayment)} principal • ${_formatCurrency(month.interestPayment)} interest',
+                                AppLocalizations.of(context)!
+                                    .principalAndInterest(
+                                        _formatCurrency(month.principalPayment),
+                                        _formatCurrency(month.interestPayment)),
                                 style: TextStyle(
                                   fontSize: 11,
                                   color: Theme.of(context)
@@ -884,7 +932,8 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            'Remaining: ${_formatCurrency(month.remainingBalance)}',
+                            AppLocalizations.of(context)!.remaining(
+                                _formatCurrency(month.remainingBalance)),
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -903,7 +952,8 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
             if (result.schedule.length > 12) ...[
               const SizedBox(height: 8),
               Text(
-                '... ${result.schedule.length - 12} more months',
+                AppLocalizations.of(context)!
+                    .moreMonths(result.schedule.length - 12),
                 style: TextStyle(
                   fontSize: 12,
                   fontStyle: FontStyle.italic,
@@ -1113,8 +1163,10 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildToggleChip(context, 'Avalanche', 'avalanche', recommended),
-          _buildToggleChip(context, 'Snowball', 'snowball', recommended),
+          _buildToggleChip(context, AppLocalizations.of(context)!.avalanche,
+              'avalanche', recommended),
+          _buildToggleChip(context, AppLocalizations.of(context)!.snowball,
+              'snowball', recommended),
         ],
       ),
     );
@@ -1194,7 +1246,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'Strategy Comparison',
+                  AppLocalizations.of(context)!.strategyComparison,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -1205,7 +1257,13 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
             ),
             const SizedBox(height: 12),
             Text(
-              '$betterLabel saves ${_formatCurrency(interestDiff)} more interest${monthsDiff > 0 ? ' and finishes $monthsDiff month${monthsDiff == 1 ? '' : 's'} sooner' : ''} vs the other approach.',
+              AppLocalizations.of(context)!.strategySavingsComparison(
+                  betterLabel,
+                  _formatCurrency(interestDiff),
+                  monthsDiff > 0
+                      ? AppLocalizations.of(context)!.andFinishesEarlier(
+                          monthsDiff, monthsDiff == 1 ? '' : 's')
+                      : ''),
               style: TextStyle(
                 fontSize: 13,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -1234,8 +1292,8 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                 color: Colors.blue,
               ),
               const SizedBox(height: 24),
-              const Text(
-                'Unlock Debt Payoff Optimizer',
+              Text(
+                AppLocalizations.of(context)!.unlockDebtPayoffOptimizer,
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -1244,7 +1302,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                'Find the fastest path to debt freedom',
+                AppLocalizations.of(context)!.fastestPathToDebtFreedom,
                 style: TextStyle(
                   fontSize: 16,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -1265,16 +1323,18 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildProFeatureItem(
-                      'Compare avalanche vs snowball strategies',
+                      AppLocalizations.of(context)!.compareAvalancheSnowball,
                     ),
                     const SizedBox(height: 8),
                     _buildProFeatureItem(
-                      'See exact payoff dates for each debt',
+                      AppLocalizations.of(context)!.seeExactPayoffDates,
                     ),
                     const SizedBox(height: 8),
-                    _buildProFeatureItem('Calculate total interest savings'),
+                    _buildProFeatureItem(
+                        AppLocalizations.of(context)!.calculateInterestSavings),
                     const SizedBox(height: 8),
-                    _buildProFeatureItem('Get month-by-month payment schedule'),
+                    _buildProFeatureItem(
+                        AppLocalizations.of(context)!.getMonthlySchedule),
                   ],
                 ),
               ),
@@ -1294,7 +1354,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
               const SizedBox(height: 12),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Go Back'),
+                child: Text(AppLocalizations.of(context)!.goBack),
               ),
             ],
           ),

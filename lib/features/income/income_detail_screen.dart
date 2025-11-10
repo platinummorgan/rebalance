@@ -38,29 +38,67 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
   Income? _existingIncome;
   bool _showTaxBreakdown = false;
 
-  final List<String> _incomeTypes = [
-    'Salary',
-    'Hourly Wage',
-    'Bonus',
-    'Commission',
-    'Freelance',
-    'Rental Income',
-    'Investment Income',
-    'Pension',
-    'Social Security',
-    'Other',
-  ];
+  List<String> _getIncomeTypes(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    return [
+      loc.incomeTypeSalary,
+      loc.incomeTypeHourlyWage,
+      loc.incomeTypeBonus,
+      loc.incomeTypeCommission,
+      loc.incomeTypeFreelance,
+      loc.incomeTypeRentalIncome,
+      loc.incomeTypeInvestmentIncome,
+      loc.incomeTypePension,
+      loc.incomeTypeSocialSecurity,
+      loc.incomeTypeOther,
+    ];
+  }
 
-  final List<String> _frequencies = [
-    'Hourly',
-    'Daily',
-    'Weekly',
-    'Bi-Weekly',
-    'Semi-Monthly',
-    'Monthly',
-    'Quarterly',
-    'Annually',
-  ];
+  List<String> _getFrequencies(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    return [
+      loc.frequencyHourly,
+      loc.frequencyDaily,
+      loc.frequencyWeekly,
+      loc.frequencyBiWeekly,
+      loc.frequencySemiMonthly,
+      loc.frequencyMonthly,
+      loc.frequencyQuarterly,
+      loc.frequencyAnnually,
+    ];
+  }
+
+  int _getIncomeTypeIndex() {
+    const englishTypes = [
+      'Salary',
+      'Hourly Wage',
+      'Bonus',
+      'Commission',
+      'Freelance',
+      'Rental Income',
+      'Investment Income',
+      'Pension',
+      'Social Security',
+      'Other',
+    ];
+    final index = englishTypes.indexOf(_selectedIncomeType);
+    return index >= 0 ? index : 0;
+  }
+
+  int _getFrequencyIndex() {
+    const englishFreqs = [
+      'Hourly',
+      'Daily',
+      'Weekly',
+      'Bi-Weekly',
+      'Semi-Monthly',
+      'Monthly',
+      'Quarterly',
+      'Annually',
+    ];
+    final index = englishFreqs.indexOf(_selectedFrequency);
+    return index >= 0 ? index : 5; // Default to Monthly
+  }
 
   @override
   void initState() {
@@ -180,7 +218,11 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading income: $e')),
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.errorLoadingIncome(e.toString()),
+            ),
+          ),
         );
       }
     }
@@ -297,8 +339,8 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
           SnackBar(
             content: Text(
               _existingIncome == null
-                  ? 'Income source added successfully'
-                  : 'Income source updated successfully',
+                  ? AppLocalizations.of(context)!.incomeSourceAdded
+                  : AppLocalizations.of(context)!.incomeSourceUpdated,
             ),
           ),
         );
@@ -306,7 +348,11 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error saving income: $e')),
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.errorSavingIncome(e.toString()),
+            ),
+          ),
         );
       }
     } finally {
@@ -322,9 +368,10 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Income Source'),
+        title: Text(AppLocalizations.of(context)!.deleteIncomeSource),
         content: Text(
-          'Are you sure you want to delete "${_existingIncome!.name}"?',
+          AppLocalizations.of(context)!
+              .deleteIncomeConfirm(_existingIncome!.name),
         ),
         actions: [
           TextButton(
@@ -350,13 +397,19 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
         if (mounted) {
           context.pop();
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Income source deleted')),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.incomeSourceDeleted),
+            ),
           );
         }
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error deleting income: $e')),
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(context)!.errorDeletingIncome(e.toString()),
+              ),
+            ),
           );
         }
       }
@@ -390,7 +443,11 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_existingIncome == null ? 'Add Income' : 'Edit Income'),
+        title: Text(
+          _existingIncome == null
+              ? AppLocalizations.of(context)!.addIncome
+              : AppLocalizations.of(context)!.editIncome,
+        ),
         actions: [
           if (_existingIncome != null)
             IconButton(
@@ -407,14 +464,14 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
             // Name
             TextFormField(
               controller: _nameController,
-              decoration: const InputDecoration(
-                labelText: 'Income Source Name',
-                hintText: 'e.g., Main Job, Freelance Work',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.incomeSourceName,
+                hintText: AppLocalizations.of(context)!.incomeSourceNameHint,
+                border: const OutlineInputBorder(),
               ),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
-                  return 'Please enter a name';
+                  return AppLocalizations.of(context)!.pleaseEnterName;
                 }
                 return null;
               },
@@ -422,17 +479,33 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
             const SizedBox(height: 16),
 
             // Income Type
+            // Income Type Dropdown
             DropdownButtonFormField<String>(
-              initialValue: _selectedIncomeType,
-              decoration: const InputDecoration(
-                labelText: 'Income Type',
-                border: OutlineInputBorder(),
+              initialValue: _getIncomeTypes(context)[_getIncomeTypeIndex()],
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.incomeType,
+                border: const OutlineInputBorder(),
               ),
-              items: _incomeTypes.map((type) {
+              items: _getIncomeTypes(context).map((type) {
                 return DropdownMenuItem(value: type, child: Text(type));
               }).toList(),
               onChanged: (value) {
-                setState(() => _selectedIncomeType = value!);
+                if (value != null) {
+                  final index = _getIncomeTypes(context).indexOf(value);
+                  final englishTypes = [
+                    'Salary',
+                    'Hourly Wage',
+                    'Bonus',
+                    'Commission',
+                    'Freelance',
+                    'Rental Income',
+                    'Investment Income',
+                    'Pension',
+                    'Social Security',
+                    'Other',
+                  ];
+                  setState(() => _selectedIncomeType = englishTypes[index]);
+                }
               },
             ),
             const SizedBox(height: 16),
@@ -441,7 +514,7 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
             TextFormField(
               controller: _grossAmountController,
               decoration: InputDecoration(
-                labelText: 'Gross Amount',
+                labelText: AppLocalizations.of(context)!.grossAmount,
                 hintText: '0.00',
                 border: const OutlineInputBorder(),
                 prefixText: '$currencySymbol ',
@@ -452,11 +525,12 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
                 FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
               ],
               validator: (value) {
+                final loc = AppLocalizations.of(context)!;
                 if (value == null || value.trim().isEmpty) {
-                  return 'Please enter an amount';
+                  return loc.pleaseEnterAmount;
                 }
                 if (double.tryParse(value) == null) {
-                  return 'Please enter a valid number';
+                  return loc.pleaseEnterValidNumber;
                 }
                 return null;
               },
@@ -465,24 +539,39 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
 
             // Frequency
             DropdownButtonFormField<String>(
-              initialValue: _selectedFrequency,
-              decoration: const InputDecoration(
-                labelText: 'Frequency',
-                border: OutlineInputBorder(),
+              initialValue: _getFrequencies(context)[_getFrequencyIndex()],
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.frequency,
+                border: const OutlineInputBorder(),
               ),
-              items: _frequencies.map((freq) {
+              items: _getFrequencies(context).map((freq) {
                 return DropdownMenuItem(value: freq, child: Text(freq));
               }).toList(),
               onChanged: (value) {
-                setState(() => _selectedFrequency = value!);
+                if (value != null) {
+                  final index = _getFrequencies(context).indexOf(value);
+                  const englishFreqs = [
+                    'Hourly',
+                    'Daily',
+                    'Weekly',
+                    'Bi-Weekly',
+                    'Semi-Monthly',
+                    'Monthly',
+                    'Quarterly',
+                    'Annually',
+                  ];
+                  setState(() => _selectedFrequency = englishFreqs[index]);
+                }
               },
             ),
             const SizedBox(height: 24),
 
             // Tax Breakdown Toggle
             CheckboxListTile(
-              title: const Text('Add Tax & Deduction Breakdown'),
-              subtitle: const Text('Track federal tax, state tax, 401k, etc.'),
+              title:
+                  Text(AppLocalizations.of(context)!.addTaxDeductionBreakdown),
+              subtitle:
+                  Text(AppLocalizations.of(context)!.trackFederalTaxStateTax),
               value: _showTaxBreakdown,
               onChanged: (value) {
                 setState(() => _showTaxBreakdown = value ?? false);
@@ -494,7 +583,7 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
               const Divider(),
               const SizedBox(height: 8),
               Text(
-                'Deductions (per payment period)',
+                AppLocalizations.of(context)!.deductionsPerPaymentPeriod,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 16),
@@ -503,7 +592,7 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
               TextFormField(
                 controller: _federalTaxController,
                 decoration: InputDecoration(
-                  labelText: 'Federal Tax',
+                  labelText: AppLocalizations.of(context)!.federalTax,
                   hintText: '0.00',
                   border: const OutlineInputBorder(),
                   prefixText: '$currencySymbol ',
@@ -520,7 +609,7 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
               TextFormField(
                 controller: _stateTaxController,
                 decoration: InputDecoration(
-                  labelText: 'State Tax',
+                  labelText: AppLocalizations.of(context)!.stateTax,
                   hintText: '0.00',
                   border: const OutlineInputBorder(),
                   prefixText: '$currencySymbol ',
@@ -537,7 +626,7 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
               TextFormField(
                 controller: _socialSecurityTaxController,
                 decoration: InputDecoration(
-                  labelText: 'Social Security Tax',
+                  labelText: AppLocalizations.of(context)!.socialSecurityTax,
                   hintText: '0.00',
                   border: const OutlineInputBorder(),
                   prefixText: '$currencySymbol ',
@@ -554,7 +643,7 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
               TextFormField(
                 controller: _medicareTaxController,
                 decoration: InputDecoration(
-                  labelText: 'Medicare Tax',
+                  labelText: AppLocalizations.of(context)!.medicareTax,
                   hintText: '0.00',
                   border: const OutlineInputBorder(),
                   prefixText: '$currencySymbol ',
@@ -571,7 +660,7 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
               TextFormField(
                 controller: _retirement401kController,
                 decoration: InputDecoration(
-                  labelText: '401(k) / Retirement Contribution',
+                  labelText: AppLocalizations.of(context)!.retirement401k,
                   hintText: '0.00',
                   border: const OutlineInputBorder(),
                   prefixText: '$currencySymbol ',
@@ -588,7 +677,8 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
               TextFormField(
                 controller: _healthInsuranceController,
                 decoration: InputDecoration(
-                  labelText: 'Health Insurance Premium',
+                  labelText:
+                      AppLocalizations.of(context)!.healthInsurancePremium,
                   hintText: '0.00',
                   border: const OutlineInputBorder(),
                   prefixText: '$currencySymbol ',
@@ -605,7 +695,7 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
               TextFormField(
                 controller: _otherDeductionsController,
                 decoration: InputDecoration(
-                  labelText: 'Other Deductions',
+                  labelText: AppLocalizations.of(context)!.otherDeductions,
                   hintText: '0.00',
                   border: const OutlineInputBorder(),
                   prefixText: '$currencySymbol ',
@@ -630,7 +720,9 @@ class _IncomeDetailScreenState extends ConsumerState<IncomeDetailScreen> {
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
                   : Text(
-                      _existingIncome == null ? 'Add Income' : 'Save Changes',
+                      _existingIncome == null
+                          ? AppLocalizations.of(context)!.addIncome
+                          : AppLocalizations.of(context)!.save,
                     ),
             ),
           ],

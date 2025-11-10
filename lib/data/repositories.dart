@@ -325,6 +325,7 @@ class RepositoryService {
         financialHealthGlobalScale: settings.financialHealthGlobalScale,
         currency: settings.currency, // Will default to 'USD' for existing users
         proBannerDismissed: settings.proBannerDismissed,
+        language: settings.language, // Keep existing language
       );
       await _settingsBox.put('main', updatedSettings);
 

@@ -1233,7 +1233,9 @@ class DashboardScreen extends ConsumerWidget {
       case 'Bonds':
         return loc.bonds;
       case 'US Equity':
+        return loc.usEquity;
       case 'Intl Equity':
+        return loc.intlEquity;
       case 'Equities':
         return loc.equities;
       case 'Real Estate':
@@ -1764,16 +1766,16 @@ class DashboardScreen extends ConsumerWidget {
     return RiskNudgeCard(
       title: AppLocalizations.of(context)!.reduceConcentrationRisk,
       diagnosis:
-          '${AppLocalizations.of(context)!.largestBucket} $largestBucket (${largestPercentage.toStringAsFixed(1)}%). ${AppLocalizations.of(context)!.capPerBucket} ≤20%.',
+          '${AppLocalizations.of(context)!.largestBucket} ${_translateAssetClass(context, largestBucket)} (${largestPercentage.toStringAsFixed(1)}%). ${AppLocalizations.of(context)!.capPerBucket} ≤20%.',
       action:
-          '${AppLocalizations.of(context)!.shiftPerMonth} ${CurrencyFormatter.format(movePerMonth.toDouble(), currency)} for ~6 months to Bonds/Intl.',
+          '${AppLocalizations.of(context)!.shiftPerMonth} ${CurrencyFormatter.format(movePerMonth.toDouble(), currency)} for ~6 ${AppLocalizations.of(context)!.months} to Bonds/Intl.',
       ctaText: AppLocalizations.of(context)!.createRebalancingPlan,
       severityColor: Colors.amber,
       showPro: !isPro,
       personalizationChips: [
-        '$largestBucket ${largestPercentage.toStringAsFixed(1)}%',
-        'Cap 20%',
-        'Target shift ${CurrencyFormatter.format(amountToMove.round().toDouble(), currency)}',
+        '${_translateAssetClass(context, largestBucket)} ${largestPercentage.toStringAsFixed(1)}%',
+        '${AppLocalizations.of(context)!.cap} 20%',
+        '${AppLocalizations.of(context)!.targetShift} ${CurrencyFormatter.format(amountToMove.round().toDouble(), currency)}',
       ],
       detectedAt: DateTime.now()
           .subtract(const Duration(hours: 2)), // Simulated: spotted 2h ago
@@ -1786,8 +1788,9 @@ class DashboardScreen extends ConsumerWidget {
           ),
           builder: (sheetCtx) {
             Widget content;
+            final loc = AppLocalizations.of(context)!;
 
-            if (chipLabel.startsWith('US Equity')) {
+            if (chipLabel.startsWith(loc.usEquity)) {
               content = Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -1816,7 +1819,7 @@ class DashboardScreen extends ConsumerWidget {
                   ],
                 ),
               );
-            } else if (chipLabel.startsWith('Cap')) {
+            } else if (chipLabel.startsWith(loc.cap)) {
               content = Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -2480,9 +2483,9 @@ class DashboardScreen extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(width: 4),
-                      const Text(
-                        '(30d)',
-                        style: TextStyle(
+                      Text(
+                        '(${AppLocalizations.of(context)!.timeframe30d})',
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -2763,13 +2766,13 @@ class DashboardScreen extends ConsumerWidget {
         showDialog<void>(
           context: context,
           builder: (dialogCtx) => AlertDialog(
-            title: const Text('View'),
+            title: Text(AppLocalizations.of(context)!.view),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 ListTile(
                   leading: const Icon(Icons.show_chart),
-                  title: const Text('Trend'),
+                  title: Text(AppLocalizations.of(context)!.trend),
                   onTap: () {
                     debugPrint('Dashboard: dialog -> Trend selected');
                     Navigator.of(dialogCtx).pop();
@@ -2779,7 +2782,7 @@ class DashboardScreen extends ConsumerWidget {
                 ),
                 ListTile(
                   leading: const Icon(Icons.info_outline),
-                  title: const Text('Financial score'),
+                  title: Text(AppLocalizations.of(context)!.financialScore),
                   onTap: () {
                     debugPrint('Dashboard: dialog -> Financial score selected');
                     Navigator.of(dialogCtx).pop();
@@ -3332,7 +3335,27 @@ class DashboardScreen extends ConsumerWidget {
     }
   }
 
-  String _getOverallHealthSubtitle(FinancialHealthResult healthResult, BuildContext context) {
+  String _translateComponentName(String componentName, BuildContext context) {
+    switch (componentName) {
+      case 'Debt Load':
+        return AppLocalizations.of(context)!.componentDebtLoad;
+      case 'Concentration':
+        return AppLocalizations.of(context)!.componentConcentration;
+      case 'Liquidity':
+        return AppLocalizations.of(context)!.componentLiquidity;
+      case 'Fixed Income':
+        return AppLocalizations.of(context)!.componentFixedIncome;
+      case 'Home Bias':
+        return AppLocalizations.of(context)!.componentHomeBias;
+      default:
+        return componentName;
+    }
+  }
+
+  String _getOverallHealthSubtitle(
+    FinancialHealthResult healthResult,
+    BuildContext context,
+  ) {
     if (healthResult.componentScores.isEmpty) {
       return AppLocalizations.of(context)!.healthCalculatedFromComponents;
     }
@@ -3341,7 +3364,7 @@ class DashboardScreen extends ConsumerWidget {
     final weakestEntry = healthResult.componentScores.entries
         .reduce((a, b) => a.value < b.value ? a : b);
 
-    return '${AppLocalizations.of(context)!.weakest}: ${weakestEntry.key} ${weakestEntry.value}/100';
+    return '${AppLocalizations.of(context)!.weakest}: ${_translateComponentName(weakestEntry.key, context)} ${weakestEntry.value}/100';
   }
 
   Widget _buildGradeBadge(
@@ -4119,7 +4142,8 @@ class DashboardScreen extends ConsumerWidget {
     if (delta >= 5) {
       trendColor = Colors.green.shade600;
       trendIcon = Icons.trending_up;
-      trendText = '+$delta pts ($percentChange%)';
+      trendText =
+          '+$delta ${AppLocalizations.of(context)!.pts} ($percentChange%)';
       insights = [
         AppLocalizations.of(context)!.strongUpwardTrend,
         if (avgVolatility < 3)
@@ -4130,7 +4154,8 @@ class DashboardScreen extends ConsumerWidget {
     } else if (delta >= 2) {
       trendColor = Colors.lightGreen.shade600;
       trendIcon = Icons.keyboard_arrow_up;
-      trendText = '+$delta pts ($percentChange%)';
+      trendText =
+          '+$delta ${AppLocalizations.of(context)!.pts} ($percentChange%)';
       insights = [
         AppLocalizations.of(context)!.gradualImprovementTrend,
         if (avgVolatility < 4)
@@ -4139,7 +4164,8 @@ class DashboardScreen extends ConsumerWidget {
     } else if (delta <= -5) {
       trendColor = Colors.red.shade600;
       trendIcon = Icons.trending_down;
-      trendText = '$delta pts ($percentChange%)';
+      trendText =
+          '$delta ${AppLocalizations.of(context)!.pts} ($percentChange%)';
       insights = [
         AppLocalizations.of(context)!.decliningTrendNeedsAttention,
         if (avgVolatility > 5)
@@ -4149,7 +4175,8 @@ class DashboardScreen extends ConsumerWidget {
     } else if (delta <= -2) {
       trendColor = Colors.orange.shade600;
       trendIcon = Icons.keyboard_arrow_down;
-      trendText = '$delta pts ($percentChange%)';
+      trendText =
+          '$delta ${AppLocalizations.of(context)!.pts} ($percentChange%)';
       insights = [
         AppLocalizations.of(context)!.slightDownwardTrend,
         AppLocalizations.of(context)!.monitorForContinuedDecline,
@@ -4157,7 +4184,8 @@ class DashboardScreen extends ConsumerWidget {
     } else {
       trendColor = Colors.blue.shade600;
       trendIcon = Icons.horizontal_rule;
-      trendText = 'Stable (${delta}pts)';
+      trendText =
+          '${AppLocalizations.of(context)!.stable} ($delta${AppLocalizations.of(context)!.pts})';
       insights = [
         AppLocalizations.of(context)!.stableFinancialHealthScore,
         if (avgVolatility < 2)
@@ -8117,7 +8145,7 @@ class EnhancedScoreDetailsSheet extends StatelessWidget {
         'name': AppLocalizations.of(context)!.liquidityBuffer,
         'weight': '20%',
         'score': 55,
-        'target': 70
+        'target': 70,
       },
       {
         'name': AppLocalizations.of(context)!.internationalExposure,
@@ -8129,7 +8157,7 @@ class EnhancedScoreDetailsSheet extends StatelessWidget {
         'name': AppLocalizations.of(context)!.debtManagement,
         'weight': '10%',
         'score': 85,
-        'target': 90
+        'target': 90,
       },
     ];
 
@@ -8246,7 +8274,7 @@ class EnhancedScoreDetailsSheet extends StatelessWidget {
       {
         'name': AppLocalizations.of(context)!.bonds,
         'change': 1,
-        'reason': AppLocalizations.of(context)!.addedFixedIncomeAllocation
+        'reason': AppLocalizations.of(context)!.addedFixedIncomeAllocation,
       },
       {
         'name': AppLocalizations.of(context)!.liquidity,
@@ -9267,17 +9295,18 @@ class _RiskNudgeCardState extends State<RiskNudgeCard>
   }
 
   String _formatTimestamp(DateTime detectedAt) {
+    final loc = AppLocalizations.of(context)!;
     final now = DateTime.now();
     final difference = now.difference(detectedAt);
 
     if (difference.inMinutes < 60) {
-      return 'spotted ${difference.inMinutes}m ago';
+      return '${loc.spotted} ${difference.inMinutes}m ${loc.ago}';
     } else if (difference.inHours < 24) {
-      return 'spotted ${difference.inHours}h ago';
+      return '${loc.spotted} ${difference.inHours}h ${loc.ago}';
     } else if (difference.inDays < 7) {
-      return 'spotted ${difference.inDays}d ago';
+      return '${loc.spotted} ${difference.inDays}d ${loc.ago}';
     } else {
-      return 'spotted ${(difference.inDays / 7).floor()}w ago';
+      return '${loc.spotted} ${(difference.inDays / 7).floor()}w ${loc.ago}';
     }
   }
 
@@ -9333,9 +9362,9 @@ class _RiskNudgeCardState extends State<RiskNudgeCard>
                               10,
                             ), // Design token: radius.chip = 10
                           ),
-                          child: const Text(
-                            'High Risk',
-                            style: TextStyle(
+                          child: Text(
+                            AppLocalizations.of(context)!.highRisk,
+                            style: const TextStyle(
                               fontSize: 11,
                               color: Colors.white,
                               fontWeight: FontWeight.w600,
@@ -9616,19 +9645,19 @@ class _RiskNudgeCardState extends State<RiskNudgeCard>
           const Text(' — '),
           GestureDetector(
             onTap: widget.onWhy,
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Why?',
-                  style: TextStyle(
+                  AppLocalizations.of(context)!.why,
+                  style: const TextStyle(
                     fontSize: 14,
                     color: Colors.blue,
                     decoration: TextDecoration.underline,
                   ),
                 ),
-                SizedBox(width: 2), // 2px closer to text
-                Icon(
+                const SizedBox(width: 2), // 2px closer to text
+                const Icon(
                   Icons.help_outline,
                   size: 16,
                   color: Colors.blue,

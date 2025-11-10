@@ -1,53 +1,43 @@
 {
   "@@locale": "hi",
-  
   "appTitle": "रीबैलेंस",
-  
   "netWorth": "कुल संपत्ति",
   "assets": "संपत्ति",
   "liabilities": "देनदारियां",
   "cashFlow": "नकदी प्रवाह",
   "healthScore": "वित्तीय स्वास्थ्य स्कोर",
-  
   "proFeatures": "प्रो सुविधाएं",
   "choosePlan": "अपनी योजना चुनें",
   "upgradeToProTitle": "प्रो में अपग्रेड करें",
   "allProFeatures": "सभी प्रो सुविधाएं",
   "cancelAnytime": "कभी भी रद्द करें",
   "freeTrialDays": "7-दिन का मुफ़्त परीक्षण",
-  
   "proMonthly": "प्रो मासिक",
   "perMonth": "प्रति माह",
   "annual": "वार्षिक",
   "perYear": "प्रति वर्ष",
   "founderLifetime": "संस्थापक जीवनकाल",
   "oneTime": "एक बार",
-  
   "bestValue": "सर्वश्रेष्ठ मूल्य",
   "limited": "सीमित",
   "saveMoney": "{amount} बचाएं",
-  
   "everythingForever": "हमेशा के लिए सब कुछ",
   "firstFounders": "पहले 1,000 संस्थापक",
   "priceIncreasesAfter": "बाद में कीमत बढ़ेगी",
-  
   "retirementCalculator": "सेवानिवृत्ति कैलकुलेटर",
   "debtOptimizer": "ऋण अनुकूलक",
   "scenarioEngine": "परिदृश्य इंजन",
   "taxSmartAllocation": "कर-स्मार्ट आवंटन",
   "customAlerts": "कस्टम अलर्ट",
   "advancedAnalytics": "उन्नत विश्लेषण",
-  
   "unlockWithPro": "प्रो के साथ अनलॉक करें",
   "startFreeTrial": "मुफ़्त परीक्षण शुरू करें",
   "choosePlanButton": "योजना चुनें",
-  
   "settings": "सेटिंग्स",
   "currency": "मुद्रा",
   "darkMode": "डार्क मोड",
   "colorTheme": "रंग थीम",
   "language": "भाषा",
-  
   "accounts": "खाते",
   "addAccount": "खाता जोड़ें",
   "editAccount": "खाता संपादित करें",
@@ -63,31 +53,33 @@
   "currentBalance": "वर्तमान शेष राशि",
   "pleaseEnterBalance": "कृपया शेष राशि दर्ज करें",
   "pleaseEnterValidBalance": "कृपया एक मान्य शेष राशि दर्ज करें",
-  
   "debts": "ऋण",
   "addDebt": "ऋण जोड़ें",
   "minimumPayment": "न्यूनतम भुगतान",
   "interestRate": "ब्याज दर",
-  
   "rebalancing": "पुनर्संतुलन",
   "createPlan": "पुनर्संतुलन योजना बनाएं",
   "targetAllocation": "लक्ष्य आवंटन",
-  
   "dashboard": "डैशबोर्ड",
   "reports": "रिपोर्ट",
   "targets": "लक्ष्य",
-  
   "save": "सहेजें",
   "cancel": "रद्द करें",
   "delete": "हटाएं",
   "edit": "संपादित करें",
   "add": "जोड़ें",
   "confirm": "पुष्टि करें",
-  
   "loading": "लोड हो रहा है...",
   "error": "त्रुटि",
+  "errorWithMessage": "त्रुटि: {message}",
+  "@errorWithMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
   "success": "सफलता",
-  
   "recentAccounts": "हाल के खाते",
   "viewAll": "सभी देखें",
   "noAccountsYet": "अभी तक कोई खाता नहीं",
@@ -105,7 +97,6 @@
   "needsWork": "सुधार की जरूरत",
   "critical": "गंभीर",
   "poor": "खराब",
-  
   "financialHealthScore": "वित्तीय स्वास्थ्य स्कोर",
   "howBalancedIsYourPortfolio": "आपका पोर्टफोलियो कितना संतुलित है?",
   "wellBalanced": "अच्छी तरह संतुलित",
@@ -114,21 +105,16 @@
   "fairHealth": "ठीक स्वास्थ्य",
   "needsWorkHealth": "सुधार की जरूरत",
   "poorHealth": "खराब स्वास्थ्य",
-  
   "weightedBreakdown": "भारित विवरण",
   "fixedIncomeBalance": "निश्चित आय संतुलन",
   "liquidityBuffer": "तरलता बफर",
   "internationalExposure": "अंतर्राष्ट्रीय एक्सपोजर",
   "debtManagement": "ऋण प्रबंधन",
-  
   "whatMoved": "क्या बदला",
   "sinceLast30d": "पिछले 30 दिनों से:",
-  "concentration": "एकाग्रता",
-  "liquidity": "तरलता",
   "reducedUsEquityPosition": "यूएस इक्विटी स्थिति कम की गई",
   "addedFixedIncomeAllocation": "निश्चित आय आवंटन जोड़ा गया",
   "noChangeInCashPosition": "नकद स्थिति में कोई बदलाव नहीं",
-  
   "nextActions": "अगले कार्य",
   "openMixAndDials": "मिश्रण और डायल खोलें",
   "reviewDetailedAllocationBreakdown": "विस्तृत आवंटन विवरण की समीक्षा करें",
@@ -136,13 +122,11 @@
   "createRebalancingStrategy": "पुनर्संतुलन रणनीति बनाएं",
   "setTargetAllocation": "लक्ष्य आवंटन सेट करें",
   "adjustYourRiskPreferences": "अपनी जोखिम प्राथमिकताएं समायोजित करें",
-  
   "financialHealthTrend": "वित्तीय स्वास्थ्य रुझान",
   "keyInsights": "मुख्य अंतर्दृष्टि",
   "runSimulation": "सिमुलेशन चलाएं",
   "explainGradeBands": "ग्रेड बैंड समझाएं",
   "seeHowAddingBondsAffectsScore": "देखें कि बांड में $1,500 जोड़ने से आपके स्कोर पर क्या प्रभाव पड़ता है",
-  
   "strongUpwardTrend": "6 महीनों में मजबूत ऊपर की ओर रुझान",
   "consistentImprovementPattern": "लगातार सुधार पैटर्न",
   "approachingExcellentHealth": "उत्कृष्ट वित्तीय स्वास्थ्य की ओर बढ़ रहे हैं",
@@ -155,14 +139,11 @@
   "monitorForContinuedDecline": "निरंतर गिरावट के लिए निगरानी करें",
   "stableFinancialHealthScore": "स्थिर वित्तीय स्वास्थ्य स्कोर",
   "lowVolatilityIndicatesConsistency": "कम अस्थिरता निरंतरता को दर्शाती है",
-  
   "overall": "समग्र",
   "weakest": "सबसे कमजोर",
   "healthCalculatedFromComponents": "5 घटकों से स्वास्थ्य की गणना",
-  
   "open": "खोलें",
   "go": "जाएं",
-  
   "netWorthLabel": "कुल संपत्ति",
   "assetAllocation": "संपत्ति आवंटन",
   "cash": "नकद",
@@ -188,7 +169,6 @@
   "savingsAccount": "बचत खाता",
   "brokerageAccount": "ब्रोकरेज खाता",
   "retirementAccount": "सेवानिवृत्ति खाता",
-  
   "reduceConcentrationRisk": "एकाग्रता जोखिम कम करें",
   "largestBucket": "सबसे बड़ा बकेट",
   "capPerBucket": "प्रति बकेट सीमा",
@@ -201,5 +181,734 @@
   "updatedDaysAgo": "{days} दिन पहले अपडेट किया गया",
   "hoursAgo": "{hours} घंटे पहले",
   "daysAgo": "{days} दिन पहले",
-  "monthsAgo": "{months} महीने पहले"
+  "monthsAgo": "{months} महीने पहले",
+  "incomeSourceName": "आय स्रोत का नाम",
+  "incomeSourceNameHint": "उदा., टेक कॉर्प वेतन",
+  "pleaseEnterName": "कृपया नाम दर्ज करें",
+  "incomeType": "आय का प्रकार",
+  "incomeTypeSalary": "वेतन",
+  "incomeTypeHourlyWage": "प्रति घंटा मजदूरी",
+  "incomeTypeBonus": "बोनस",
+  "incomeTypeCommission": "कमीशन",
+  "incomeTypeFreelance": "फ्रीलांस",
+  "incomeTypeRentalIncome": "किराये की आय",
+  "incomeTypeInvestmentIncome": "निवेश आय",
+  "incomeTypePension": "पेंशन",
+  "incomeTypeSocialSecurity": "सामाजिक सुरक्षा",
+  "incomeTypeOther": "अन्य",
+  "grossAmount": "सकल राशि",
+  "pleaseEnterAmount": "कृपया राशि दर्ज करें",
+  "pleaseEnterValidNumber": "कृपया मान्य संख्या दर्ज करें",
+  "frequency": "आवृत्ति",
+  "addTaxDeductionBreakdown": "कर और कटौती विवरण जोड़ें",
+  "trackFederalTaxStateTax": "संघीय कर, राज्य कर और कटौतियों को ट्रैक करें",
+  "deductionsPerPaymentPeriod": "कटौतियां (प्रति भुगतान अवधि)",
+  "federalTax": "संघीय कर",
+  "stateTax": "राज्य कर",
+  "socialSecurityTax": "सामाजिक सुरक्षा कर",
+  "medicareTax": "मेडिकेयर कर",
+  "retirement401k": "सेवानिवृत्ति (401k, IRA)",
+  "healthInsurancePremium": "स्वास्थ्य बीमा प्रीमियम",
+  "otherDeductions": "अन्य कटौतियां",
+  "addIncome": "आय जोड़ें",
+  "importFromCSV": "CSV से आयात करें",
+  "importDataFromCSV": "CSV से डेटा आयात करें",
+  "selectCSVFileDescription": "खाते, देनदारियां या आय डेटा आयात करने के लिए CSV फ़ाइल चुनें",
+  "selectCSVFile": "CSV फ़ाइल चुनें",
+  "csvFormatRequirements": "CSV प्रारूप आवश्यकताएं",
+  "accountsLabel": "खाते",
+  "accountsCSVFormat": "name,type,balance,locked,cash,bonds,usEq,intlEq,realEstate,alt",
+  "liabilitiesLabel": "देनदारियां",
+  "liabilitiesCSVFormat": "name,type,balance,interestRate,minPayment",
+  "incomeLabel": "आय",
+  "incomeCSVFormat": "name,type,grossAmount,frequency",
+  "readyToImport": "आयात के लिए तैयार",
+  "rowsHadErrors": "पंक्तियों में त्रुटियां थीं",
+  "importError": "आयात त्रुटि",
+  "unknownError": "अज्ञात त्रुटि",
+  "tryAgain": "पुनः प्रयास करें",
+  "income": "आय",
+  "unlockPro": "प्रो अनलॉक करें",
+  "yourProFeatures": "आपकी प्रो विशेषताएं",
+  "debtPayoffOptimizer": "ऋण भुगतान अनुकूलक",
+  "debtPayoffDescription": "मासिक भुगतान कार्यक्रम के साथ हिमस्खलन बनाम स्नोबॉल रणनीतियों की तुलना करें",
+  "saveThousands": "ब्याज में हजारों बचाएं",
+  "rebalancingAutopilot": "रीबैलेंसिंग ऑटोपायलट",
+  "rebalancingDescription": "पहले/बाद के जोखिम मेट्रिक्स के साथ विशिष्ट व्यापार निर्देश प्राप्त करें",
+  "reduceRisk": "पोर्टफोलियो जोखिम कम करें",
+  "whatIfScenarioEngine": "व्हाट-इफ परिदृश्य इंजन",
+  "whatIfDescription": "मोंटे कार्लो सिमुलेशन समायोज्य मापदंडों के साथ सफलता की संभावना दिखाता है",
+  "seeProbability": "सफलता की संभावना देखें",
+  "customAlertsWithContext": "संदर्भ के साथ कस्टम अलर्ट",
+  "customAlertsDescription": "डॉलर-प्रभाव अलर्ट के साथ कस्टम सीमाएं सेट करें",
+  "knowImpact": "वित्तीय प्रभाव जानें",
+  "taxSmartDescription": "खाता प्लेसमेंट का अनुकूलन करें और कर-हानि कटाई के अवसरों की पहचान करें",
+  "saveTaxes": "वार्षिक करों पर बचत करें",
+  "retirementDescription": "मोंटे कार्लो सिमुलेशन सेवानिवृत्ति सफलता की संभावना का अनुमान लगाता है",
+  "advancedPortfolioAnalytics": "उन्नत पोर्टफोलियो विश्लेषण",
+  "advancedAnalyticsDescription": "HHI एकाग्रता सूचकांक, कारक एक्सपोजर, मल्टी-पोर्टफोलियो ट्रैकिंग",
+  "planDetails": "योजना विवरण",
+  "proActive": "प्रो सक्रिय",
+  "rebalancePro": "रीबैलेंस प्रो",
+  "basedOnYourPortfolio": "आपके पोर्टफोलियो के आधार पर:",
+  "saveMoneyReduceRisk": "बुद्धिमान वित्तीय योजना के साथ पैसे बचाएं और जोखिम कम करें",
+  "compareStrategies": "हिमस्खलन बनाम स्नोबॉल रणनीतियों की तुलना करें। मासिक भुगतान अनुसूची प्राप्त करें और कुल ब्याज बचत देखें।",
+  "getSpecificTrades": "विशिष्ट व्यापार निर्देश प्राप्त करें। पहले/बाद के जोखिम मेट्रिक्स और अस्थिरता में कमी देखें।",
+  "monteCarloSimulation": "मोंटे कार्लो सिमुलेशन (1,000 रन) सफलता की संभावना दिखाता है। अपनी योजना को अनुकूलित करने के लिए योगदान, रिटर्न और समयरेखा को समायोजित करें।",
+  "customThresholds": "एकाग्रता, बहाव, DSCR के लिए कस्टम सीमाएं सेट करें। प्रत्येक अलर्ट डॉलर प्रभाव दिखाता है।",
+  "optimizeAccounts": "अनुकूलित करें कि कौन से खाते कौन सी संपत्ति रखते हैं। कर-हानि कटाई के अवसरों की पहचान करें। वार्षिक कर ड्रैग को कम करें।",
+  "projectRetirement": "मोंटे कार्लो सिमुलेशन (1,000 रन) सेवानिवृत्ति सफलता की संभावना का अनुमान लगाता है। अपनी योजना को अनुकूलित करने के लिए बचत, समयरेखा और आय को समायोजित करें।",
+  "hhiConcentration": "HHI एकाग्रता सूचकांक, कारक एक्सपोजर विवरण, मल्टी-पोर्टफोलियो ट्रैकिंग, कस्टम स्कोरिंग भार।",
+  "privacy100": "100% गोपनीयता",
+  "dataOnDevice": "सभी डेटा आपके डिवाइस पर रहता है",
+  "encryptedStorage": "एन्क्रिप्टेड स्टोरेज",
+  "bankGrade": "बैंक-ग्रेड सुरक्षा",
+  "saveEst": "बचत अनु. ",
+  "purchaseCancelled": "खरीद रद्द की गई",
+  "rebalancingPlan": "पुनर्संतुलन योजना",
+  "rebalancingGuide": "पुनर्संतुलन गाइड",
+  "addAccountsForRebalancing": "अपनी व्यक्तिगत पुनर्संतुलन योजना बनाने के लिए होल्डिंग्स वाले खाते जोड़ें",
+  "rebalancingPlanProDescription": "पहले/बाद जोखिम मेट्रिक्स के साथ विशिष्ट व्यापार निर्देश प्राप्त करें। अपने लक्ष्य आवंटन तक पहुंचने के लिए क्या खरीदना या बेचना है यह स्पष्ट रूप से देखें।",
+  "yourPersonalizedPlan": "आपकी व्यक्तिगत योजना",
+  "customizeTrackExecute": "रणनीति को अनुकूलित करें, प्रगति ट्रैक करें, व्यापार निष्पादित करें",
+  "lockedAccountsDetected": "लॉक किए गए खाते पाए गए",
+  "lockedAccountsMessage": "लॉक है (जैसे, 401k, पेंशन)। योजना केवल",
+  "inUnlockedAccounts": "अनलॉक खातों में उपयोग करती है",
+  "lockedAccountsTip": "सुझाव: 401k/पेंशन के लिए, मौजूदा होल्डिंग्स को पुनर्संतुलित करने के बजाय अपने योगदान आवंटन को अपडेट करें।",
+  "rebalancingStrategy": "पुनर्संतुलन रणनीति",
+  "dollarCostAverageRecommended": "डॉलर-कॉस्ट औसत (अनुशंसित)",
+  "dollarCostDescription": "समय जोखिम को कम करने के लिए कई महीनों में व्यापार फैलाएं",
+  "immediateRebalance": "तत्काल पुनर्संतुलन",
+  "immediateRebalanceDescription": "यदि आपको दृढ़ विश्वास है तो अभी सभी व्यापार निष्पादित करें",
+  "glidePathDuration": "ग्लाइड पाथ अवधि",
+  "howManyMonthsToSpread": "आप कितने महीनों में पुनर्संतुलन फैलाना चाहते हैं?",
+  "fast": "तेज",
+  "gradual": "क्रमिक",
+  "months": "महीने",
+  "month": "महीना",
+  "executeNow": "अभी निष्पादित करें",
+  "totalToRebalanceImmediately": "तुरंत पुनर्संतुलित करने के लिए कुल",
+  "monthlyTransferAmount": "मासिक स्थानांतरण राशि",
+  "overMonths": "से अधिक",
+  "total": "कुल",
+  "beforeVsAfter": "पहले बनाम बाद",
+  "current": "वर्तमान",
+  "target": "लक्ष्य",
+  "executionChecklist": "निष्पादन चेकलिस्ट",
+  "trackMonthlyProgress": "व्यापार निष्पादित करते समय अपनी मासिक प्रगति ट्रैक करें",
+  "transfer": "स्थानांतरण",
+  "ofMonthsCompleted": "का",
+  "monthsCompleted": "महीने पूरे हुए",
+  "exportPDF": "PDF निर्यात करें",
+  "pdfExportComingSoon": "PDF निर्यात जल्द आ रहा है!",
+  "whyRebalance": "पुनर्संतुलन क्यों?",
+  "whyRebalanceDescription": "बाजार की गतिविधियां आपके पोर्टफोलियो को आपके लक्ष्य आवंटन से भटका देती हैं, जोखिम बढ़ाती हैं। पुनर्संतुलन आपकी वांछित जोखिम/रिटर्न प्रोफ़ाइल को पुनर्स्थापित करता है।",
+  "dollarCostAveragingTitle": "डॉलर-कॉस्ट औसत",
+  "dollarCostAveragingDescription": "समय के साथ व्यापार फैलाने से समय जोखिम और बाजार प्रभाव कम हो जाता है। अधिकांश निवेशकों के लिए अनुशंसित।",
+  "immediateRebalancingTitle": "तत्काल पुनर्संतुलन",
+  "immediateRebalancingDescription": "सभी व्यापार एक बार में निष्पादित करें। सर्वोत्तम यदि आपके पास मजबूत बाजार विश्वास है या आपको तुरंत पुनर्संतुलित करने की आवश्यकता है।",
+  "youreWellBalanced": "आप अच्छी तरह से संतुलित हैं!",
+  "noRebalancingNeeded": "आपका पोर्टफोलियो आपके लक्ष्य आवंटन की सहनशीलता के भीतर है। इस समय पुनर्संतुलन की आवश्यकता नहीं है।",
+  "accountType529EducationSavings": "529 शिक्षा बचत",
+  "accountTypeBrokerage": "ब्रोकरेज",
+  "accountTypeBrokerageAccount": "ब्रोकरेज खाता",
+  "accountTypeCash": "नकद",
+  "accountTypeCashAccount": "नकद खाता",
+  "accountTypeCD": "सीडी",
+  "accountTypeCertificateOfDeposit": "जमा प्रमाणपत्र",
+  "accountTypeChecking": "चेकिंग",
+  "accountTypeCheckingAccount": "चेकिंग खाता",
+  "accountTypeCrypto": "क्रिप्टो",
+  "accountTypeCryptocurrency": "क्रिप्टोकरेंसी",
+  "accountTypeHealthSavingsAccount": "स्वास्थ्य बचत खाता (HSA)",
+  "accountTypeHSA": "HSA",
+  "accountTypeOther": "अन्य",
+  "accountTypeRealEstate": "रियल एस्टेट",
+  "accountTypeRealEstateEquity": "रियल एस्टेट इक्विटी",
+  "accountTypeRetirement": "सेवानिवृत्ति",
+  "accountTypeSavings": "बचत",
+  "accountTypeSavingsAccount": "बचत खाता",
+  "liabilityTypeAutoLoan": "ऑटो ऋण",
+  "liabilityTypeCreditCard": "क्रेडिट कार्ड",
+  "liabilityTypeLineOfCredit": "क्रेडिट लाइन",
+  "liabilityTypeMortgage": "बंधक",
+  "liabilityTypeOther": "अन्य",
+  "liabilityTypePersonalLoan": "व्यक्तिगत ऋण",
+  "liabilityTypeStudentLoan": "छात्र ऋण",
+  "about": "के बारे में",
+  "account": "खाता",
+  "accountDeletedSuccessfully": "खाता सफलतापूर्वक हटा दिया गया",
+  "accountsPlural": "खाते",
+  "addIncomeSource": "आय स्रोत जोड़ें",
+  "addLiability": "देयता जोड़ें",
+  "addNewAccount": "नया खाता जोड़ें",
+  "addYourFirstIncomeSource": "नकदी प्रवाह ट्रैक करने के लिए अपना पहला आय स्रोत जोड़ें",
+  "addYourFirstLiability": "ऋण ट्रैक करने के लिए अपनी पहली देयता जोड़ें",
+  "allocationTargets": "आवंटन लक्ष्य",
+  "allocationTargetsDescription": "अपने लक्ष्य संपत्ति आवंटन प्रतिशत सेट करें",
+  "allPayments": "सभी भुगतान",
+  "alternatives": "विकल्प",
+  "amountCannotBeNegative": "राशि ऋणात्मक नहीं हो सकती",
+  "annualInterestCost": "वार्षिक ब्याज लागत",
+  "appInfoAndDisclaimers": "ऐप जानकारी और अस्वीकरण",
+  "apr": "APR",
+  "arabic": "अरबी",
+  "areYouSureDeleteAccount": "क्या आप वाकई इस खाते को हटाना चाहते हैं?",
+  "areYouSureDeleteIncome": "क्या आप वाकई इस आय स्रोत को हटाना चाहते हैं?",
+  "areYouSureExit": "क्या आप वाकई बाहर निकलना चाहते हैं?",
+  "assetAllocationDescription": "जोखिम प्रबंधित करने के लिए संपत्ति वर्गों में विविधता लाएं",
+  "avgInterestRate": "औसत ब्याज दर",
+  "backToDashboard": "डैशबोर्ड पर वापस",
+  "backToSnapshot": "स्नैपशॉट पर वापस",
+  "backupRestoreData": "बैकअप और पुनर्स्थापित डेटा",
+  "balanced": "संतुलित",
+  "bengali": "बंगाली",
+  "bondsAndFixedIncome": "बांड और स्थिर आय",
+  "budgetAndPlanning": "बजट और योजना",
+  "budgetAndPlanningDescription": "खर्च ट्रैक करें और लक्ष्यों की योजना बनाएं",
+  "cap": "कैप",
+  "cashAndCashEquivalents": "नकद और नकद समकक्ष",
+  "chooseColorScheme": "रंग योजना चुनें",
+  "chooseLanguage": "भाषा चुनें",
+  "closeApplication": "एप्लिकेशन बंद करें",
+  "colorAmber": "एम्बर",
+  "colorBlue": "नीला",
+  "colorGreen": "हरा",
+  "colorIndigo": "इंडिगो",
+  "colorOrange": "नारंगी",
+  "colorPink": "गुलाबी",
+  "colorPurple": "बैंगनी",
+  "colorRed": "लाल",
+  "colorTeal": "टील",
+  "componentConcentration": "एकाग्रता",
+  "componentDebtLoad": "ऋण भार",
+  "componentFixedIncome": "स्थिर आय",
+  "componentHomeBias": "होम बायस",
+  "componentLiquidity": "तरलता",
+  "controlInternationalExposure": "अंतर्राष्ट्रीय जोखिम नियंत्रित करें",
+  "creditLimit": "क्रेडिट सीमा",
+  "creditLimitCannotBeLessThanBalance": "क्रेडिट सीमा वर्तमान शेष से कम नहीं हो सकती",
+  "creditUtilization": "क्रेडिट उपयोग",
+  "dayOfEachMonth": "प्रत्येक महीने का दिन",
+  "debt": "ऋण",
+  "debtsAndLiabilities": "ऋण और देयताएं",
+  "debtsPlural": "ऋण",
+  "defaultPolicyPenalizeLargeDeviations": "डिफ़ॉल्ट नीति: लक्ष्यों से बड़े विचलन को दंडित करें",
+  "deleteAccount": "खाता हटाएं",
+  "deletedSuccessfully": "सफलतापूर्वक हटाया गया",
+  "deleteIncomeSource": "आय स्रोत हटाएं",
+  "discard": "त्यागें",
+  "displayInCurrency": "मुद्रा में प्रदर्शित करें",
+  "editIncome": "आय संपादित करें",
+  "editLiability": "देयता संपादित करें",
+  "english": "अंग्रेज़ी",
+  "enterMinPayment": "न्यूनतम भुगतान दर्ज करें",
+  "enterMonthlyEssentials": "मासिक आवश्यकताएं दर्ज करें",
+  "enterTargetPercentage": "लक्ष्य प्रतिशत दर्ज करें",
+  "enterValidAmount": "मान्य राशि दर्ज करें",
+  "enterValidNumber": "मान्य संख्या दर्ज करें",
+  "enterValidPayment": "मान्य भुगतान दर्ज करें",
+  "errorDeletingAccount": "खाता हटाने में त्रुटि",
+  "errorLoadingAccounts": "खाते लोड करने में त्रुटि",
+  "errorLoadingLiabilities": "देयताएं लोड करने में त्रुटि",
+  "excludeInternationalExposure": "अंतर्राष्ट्रीय जोखिम बाहर करें",
+  "exit": "बाहर निकलें",
+  "exitApp": "ऐप से बाहर निकलें",
+  "filteredFromSnapshot": "स्नैपशॉट से फ़िल्टर किया गया",
+  "financialScore": "वित्तीय स्कोर",
+  "frequencyAnnual": "वार्षिक",
+  "frequencyAnnually": "वार्षिक रूप से",
+  "frequencyBiWeekly": "द्वि-साप्ताहिक",
+  "frequencyBiweekly": "द्वि-साप्ताहिक",
+  "frequencyDaily": "दैनिक",
+  "frequencyHourly": "प्रति घंटा",
+  "frequencyMonthly": "मासिक",
+  "frequencyQuarterly": "त्रैमासिक",
+  "frequencySemiMonthly": "अर्ध-मासिक",
+  "frequencyWeekly": "साप्ताहिक",
+  "goBack": "वापस जाएं",
+  "gotIt": "समझ गया",
+  "help": "मदद",
+  "helpAllocationTargetsText": "प्रत्येक संपत्ति वर्ग के लिए लक्ष्य प्रतिशत सेट करें। ऐप आपको सचेत करेगा जब आपका वास्तविक आवंटन इन लक्ष्यों से बहुत दूर चला जाता है।",
+  "helpAllocationTargetsTitle": "आवंटन लक्ष्य मदद",
+  "helpMonthlyEssentialsText": "अपने मासिक आवश्यक खर्च (किराया, उपयोगिताएं, किराने का सामान, आदि) दर्ज करें। यह आपके आपातकालीन निधि लक्ष्य की गणना करने में मदद करता है।",
+  "helpMonthlyEssentialsTitle": "मासिक आवश्यकताएं मदद",
+  "helpRiskProfileText": "एक जोखिम प्रोफ़ाइल चुनें जो आपके निवेश लक्ष्यों और समय क्षितिज से मेल खाती है। रूढ़िवादी बांड और नकदी का पक्षधर है, वृद्धि स्टॉक का पक्षधर है, संतुलित बीच में है।",
+  "helpRiskProfileTitle": "जोखिम प्रोफ़ाइल मदद",
+  "hindi": "हिंदी",
+  "howWeProtectData": "हम आपके डेटा की सुरक्षा कैसे करते हैं",
+  "importAccountsDebtsIncome": "खाते, ऋण और आय आयात करें",
+  "importAndExport": "आयात और निर्यात",
+  "importCSV": "CSV आयात करें",
+  "income1099": "1099 आय",
+  "incomeBonus": "बोनस",
+  "incomeFreelance": "फ्रीलांस",
+  "incomeInvestment": "निवेश",
+  "incomePension": "पेंशन",
+  "incomeRental": "किराया",
+  "incomeSalary": "वेतन",
+  "incomeSocialSecurity": "सामाजिक सुरक्षा",
+  "incomeSourceAdded": "आय स्रोत जोड़ा गया",
+  "incomeSourceDeleted": "आय स्रोत हटाया गया",
+  "incomeSourceUpdated": "आय स्रोत अपडेट किया गया",
+  "incomeW2": "W-2 आय",
+  "internationalEquity": "अंतर्राष्ट्रीय इक्विटी",
+  "intlEquity": "अंतर्राष्ट्रीय इक्विटी",
+  "justNow": "अभी",
+  "lastPayment": "अंतिम भुगतान",
+  "legalTermsAndConditions": "कानूनी शर्तें और शर्तें",
+  "lessPunitive": "कम दंडात्मक",
+  "liabilityDetails": "देयता विवरण",
+  "liabilityName": "देयता नाम",
+  "liabilityNameHint": "जैसे, चेस वीज़ा, छात्र ऋण",
+  "liabilitySavedSuccessfully": "देयता सफलतापूर्वक सहेजी गई",
+  "light": "हल्का",
+  "minPayment": "न्यूनतम भुगतान",
+  "monthlyEssentialExpenses": "मासिक आवश्यक खर्च",
+  "monthlyEssentialsHelper": "अपने मासिक आवश्यक खर्च दर्ज करें",
+  "monthlyEssentialsHelperUSD": "जैसे, किराया, उपयोगिताओं, किराने के लिए $3000",
+  "monthlyInterest": "मासिक ब्याज",
+  "monthlyPaymentDay": "मासिक भुगतान दिन",
+  "monthlyPayments": "मासिक भुगतान",
+  "net": "शुद्ध",
+  "netIncome": "शुद्ध आय",
+  "nextPaymentDueDate": "अगली भुगतान नियत तिथि",
+  "noDebtsTracked": "अभी तक कोई ऋण ट्रैक नहीं किया गया",
+  "noIncomeSourcesYet": "अभी तक कोई आय स्रोत नहीं",
+  "noPaymentsRecordedYet": "अभी तक कोई भुगतान दर्ज नहीं किया गया",
+  "offMute": "बंद/म्यूट",
+  "optimizePayoffStrategy": "भुगतान रणनीति अनुकूलित करें",
+  "paymentHistory": "भुगतान इतिहास",
+  "paymentSchedule": "भुगतान अनुसूची",
+  "paymentsWillAppearHere": "भुगतान यहां दिखाई देंगे",
+  "percentageMustBeBetween": "प्रतिशत 0 और 100 के बीच होना चाहिए",
+  "persian": "फ़ारसी",
+  "pleaseEnterAPR": "कृपया APR दर्ज करें",
+  "pleaseEnterCurrentBalance": "कृपया वर्तमान शेष दर्ज करें",
+  "pleaseEnterLiabilityName": "कृपया देयता नाम दर्ज करें",
+  "pleaseEnterValidAPR": "कृपया एक मान्य APR दर्ज करें",
+  "pleaseEnterValidCreditLimit": "कृपया एक मान्य क्रेडिट सीमा दर्ज करें",
+  "privacyPolicy": "गोपनीयता नीति",
+  "proFeature": "प्रो सुविधा",
+  "proStatus": "प्रो स्थिति",
+  "pts": "pts",
+  "quickStats": "त्वरित आंकड़े",
+  "realEstateREITs": "रियल एस्टेट और REITs",
+  "requestLanguage": "भाषा का अनुरोध करें",
+  "retry": "पुन: प्रयास करें",
+  "riskBalanced": "संतुलित",
+  "riskBalancedAllocation": "60% स्टॉक, 35% बांड, 5% नकद",
+  "riskBalancedDescription": "कुछ स्थिरता के साथ मध्यम वृद्धि",
+  "riskConservative": "रूढ़िवादी",
+  "riskConservativeAllocation": "30% स्टॉक, 50% बांड, 20% नकद",
+  "riskConservativeDescription": "स्थिरता और पूंजी संरक्षण को प्राथमिकता दें",
+  "riskGrowth": "वृद्धि",
+  "riskGrowthAllocation": "80% स्टॉक, 15% बांड, 5% नकद",
+  "riskGrowthDescription": "दीर्घकालिक वृद्धि क्षमता को अधिकतम करें",
+  "riskProfile": "जोखिम प्रोफ़ाइल",
+  "riskProfileDescription": "अपनी निवेश जोखिम सहनशीलता चुनें",
+  "saveChanges": "परिवर्तन सहेजें",
+  "selectNextPaymentDueDate": "अगली भुगतान नियत तिथि चुनें",
+  "sendFeedback": "फीडबैक भेजें",
+  "setTargetsAndThresholds": "लक्ष्य और सीमाएं सेट करें",
+  "settingsSavedSuccessfully": "सेटिंग्स सफलतापूर्वक सहेजी गईं",
+  "shareThoughtsAndSuggestions": "अपने विचार और सुझाव साझा करें",
+  "showAll": "सभी दिखाएं",
+  "source": "स्रोत",
+  "sources": "स्रोत",
+  "stable": "स्थिर",
+  "standard": "मानक",
+  "tapToSelectDate": "तिथि चुनने के लिए टैप करें",
+  "targetsAndAlerts": "लक्ष्य और सतर्कताएं",
+  "targetsAndAlertsHelp": "लक्ष्य और सतर्कताएं मदद",
+  "taxRate": "कर दर",
+  "termsOfService": "सेवा की शर्तें",
+  "testingAsFreeUser": "मुफ्त उपयोगकर्ता के रूप में परीक्षण",
+  "testingAsProUser": "प्रो उपयोगकर्ता के रूप में परीक्षण",
+  "timeframe30d": "30d",
+  "totalAllocation": "कुल आवंटन",
+  "totalDebt": "कुल ऋण",
+  "totalMonthlyIncome": "कुल मासिक आय",
+  "totalPaid": "कुल भुगतान किया गया",
+  "totalPayments": "कुल भुगतान",
+  "trackCreditCardsAndLoans": "क्रेडिट कार्ड और ऋण ट्रैक करें",
+  "trackYourIncomeSources": "अपने आय स्रोतों को ट्रैक करें",
+  "trackYourNetWorth": "अपनी कुल संपत्ति को ट्रैक करें",
+  "trend": "रुझान",
+  "unlockAdvancedFeatures": "उन्नत सुविधाओं को अनलॉक करें",
+  "unsavedChanges": "असहेजे परिवर्तन",
+  "unsavedChangesMessage": "आपके पास असहेजे परिवर्तन हैं। क्या आप उन्हें त्यागना चाहते हैं?",
+  "updateAccount": "खाता अपडेट करें",
+  "updateLiability": "देयता अपडेट करें",
+  "used": "उपयोग किया गया",
+  "useDarkTheme": "डार्क थीम उपयोग करें",
+  "usEquity": "US इक्विटी",
+  "usEquityTarget": "US इक्विटी लक्ष्य",
+  "usEquityTargetHelper": "US स्टॉक के लिए लक्ष्य प्रतिशत",
+  "view": "देखें",
+  "viewAllAccounts": "सभी खाते देखें",
+  "whatTypesOfDebt": "आप किस प्रकार के ऋण ट्रैक कर सकते हैं?",
+  "why": "क्यों",
+  "cutConcentration": "एकाग्रता कम करें: {details}",
+  "@cutConcentration": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "errorSavingIncome": "आय सहेजने में त्रुटि: {error}",
+  "@errorSavingIncome": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteIncomeConfirm": "क्या आप वाकई {name} को हटाना चाहते हैं?",
+  "@deleteIncomeConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "errorLoadingSettings": "सेटिंग्स लोड करने में त्रुटि: {error}",
+  "@errorLoadingSettings": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToSaveSettings": "सेटिंग्स सहेजने में विफल: {error}",
+  "@failedToSaveSettings": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "dayOfMonth": "महीने का दिन: {day}",
+  "@dayOfMonth": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "errorLoadingIncome": "आय लोड करने में त्रुटि: {error}",
+  "@errorLoadingIncome": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorDeletingIncome": "आय हटाने में त्रुटि: {error}",
+  "@errorDeletingIncome": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "mixAndDials": "मिक्स और डायल",
+  "errorLoadingDataWithError": "डेटा लोड करने में त्रुटि: {error}",
+  "@errorLoadingDataWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorLoadingDebtData": "ऋण डेटा लोड करने में त्रुटि: {error}",
+  "@errorLoadingDebtData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noDataAvailable": "कोई डेटा उपलब्ध नहीं",
+  "dollarCostAveragingCalculations": "डॉलर-लागत औसत गणना",
+  "primarySecondaryRebalancingTargets": "प्राथमिक/द्वितीयक पुनर्संतुलन लक्ष्य",
+  "timelineWithMonitoringAlerts": "निगरानी अलर्ट के साथ समयरेखा",
+  "adjustTargetAllocation": "लक्ष्य आवंटन समायोजित करें",
+  "savePlan": "योजना सहेजें",
+  "previewPdf": "PDF पूर्वावलोकन",
+  "back": "वापस",
+  "aboutMixAndDials": "मिक्स और डायल के बारे में",
+  "mixAndDialsDescription": "यह स्क्रीन आपके पोर्टफोलियो का विस्तृत विश्लेषण प्रदान करती है:",
+  "assetAllocationBreakdown": "• परिसंपत्ति आवंटन - आपके निवेश का दृश्य विभाजन",
+  "diversificationDials": "• विविधीकरण डायल - जोखिम और भौगोलिक वितरण",
+  "rebalancingPlansRecommendations": "• पुनर्संतुलन योजनाएं - कार्रवाई योग्य सिफारिशें",
+  "rebalancingPlanSavedSuccessfully": "पुनर्संतुलन योजना सफलतापूर्वक सहेजी गई!",
+  "planSaved": "योजना सहेजी गई",
+  "ok": "ठीक है",
+  "pdfPreview": "PDF पूर्वावलोकन",
+  "close": "बंद करें",
+  "pdfExportFeatureComingSoon": "PDF निर्यात सुविधा जल्द आ रही है!",
+  "downloadPdf": "PDF डाउनलोड करें",
+  "maybeLater": "शायद बाद में",
+  "errorLoadingAccountsWithError": "खाते लोड करने में त्रुटि: {error}",
+  "@errorLoadingAccountsWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "gettingStartedGuide": "प्रारंभ करने का मार्गदर्शक",
+  "previewWithSampleData": "नमूना डेटा के साथ पूर्वावलोकन",
+  "archiveAccount": "खाता संग्रहित करें",
+  "archived": "संग्रहित",
+  "archive": "संग्रहित करें",
+  "loadSampleData": "नमूना डेटा लोड करें",
+  "sampleDataLoaded": "नमूना डेटा लोड किया गया!",
+  "load": "लोड करें",
+  "viewAccountsWithUsEquity": "US इक्विटी वाले खाते देखें",
+  "learnMore": "और जानें",
+  "riskNudgeSnoozed": "जोखिम नज 30 दिनों के लिए स्नूज़ किया गया",
+  "riskMarkedAsResolved": "जोखिम को हल के रूप में चिह्नित किया गया",
+  "howWeCalculateThis": "हम इसकी गणना कैसे करते हैं",
+  "yourFinancialHealthScoreBasedOn": "आपका वित्तीय स्वास्थ्य स्कोर इस पर आधारित है:",
+  "concentrationRiskPercent": "• एकाग्रता जोखिम (30%)",
+  "fixedIncomeBalancePercent": "• निश्चित आय संतुलन (25%)",
+  "liquidityBufferPercent": "• तरलता बफर (20%)",
+  "internationalExposurePercent": "• अंतर्राष्ट्रीय एक्सपोजर (15%)",
+  "debtManagementPercent": "• ऋण प्रबंधन (10%)",
+  "addAccounts": "खाते जोड़ें",
+  "addMonthlyEssentials": "मासिक आवश्यकताएं जोड़ें",
+  "noTrendDataAvailable": "कोई रुझान डेटा उपलब्ध नहीं",
+  "exportPdfReport": "PDF रिपोर्ट निर्यात करें",
+  "saveAsSnapshot": "स्नैपशॉट के रूप में सहेजें",
+  "viewScoreHistory": "स्कोर इतिहास देखें",
+  "compare": "तुलना करें",
+  "create": "बनाएं",
+  "saved": "सहेजा गया",
+  "failedToCreateSnapshot": "स्नैपशॉट बनाने में विफल: {error}",
+  "@failedToCreateSnapshot": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "snapshotDetail": "स्नैपशॉट विवरण",
+  "snapshotNote": "स्नैपशॉट नोट",
+  "savedToDownloads": "Downloads/{filename} में सहेजा गया",
+  "@savedToDownloads": {
+    "placeholders": {
+      "filename": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadFailed": "डाउनलोड विफल: {error}",
+  "@downloadFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "isAvailableWithRebalancePro": "{feature} Rebalance Pro के साथ उपलब्ध है।",
+  "@isAvailableWithRebalancePro": {
+    "placeholders": {
+      "feature": {
+        "type": "String"
+      }
+    }
+  },
+  "startCompare": "तुलना प्रारंभ करें",
+  "selectThisAsStartingPoint": "तुलना के लिए इसे प्रारंभिक बिंदु के रूप में चुनें",
+  "deleteSnapshot": "स्नैपशॉट हटाएं?",
+  "failedToDeleteSnapshot": "स्नैपशॉट हटाने में विफल: {error}",
+  "@failedToDeleteSnapshot": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "unlockTaxOptimization": "कर अनुकूलन अनलॉक करें",
+  "estimatedAnnualTaxSavings": "अनुमानित वार्षिक कर बचत",
+  "potentialSavings": "संभावित बचत: {amount} / वर्ष",
+  "@potentialSavings": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "yourAssetsAreAlreadyTaxEfficient": "आपकी संपत्तियां पहले से ही कर-कुशल रूप से स्थित हैं। 👍",
+  "suggestedReallocation": "सुझाया गया पुनः आवंटन",
+  "assumptionsAndMethodology": "मान्यताएं और पद्धति",
+  "enableNotifications": "सूचनाएं सक्षम करें",
+  "getAlertsAboutDrift": "विचलन और पुनर्संतुलन अवसरों के बारे में अलर्ट प्राप्त करें",
+  "set": "सेट करें",
+  "howItWorks": "यह कैसे काम करता है",
+  "averageAnnualReturn": "• औसत वार्षिक रिटर्न: 7%",
+  "marketVolatility": "• बाजार अस्थिरता: 15%",
+  "inflationRate": "• मुद्रास्फीति: 3% प्रति वर्ष",
+  "noDebtsToOptimize": "अनुकूलित करने के लिए कोई ऋण नहीं!",
+  "addLiabilitiesFromTab": "इस टूल का उपयोग करने के लिए देनदारियां टैब से देनदारियां जोड़ें।",
+  "currentDebt": "वर्तमान ऋण",
+  "liabilityCount": "{count} {count, plural, =1{देनदारी} other{देनदारियां}} • {minPayment}/माह न्यूनतम",
+  "@liabilityCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "minPayment": {
+        "type": "String"
+      }
+    }
+  },
+  "extraMonthlyPayment": "अतिरिक्त मासिक भुगतान",
+  "totalMonthlyPayment": "कुल मासिक भुगतान: {amount}",
+  "@totalMonthlyPayment": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoffStrategies": "भुगतान रणनीतियां",
+  "strategyRecommendation": "हम कम कुल ब्याज वाले विकल्प की सिफारिश करते हैं। आप फिर भी प्रेरणा जीत के लिए दूसरे को चुन सकते हैं।",
+  "avalanche": "हिमस्खलन",
+  "avalancheRecommended": "हिमस्खलन (अनुशंसित)",
+  "avalancheDescription": "उच्चतम एपीआर पहले – कुल ब्याज को कम करता है",
+  "snowball": "स्नोबॉल",
+  "snowballRecommended": "स्नोबॉल (अनुशंसित)",
+  "snowballDescription": "सबसे छोटा शेष पहले – तेज मनोवैज्ञानिक जीत",
+  "unlockDetailedPayoffSchedule": "विस्तृत भुगतान अनुसूची अनलॉक करें",
+  "monthByMonthBreakdown": "महीने-दर-महीने भुगतान विवरण प्राप्त करें जिसमें दिखाया गया है:",
+  "exactPayoffDate": "प्रत्येक ऋण के लिए सटीक भुगतान तिथि",
+  "principalVsInterest": "मूलधन बनाम ब्याज विवरण",
+  "remainingBalanceTracking": "शेष राशि ट्रैकिंग",
+  "totalInterestSaved": "कुल ब्याज बचत: {amount}",
+  "@totalInterestSaved": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "debtPayoffOrder": "ऋण भुगतान क्रम",
+  "debtsWillBePaidInOrder": "ऋण इस क्रम में चुकाए जाएंगे ({strategy} रणनीति):",
+  "@debtsWillBePaidInOrder": {
+    "placeholders": {
+      "strategy": {
+        "type": "String"
+      }
+    }
+  },
+  "paidOff": "भुगतान किया गया",
+  "payoffTime": "भुगतान समय",
+  "monthsCount": "{count} महीने",
+  "@monthsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalInterest": "कुल ब्याज",
+  "saveVsMinimum": "न्यूनतम भुगतान बनाम {amount} बचाएं",
+  "@saveVsMinimum": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "detailedPaymentSchedule": "विस्तृत भुगतान अनुसूची",
+  "monthByMonthStrategy": "महीने-दर-महीने विवरण ({strategy} रणनीति):",
+  "@monthByMonthStrategy": {
+    "placeholders": {
+      "strategy": {
+        "type": "String"
+      }
+    }
+  },
+  "monthNumber": "महीना {number}",
+  "@monthNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "principalAndInterest": "{principal} मूलधन • {interest} ब्याज",
+  "@principalAndInterest": {
+    "placeholders": {
+      "principal": {
+        "type": "String"
+      },
+      "interest": {
+        "type": "String"
+      }
+    }
+  },
+  "remaining": "शेष: {amount}",
+  "@remaining": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "moreMonths": "... {count} और महीने",
+  "@moreMonths": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "strategyComparison": "रणनीति तुलना",
+  "strategySavingsComparison": "{strategy} अन्य दृष्टिकोण की तुलना में {interestDiff} अधिक ब्याज बचाता है{monthsInfo}।",
+  "@strategySavingsComparison": {
+    "placeholders": {
+      "strategy": {
+        "type": "String"
+      },
+      "interestDiff": {
+        "type": "String"
+      },
+      "monthsInfo": {
+        "type": "String"
+      }
+    }
+  },
+  "andFinishesEarlier": " और {months} महीना{plural} पहले समाप्त होता है",
+  "@andFinishesEarlier": {
+    "placeholders": {
+      "months": {
+        "type": "int"
+      },
+      "plural": {
+        "type": "String"
+      }
+    }
+  },
+  "unlockDebtPayoffOptimizer": "ऋण भुगतान अनुकूलक अनलॉक करें",
+  "fastestPathToDebtFreedom": "ऋण मुक्ति का सबसे तेज़ रास्ता खोजें",
+  "compareAvalancheSnowball": "हिमस्खलन बनाम स्नोबॉल रणनीतियों की तुलना करें",
+  "seeExactPayoffDates": "प्रत्येक ऋण के लिए सटीक भुगतान तिथियां देखें",
+  "calculateInterestSavings": "कुल ब्याज बचत की गणना करें",
+  "getMonthlySchedule": "महीने-दर-महीने भुगतान अनुसूची प्राप्त करें",
+  "best": "सर्वश्रेष्ठ",
+  "selected": "चयनित",
+  "selectStrategy": "रणनीति चुनें",
+  "typesOfDebtYouCanTrack": "जिन ऋणों को आप ट्रैक कर सकते हैं",
+  "creditCardsDescription": "• क्रेडिट कार्ड - शेष और क्रेडिट उपयोग को ट्रैक करें",
+  "mortgagesDescription": "• गृह ऋण - होम लोन और पुनर्वित्त",
+  "autoLoansDescription": "• ऑटो लोन - कार और वाहन वित्तपोषण",
+  "studentLoansDescription": "• छात्र ऋण - शिक्षा ऋण",
+  "personalLoansDescription": "• व्यक्तिगत ऋण - असुरक्षित ऋण",
+  "helocDescription": "• HELOC - होम इक्विटी क्रेडिट लाइनें",
+  "businessLoansDescription": "• व्यवसाय ऋण - वाणिज्यिक ऋण"
 }

@@ -96,7 +96,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Targets & Alerts'),
+          title: Text(AppLocalizations.of(context)!.targetsAndAlerts),
           actions: [
             if (_hasChanges) ...[
               TextButton(
@@ -107,7 +107,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
             IconButton(
               icon: const Icon(Icons.help_outline),
               onPressed: _showHelpDialog,
-              tooltip: 'Help',
+              tooltip: AppLocalizations.of(context)!.help,
             ),
           ],
         ),
@@ -119,11 +119,14 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
               children: [
                 const Icon(Icons.error, size: 64, color: Colors.red),
                 const SizedBox(height: 16),
-                Text('Error loading settings: $error'),
+                Text(
+                  AppLocalizations.of(context)!
+                      .errorLoadingSettings(error.toString()),
+                ),
                 const SizedBox(height: 16),
                 FilledButton(
                   onPressed: () => ref.read(settingsProvider.notifier).reload(),
-                  child: const Text('Retry'),
+                  child: Text(AppLocalizations.of(context)!.retry),
                 ),
               ],
             ),
@@ -134,7 +137,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
             ? FloatingActionButton.extended(
                 onPressed: _saveSettings,
                 icon: const Icon(Icons.save),
-                label: const Text('Save Changes'),
+                label: Text(AppLocalizations.of(context)!.saveChanges),
               )
             : null,
       ),
@@ -162,7 +165,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                       ),
                       const SizedBox(width: 12),
                       Text(
-                        'Risk Profile',
+                        AppLocalizations.of(context)!.riskProfile,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -171,7 +174,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Your risk tolerance affects target allocations and recommendations.',
+                    AppLocalizations.of(context)!.riskProfileDescription,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
@@ -200,7 +203,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                       ),
                       const SizedBox(width: 12),
                       Text(
-                        'Allocation Targets',
+                        AppLocalizations.of(context)!.allocationTargets,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -209,7 +212,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Set your target allocation percentages.',
+                    AppLocalizations.of(context)!.allocationTargetsDescription,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
@@ -227,22 +230,24 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                       ),
                       LengthLimitingTextInputFormatter(5),
                     ],
-                    decoration: const InputDecoration(
-                      labelText: 'US Equity Target %',
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!.usEquityTarget,
                       hintText: '60.0',
                       suffixText: '%',
-                      helperText: 'Target percentage for US stock allocation',
+                      helperText:
+                          AppLocalizations.of(context)!.usEquityTargetHelper,
                     ),
                     validator: (value) {
+                      final loc = AppLocalizations.of(context)!;
                       if (value == null || value.isEmpty) {
-                        return 'Please enter a target percentage';
+                        return loc.enterTargetPercentage;
                       }
                       final percentage = double.tryParse(value);
                       if (percentage == null) {
-                        return 'Please enter a valid number';
+                        return loc.enterValidNumber;
                       }
                       if (percentage < 0 || percentage > 100) {
-                        return 'Percentage must be between 0 and 100';
+                        return loc.percentageMustBeBetween;
                       }
                       return null;
                     },
@@ -361,7 +366,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                       ),
                       const SizedBox(width: 12),
                       Text(
-                        'Budget & Planning',
+                        AppLocalizations.of(context)!.budgetAndPlanning,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -370,7 +375,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Help us provide better recommendations.',
+                    AppLocalizations.of(context)!.budgetAndPlanningDescription,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
@@ -380,6 +385,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                   // Monthly Essentials
                   Builder(
                     builder: (context) {
+                      final loc = AppLocalizations.of(context)!;
                       final currencySymbol =
                           CurrencyFormatter.format(0, settings.currency)
                               .replaceAll('0', '')
@@ -387,8 +393,8 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                               .replaceAll(',', '')
                               .trim();
                       final helperText = settings.currency != 'USD'
-                          ? 'Values stored in USD. Rent, utilities, food, insurance, minimum debt payments'
-                          : 'Rent, utilities, food, insurance, minimum debt payments';
+                          ? loc.monthlyEssentialsHelperUSD
+                          : loc.monthlyEssentialsHelper;
 
                       return TextFormField(
                         controller: _monthlyEssentialsController,
@@ -399,7 +405,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                           LengthLimitingTextInputFormatter(7),
                         ],
                         decoration: InputDecoration(
-                          labelText: 'Monthly Essential Expenses',
+                          labelText: loc.monthlyEssentialExpenses,
                           hintText: '5000',
                           prefixText: '$currencySymbol ',
                           helperText: helperText,
@@ -407,14 +413,14 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your monthly essentials';
+                            return loc.enterMonthlyEssentials;
                           }
                           final amount = double.tryParse(value);
                           if (amount == null) {
-                            return 'Please enter a valid amount';
+                            return loc.enterValidAmount;
                           }
                           if (amount < 0) {
-                            return 'Amount cannot be negative';
+                            return loc.amountCannotBeNegative;
                           }
                           return null;
                         },
@@ -521,24 +527,25 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
   }
 
   (String, String, String) _getRiskBandInfo(RiskBand band) {
+    final loc = AppLocalizations.of(context)!;
     switch (band) {
       case RiskBand.conservative:
         return (
-          'Conservative',
-          'Lower risk, steady growth. Good for those near retirement or with low risk tolerance.',
-          '40% Stocks / 60% Bonds'
+          loc.riskConservative,
+          loc.riskConservativeDescription,
+          loc.riskConservativeAllocation
         );
       case RiskBand.balanced:
         return (
-          'Balanced',
-          'Moderate risk and growth. Balanced approach for most long-term investors.',
-          '60% Stocks / 40% Bonds'
+          loc.riskBalanced,
+          loc.riskBalancedDescription,
+          loc.riskBalancedAllocation
         );
       case RiskBand.growth:
         return (
-          'Growth',
-          'Higher risk, higher potential returns. Good for younger investors with long time horizons.',
-          '80% Stocks / 20% Bonds'
+          loc.riskGrowth,
+          loc.riskGrowthDescription,
+          loc.riskGrowthAllocation
         );
     }
   }
@@ -594,6 +601,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
         financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
         currency: currentSettings.currency,
         baseCurrency: currentSettings.baseCurrency,
+        language: currentSettings.language, // Keep existing language
       );
 
       await ref.read(settingsProvider.notifier).updateSettings(updatedSettings);
@@ -604,8 +612,9 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Settings saved successfully!'),
+          SnackBar(
+            content:
+                Text(AppLocalizations.of(context)!.settingsSavedSuccessfully),
             backgroundColor: Colors.green,
           ),
         );
@@ -614,7 +623,9 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to save settings: $e'),
+            content: Text(
+              AppLocalizations.of(context)!.failedToSaveSettings(e.toString()),
+            ),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -623,13 +634,12 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
   }
 
   void _showUnsavedChangesDialog() {
+    final loc = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Unsaved Changes'),
-        content: const Text(
-          'You have unsaved changes. Do you want to save them before leaving?',
-        ),
+        title: Text(loc.unsavedChanges),
+        content: Text(loc.unsavedChangesMessage),
         actions: [
           TextButton(
             onPressed: () {
@@ -638,13 +648,13 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                 context.pop(); // Navigate back using Go Router
               }
             },
-            child: const Text('Discard'),
+            child: Text(loc.discard),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(context); // Just close dialog
             },
-            child: Text(AppLocalizations.of(context)!.cancel),
+            child: Text(loc.cancel),
           ),
           FilledButton(
             onPressed: () async {
@@ -654,7 +664,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                 context.pop(); // Navigate back using Go Router
               }
             },
-            child: Text(AppLocalizations.of(context)!.save),
+            child: Text(loc.save),
           ),
         ],
       ),
@@ -662,48 +672,43 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
   }
 
   void _showHelpDialog() {
+    final loc = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Targets & Alerts Help'),
-        content: const SingleChildScrollView(
+        title: Text(loc.targetsAndAlertsHelp),
+        content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Risk Profile',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                loc.helpRiskProfileTitle,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
+              Text(loc.helpRiskProfileText),
+              const SizedBox(height: 16),
               Text(
-                'Choose your comfort level with market volatility and potential returns.',
+                loc.helpAllocationTargetsTitle,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 8),
+              Text(loc.helpAllocationTargetsText),
+              const SizedBox(height: 16),
               Text(
-                'Allocation Targets',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                loc.helpMonthlyEssentialsTitle,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 8),
-              Text(
-                'Set target percentages for different asset classes. The dashboard will show rebalancing recommendations when your allocation differs significantly from targets.',
-              ),
-              SizedBox(height: 16),
-              Text(
-                'Monthly Essentials',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              Text(
-                'Your fixed monthly expenses help us calculate emergency fund recommendations and cash allocation suggestions.',
-              ),
+              const SizedBox(height: 8),
+              Text(loc.helpMonthlyEssentialsText),
             ],
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Got it'),
+            child: Text(loc.gotIt),
           ),
         ],
       ),

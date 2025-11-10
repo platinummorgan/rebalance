@@ -225,6 +225,11 @@ class AppLocalizationsFa extends AppLocalizations {
   String get error => 'خطا';
 
   @override
+  String errorWithMessage(String message) {
+    return 'خطا: $message';
+  }
+
+  @override
   String get success => 'موفق';
 
   @override
@@ -543,4 +548,1656 @@ class AppLocalizationsFa extends AppLocalizations {
   String monthsAgo(Object months) {
     return '$months ماه پیش';
   }
+
+  @override
+  String get incomeSourceName => 'نام منبع درآمد';
+
+  @override
+  String get incomeSourceNameHint => 'مثلاً، حقوق شرکت فناوری';
+
+  @override
+  String get pleaseEnterName => 'لطفاً نام را وارد کنید';
+
+  @override
+  String get incomeType => 'نوع درآمد';
+
+  @override
+  String get incomeTypeSalary => 'حقوق';
+
+  @override
+  String get incomeTypeHourlyWage => 'دستمزد ساعتی';
+
+  @override
+  String get incomeTypeBonus => 'پاداش';
+
+  @override
+  String get incomeTypeCommission => 'کمیسیون';
+
+  @override
+  String get incomeTypeFreelance => 'فریلنس';
+
+  @override
+  String get incomeTypeRentalIncome => 'درآمد اجاره';
+
+  @override
+  String get incomeTypeInvestmentIncome => 'درآمد سرمایه‌گذاری';
+
+  @override
+  String get incomeTypePension => 'بازنشستگی';
+
+  @override
+  String get incomeTypeSocialSecurity => 'تأمین اجتماعی';
+
+  @override
+  String get incomeTypeOther => 'سایر';
+
+  @override
+  String get grossAmount => 'مبلغ ناخالص';
+
+  @override
+  String get pleaseEnterAmount => 'لطفاً مبلغ را وارد کنید';
+
+  @override
+  String get pleaseEnterValidNumber => 'لطفاً یک عدد معتبر وارد کنید';
+
+  @override
+  String get frequency => 'فرکانس';
+
+  @override
+  String get addTaxDeductionBreakdown => 'افزودن جزئیات مالیات و کسورات';
+
+  @override
+  String get trackFederalTaxStateTax =>
+      'ردیابی مالیات فدرال، مالیات ایالتی و کسورات';
+
+  @override
+  String get deductionsPerPaymentPeriod => 'کسورات (در هر دوره پرداخت)';
+
+  @override
+  String get federalTax => 'مالیات فدرال';
+
+  @override
+  String get stateTax => 'مالیات ایالتی';
+
+  @override
+  String get socialSecurityTax => 'مالیات تأمین اجتماعی';
+
+  @override
+  String get medicareTax => 'مالیات مراقبت‌های پزشکی';
+
+  @override
+  String get retirement401k => 'بازنشستگی (401k، IRA)';
+
+  @override
+  String get healthInsurancePremium => 'حق بیمه سلامت';
+
+  @override
+  String get otherDeductions => 'سایر کسورات';
+
+  @override
+  String get addIncome => 'افزودن درآمد';
+
+  @override
+  String get importFromCSV => 'وارد کردن از CSV';
+
+  @override
+  String get importDataFromCSV => 'وارد کردن داده‌ها از CSV';
+
+  @override
+  String get selectCSVFileDescription =>
+      'یک فایل CSV برای وارد کردن حساب‌ها، بدهی‌ها یا داده‌های درآمد انتخاب کنید';
+
+  @override
+  String get selectCSVFile => 'انتخاب فایل CSV';
+
+  @override
+  String get csvFormatRequirements => 'الزامات قالب CSV';
+
+  @override
+  String get accountsLabel => 'حساب‌ها';
+
+  @override
+  String get accountsCSVFormat =>
+      'name,type,balance,locked,cash,bonds,usEq,intlEq,realEstate,alt';
+
+  @override
+  String get liabilitiesLabel => 'بدهی‌ها';
+
+  @override
+  String get liabilitiesCSVFormat =>
+      'name,type,balance,interestRate,minPayment';
+
+  @override
+  String get incomeLabel => 'درآمد';
+
+  @override
+  String get incomeCSVFormat => 'name,type,grossAmount,frequency';
+
+  @override
+  String get readyToImport => 'آماده برای وارد کردن';
+
+  @override
+  String get rowsHadErrors => 'ردیف دارای خطا بود';
+
+  @override
+  String get importError => 'خطای وارد کردن';
+
+  @override
+  String get unknownError => 'خطای ناشناخته';
+
+  @override
+  String get tryAgain => 'دوباره تلاش کنید';
+
+  @override
+  String get income => 'درآمد';
+
+  @override
+  String get unlockPro => 'باز کردن پرو';
+
+  @override
+  String get yourProFeatures => 'ویژگی‌های پرو شما';
+
+  @override
+  String get debtPayoffOptimizer => 'بهینه‌ساز پرداخت بدهی';
+
+  @override
+  String get debtPayoffDescription =>
+      'استراتژی‌های بهمن در مقابل گلوله برفی را با برنامه‌های پرداخت ماهانه مقایسه کنید';
+
+  @override
+  String get saveThousands => 'هزاران دلار سود صرفه‌جویی کنید';
+
+  @override
+  String get rebalancingAutopilot => 'خلبان خودکار تعادل مجدد';
+
+  @override
+  String get rebalancingDescription =>
+      'دستورالعمل‌های تجاری خاص با معیارهای ریسک قبل/بعد دریافت کنید';
+
+  @override
+  String get reduceRisk => 'ریسک پرتفوی را کاهش دهید';
+
+  @override
+  String get whatIfScenarioEngine => 'موتور سناریو چه می‌شود اگر';
+
+  @override
+  String get whatIfDescription =>
+      'شبیه‌سازی مونت کارلو احتمال موفقیت را با پارامترهای قابل تنظیم نشان می‌دهد';
+
+  @override
+  String get seeProbability => 'احتمال موفقیت را ببینید';
+
+  @override
+  String get customAlertsWithContext => 'هشدارهای سفارشی با زمینه';
+
+  @override
+  String get customAlertsDescription =>
+      'آستانه‌های سفارشی با هشدارهای تأثیر دلاری تنظیم کنید';
+
+  @override
+  String get knowImpact => 'تأثیر مالی را بدانید';
+
+  @override
+  String get taxSmartDescription =>
+      'قرارگیری حساب را بهینه کنید و فرصت‌های برداشت ضرر مالیاتی را شناسایی کنید';
+
+  @override
+  String get saveTaxes => 'سالانه در مالیات صرفه‌جویی کنید';
+
+  @override
+  String get retirementDescription =>
+      'شبیه‌سازی مونت کارلو احتمال موفقیت بازنشستگی را پیش‌بینی می‌کند';
+
+  @override
+  String get advancedPortfolioAnalytics => 'تحلیل‌های پیشرفته پرتفوی';
+
+  @override
+  String get advancedAnalyticsDescription =>
+      'شاخص تمرکز HHI، قرار گرفتن در معرض عامل، پیگیری چند پرتفوی';
+
+  @override
+  String get planDetails => 'جزئیات طرح';
+
+  @override
+  String get proActive => 'پرو فعال';
+
+  @override
+  String get rebalancePro => 'تعادل مجدد پرو';
+
+  @override
+  String get basedOnYourPortfolio => 'بر اساس پرتفوی شما:';
+
+  @override
+  String get saveMoneyReduceRisk =>
+      'با برنامه‌ریزی مالی هوشمند پول صرفه‌جویی و ریسک کاهش دهید';
+
+  @override
+  String get compareStrategies =>
+      'استراتژی‌های بهمن در مقابل گلوله برفی را مقایسه کنید. برنامه‌های پرداخت ماهانه دریافت کنید و کل صرفه‌جویی سود را ببینید.';
+
+  @override
+  String get getSpecificTrades =>
+      'دستورالعمل‌های تجاری خاص دریافت کنید. معیارهای ریسک قبل/بعد و کاهش نوسان را ببینید.';
+
+  @override
+  String get monteCarloSimulation =>
+      'شبیه‌سازی مونت کارلو (1000 اجرا) احتمال موفقیت را نشان می‌دهد. مشارکت‌ها، بازده و جدول زمانی را برای بهینه‌سازی برنامه خود تنظیم کنید.';
+
+  @override
+  String get customThresholds =>
+      'آستانه‌های سفارشی برای تمرکز، جریان، DSCR تنظیم کنید. هر هشدار تأثیر دلاری را نشان می‌دهد.';
+
+  @override
+  String get optimizeAccounts =>
+      'بهینه کنید کدام حساب کدام دارایی را نگه می‌دارد. فرصت‌های برداشت ضرر مالیاتی را شناسایی کنید. کشش مالیاتی سالانه را کاهش دهید.';
+
+  @override
+  String get projectRetirement =>
+      'شبیه‌سازی مونت کارلو (1000 اجرا) احتمال موفقیت بازنشستگی را پیش‌بینی می‌کند. پس‌انداز، جدول زمانی و درآمد را برای بهینه‌سازی برنامه خود تنظیم کنید.';
+
+  @override
+  String get hhiConcentration =>
+      'شاخص تمرکز HHI، تجزیه قرار گرفتن در معرض عامل، پیگیری چند پرتفوی، وزن‌های امتیازدهی سفارشی.';
+
+  @override
+  String get privacy100 => '100٪ حریم خصوصی';
+
+  @override
+  String get dataOnDevice => 'همه داده‌ها در دستگاه شما باقی می‌مانند';
+
+  @override
+  String get encryptedStorage => 'ذخیره‌سازی رمزگذاری شده';
+
+  @override
+  String get bankGrade => 'امنیت درجه بانکی';
+
+  @override
+  String get saveEst => 'صرفه‌جویی تخمینی ';
+
+  @override
+  String get purchaseCancelled => 'خرید لغو شد';
+
+  @override
+  String get rebalancingPlan => 'طرح تعادل مجدد';
+
+  @override
+  String get rebalancingGuide => 'راهنمای تعادل مجدد';
+
+  @override
+  String get addAccountsForRebalancing =>
+      'حساب‌هایی با دارایی‌ها برای ساخت طرح تعادل مجدد شخصی خود اضافه کنید';
+
+  @override
+  String get rebalancingPlanProDescription =>
+      'دستورالعمل‌های تجاری خاص با معیارهای ریسک قبل/بعد دریافت کنید. دقیقاً ببینید چه چیزی را برای رسیدن به تخصیص هدف خود باید بخرید یا بفروشید.';
+
+  @override
+  String get yourPersonalizedPlan => 'طرح شخصی شما';
+
+  @override
+  String get customizeTrackExecute =>
+      'سفارشی‌سازی استراتژی، پیگیری پیشرفت، اجرای معاملات';
+
+  @override
+  String get lockedAccountsDetected => 'حساب‌های قفل شده شناسایی شد';
+
+  @override
+  String get lockedAccountsMessage =>
+      'قفل شده است (مثلاً 401k، بازنشستگی). طرح فقط استفاده می‌کند';
+
+  @override
+  String get inUnlockedAccounts => 'در حساب‌های باز شده';
+
+  @override
+  String get lockedAccountsTip =>
+      'نکته: برای 401k/بازنشستگی، به جای تعادل مجدد دارایی‌های موجود، تخصیص مشارکت خود را به‌روزرسانی کنید.';
+
+  @override
+  String get rebalancingStrategy => 'استراتژی تعادل مجدد';
+
+  @override
+  String get dollarCostAverageRecommended => 'میانگین هزینه دلاری (توصیه شده)';
+
+  @override
+  String get dollarCostDescription =>
+      'معاملات را در چند ماه پخش کنید تا ریسک زمان‌بندی را کاهش دهید';
+
+  @override
+  String get immediateRebalance => 'تعادل مجدد فوری';
+
+  @override
+  String get immediateRebalanceDescription =>
+      'اگر اعتماد قوی دارید همه معاملات را اکنون اجرا کنید';
+
+  @override
+  String get glidePathDuration => 'مدت مسیر لغزش';
+
+  @override
+  String get howManyMonthsToSpread =>
+      'می‌خواهید تعادل مجدد را در چند ماه پخش کنید؟';
+
+  @override
+  String get fast => 'سریع';
+
+  @override
+  String get gradual => 'تدریجی';
+
+  @override
+  String get months => 'ماه';
+
+  @override
+  String get month => 'ماه';
+
+  @override
+  String get executeNow => 'اکنون اجرا کنید';
+
+  @override
+  String get totalToRebalanceImmediately => 'مجموع برای تعادل مجدد فوری';
+
+  @override
+  String get monthlyTransferAmount => 'مبلغ انتقال ماهانه';
+
+  @override
+  String get overMonths => 'در طی';
+
+  @override
+  String get total => 'مجموع';
+
+  @override
+  String get beforeVsAfter => 'قبل در مقابل بعد';
+
+  @override
+  String get current => 'فعلی';
+
+  @override
+  String get target => 'هدف';
+
+  @override
+  String get executionChecklist => 'لیست بررسی اجرا';
+
+  @override
+  String get trackMonthlyProgress =>
+      'پیشرفت ماهانه خود را هنگام اجرای معاملات پیگیری کنید';
+
+  @override
+  String get transfer => 'انتقال';
+
+  @override
+  String get ofMonthsCompleted => 'از';
+
+  @override
+  String get monthsCompleted => 'ماه‌های تکمیل شده';
+
+  @override
+  String get exportPDF => 'خروجی PDF';
+
+  @override
+  String get pdfExportComingSoon => 'خروجی PDF به زودی!';
+
+  @override
+  String get whyRebalance => 'چرا تعادل مجدد؟';
+
+  @override
+  String get whyRebalanceDescription =>
+      'حرکات بازار باعث می‌شود پرتفوی شما از تخصیص هدف منحرف شود و ریسک افزایش یابد. تعادل مجدد پروفایل ریسک/بازده مطلوب شما را بازیابی می‌کند.';
+
+  @override
+  String get dollarCostAveragingTitle => 'میانگین هزینه دلاری';
+
+  @override
+  String get dollarCostAveragingDescription =>
+      'پخش معاملات در طول زمان ریسک زمان‌بندی و تأثیر بازار را کاهش می‌دهد. برای اکثر سرمایه‌گذاران توصیه می‌شود.';
+
+  @override
+  String get immediateRebalancingTitle => 'تعادل مجدد فوری';
+
+  @override
+  String get immediateRebalancingDescription =>
+      'همه معاملات را یکباره اجرا کنید. بهترین اگر اعتماد بازار قوی دارید یا نیاز به تعادل مجدد فوری دارید.';
+
+  @override
+  String get youreWellBalanced => 'شما خوب متعادل هستید!';
+
+  @override
+  String get noRebalancingNeeded =>
+      'پرتفوی شما در محدوده تحمل تخصیص هدف است. در این زمان نیازی به تعادل مجدد نیست.';
+
+  @override
+  String get accountType529EducationSavings => '529 پس‌انداز آموزشی';
+
+  @override
+  String get accountTypeBrokerage => 'کارگزاری';
+
+  @override
+  String get accountTypeBrokerageAccount => 'حساب کارگزاری';
+
+  @override
+  String get accountTypeCash => 'نقدی';
+
+  @override
+  String get accountTypeCashAccount => 'حساب نقدی';
+
+  @override
+  String get accountTypeCD => 'CD';
+
+  @override
+  String get accountTypeCertificateOfDeposit => 'گواهی سپرده';
+
+  @override
+  String get accountTypeChecking => 'جاری';
+
+  @override
+  String get accountTypeCheckingAccount => 'حساب جاری';
+
+  @override
+  String get accountTypeCrypto => 'کریپتو';
+
+  @override
+  String get accountTypeCryptocurrency => 'ارز دیجیتال';
+
+  @override
+  String get accountTypeHealthSavingsAccount => 'حساب پس‌انداز سلامت (HSA)';
+
+  @override
+  String get accountTypeHSA => 'HSA';
+
+  @override
+  String get accountTypeOther => 'دیگر';
+
+  @override
+  String get accountTypeRealEstate => 'املاک';
+
+  @override
+  String get accountTypeRealEstateEquity => 'سهام املاک';
+
+  @override
+  String get accountTypeRetirement => 'بازنشستگی';
+
+  @override
+  String get accountTypeSavings => 'پس‌انداز';
+
+  @override
+  String get accountTypeSavingsAccount => 'حساب پس‌انداز';
+
+  @override
+  String get liabilityTypeAutoLoan => 'وام خودرو';
+
+  @override
+  String get liabilityTypeCreditCard => 'کارت اعتباری';
+
+  @override
+  String get liabilityTypeLineOfCredit => 'خط اعتباری';
+
+  @override
+  String get liabilityTypeMortgage => 'وام مسکن';
+
+  @override
+  String get liabilityTypeOther => 'دیگر';
+
+  @override
+  String get liabilityTypePersonalLoan => 'وام شخصی';
+
+  @override
+  String get liabilityTypeStudentLoan => 'وام دانشجویی';
+
+  @override
+  String get about => 'درباره';
+
+  @override
+  String get account => 'حساب';
+
+  @override
+  String get accountDeletedSuccessfully => 'حساب با موفقیت حذف شد';
+
+  @override
+  String get accountsPlural => 'حساب‌ها';
+
+  @override
+  String get addIncomeSource => 'افزودن منبع درآمد';
+
+  @override
+  String get addLiability => 'افزودن بدهی';
+
+  @override
+  String get addNewAccount => 'افزودن حساب جدید';
+
+  @override
+  String get addYourFirstIncomeSource =>
+      'اولین منبع درآمد خود را برای پیگیری جریان نقدی اضافه کنید';
+
+  @override
+  String get addYourFirstLiability =>
+      'اولین بدهی خود را برای پیگیری بدهی‌ها اضافه کنید';
+
+  @override
+  String get allocationTargets => 'اهداف تخصیص';
+
+  @override
+  String get allocationTargetsDescription =>
+      'درصدهای تخصیص دارایی هدف خود را تنظیم کنید';
+
+  @override
+  String get allPayments => 'همه پرداخت‌ها';
+
+  @override
+  String get alternatives => 'جایگزین‌ها';
+
+  @override
+  String get amountCannotBeNegative => 'مبلغ نمی‌تواند منفی باشد';
+
+  @override
+  String get annualInterestCost => 'هزینه سود سالانه';
+
+  @override
+  String get appInfoAndDisclaimers => 'اطلاعات برنامه و سلب مسئولیت';
+
+  @override
+  String get apr => 'APR';
+
+  @override
+  String get arabic => 'عربی';
+
+  @override
+  String get areYouSureDeleteAccount =>
+      'آیا مطمئن هستید که می‌خواهید این حساب را حذف کنید؟';
+
+  @override
+  String get areYouSureDeleteIncome =>
+      'آیا مطمئن هستید که می‌خواهید این منبع درآمد را حذف کنید؟';
+
+  @override
+  String get areYouSureExit => 'آیا مطمئن هستید که می‌خواهید خارج شوید؟';
+
+  @override
+  String get assetAllocationDescription =>
+      'برای مدیریت ریسک در کلاس‌های دارایی متنوع سازی کنید';
+
+  @override
+  String get avgInterestRate => 'نرخ بهره متوسط';
+
+  @override
+  String get backToDashboard => 'بازگشت به داشبورد';
+
+  @override
+  String get backToSnapshot => 'بازگشت به اسنپ‌شات';
+
+  @override
+  String get backupRestoreData => 'پشتیبان‌گیری و بازیابی داده';
+
+  @override
+  String get balanced => 'متعادل';
+
+  @override
+  String get bengali => 'بنگالی';
+
+  @override
+  String get bondsAndFixedIncome => 'اوراق قرضه و درآمد ثابت';
+
+  @override
+  String get budgetAndPlanning => 'بودجه و برنامه‌ریزی';
+
+  @override
+  String get budgetAndPlanningDescription =>
+      'هزینه‌ها را پیگیری کنید و برای اهداف برنامه‌ریزی کنید';
+
+  @override
+  String get cap => 'سقف';
+
+  @override
+  String get cashAndCashEquivalents => 'نقد و معادل نقد';
+
+  @override
+  String get chooseColorScheme => 'طرح رنگ را انتخاب کنید';
+
+  @override
+  String get chooseLanguage => 'زبان را انتخاب کنید';
+
+  @override
+  String get closeApplication => 'بستن برنامه';
+
+  @override
+  String get colorAmber => 'کهربایی';
+
+  @override
+  String get colorBlue => 'آبی';
+
+  @override
+  String get colorGreen => 'سبز';
+
+  @override
+  String get colorIndigo => 'نیلی';
+
+  @override
+  String get colorOrange => 'نارنجی';
+
+  @override
+  String get colorPink => 'صورتی';
+
+  @override
+  String get colorPurple => 'بنفش';
+
+  @override
+  String get colorRed => 'قرمز';
+
+  @override
+  String get colorTeal => 'فیروزه‌ای';
+
+  @override
+  String get componentConcentration => 'تمرکز';
+
+  @override
+  String get componentDebtLoad => 'بار بدهی';
+
+  @override
+  String get componentFixedIncome => 'درآمد ثابت';
+
+  @override
+  String get componentHomeBias => 'تعصب داخلی';
+
+  @override
+  String get componentLiquidity => 'نقدینگی';
+
+  @override
+  String get controlInternationalExposure =>
+      'کنترل قرار گرفتن در معرض بین‌المللی';
+
+  @override
+  String get creditLimit => 'حد اعتباری';
+
+  @override
+  String get creditLimitCannotBeLessThanBalance =>
+      'حد اعتباری نمی‌تواند کمتر از موجودی فعلی باشد';
+
+  @override
+  String get creditUtilization => 'استفاده از اعتبار';
+
+  @override
+  String get dayOfEachMonth => 'روز هر ماه';
+
+  @override
+  String get debt => 'بدهی';
+
+  @override
+  String get debtsAndLiabilities => 'بدهی‌ها و تعهدات';
+
+  @override
+  String get debtsPlural => 'بدهی‌ها';
+
+  @override
+  String get defaultPolicyPenalizeLargeDeviations =>
+      'سیاست پیش‌فرض: انحرافات بزرگ از اهداف را جریمه کنید';
+
+  @override
+  String get deleteAccount => 'حذف حساب';
+
+  @override
+  String get deletedSuccessfully => 'با موفقیت حذف شد';
+
+  @override
+  String get deleteIncomeSource => 'حذف منبع درآمد';
+
+  @override
+  String get discard => 'لغو';
+
+  @override
+  String get displayInCurrency => 'نمایش به ارز';
+
+  @override
+  String get editIncome => 'ویرایش درآمد';
+
+  @override
+  String get editLiability => 'ویرایش بدهی';
+
+  @override
+  String get english => 'انگلیسی';
+
+  @override
+  String get enterMinPayment => 'حداقل پرداخت را وارد کنید';
+
+  @override
+  String get enterMonthlyEssentials => 'ضروریات ماهانه را وارد کنید';
+
+  @override
+  String get enterTargetPercentage => 'درصد هدف را وارد کنید';
+
+  @override
+  String get enterValidAmount => 'مبلغ معتبر وارد کنید';
+
+  @override
+  String get enterValidNumber => 'عدد معتبر وارد کنید';
+
+  @override
+  String get enterValidPayment => 'پرداخت معتبر وارد کنید';
+
+  @override
+  String get errorDeletingAccount => 'خطا در حذف حساب';
+
+  @override
+  String get errorLoadingAccounts => 'خطا در بارگذاری حساب‌ها';
+
+  @override
+  String get errorLoadingLiabilities => 'خطا در بارگذاری بدهی‌ها';
+
+  @override
+  String get excludeInternationalExposure =>
+      'قرار گرفتن در معرض بین‌المللی را حذف کنید';
+
+  @override
+  String get exit => 'خروج';
+
+  @override
+  String get exitApp => 'خروج از برنامه';
+
+  @override
+  String get filteredFromSnapshot => 'فیلتر شده از اسنپ‌شات';
+
+  @override
+  String get financialScore => 'امتیاز مالی';
+
+  @override
+  String get frequencyAnnual => 'سالانه';
+
+  @override
+  String get frequencyAnnually => 'به صورت سالانه';
+
+  @override
+  String get frequencyBiWeekly => 'دو هفته یکبار';
+
+  @override
+  String get frequencyBiweekly => 'دو هفته یکبار';
+
+  @override
+  String get frequencyDaily => 'روزانه';
+
+  @override
+  String get frequencyHourly => 'ساعتی';
+
+  @override
+  String get frequencyMonthly => 'ماهانه';
+
+  @override
+  String get frequencyQuarterly => 'فصلی';
+
+  @override
+  String get frequencySemiMonthly => 'نیم‌ماهانه';
+
+  @override
+  String get frequencyWeekly => 'هفتگی';
+
+  @override
+  String get goBack => 'بازگشت';
+
+  @override
+  String get gotIt => 'متوجه شدم';
+
+  @override
+  String get help => 'راهنما';
+
+  @override
+  String get helpAllocationTargetsText =>
+      'درصدهای هدف را برای هر کلاس دارایی تنظیم کنید. برنامه هنگامی که تخصیص واقعی شما خیلی از این اهداف منحرف شود به شما هشدار می‌دهد.';
+
+  @override
+  String get helpAllocationTargetsTitle => 'راهنمای اهداف تخصیص';
+
+  @override
+  String get helpMonthlyEssentialsText =>
+      'هزینه‌های ضروری ماهانه خود را وارد کنید (اجاره، آب و برق، مواد غذایی و غیره). این به محاسبه هدف صندوق اضطراری شما کمک می‌کند.';
+
+  @override
+  String get helpMonthlyEssentialsTitle => 'راهنمای ضروریات ماهانه';
+
+  @override
+  String get helpRiskProfileText =>
+      'یک پروفایل ریسک انتخاب کنید که با اهداف سرمایه‌گذاری و افق زمانی شما مطابقت داشته باشد. محافظه‌کارانه اوراق قرضه و نقد را ترجیح می‌دهد، رشد سهام را ترجیح می‌دهد، متعادل بین آنهاست.';
+
+  @override
+  String get helpRiskProfileTitle => 'راهنمای پروفایل ریسک';
+
+  @override
+  String get hindi => 'هندی';
+
+  @override
+  String get howWeProtectData => 'چگونه از داده‌های شما محافظت می‌کنیم';
+
+  @override
+  String get importAccountsDebtsIncome => 'وارد کردن حساب‌ها، بدهی‌ها و درآمد';
+
+  @override
+  String get importAndExport => 'وارد کردن و خروجی';
+
+  @override
+  String get importCSV => 'وارد کردن CSV';
+
+  @override
+  String get income1099 => 'درآمد 1099';
+
+  @override
+  String get incomeBonus => 'پاداش';
+
+  @override
+  String get incomeFreelance => 'آزاد';
+
+  @override
+  String get incomeInvestment => 'سرمایه‌گذاری';
+
+  @override
+  String get incomePension => 'بازنشستگی';
+
+  @override
+  String get incomeRental => 'اجاره';
+
+  @override
+  String get incomeSalary => 'حقوق';
+
+  @override
+  String get incomeSocialSecurity => 'تامین اجتماعی';
+
+  @override
+  String get incomeSourceAdded => 'منبع درآمد اضافه شد';
+
+  @override
+  String get incomeSourceDeleted => 'منبع درآمد حذف شد';
+
+  @override
+  String get incomeSourceUpdated => 'منبع درآمد به‌روزرسانی شد';
+
+  @override
+  String get incomeW2 => 'درآمد W-2';
+
+  @override
+  String get internationalEquity => 'سهام بین‌المللی';
+
+  @override
+  String get intlEquity => 'سهام بین‌المللی';
+
+  @override
+  String get justNow => 'همین الان';
+
+  @override
+  String get lastPayment => 'آخرین پرداخت';
+
+  @override
+  String get legalTermsAndConditions => 'شرایط و ضوابط قانونی';
+
+  @override
+  String get lessPunitive => 'کمتر مجازات‌آمیز';
+
+  @override
+  String get liabilityDetails => 'جزئیات بدهی';
+
+  @override
+  String get liabilityName => 'نام بدهی';
+
+  @override
+  String get liabilityNameHint => 'به عنوان مثال، Chase Visa، وام دانشجویی';
+
+  @override
+  String get liabilitySavedSuccessfully => 'بدهی با موفقیت ذخیره شد';
+
+  @override
+  String get light => 'روشن';
+
+  @override
+  String get minPayment => 'حداقل پرداخت';
+
+  @override
+  String get monthlyEssentialExpenses => 'هزینه‌های ضروری ماهانه';
+
+  @override
+  String get monthlyEssentialsHelper =>
+      'هزینه‌های ضروری ماهانه خود را وارد کنید';
+
+  @override
+  String get monthlyEssentialsHelperUSD =>
+      'به عنوان مثال، 3000 دلار برای اجاره، آب و برق، مواد غذایی';
+
+  @override
+  String get monthlyInterest => 'سود ماهانه';
+
+  @override
+  String get monthlyPaymentDay => 'روز پرداخت ماهانه';
+
+  @override
+  String get monthlyPayments => 'پرداخت‌های ماهانه';
+
+  @override
+  String get net => 'خالص';
+
+  @override
+  String get netIncome => 'درآمد خالص';
+
+  @override
+  String get nextPaymentDueDate => 'تاریخ سررسید پرداخت بعدی';
+
+  @override
+  String get noDebtsTracked => 'هنوز بدهی ردیابی نشده است';
+
+  @override
+  String get noIncomeSourcesYet => 'هنوز منبع درآمدی وجود ندارد';
+
+  @override
+  String get noPaymentsRecordedYet => 'هنوز پرداختی ثبت نشده است';
+
+  @override
+  String get offMute => 'خاموش/بی‌صدا';
+
+  @override
+  String get optimizePayoffStrategy => 'بهینه‌سازی استراتژی پرداخت';
+
+  @override
+  String get paymentHistory => 'تاریخچه پرداخت';
+
+  @override
+  String get paymentSchedule => 'برنامه پرداخت';
+
+  @override
+  String get paymentsWillAppearHere => 'پرداخت‌ها اینجا نمایش داده می‌شوند';
+
+  @override
+  String get percentageMustBeBetween => 'درصد باید بین 0 و 100 باشد';
+
+  @override
+  String get persian => 'فارسی';
+
+  @override
+  String get pleaseEnterAPR => 'لطفاً APR را وارد کنید';
+
+  @override
+  String get pleaseEnterCurrentBalance => 'لطفاً موجودی فعلی را وارد کنید';
+
+  @override
+  String get pleaseEnterLiabilityName => 'لطفاً نام بدهی را وارد کنید';
+
+  @override
+  String get pleaseEnterValidAPR => 'لطفاً یک APR معتبر وارد کنید';
+
+  @override
+  String get pleaseEnterValidCreditLimit =>
+      'لطفاً یک حد اعتباری معتبر وارد کنید';
+
+  @override
+  String get privacyPolicy => 'سیاست حریم خصوصی';
+
+  @override
+  String get proFeature => 'ویژگی پرو';
+
+  @override
+  String get proStatus => 'وضعیت پرو';
+
+  @override
+  String get pts => 'امتیاز';
+
+  @override
+  String get quickStats => 'آمار سریع';
+
+  @override
+  String get realEstateREITs => 'املاک و REITs';
+
+  @override
+  String get requestLanguage => 'درخواست زبان';
+
+  @override
+  String get retry => 'تلاش مجدد';
+
+  @override
+  String get riskBalanced => 'متعادل';
+
+  @override
+  String get riskBalancedAllocation => '60% سهام، 35% اوراق قرضه، 5% نقد';
+
+  @override
+  String get riskBalancedDescription => 'رشد متوسط با مقداری ثبات';
+
+  @override
+  String get riskConservative => 'محافظه‌کارانه';
+
+  @override
+  String get riskConservativeAllocation => '30% سهام، 50% اوراق قرضه، 20% نقد';
+
+  @override
+  String get riskConservativeDescription => 'اولویت دادن به ثبات و حفظ سرمایه';
+
+  @override
+  String get riskGrowth => 'رشد';
+
+  @override
+  String get riskGrowthAllocation => '80% سهام، 15% اوراق قرضه، 5% نقد';
+
+  @override
+  String get riskGrowthDescription => 'به حداکثر رساندن پتانسیل رشد بلندمدت';
+
+  @override
+  String get riskProfile => 'پروفایل ریسک';
+
+  @override
+  String get riskProfileDescription =>
+      'تحمل ریسک سرمایه‌گذاری خود را انتخاب کنید';
+
+  @override
+  String get saveChanges => 'ذخیره تغییرات';
+
+  @override
+  String get selectNextPaymentDueDate =>
+      'تاریخ سررسید پرداخت بعدی را انتخاب کنید';
+
+  @override
+  String get sendFeedback => 'ارسال بازخورد';
+
+  @override
+  String get setTargetsAndThresholds => 'تنظیم اهداف و آستانه‌ها';
+
+  @override
+  String get settingsSavedSuccessfully => 'تنظیمات با موفقیت ذخیره شد';
+
+  @override
+  String get shareThoughtsAndSuggestions =>
+      'افکار و پیشنهادات خود را به اشتراک بگذارید';
+
+  @override
+  String get showAll => 'نمایش همه';
+
+  @override
+  String get source => 'منبع';
+
+  @override
+  String get sources => 'منابع';
+
+  @override
+  String get stable => 'پایدار';
+
+  @override
+  String get standard => 'استاندارد';
+
+  @override
+  String get tapToSelectDate => 'برای انتخاب تاریخ ضربه بزنید';
+
+  @override
+  String get targetsAndAlerts => 'اهداف و هشدارها';
+
+  @override
+  String get targetsAndAlertsHelp => 'راهنمای اهداف و هشدارها';
+
+  @override
+  String get taxRate => 'نرخ مالیات';
+
+  @override
+  String get termsOfService => 'شرایط خدمات';
+
+  @override
+  String get testingAsFreeUser => 'آزمایش به عنوان کاربر رایگان';
+
+  @override
+  String get testingAsProUser => 'آزمایش به عنوان کاربر پرو';
+
+  @override
+  String get timeframe30d => '30 روز';
+
+  @override
+  String get totalAllocation => 'کل تخصیص';
+
+  @override
+  String get totalDebt => 'کل بدهی';
+
+  @override
+  String get totalMonthlyIncome => 'کل درآمد ماهانه';
+
+  @override
+  String get totalPaid => 'کل پرداخت شده';
+
+  @override
+  String get totalPayments => 'کل پرداخت‌ها';
+
+  @override
+  String get trackCreditCardsAndLoans => 'پیگیری کارت‌های اعتباری و وام‌ها';
+
+  @override
+  String get trackYourIncomeSources => 'منابع درآمد خود را پیگیری کنید';
+
+  @override
+  String get trackYourNetWorth => 'ارزش خالص خود را پیگیری کنید';
+
+  @override
+  String get trend => 'روند';
+
+  @override
+  String get unlockAdvancedFeatures => 'باز کردن ویژگی‌های پیشرفته';
+
+  @override
+  String get unsavedChanges => 'تغییرات ذخیره نشده';
+
+  @override
+  String get unsavedChangesMessage =>
+      'شما تغییرات ذخیره نشده دارید. آیا می‌خواهید آنها را لغو کنید؟';
+
+  @override
+  String get updateAccount => 'به‌روزرسانی حساب';
+
+  @override
+  String get updateLiability => 'به‌روزرسانی بدهی';
+
+  @override
+  String get used => 'استفاده شده';
+
+  @override
+  String get useDarkTheme => 'استفاده از تم تیره';
+
+  @override
+  String get usEquity => 'سهام آمریکا';
+
+  @override
+  String get usEquityTarget => 'هدف سهام آمریکا';
+
+  @override
+  String get usEquityTargetHelper => 'درصد هدف برای سهام آمریکا';
+
+  @override
+  String get view => 'مشاهده';
+
+  @override
+  String get viewAllAccounts => 'مشاهده همه حساب‌ها';
+
+  @override
+  String get whatTypesOfDebt => 'چه نوع بدهی‌هایی را می‌توانید پیگیری کنید؟';
+
+  @override
+  String get why => 'چرا';
+
+  @override
+  String cutConcentration(String details) {
+    return 'کاهش تمرکز: $details';
+  }
+
+  @override
+  String errorSavingIncome(String error) {
+    return 'خطا در ذخیره درآمد: $error';
+  }
+
+  @override
+  String deleteIncomeConfirm(String name) {
+    return 'آیا مطمئن هستید که می‌خواهید $name را حذف کنید؟';
+  }
+
+  @override
+  String errorLoadingSettings(String error) {
+    return 'خطا در بارگذاری تنظیمات: $error';
+  }
+
+  @override
+  String failedToSaveSettings(String error) {
+    return 'ذخیره تنظیمات انجام نشد: $error';
+  }
+
+  @override
+  String dayOfMonth(String day) {
+    return 'روز ماه: $day';
+  }
+
+  @override
+  String errorLoadingIncome(String error) {
+    return 'خطا در بارگذاری درآمد: $error';
+  }
+
+  @override
+  String errorDeletingIncome(String error) {
+    return 'خطا در حذف درآمد: $error';
+  }
+
+  @override
+  String get mixAndDials => 'ترکیب و صفحه‌ها';
+
+  @override
+  String errorLoadingDataWithError(String error) {
+    return 'خطا در بارگذاری داده: $error';
+  }
+
+  @override
+  String errorLoadingDebtData(String error) {
+    return 'خطا در بارگذاری داده‌های بدهی: $error';
+  }
+
+  @override
+  String get noDataAvailable => 'داده‌ای در دسترس نیست';
+
+  @override
+  String get dollarCostAveragingCalculations => 'محاسبات میانگین هزینه دلار';
+
+  @override
+  String get primarySecondaryRebalancingTargets =>
+      'اهداف تعادل مجدد اولیه/ثانویه';
+
+  @override
+  String get timelineWithMonitoringAlerts => 'جدول زمانی با هشدارهای نظارتی';
+
+  @override
+  String get adjustTargetAllocation => 'تنظیم تخصیص هدف';
+
+  @override
+  String get savePlan => 'ذخیره طرح';
+
+  @override
+  String get previewPdf => 'پیش‌نمایش PDF';
+
+  @override
+  String get back => 'برگشت';
+
+  @override
+  String get aboutMixAndDials => 'درباره ترکیب و صفحه‌ها';
+
+  @override
+  String get mixAndDialsDescription =>
+      'این صفحه تحلیل مفصلی از پورتفولیو شما ارائه می‌دهد:';
+
+  @override
+  String get assetAllocationBreakdown =>
+      '• تخصیص دارایی - تفکیک بصری سرمایه‌گذاری‌های شما';
+
+  @override
+  String get diversificationDials => '• صفحه‌های تنوع - توزیع ریسک و جغرافیایی';
+
+  @override
+  String get rebalancingPlansRecommendations =>
+      '• طرح‌های تعادل مجدد - پیشنهادات قابل اجرا';
+
+  @override
+  String get rebalancingPlanSavedSuccessfully =>
+      'طرح تعادل مجدد با موفقیت ذخیره شد!';
+
+  @override
+  String get planSaved => 'طرح ذخیره شد';
+
+  @override
+  String get ok => 'تأیید';
+
+  @override
+  String get pdfPreview => 'پیش‌نمایش PDF';
+
+  @override
+  String get close => 'بستن';
+
+  @override
+  String get pdfExportFeatureComingSoon => 'ویژگی صادرات PDF به زودی!';
+
+  @override
+  String get downloadPdf => 'دانلود PDF';
+
+  @override
+  String get maybeLater => 'شاید بعداً';
+
+  @override
+  String errorLoadingAccountsWithError(String error) {
+    return 'خطا در بارگذاری حساب‌ها: $error';
+  }
+
+  @override
+  String get gettingStartedGuide => 'راهنمای شروع';
+
+  @override
+  String get previewWithSampleData => 'پیش‌نمایش با داده نمونه';
+
+  @override
+  String get archiveAccount => 'بایگانی حساب';
+
+  @override
+  String get archived => 'بایگانی شده';
+
+  @override
+  String get archive => 'بایگانی';
+
+  @override
+  String get loadSampleData => 'بارگذاری داده نمونه';
+
+  @override
+  String get sampleDataLoaded => 'داده نمونه بارگذاری شد!';
+
+  @override
+  String get load => 'بارگذاری';
+
+  @override
+  String get viewAccountsWithUsEquity => 'مشاهده حساب‌ها با سهام آمریکا';
+
+  @override
+  String get learnMore => 'بیشتر بدانید';
+
+  @override
+  String get riskNudgeSnoozed => 'یادآوری ریسک برای 30 روز به تعویق افتاد';
+
+  @override
+  String get riskMarkedAsResolved => 'ریسک به عنوان حل شده علامت‌گذاری شد';
+
+  @override
+  String get howWeCalculateThis => 'چگونه این را محاسبه می‌کنیم';
+
+  @override
+  String get yourFinancialHealthScoreBasedOn =>
+      'امتیاز سلامت مالی شما بر اساس:';
+
+  @override
+  String get concentrationRiskPercent => '• ریسک تمرکز (30%)';
+
+  @override
+  String get fixedIncomeBalancePercent => '• تعادل درآمد ثابت (25%)';
+
+  @override
+  String get liquidityBufferPercent => '• بافر نقدینگی (20%)';
+
+  @override
+  String get internationalExposurePercent =>
+      '• قرار گرفتن در معرض بین‌المللی (15%)';
+
+  @override
+  String get debtManagementPercent => '• مدیریت بدهی (10%)';
+
+  @override
+  String get addAccounts => 'افزودن حساب‌ها';
+
+  @override
+  String get addMonthlyEssentials => 'افزودن ملزومات ماهانه';
+
+  @override
+  String get noTrendDataAvailable => 'داده‌های روند در دسترس نیست';
+
+  @override
+  String get exportPdfReport => 'صدور گزارش PDF';
+
+  @override
+  String get saveAsSnapshot => 'ذخیره به عنوان اسنپ‌شات';
+
+  @override
+  String get viewScoreHistory => 'مشاهده تاریخچه امتیاز';
+
+  @override
+  String get compare => 'مقایسه';
+
+  @override
+  String get create => 'ایجاد';
+
+  @override
+  String get saved => 'ذخیره شد';
+
+  @override
+  String failedToCreateSnapshot(String error) {
+    return 'ایجاد اسنپ‌شات ناموفق بود: $error';
+  }
+
+  @override
+  String get snapshotDetail => 'جزئیات اسنپ‌شات';
+
+  @override
+  String get snapshotNote => 'یادداشت اسنپ‌شات';
+
+  @override
+  String savedToDownloads(String filename) {
+    return 'ذخیره شده در Downloads/$filename';
+  }
+
+  @override
+  String downloadFailed(String error) {
+    return 'دانلود ناموفق بود: $error';
+  }
+
+  @override
+  String isAvailableWithRebalancePro(String feature) {
+    return '$feature با Rebalance Pro در دسترس است.';
+  }
+
+  @override
+  String get startCompare => 'شروع مقایسه';
+
+  @override
+  String get selectThisAsStartingPoint =>
+      'این را به عنوان نقطه شروع برای مقایسه انتخاب کنید';
+
+  @override
+  String get deleteSnapshot => 'اسنپ‌شات حذف شود؟';
+
+  @override
+  String failedToDeleteSnapshot(String error) {
+    return 'حذف اسنپ‌شات ناموفق بود: $error';
+  }
+
+  @override
+  String get unlockTaxOptimization => 'باز کردن بهینه‌سازی مالیات';
+
+  @override
+  String get estimatedAnnualTaxSavings => 'صرفه‌جویی مالیاتی سالانه تخمینی';
+
+  @override
+  String potentialSavings(String amount) {
+    return 'صرفه‌جویی بالقوه: $amount / سال';
+  }
+
+  @override
+  String get yourAssetsAreAlreadyTaxEfficient =>
+      'دارایی‌های شما از قبل به صورت کارآمد از نظر مالیاتی قرار دارند. 👍';
+
+  @override
+  String get suggestedReallocation => 'تخصیص مجدد پیشنهادی';
+
+  @override
+  String get assumptionsAndMethodology => 'فرضیات و روش‌شناسی';
+
+  @override
+  String get enableNotifications => 'فعال‌سازی اعلان‌ها';
+
+  @override
+  String get getAlertsAboutDrift =>
+      'دریافت هشدار درباره انحراف و فرصت‌های تعادل مجدد';
+
+  @override
+  String get set => 'تنظیم';
+
+  @override
+  String get howItWorks => 'چگونه کار می‌کند';
+
+  @override
+  String get averageAnnualReturn => '• میانگین بازدهی سالانه: 7%';
+
+  @override
+  String get marketVolatility => '• نوسانات بازار: 15%';
+
+  @override
+  String get inflationRate => '• تورم: 3% در سال';
+
+  @override
+  String get noDebtsToOptimize => 'بدهی برای بهینه‌سازی وجود ندارد!';
+
+  @override
+  String get addLiabilitiesFromTab =>
+      'برای استفاده از این ابزار، بدهی‌ها را از تب بدهی‌ها اضافه کنید.';
+
+  @override
+  String get currentDebt => 'بدهی فعلی';
+
+  @override
+  String liabilityCount(int count, String minPayment) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'بدهی',
+      one: 'بدهی',
+    );
+    return '$count $_temp0 • $minPayment/ماه حداقل';
+  }
+
+  @override
+  String get extraMonthlyPayment => 'پرداخت اضافی ماهانه';
+
+  @override
+  String totalMonthlyPayment(String amount) {
+    return 'کل پرداخت ماهانه: $amount';
+  }
+
+  @override
+  String get payoffStrategies => 'استراتژی‌های بازپرداخت';
+
+  @override
+  String get strategyRecommendation =>
+      'ما گزینه با بهره کل کمتر را توصیه می‌کنیم. شما همچنان می‌توانید دیگری را برای برد‌های انگیزشی انتخاب کنید.';
+
+  @override
+  String get avalanche => 'بهمن';
+
+  @override
+  String get avalancheRecommended => 'بهمن (توصیه شده)';
+
+  @override
+  String get avalancheDescription =>
+      'بالاترین نرخ بهره اول – بهره کل را کاهش می‌دهد';
+
+  @override
+  String get snowball => 'گلوله برفی';
+
+  @override
+  String get snowballRecommended => 'گلوله برفی (توصیه شده)';
+
+  @override
+  String get snowballDescription =>
+      'کوچکترین مانده اول – برد‌های روانی سریع‌تر';
+
+  @override
+  String get unlockDetailedPayoffSchedule => 'باز کردن برنامه بازپرداخت تفصیلی';
+
+  @override
+  String get monthByMonthBreakdown =>
+      'تفکیک ماه‌به‌ماه پرداخت دریافت کنید که نشان می‌دهد:';
+
+  @override
+  String get exactPayoffDate => 'تاریخ دقیق بازپرداخت برای هر بدهی';
+
+  @override
+  String get principalVsInterest => 'تفکیک اصل در مقابل بهره';
+
+  @override
+  String get remainingBalanceTracking => 'ردیابی مانده باقیمانده';
+
+  @override
+  String totalInterestSaved(String amount) {
+    return 'کل بهره صرفه‌جویی شده: $amount';
+  }
+
+  @override
+  String get debtPayoffOrder => 'ترتیب بازپرداخت بدهی';
+
+  @override
+  String debtsWillBePaidInOrder(String strategy) {
+    return 'بدهی‌ها به این ترتیب پرداخت خواهند شد (استراتژی $strategy):';
+  }
+
+  @override
+  String get paidOff => 'پرداخت شده';
+
+  @override
+  String get payoffTime => 'زمان بازپرداخت';
+
+  @override
+  String monthsCount(int count) {
+    return '$count ماه';
+  }
+
+  @override
+  String get totalInterest => 'کل بهره';
+
+  @override
+  String saveVsMinimum(String amount) {
+    return 'صرفه‌جویی $amount در مقابل حداقل پرداخت‌ها';
+  }
+
+  @override
+  String get detailedPaymentSchedule => 'برنامه پرداخت تفصیلی';
+
+  @override
+  String monthByMonthStrategy(String strategy) {
+    return 'تفکیک ماه‌به‌ماه (استراتژی $strategy):';
+  }
+
+  @override
+  String monthNumber(int number) {
+    return 'ماه $number';
+  }
+
+  @override
+  String principalAndInterest(String principal, String interest) {
+    return '$principal اصل • $interest بهره';
+  }
+
+  @override
+  String remaining(String amount) {
+    return 'باقیمانده: $amount';
+  }
+
+  @override
+  String moreMonths(int count) {
+    return '... $count ماه دیگر';
+  }
+
+  @override
+  String get strategyComparison => 'مقایسه استراتژی';
+
+  @override
+  String strategySavingsComparison(
+      String strategy, String interestDiff, String monthsInfo) {
+    return '$strategy $interestDiff بهره بیشتر صرفه‌جویی می‌کند$monthsInfo در مقابل رویکرد دیگر.';
+  }
+
+  @override
+  String andFinishesEarlier(int months, String plural) {
+    return ' و $months ماه$plural زودتر به پایان می‌رسد';
+  }
+
+  @override
+  String get unlockDebtPayoffOptimizer => 'باز کردن بهینه‌ساز بازپرداخت بدهی';
+
+  @override
+  String get fastestPathToDebtFreedom =>
+      'سریع‌ترین مسیر به آزادی از بدهی را پیدا کنید';
+
+  @override
+  String get compareAvalancheSnowball =>
+      'استراتژی‌های بهمن در مقابل گلوله برفی را مقایسه کنید';
+
+  @override
+  String get seeExactPayoffDates =>
+      'تاریخ‌های دقیق بازپرداخت برای هر بدهی را ببینید';
+
+  @override
+  String get calculateInterestSavings => 'کل صرفه‌جویی بهره را محاسبه کنید';
+
+  @override
+  String get getMonthlySchedule => 'برنامه پرداخت ماه‌به‌ماه دریافت کنید';
+
+  @override
+  String get best => 'بهترین';
+
+  @override
+  String get selected => 'انتخاب شده';
+
+  @override
+  String get selectStrategy => 'استراتژی انتخاب کنید';
+
+  @override
+  String get typesOfDebtYouCanTrack => 'انواع بدهی که می‌توانید ردیابی کنید';
+
+  @override
+  String get creditCardsDescription =>
+      '• کارت‌های اعتباری - ردیابی موجودی و استفاده از اعتبار';
+
+  @override
+  String get mortgagesDescription => '• رهن - وام‌های مسکن و تأمین مجدد مالی';
+
+  @override
+  String get autoLoansDescription =>
+      '• وام‌های خودرو - تأمین مالی خودرو و وسیله نقلیه';
+
+  @override
+  String get studentLoansDescription => '• وام‌های دانشجویی - بدهی تحصیلی';
+
+  @override
+  String get personalLoansDescription => '• وام‌های شخصی - بدهی بدون وثیقه';
+
+  @override
+  String get helocDescription => '• HELOC - خطوط اعتباری سهام مسکن';
+
+  @override
+  String get businessLoansDescription => '• وام‌های تجاری - بدهی تجاری';
 }

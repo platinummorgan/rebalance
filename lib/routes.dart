@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'generated/app_localizations.dart';
 import 'app.dart';
 import 'features/onboarding/onboarding_screen.dart';
 import 'features/dashboard/dashboard_screen.dart';
@@ -265,37 +266,38 @@ class MainShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       body: child,
       bottomNavigationBar: NavigationBar(
         selectedIndex: _getSelectedIndex(context),
         onDestinationSelected: (index) =>
             _onDestinationSelected(context, index),
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.dashboard_outlined),
-            selectedIcon: Icon(Icons.dashboard),
-            label: 'Dashboard',
+            icon: const Icon(Icons.dashboard_outlined),
+            selectedIcon: const Icon(Icons.dashboard),
+            label: loc.dashboard,
           ),
           NavigationDestination(
-            icon: Icon(Icons.attach_money),
-            selectedIcon: Icon(Icons.attach_money),
-            label: 'Income',
+            icon: const Icon(Icons.attach_money),
+            selectedIcon: const Icon(Icons.attach_money),
+            label: loc.income,
           ),
           NavigationDestination(
-            icon: Icon(Icons.account_balance_wallet_outlined),
-            selectedIcon: Icon(Icons.account_balance_wallet),
-            label: 'Accounts',
+            icon: const Icon(Icons.account_balance_wallet_outlined),
+            selectedIcon: const Icon(Icons.account_balance_wallet),
+            label: loc.accounts,
           ),
           NavigationDestination(
-            icon: Icon(Icons.credit_card_outlined),
-            selectedIcon: Icon(Icons.credit_card),
-            label: 'Debts',
+            icon: const Icon(Icons.credit_card_outlined),
+            selectedIcon: const Icon(Icons.credit_card),
+            label: loc.debts,
           ),
           NavigationDestination(
-            icon: Icon(Icons.tune_outlined),
-            selectedIcon: Icon(Icons.tune),
-            label: 'Settings',
+            icon: const Icon(Icons.tune_outlined),
+            selectedIcon: const Icon(Icons.tune),
+            label: loc.settings,
           ),
         ],
       ),

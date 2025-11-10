@@ -124,9 +124,10 @@ class _CsvImportScreenState extends ConsumerState<CsvImportScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Import from CSV'),
+        title: Text(loc.importFromCSV),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -141,6 +142,7 @@ class _CsvImportScreenState extends ConsumerState<CsvImportScreen> {
   // ==================== INITIAL STATE ====================
 
   Widget _buildInitialState() {
+    final loc = AppLocalizations.of(context)!;
     return Center(
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -154,7 +156,7 @@ class _CsvImportScreenState extends ConsumerState<CsvImportScreen> {
             ),
             const SizedBox(height: 24),
             Text(
-              'Import Data from CSV',
+              loc.importDataFromCSV,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -162,7 +164,7 @@ class _CsvImportScreenState extends ConsumerState<CsvImportScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Select a CSV file containing Accounts, Liabilities, or Income to import.',
+              loc.selectCSVFileDescription,
               style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
@@ -170,7 +172,7 @@ class _CsvImportScreenState extends ConsumerState<CsvImportScreen> {
             ElevatedButton.icon(
               onPressed: _pickAndImportFile,
               icon: const Icon(Icons.folder_open),
-              label: const Text('Select CSV File'),
+              label: Text(loc.selectCSVFile),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 32,
@@ -187,6 +189,7 @@ class _CsvImportScreenState extends ConsumerState<CsvImportScreen> {
   }
 
   Widget _buildInstructions() {
+    final loc = AppLocalizations.of(context)!;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -194,28 +197,25 @@ class _CsvImportScreenState extends ConsumerState<CsvImportScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'CSV Format Requirements',
+              loc.csvFormatRequirements,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             const SizedBox(height: 12),
             _buildInstructionItem(
-              'Accounts',
-              'Required: name, balance, kind (or type)\n'
-                  'Optional: cash, bonds, us_equity, intl_equity, real_estate, alternatives',
+              loc.accountsLabel,
+              loc.accountsCSVFormat,
             ),
             const Divider(height: 24),
             _buildInstructionItem(
-              'Liabilities',
-              'Required: name, balance, apr, min_payment\n'
-                  'Optional: kind (or type), credit_limit',
+              loc.liabilitiesLabel,
+              loc.liabilitiesCSVFormat,
             ),
             const Divider(height: 24),
             _buildInstructionItem(
-              'Income',
-              'Required: name, gross (or grossAmount), frequency\n'
-                  'Optional: kind (or type), federal_tax, state_tax, etc.',
+              loc.incomeLabel,
+              loc.incomeCSVFormat,
             ),
           ],
         ),
@@ -249,6 +249,7 @@ class _CsvImportScreenState extends ConsumerState<CsvImportScreen> {
   // ==================== PREVIEW STATE ====================
 
   Widget _buildPreview() {
+    final loc = AppLocalizations.of(context)!;
     final result = _importResult!;
 
     return Column(
@@ -270,7 +271,7 @@ class _CsvImportScreenState extends ConsumerState<CsvImportScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Ready to Import',
+                          loc.readyToImport,
                           style:
                               Theme.of(context).textTheme.titleLarge?.copyWith(
                                     fontWeight: FontWeight.bold,
@@ -297,7 +298,7 @@ class _CsvImportScreenState extends ConsumerState<CsvImportScreen> {
               if (result.errors != null && result.errors!.isNotEmpty) ...[
                 const SizedBox(height: 8),
                 Text(
-                  '⚠️ ${result.errors!.length} rows had errors and were skipped',
+                  '⚠️ ${result.errors!.length} ${loc.rowsHadErrors}',
                   style: TextStyle(
                     color: Colors.orange[700],
                     fontWeight: FontWeight.w500,
@@ -463,6 +464,7 @@ class _CsvImportScreenState extends ConsumerState<CsvImportScreen> {
   // ==================== ERROR STATE ====================
 
   Widget _buildError() {
+    final loc = AppLocalizations.of(context)!;
     return Center(
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -476,7 +478,7 @@ class _CsvImportScreenState extends ConsumerState<CsvImportScreen> {
             ),
             const SizedBox(height: 24),
             Text(
-              'Import Error',
+              loc.importError,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.red[700],
@@ -485,7 +487,7 @@ class _CsvImportScreenState extends ConsumerState<CsvImportScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              _importResult!.errorMessage ?? 'Unknown error occurred',
+              _importResult!.errorMessage ?? loc.unknownError,
               style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
@@ -501,7 +503,7 @@ class _CsvImportScreenState extends ConsumerState<CsvImportScreen> {
                 ElevatedButton.icon(
                   onPressed: _pickAndImportFile,
                   icon: const Icon(Icons.refresh),
-                  label: const Text('Try Again'),
+                  label: Text(loc.tryAgain),
                 ),
               ],
             ),

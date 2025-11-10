@@ -27,17 +27,18 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     final accountsAsync = ref.watch(accountsProvider);
     final settingsAsync = ref.watch(settingsProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Rebalancing Plan'),
+        title: Text(loc.rebalancingPlan),
         actions: [
           IconButton(
             icon: const Icon(Icons.help_outline),
             onPressed: () => _showRebalancingGuide(context),
-            tooltip: 'Rebalancing Guide',
+            tooltip: loc.rebalancingGuide,
           ),
         ],
       ),
@@ -53,7 +54,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
               const SizedBox(height: 16),
               FilledButton(
                 onPressed: () => context.pop(),
-                child: const Text('Go Back'),
+                child: Text(loc.goBack),
               ),
             ],
           ),
@@ -88,6 +89,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
   }
 
   Widget _buildEmptyState(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -102,14 +104,14 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
             ),
             const SizedBox(height: 24),
             Text(
-              'No Accounts Yet',
+              loc.noAccountsYet,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             const SizedBox(height: 12),
             Text(
-              'Add your investment accounts to generate a personalized rebalancing plan.',
+              loc.addAccountsForRebalancing,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -119,7 +121,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
             FilledButton.icon(
               onPressed: () => context.push('/accounts/add'),
               icon: const Icon(Icons.add),
-              label: Text(AppLocalizations.of(context)!.addAccount),
+              label: Text(loc.addAccount),
             ),
           ],
         ),
@@ -128,6 +130,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
   }
 
   Widget _buildProUpgradePrompt(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -141,14 +144,14 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
             ),
             const SizedBox(height: 24),
             Text(
-              'Pro Feature',
+              loc.proFeature,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             const SizedBox(height: 12),
             Text(
-              'Interactive rebalancing plans with customizable strategies, execution tracking, and PDF export.',
+              loc.rebalancingPlanProDescription,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -162,7 +165,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                 ),
               ),
               icon: const Icon(Icons.star),
-              label: Text(AppLocalizations.of(context)!.upgradeToProTitle),
+              label: Text(loc.upgradeToProTitle),
               style: FilledButton.styleFrom(
                 backgroundColor: Colors.amber.shade600,
                 foregroundColor: Colors.black,
@@ -171,7 +174,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
             const SizedBox(height: 16),
             TextButton(
               onPressed: () => context.pop(),
-              child: const Text('Go Back'),
+              child: Text(loc.goBack),
             ),
           ],
         ),
@@ -180,6 +183,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
   }
 
   Widget _buildNoRebalancingNeeded(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -193,14 +197,14 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
             ),
             const SizedBox(height: 24),
             Text(
-              'You\'re Well Balanced!',
+              loc.youreWellBalanced,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             const SizedBox(height: 12),
             Text(
-              'Your portfolio is within target ranges. No rebalancing needed at this time.',
+              loc.noRebalancingNeeded,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -209,7 +213,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
             const SizedBox(height: 24),
             OutlinedButton(
               onPressed: () => context.pop(),
-              child: const Text('Back to Dashboard'),
+              child: Text(loc.backToDashboard),
             ),
           ],
         ),
@@ -222,6 +226,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
     Map<String, dynamic> data,
     Settings settings,
   ) {
+    final loc = AppLocalizations.of(context)!;
     final totalToMove = data['totalToMove'] as double;
     final perMonth = (_strategy == 'immediate')
         ? totalToMove
@@ -252,7 +257,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Your Personalized Plan',
+                              loc.yourPersonalizedPlan,
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineSmall
@@ -262,7 +267,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Customize, track, and execute',
+                              loc.customizeTrackExecute,
                               style: TextStyle(
                                 color: Theme.of(context)
                                     .colorScheme
@@ -327,6 +332,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
     BuildContext context,
     Map<String, dynamic> data,
   ) {
+    final loc = AppLocalizations.of(context)!;
     final lockedAssets = data['lockedAssets'] as double;
     final unlockedAssets = data['unlockedAssets'] as double;
 
@@ -347,7 +353,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Locked Accounts Detected',
+                    loc.lockedAccountsDetected,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -368,7 +374,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                               ),
                             ),
                             Text(
-                              ' in retirement/locked accounts can\'t be moved. Plan shows only actionable moves from your ',
+                              ' ${loc.lockedAccountsMessage} ',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.blue.shade800,
@@ -382,7 +388,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                               ),
                             ),
                             Text(
-                              ' in unlocked accounts.',
+                              ' ${loc.inUnlockedAccounts}',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.blue.shade800,
@@ -396,7 +402,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                   if (unlockedAssets == 0) ...[
                     const SizedBox(height: 8),
                     Text(
-                      '💡 Tip: Consider adjusting future 401(k) contributions to bonds/international funds.',
+                      loc.lockedAccountsTip,
                       style: TextStyle(
                         fontSize: 13,
                         fontStyle: FontStyle.italic,
@@ -414,6 +420,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
   }
 
   Widget _buildStrategySelector(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -421,7 +428,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Rebalancing Strategy',
+              loc.rebalancingStrategy,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -461,16 +468,16 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Dollar-Cost Average (Recommended)',
-                            style: TextStyle(
+                          Text(
+                            loc.dollarCostAverageRecommended,
+                            style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                             ),
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Spread rebalancing over multiple months to reduce timing risk',
+                            loc.dollarCostDescription,
                             style: TextStyle(
                               color: Theme.of(context)
                                   .colorScheme
@@ -521,16 +528,16 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Immediate Rebalance',
-                            style: TextStyle(
+                          Text(
+                            loc.immediateRebalance,
+                            style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                             ),
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Execute the full rebalancing in one transaction',
+                            loc.immediateRebalanceDescription,
                             style: TextStyle(
                               color: Theme.of(context)
                                   .colorScheme
@@ -552,6 +559,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
   }
 
   Widget _buildGlidePathCustomizer(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -559,14 +567,14 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Glide Path Duration',
+              loc.glidePathDuration,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             const SizedBox(height: 8),
             Text(
-              'How many months to spread the rebalancing over?',
+              loc.howManyMonthsToSpread,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
@@ -575,15 +583,15 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
             Row(
               children: [
                 Expanded(
-                  child: _buildGlideOption(context, 3, 'Fast'),
+                  child: _buildGlideOption(context, 3, loc.fast),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: _buildGlideOption(context, 6, 'Balanced'),
+                  child: _buildGlideOption(context, 6, loc.balanced),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: _buildGlideOption(context, 12, 'Gradual'),
+                  child: _buildGlideOption(context, 12, loc.gradual),
                 ),
               ],
             ),
@@ -594,6 +602,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
   }
 
   Widget _buildGlideOption(BuildContext context, int months, String label) {
+    final loc = AppLocalizations.of(context)!;
     final isSelected = _glideLengthMonths == months;
 
     return InkWell(
@@ -638,7 +647,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
               ),
             ),
             Text(
-              'months',
+              loc.months,
               style: TextStyle(
                 fontSize: 12,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -656,6 +665,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
     double totalToMove,
     Map<String, dynamic> data,
   ) {
+    final loc = AppLocalizations.of(context)!;
     return Card(
       color: Theme.of(context).colorScheme.primaryContainer,
       child: Padding(
@@ -665,7 +675,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
           children: [
             if (_strategy == 'immediate') ...[
               Text(
-                'Execute Now',
+                loc.executeNow,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
                       fontWeight: FontWeight.w600,
@@ -682,7 +692,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
               ),
               const SizedBox(height: 4),
               Text(
-                'Total to rebalance immediately',
+                loc.totalToRebalanceImmediately,
                 style: TextStyle(
                   color: Theme.of(context)
                       .colorScheme
@@ -692,7 +702,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
               ),
             ] else ...[
               Text(
-                'Monthly Transfer Amount',
+                loc.monthlyTransferAmount,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
                       fontWeight: FontWeight.w600,
@@ -725,7 +735,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Over $_glideLengthMonths months • Total: ',
+                    '${loc.overMonths} $_glideLengthMonths ${loc.months} • ${loc.total}: ',
                     style: TextStyle(
                       color: Theme.of(context)
                           .colorScheme
@@ -810,6 +820,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
     BuildContext context,
     Map<String, dynamic> data,
   ) {
+    final loc = AppLocalizations.of(context)!;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -817,7 +828,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Before vs After',
+              loc.beforeVsAfter,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -830,7 +841,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Current',
+                        loc.current,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
@@ -876,7 +887,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Target',
+                        loc.target,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
@@ -925,6 +936,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
     double perMonth,
     Map<String, dynamic> data,
   ) {
+    final loc = AppLocalizations.of(context)!;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -932,14 +944,14 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Execution Checklist',
+              loc.executionChecklist,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             const SizedBox(height: 8),
             Text(
-              'Track your monthly progress',
+              loc.trackMonthlyProgress,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
@@ -958,7 +970,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                   });
                 },
                 title: Text(
-                  'Month $monthNum: ${DateFormat('MMM yyyy').format(date)}',
+                  '${loc.month} $monthNum: ${DateFormat('MMM yyyy').format(date)}',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     decoration: isChecked ? TextDecoration.lineThrough : null,
@@ -967,7 +979,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                 subtitle: Row(
                   children: [
                     Text(
-                      'Transfer ',
+                      '${loc.transfer} ',
                       style: TextStyle(
                         decoration:
                             isChecked ? TextDecoration.lineThrough : null,
@@ -993,6 +1005,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
   }
 
   Widget _buildActionButtons(BuildContext context, Map<String, dynamic> data) {
+    final loc = AppLocalizations.of(context)!;
     final completedMonths = _monthlyChecklist.values.where((v) => v).length;
     final progress =
         _strategy == 'dollar-cost' ? completedMonths / _glideLengthMonths : 0.0;
@@ -1007,7 +1020,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            '$completedMonths of $_glideLengthMonths months completed',
+            '$completedMonths ${loc.ofMonthsCompleted} $_glideLengthMonths ${loc.monthsCompleted}',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
               fontSize: 14,
@@ -1018,7 +1031,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
         FilledButton.icon(
           onPressed: () => _exportToPDF(context, data),
           icon: const Icon(Icons.download),
-          label: const Text('Export PDF'),
+          label: Text(loc.exportPDF),
         ),
       ],
     );
@@ -1133,55 +1146,60 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
   }
 
   void _exportToPDF(BuildContext context, Map<String, dynamic> data) {
+    final loc = AppLocalizations.of(context)!;
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('📄 PDF export coming soon!'),
-        duration: Duration(seconds: 2),
+      SnackBar(
+        content: Text(loc.pdfExportComingSoon),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
 
   void _showRebalancingGuide(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.help_outline, size: 24),
-            SizedBox(width: 12),
-            Text('Rebalancing Guide'),
+            const Icon(Icons.help_outline, size: 24),
+            const SizedBox(width: 12),
+            Text(loc.rebalancingGuide),
           ],
         ),
-        content: const SingleChildScrollView(
+        content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Why Rebalance?',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                loc.whyRebalance,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
-                'Over time, some investments grow faster than others, causing your portfolio to drift from your target allocation. Rebalancing brings it back in line.',
+                loc.whyRebalanceDescription,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text(
-                'Dollar-Cost Averaging',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                loc.dollarCostAveragingTitle,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
-                'Spreading rebalancing over multiple months reduces timing risk and can result in better average prices.',
+                loc.dollarCostAveragingDescription,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text(
-                'Immediate Rebalancing',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                loc.immediateRebalancingTitle,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
-                'Execute the full rebalancing in one transaction. Faster but exposes you to current market timing.',
+                loc.immediateRebalancingDescription,
               ),
             ],
           ),
@@ -1189,7 +1207,7 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Got it'),
+            child: Text(loc.gotIt),
           ),
         ],
       ),

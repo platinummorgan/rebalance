@@ -15,24 +15,25 @@ class IncomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final incomesAsync = ref.watch(incomesProvider);
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Income'),
+        title: Text(loc.income),
       ),
       body: incomesAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => Center(child: Text(loc.loading)),
         error: (error, stack) => Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.error, size: 64, color: Colors.red),
+              Icon(Icons.error, size: 64, color: Colors.red.shade600),
               const SizedBox(height: 16),
-              Text('Error loading income: $error'),
+              Text('${loc.errorLoadingIncome}: $error'),
               const SizedBox(height: 16),
               FilledButton(
                 onPressed: () => ref.read(incomesProvider.notifier).reload(),
-                child: const Text('Retry'),
+                child: Text(loc.retry),
               ),
             ],
           ),
@@ -46,13 +47,14 @@ class IncomeScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/income/add'),
-        tooltip: 'Add Income Source',
+        tooltip: loc.addIncomeSource,
         child: const Icon(Icons.add),
       ),
     );
   }
 
   Widget _buildEmptyState(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(32),
       child: Column(
@@ -72,7 +74,7 @@ class IncomeScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 32),
           Text(
-            'No Income Sources Yet',
+            loc.noIncomeSourcesYet,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -80,7 +82,7 @@ class IncomeScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Track your income sources including salary, bonuses, freelance work, and other income streams.',
+            loc.trackYourIncomeSources,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
@@ -90,7 +92,7 @@ class IncomeScreen extends ConsumerWidget {
           FilledButton.icon(
             onPressed: () => context.push('/income/add'),
             icon: const Icon(Icons.add_circle_outline),
-            label: const Text('Add Your First Income Source'),
+            label: Text(loc.addYourFirstIncomeSource),
             style: FilledButton.styleFrom(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
             ),
@@ -105,6 +107,7 @@ class IncomeScreen extends ConsumerWidget {
     List<Income> incomes,
     WidgetRef ref,
   ) {
+    final loc = AppLocalizations.of(context)!;
     // Calculate totals
     final totalMonthlyGross =
         incomes.fold<double>(0, (sum, income) => sum + income.monthlyGross);
@@ -153,7 +156,7 @@ class IncomeScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Total Monthly Income',
+                          loc.totalMonthlyIncome,
                           style: TextStyle(
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
@@ -182,7 +185,7 @@ class IncomeScreen extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
-                      '${incomes.length} source${incomes.length == 1 ? '' : 's'}',
+                      '${incomes.length} ${incomes.length == 1 ? loc.source : loc.sources}',
                       style: TextStyle(
                         color: Colors.green.shade900,
                         fontWeight: FontWeight.w600,
@@ -200,7 +203,7 @@ class IncomeScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Net Income',
+                          loc.netIncome,
                           style: TextStyle(
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
@@ -223,7 +226,7 @@ class IncomeScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          'Tax Rate',
+                          loc.taxRate,
                           style: TextStyle(
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
@@ -324,7 +327,7 @@ class IncomeScreen extends ConsumerWidget {
                           ),
                         ),
                         child: Text(
-                          _getIncomeTypeDisplayName(income.kind),
+                          _getIncomeTypeDisplayName(context, income.kind),
                           style: TextStyle(
                             color: _getIncomeKindColor(
                               context,
@@ -348,7 +351,7 @@ class IncomeScreen extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        _capitalizeFrequency(income.frequency),
+                        _translateFrequency(context, income.frequency),
                         style: TextStyle(
                           color: Colors.green.shade700,
                           fontSize: 12,
@@ -395,7 +398,7 @@ class IncomeScreen extends ConsumerWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'Net: ',
+                            '${AppLocalizations.of(context)!.net}: ',
                             style: TextStyle(
                               color: Theme.of(context)
                                   .colorScheme
@@ -543,34 +546,48 @@ class IncomeScreen extends ConsumerWidget {
     }
   }
 
-  String _getIncomeTypeDisplayName(String kind) {
+  String _getIncomeTypeDisplayName(BuildContext context, String kind) {
+    final loc = AppLocalizations.of(context)!;
     switch (kind.toLowerCase()) {
       case 'salary':
-        return 'Salary';
+        return loc.incomeSalary;
       case 'w2':
-        return 'W-2 Income';
+        return loc.incomeW2;
       case 'bonus':
-        return 'Bonus';
+        return loc.incomeBonus;
       case 'freelance':
-        return 'Freelance';
+        return loc.incomeFreelance;
       case '1099':
-        return '1099 Income';
+        return loc.income1099;
       case 'investment':
-        return 'Investment';
+        return loc.incomeInvestment;
       case 'rental':
-        return 'Rental';
+        return loc.incomeRental;
       case 'pension':
-        return 'Pension';
+        return loc.incomePension;
       case 'social security':
-        return 'Social Security';
+        return loc.incomeSocialSecurity;
       default:
         return kind;
     }
   }
 
-  String _capitalizeFrequency(String frequency) {
-    if (frequency.isEmpty) return frequency;
-    return frequency[0].toUpperCase() + frequency.substring(1);
+  String _translateFrequency(BuildContext context, String frequency) {
+    final loc = AppLocalizations.of(context)!;
+    switch (frequency.toLowerCase()) {
+      case 'monthly':
+        return loc.frequencyMonthly;
+      case 'biweekly':
+        return loc.frequencyBiweekly;
+      case 'weekly':
+        return loc.frequencyWeekly;
+      case 'annual':
+        return loc.frequencyAnnual;
+      case 'quarterly':
+        return loc.frequencyQuarterly;
+      default:
+        return frequency[0].toUpperCase() + frequency.substring(1);
+    }
   }
 
   void _showDeleteIncomeDialog(
@@ -578,17 +595,16 @@ class IncomeScreen extends ConsumerWidget {
     WidgetRef ref,
     Income income,
   ) {
+    final loc = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Income Source'),
-        content: Text(
-          'Are you sure you want to delete "${income.name}"? This action cannot be undone.',
-        ),
+        title: Text(loc.deleteIncomeSource),
+        content: Text(loc.areYouSureDeleteIncome),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context)!.cancel),
+            child: Text(loc.cancel),
           ),
           TextButton(
             onPressed: () async {
@@ -599,7 +615,7 @@ class IncomeScreen extends ConsumerWidget {
                   await ref.read(incomesProvider.notifier).reload();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('${income.name} deleted successfully'),
+                      content: Text(loc.deletedSuccessfully),
                       backgroundColor: Colors.green.shade600,
                       behavior: SnackBarBehavior.floating,
                     ),
@@ -609,7 +625,7 @@ class IncomeScreen extends ConsumerWidget {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Error deleting income: $e'),
+                      content: Text('${loc.errorDeletingIncome}: $e'),
                       backgroundColor: Colors.red.shade600,
                       behavior: SnackBarBehavior.floating,
                     ),
@@ -620,7 +636,7 @@ class IncomeScreen extends ConsumerWidget {
             style: TextButton.styleFrom(
               foregroundColor: Colors.red.shade600,
             ),
-            child: Text(AppLocalizations.of(context)!.delete),
+            child: Text(loc.delete),
           ),
         ],
       ),

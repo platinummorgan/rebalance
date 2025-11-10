@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'data/models.dart';
+import 'generated/app_localizations.dart';
 
 class AppTheme {
   // Define custom colors for wealth management
@@ -671,26 +672,27 @@ class AppTheme {
   }
 
   // Get color theme name for display
-  static String getColorThemeName(ColorTheme theme) {
+  static String getColorThemeName(ColorTheme theme, BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     switch (theme) {
       case ColorTheme.blue:
-        return 'Blue';
+        return loc.colorBlue;
       case ColorTheme.green:
-        return 'Green';
+        return loc.colorGreen;
       case ColorTheme.red:
-        return 'Red';
+        return loc.colorRed;
       case ColorTheme.purple:
-        return 'Purple';
+        return loc.colorPurple;
       case ColorTheme.orange:
-        return 'Orange';
+        return loc.colorOrange;
       case ColorTheme.teal:
-        return 'Teal';
+        return loc.colorTeal;
       case ColorTheme.indigo:
-        return 'Indigo';
+        return loc.colorIndigo;
       case ColorTheme.pink:
-        return 'Pink';
+        return loc.colorPink;
       case ColorTheme.amber:
-        return 'Amber';
+        return loc.colorAmber;
     }
   }
 

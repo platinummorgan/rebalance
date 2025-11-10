@@ -17,6 +17,7 @@ class AccountsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final loc = AppLocalizations.of(context)!;
     final accountsAsync = ref.watch(accountsProvider);
     final fromSnapshot =
         GoRouterState.of(context).uri.queryParameters['fromSnapshot'] == 'true';
@@ -24,14 +25,16 @@ class AccountsScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          assetTypeFilter != null ? '$assetTypeFilter Accounts' : 'Accounts',
+          assetTypeFilter != null
+              ? '$assetTypeFilter ${loc.accounts}'
+              : loc.accounts,
         ),
         actions: [
           if (fromSnapshot)
             TextButton.icon(
               onPressed: () => _navigateBackToSnapshot(context, ref),
               icon: const Icon(Icons.assessment, size: 18),
-              label: const Text('Back to Snapshot'),
+              label: Text(loc.backToSnapshot),
               style: TextButton.styleFrom(
                 foregroundColor: Theme.of(context).colorScheme.onPrimary,
               ),
@@ -40,7 +43,7 @@ class AccountsScreen extends ConsumerWidget {
             TextButton(
               onPressed: () => context.push('/accounts'),
               child: Text(
-                'Show All',
+                loc.showAll,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onPrimary,
                 ),
@@ -49,18 +52,20 @@ class AccountsScreen extends ConsumerWidget {
         ],
       ),
       body: accountsAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => Center(
+          child: CircularProgressIndicator(semanticsLabel: loc.loading),
+        ),
         error: (error, stack) => Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(Icons.error, size: 64, color: Colors.red),
               const SizedBox(height: 16),
-              Text('Error loading accounts: $error'),
+              Text('${loc.errorLoadingAccounts}: $error'),
               const SizedBox(height: 16),
               FilledButton(
                 onPressed: () => ref.read(accountsProvider.notifier).reload(),
-                child: const Text('Retry'),
+                child: Text(loc.retry),
               ),
             ],
           ),
@@ -87,13 +92,14 @@ class AccountsScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/accounts/add'),
-        tooltip: 'Add Account',
+        tooltip: loc.addAccount,
         child: const Icon(Icons.add),
       ),
     );
   }
 
   Widget _buildEmptyState(BuildContext context, {bool isFiltered = false}) {
+    final loc = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(32),
       child: Column(
@@ -113,7 +119,9 @@ class AccountsScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 32),
           Text(
-            isFiltered ? 'No $assetTypeFilter Accounts' : 'No Accounts Yet',
+            isFiltered
+                ? 'No $assetTypeFilter ${loc.accounts}'
+                : loc.noAccountsYet,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -121,9 +129,7 @@ class AccountsScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            isFiltered
-                ? 'No accounts found with $assetTypeFilter allocation. Try viewing all accounts or add a new account with $assetTypeFilter investments.'
-                : 'Add your first account to start tracking your net worth and asset allocation.',
+            loc.trackYourNetWorth,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
@@ -133,13 +139,13 @@ class AccountsScreen extends ConsumerWidget {
           if (isFiltered) ...[
             OutlinedButton(
               onPressed: () => context.push('/accounts'),
-              child: const Text('View All Accounts'),
+              child: Text(loc.viewAllAccounts),
             ),
             const SizedBox(height: 12),
             FilledButton.icon(
               onPressed: () => context.push('/accounts/add'),
               icon: const Icon(Icons.add_circle_outline),
-              label: const Text('Add New Account'),
+              label: Text(loc.addNewAccount),
               style: FilledButton.styleFrom(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
@@ -149,7 +155,7 @@ class AccountsScreen extends ConsumerWidget {
             FilledButton.icon(
               onPressed: () => context.push('/accounts/add'),
               icon: const Icon(Icons.add_circle_outline),
-              label: const Text('Add Your First Account'),
+              label: Text(loc.addYourFirstAccount),
               style: FilledButton.styleFrom(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
@@ -166,6 +172,7 @@ class AccountsScreen extends ConsumerWidget {
     WidgetRef ref, {
     bool fromSnapshot = false,
   }) {
+    final loc = AppLocalizations.of(context)!;
     final totalAssets =
         accounts.fold<double>(0.0, (sum, account) => sum + account.balance);
 
@@ -206,7 +213,7 @@ class AccountsScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Total Assets',
+                      loc.totalAssets,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                         fontSize: 14,
@@ -232,7 +239,7 @@ class AccountsScreen extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  '${accounts.length} account${accounts.length == 1 ? '' : 's'}',
+                  '${accounts.length} ${accounts.length == 1 ? loc.account : loc.accountsPlural}',
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                     fontWeight: FontWeight.w600,
@@ -272,7 +279,7 @@ class AccountsScreen extends ConsumerWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Filtered from snapshot analysis',
+                    loc.filteredFromSnapshot,
                     style: TextStyle(
                       fontSize: 13,
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -288,7 +295,7 @@ class AccountsScreen extends ConsumerWidget {
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
                   child: Text(
-                    'Back to Snapshot',
+                    loc.backToSnapshot,
                     style: TextStyle(
                       fontSize: 12,
                       color: Theme.of(context).colorScheme.primary,
@@ -370,7 +377,10 @@ class AccountsScreen extends ConsumerWidget {
                                     ),
                                   ),
                                   child: Text(
-                                    _getAccountTypeDisplayName(account.kind),
+                                    _getAccountTypeDisplayName(
+                                      context,
+                                      account.kind,
+                                    ),
                                     style: TextStyle(
                                       color: _getAccountKindColor(
                                         context,
@@ -449,7 +459,7 @@ class AccountsScreen extends ConsumerWidget {
                                   ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  'Updated ${_getRelativeTime(account.updatedAt)}',
+                                  '${loc.updated} ${_getRelativeTime(context, account.updatedAt)}',
                                   style: TextStyle(
                                     color: Theme.of(context)
                                         .colorScheme
@@ -553,45 +563,47 @@ class AccountsScreen extends ConsumerWidget {
     }
   }
 
-  String _getAccountTypeDisplayName(String kind) {
+  String _getAccountTypeDisplayName(BuildContext context, String kind) {
+    final loc = AppLocalizations.of(context)!;
     switch (kind.toLowerCase()) {
       case 'checking':
-        return 'Checking';
+        return loc.accountTypeChecking;
       case 'savings':
-        return 'Savings';
+        return loc.accountTypeSavings;
       case 'brokerage':
-        return 'Brokerage';
+        return loc.accountTypeBrokerage;
       case 'retirement':
-        return '401k/IRA';
+        return loc.accountTypeRetirement;
       case 'hsa':
-        return 'HSA';
+        return loc.accountTypeHSA;
       case 'cd':
-        return 'CD';
+        return loc.accountTypeCD;
       case 'cash':
-        return 'Cash';
+        return loc.accountTypeCash;
       case 'crypto':
-        return 'Crypto';
+        return loc.accountTypeCrypto;
       case 'realestate':
-        return 'Real Estate';
+        return loc.accountTypeRealEstate;
       default:
         return kind.toUpperCase();
     }
   }
 
-  String _getRelativeTime(DateTime dateTime) {
+  String _getRelativeTime(BuildContext context, DateTime dateTime) {
+    final loc = AppLocalizations.of(context)!;
     final now = DateTime.now();
     final difference = now.difference(dateTime);
 
     if (difference.inDays > 7) {
       return DateFormat('MMM d').format(dateTime);
     } else if (difference.inDays > 0) {
-      return '${difference.inDays}d ago';
+      return '${difference.inDays}d ${loc.ago}';
     } else if (difference.inHours > 0) {
-      return '${difference.inHours}h ago';
+      return '${difference.inHours}h ${loc.ago}';
     } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes}m ago';
+      return '${difference.inMinutes}m ${loc.ago}';
     } else {
-      return 'Just now';
+      return loc.justNow;
     }
   }
 
@@ -685,17 +697,16 @@ void _showDeleteAccountDialog(
   WidgetRef ref,
   Account account,
 ) {
+  final loc = AppLocalizations.of(context)!;
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: const Text('Delete Account'),
-      content: Text(
-        'Are you sure you want to delete "${account.name}"? This action cannot be undone.',
-      ),
+      title: Text(loc.deleteAccount),
+      content: Text(loc.areYouSureDeleteAccount),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(AppLocalizations.of(context)!.cancel),
+          child: Text(loc.cancel),
         ),
         TextButton(
           onPressed: () async {
@@ -708,7 +719,7 @@ void _showDeleteAccountDialog(
                 await ref.read(liabilitiesProvider.notifier).reload();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('${account.name} deleted successfully'),
+                    content: Text(loc.accountDeletedSuccessfully),
                     backgroundColor: Colors.green.shade600,
                     behavior: SnackBarBehavior.floating,
                   ),
@@ -718,7 +729,7 @@ void _showDeleteAccountDialog(
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Error deleting account: $e'),
+                    content: Text('${loc.errorDeletingAccount}: $e'),
                     backgroundColor: Colors.red.shade600,
                     behavior: SnackBarBehavior.floating,
                   ),
@@ -729,7 +740,7 @@ void _showDeleteAccountDialog(
           style: TextButton.styleFrom(
             foregroundColor: Colors.red.shade600,
           ),
-          child: Text(AppLocalizations.of(context)!.delete),
+          child: Text(loc.delete),
         ),
       ],
     ),

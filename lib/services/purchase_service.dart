@@ -4,6 +4,7 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../app.dart';
 import '../data/models.dart';
+import 'analytics_service.dart';
 
 /// Service for handling in-app purchases and subscriptions
 class PurchaseService {
@@ -162,8 +163,36 @@ class PurchaseService {
           }
         }
       } else if (purchase.status == PurchaseStatus.error) {
-        debugPrint('Purchase error: ${purchase.error}');
-        // Handle error (show message to user)
+        // Enhanced error logging
+        final errorCode = purchase.error?.code ?? 'UNKNOWN';
+        final errorMessage = purchase.error?.message ?? 'No error message';
+        final errorDetails = purchase.error?.details ?? 'No details';
+
+        debugPrint('❌ PURCHASE ERROR DETAILS:');
+        debugPrint('  Product ID: ${purchase.productID}');
+        debugPrint('  Error Code: $errorCode');
+        debugPrint('  Error Message: $errorMessage');
+        debugPrint('  Error Details: $errorDetails');
+        debugPrint('  Purchase ID: ${purchase.purchaseID}');
+        debugPrint('  Transaction Date: ${purchase.transactionDate}');
+
+        // Log to Firebase Analytics with detailed error info
+        try {
+          final analyticsService = AnalyticsService();
+          await analyticsService.logPurchaseFailure(
+            planType: purchase.productID,
+            errorMessage:
+                'Code: $errorCode | Msg: $errorMessage | Details: $errorDetails',
+          );
+        } catch (e) {
+          debugPrint('Failed to log analytics: $e');
+        }
+      } else if (purchase.status == PurchaseStatus.canceled) {
+        debugPrint('Purchase canceled by user: ${purchase.productID}');
+      } else if (purchase.status == PurchaseStatus.pending) {
+        debugPrint(
+          'Purchase pending (awaiting payment): ${purchase.productID}',
+        );
       }
     }
   }
@@ -217,6 +246,7 @@ class PurchaseService {
       financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
       currency: currentSettings.currency,
       baseCurrency: currentSettings.baseCurrency,
+      language: currentSettings.language, // Keep existing language
     );
 
     // Save updated settings
@@ -279,6 +309,7 @@ class PurchaseService {
       financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
       currency: currentSettings.currency,
       baseCurrency: currentSettings.baseCurrency,
+      language: currentSettings.language, // Keep existing language
     );
 
     await ref.read(settingsProvider.notifier).updateSettings(updatedSettings);

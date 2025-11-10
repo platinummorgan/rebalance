@@ -83,20 +83,23 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
   bool _isLoading = false;
   Account? _existingAccount;
 
-  final Map<String, String> _accountTypes = {
-    'cash': 'Cash Account',
-    'checking': 'Checking Account',
-    'savings': 'Savings Account',
-    'brokerage': 'Brokerage Account',
-    'retirement': '401k/IRA',
-    'hsa': 'Health Savings Account',
-    'cd': 'Certificate of Deposit',
-    'crypto': 'Cryptocurrency',
-    'realestate': 'Real Estate',
-    'realestateequity': 'Real Estate Equity',
-    '529': '529 Education Savings',
-    'other': 'Other',
-  };
+  Map<String, String> _getAccountTypes(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    return {
+      'cash': loc.accountTypeCashAccount,
+      'checking': loc.accountTypeCheckingAccount,
+      'savings': loc.accountTypeSavingsAccount,
+      'brokerage': loc.accountTypeBrokerageAccount,
+      'retirement': loc.accountTypeRetirement,
+      'hsa': loc.accountTypeHealthSavingsAccount,
+      'cd': loc.accountTypeCertificateOfDeposit,
+      'crypto': loc.accountTypeCryptocurrency,
+      'realestate': loc.accountTypeRealEstate,
+      'realestateequity': loc.accountTypeRealEstateEquity,
+      '529': loc.accountType529EducationSavings,
+      'other': loc.accountTypeOther,
+    };
+  }
 
   @override
   void initState() {
@@ -238,6 +241,7 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     final isEditing = widget.accountId != null;
     final settingsAsync = ref.watch(settingsProvider);
     final currencySymbol = settingsAsync.value != null
@@ -250,7 +254,7 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEditing ? 'Edit Account' : 'Add Account'),
+        title: Text(isEditing ? loc.editAccount : loc.addAccount),
         elevation: 0,
         actions: [
           TextButton(
@@ -306,7 +310,7 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
                           labelText: AppLocalizations.of(context)!.accountType,
                           border: const OutlineInputBorder(),
                         ),
-                        items: _accountTypes.entries.map((entry) {
+                        items: _getAccountTypes(context).entries.map((entry) {
                           return DropdownMenuItem(
                             value: entry.key,
                             child: Text(entry.value),
@@ -432,35 +436,36 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Asset Allocation',
+                        loc.assetAllocation,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'What percentage of this account is invested in each asset class?',
+                        loc.assetAllocationDescription,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       const SizedBox(height: 16),
                       _buildAllocationSlider(
-                          'Cash & Cash Equivalents', _pctCash, (value) {
+                          loc.cashAndCashEquivalents, _pctCash, (value) {
                         setState(() => _pctCash = value);
                       }),
-                      _buildAllocationSlider('Bonds & Fixed Income', _pctBonds,
+                      _buildAllocationSlider(loc.bondsAndFixedIncome, _pctBonds,
                           (value) {
                         setState(() => _pctBonds = value);
                       }),
-                      _buildAllocationSlider('US Equity', _pctUsEq, (value) {
+                      _buildAllocationSlider(loc.usEquity, _pctUsEq, (value) {
                         setState(() => _pctUsEq = value);
                       }),
-                      _buildAllocationSlider('International Equity', _pctIntlEq,
-                          (value) {
+                      _buildAllocationSlider(
+                          loc.internationalEquity, _pctIntlEq, (value) {
                         setState(() => _pctIntlEq = value);
                       }),
                       _buildAllocationSlider(
-                          'Real Estate (REITs)', _pctRealEstate, (value) {
+                          loc.realEstateREITs, _pctRealEstate, (value) {
                         setState(() => _pctRealEstate = value);
                       }),
-                      _buildAllocationSlider('Alternatives', _pctAlt, (value) {
+                      _buildAllocationSlider(loc.alternatives, _pctAlt,
+                          (value) {
                         setState(() => _pctAlt = value);
                       }),
                       const SizedBox(height: 16),
@@ -475,7 +480,7 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Total Allocation:'),
+                            Text(loc.totalAllocation),
                             Text(
                               '${(_pctCash + _pctBonds + _pctUsEq + _pctIntlEq + _pctRealEstate + _pctAlt).toStringAsFixed(1)}%',
                               style: TextStyle(
@@ -509,7 +514,7 @@ class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
                           height: 20,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : Text(isEditing ? 'Update Account' : 'Add Account'),
+                      : Text(isEditing ? loc.updateAccount : loc.addAccount),
                 ),
               ),
             ],

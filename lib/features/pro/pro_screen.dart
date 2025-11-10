@@ -2,13 +2,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../generated/app_localizations.dart';
 import '../../app.dart';
 import '../../services/purchase_service.dart';
 import '../../services/analytics_service.dart';
 import '../../data/models.dart';
 import '../../routes.dart' show AppRouter;
 import '../../widgets/currency_text.dart';
+import '../../generated/app_localizations.dart';
 
 /// Outcome-focused Pro screen showing real financial impact
 class ProScreen extends ConsumerStatefulWidget {
@@ -108,9 +108,10 @@ class _ProScreenState extends ConsumerState<ProScreen> {
   }
 
   Widget _buildProActiveScreen(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.proFeatures),
+        title: Text(loc.proFeatures),
         backgroundColor: Colors.green.shade700,
         foregroundColor: Colors.white,
       ),
@@ -123,7 +124,7 @@ class _ProScreenState extends ConsumerState<ProScreen> {
             const SizedBox(height: 24),
 
             Text(
-              'Your Pro Features',
+              loc.yourProFeatures,
               style: Theme.of(
                 context,
               ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
@@ -135,9 +136,9 @@ class _ProScreenState extends ConsumerState<ProScreen> {
             _buildActiveFeatureCard(
               context,
               icon: Icons.account_balance_wallet,
-              title: 'Debt Payoff Optimizer',
-              description: 'Find the fastest path to debt freedom',
-              stat: 'Save thousands in interest',
+              title: loc.debtPayoffOptimizer,
+              description: loc.debtPayoffDescription,
+              stat: loc.saveThousands,
               color: Colors.blue,
               onTap: () => context.push(AppRouter.debtOptimizer),
             ),
@@ -145,9 +146,9 @@ class _ProScreenState extends ConsumerState<ProScreen> {
             _buildActiveFeatureCard(
               context,
               icon: Icons.trending_up,
-              title: 'Rebalancing Autopilot',
-              description: 'Get specific trade instructions',
-              stat: 'Reduce portfolio risk',
+              title: loc.rebalancingAutopilot,
+              description: loc.rebalancingDescription,
+              stat: loc.reduceRisk,
               color: Colors.purple,
               onTap: () => context.push(AppRouter.rebalancing),
             ),
@@ -155,9 +156,9 @@ class _ProScreenState extends ConsumerState<ProScreen> {
             _buildActiveFeatureCard(
               context,
               icon: Icons.psychology,
-              title: 'What-If Scenario Engine',
-              description: 'Model retirement outcomes',
-              stat: 'See probability of success',
+              title: loc.whatIfScenarioEngine,
+              description: loc.whatIfDescription,
+              stat: loc.seeProbability,
               color: Colors.orange,
               onTap: () => context.push(AppRouter.scenario),
             ),
@@ -165,9 +166,9 @@ class _ProScreenState extends ConsumerState<ProScreen> {
             _buildActiveFeatureCard(
               context,
               icon: Icons.notifications_active,
-              title: 'Custom Alerts',
-              description: 'Get alerts with dollar context',
-              stat: 'Know the financial impact',
+              title: loc.customAlerts,
+              description: loc.customAlertsDescription,
+              stat: loc.knowImpact,
               color: Colors.red,
               onTap: () => context.push(AppRouter.customAlerts),
             ),
@@ -175,9 +176,9 @@ class _ProScreenState extends ConsumerState<ProScreen> {
             _buildActiveFeatureCard(
               context,
               icon: Icons.calculate,
-              title: 'Tax-Smart Allocation',
-              description: 'Optimize asset location',
-              stat: 'Save on taxes annually',
+              title: loc.taxSmartAllocation,
+              description: loc.taxSmartDescription,
+              stat: loc.saveTaxes,
               color: Colors.teal,
               onTap: () => context.push(AppRouter.taxSmart),
             ),
@@ -185,9 +186,9 @@ class _ProScreenState extends ConsumerState<ProScreen> {
             _buildActiveFeatureCard(
               context,
               icon: Icons.trending_up,
-              title: 'Retirement Calculator',
-              description: 'Plan for your retirement goals',
-              stat: 'See probability of success',
+              title: loc.retirementCalculator,
+              description: loc.retirementDescription,
+              stat: loc.seeProbability,
               color: Colors.deepOrange,
               onTap: () => context.push(AppRouter.retirementCalculator),
             ),
@@ -205,7 +206,7 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Plan Details',
+                    loc.planDetails,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -222,7 +223,7 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        'Pro Active',
+                        loc.proActive,
                         style: TextStyle(
                           fontSize: 14,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -294,16 +295,18 @@ class _ProScreenState extends ConsumerState<ProScreen> {
     List<Liability> liabilities,
     WidgetRef ref,
   ) {
+    final loc = AppLocalizations.of(context)!;
     // Calculate personalized savings
     final personalizedStats = _calculateRealImpact(
       accounts,
       liabilities,
       ref,
+      context,
     );
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Unlock Pro'),
+        title: Text(loc.unlockPro),
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
       ),
@@ -337,10 +340,10 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                         size: 32,
                       ),
                       const SizedBox(width: 12),
-                      const Expanded(
+                      Expanded(
                         child: Text(
-                          'Rebalance Pro',
-                          style: TextStyle(
+                          loc.rebalancePro,
+                          style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -366,9 +369,9 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Based on your portfolio:',
-                            style: TextStyle(
+                          Text(
+                            loc.basedOnYourPortfolio,
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
@@ -387,9 +390,9 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                       ),
                     ),
                   ] else ...[
-                    const Text(
-                      'Save money and reduce risk with intelligent financial planning',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    Text(
+                      loc.saveMoneyReduceRisk,
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ],
                 ],
@@ -408,11 +411,10 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                   _buildOutcomeFeatureCard(
                     context,
                     icon: Icons.account_balance_wallet,
-                    title: 'Debt Payoff Optimizer',
+                    title: loc.debtPayoffOptimizer,
                     personalizedValue: personalizedStats['debtSavings'],
-                    genericOutcome: 'Save thousands in interest',
-                    description:
-                        'Compare avalanche vs snowball strategies. Get month-by-month payment schedule and see total interest saved.',
+                    genericOutcome: loc.debtPayoffDescription,
+                    description: loc.compareStrategies,
                     color: Colors.blue,
                     onTap: () => context.push(AppRouter.debtOptimizer),
                   ),
@@ -420,12 +422,11 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                   _buildOutcomeFeatureCard(
                     context,
                     icon: Icons.trending_up,
-                    title: 'Rebalancing Autopilot',
+                    title: loc.rebalancingAutopilot,
                     personalizedValue:
                         personalizedStats['concentrationRisk'] as String?,
-                    genericOutcome: 'Cut concentration risk',
-                    description:
-                        'Get specific trade instructions like "Move \$2,150 this month". See before/after risk metrics and volatility reduction.',
+                    genericOutcome: loc.rebalancingDescription,
+                    description: loc.getSpecificTrades,
                     color: Colors.purple,
                     onTap: () => context.push(AppRouter.rebalancing),
                   ),
@@ -433,11 +434,10 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                   _buildOutcomeFeatureCard(
                     context,
                     icon: Icons.psychology,
-                    title: 'What-If Scenario Engine',
+                    title: loc.whatIfScenarioEngine,
                     personalizedValue: null,
-                    genericOutcome: 'See probability of hitting goals',
-                    description:
-                        'Monte Carlo simulation (1,000 runs) shows success probability. Adjust contributions, returns, and timeline to optimize your plan.',
+                    genericOutcome: loc.whatIfDescription,
+                    description: loc.monteCarloSimulation,
                     color: Colors.orange,
                     onTap: () => context.push(AppRouter.scenario),
                   ),
@@ -445,11 +445,10 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                   _buildOutcomeFeatureCard(
                     context,
                     icon: Icons.notifications_active,
-                    title: 'Custom Alerts with Context',
+                    title: loc.customAlertsWithContext,
                     personalizedValue: null,
-                    genericOutcome: 'Know the financial impact',
-                    description:
-                        'Set custom thresholds for concentration, drift, DSCR. Each alert shows dollar impact: "Breach adds \$4,200 excess risk".',
+                    genericOutcome: loc.customAlertsDescription,
+                    description: loc.customThresholds,
                     color: Colors.red,
                     onTap: () => context.push(AppRouter.customAlerts),
                   ),
@@ -457,11 +456,10 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                   _buildOutcomeFeatureCard(
                     context,
                     icon: Icons.calculate,
-                    title: 'Tax-Smart Allocation',
+                    title: loc.taxSmartAllocation,
                     personalizedValue: null,
-                    genericOutcome: 'Est. \$480/year saved',
-                    description:
-                        'Optimize which accounts hold which assets. Identify tax-loss harvesting opportunities. Minimize annual tax drag.',
+                    genericOutcome: loc.taxSmartDescription,
+                    description: loc.optimizeAccounts,
                     color: Colors.teal,
                     onTap: () => context.push(AppRouter.taxSmart),
                   ),
@@ -469,11 +467,10 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                   _buildOutcomeFeatureCard(
                     context,
                     icon: Icons.trending_up,
-                    title: 'Retirement Calculator',
+                    title: loc.retirementCalculator,
                     personalizedValue: null,
-                    genericOutcome: 'Plan with confidence',
-                    description:
-                        'Monte Carlo simulation (1,000 runs) projects retirement success probability. Adjust savings, timeline, and income to optimize your plan.',
+                    genericOutcome: loc.retirementDescription,
+                    description: loc.projectRetirement,
                     color: Colors.deepOrange,
                     onTap: () => context.push(AppRouter.retirementCalculator),
                   ),
@@ -481,11 +478,10 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                   _buildOutcomeFeatureCard(
                     context,
                     icon: Icons.bar_chart,
-                    title: 'Advanced Portfolio Analytics',
+                    title: loc.advancedPortfolioAnalytics,
                     personalizedValue: null,
-                    genericOutcome: 'Professional-grade analysis',
-                    description:
-                        'HHI concentration index, factor exposure breakdown, multi-portfolio tracking, custom scoring weights.',
+                    genericOutcome: loc.advancedAnalyticsDescription,
+                    description: loc.hhiConcentration,
                     color: Colors.indigo,
                   ),
 
@@ -493,7 +489,7 @@ class _ProScreenState extends ConsumerState<ProScreen> {
 
                   // Pricing cards
                   Text(
-                    'Choose Your Plan',
+                    loc.choosePlan,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -516,13 +512,13 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                           _buildPricingCard(
                             context,
                             ref: ref,
-                            title: 'Pro Monthly',
+                            title: loc.proMonthly,
                             price: pricing['monthly'],
-                            period: 'per month',
+                            period: loc.perMonth,
                             features: [
-                              'All Pro features',
-                              'Cancel anytime',
-                              '7-day free trial',
+                              loc.allProFeatures,
+                              loc.cancelAnytime,
+                              loc.freeTrialDays,
                             ],
                             recommended: false,
                           ),
@@ -530,14 +526,14 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                           _buildPricingCard(
                             context,
                             ref: ref,
-                            title: 'Annual',
+                            title: loc.annual,
                             price: pricing['annual'],
-                            period: 'per year',
-                            badge: 'BEST VALUE',
+                            period: loc.perYear,
+                            badge: loc.bestValue,
                             features: [
-                              'All Pro features',
-                              'Save ${pricing['savings']}',
-                              '7-day free trial',
+                              loc.allProFeatures,
+                              '${loc.save} ${pricing['savings']}',
+                              loc.freeTrialDays,
                             ],
                             recommended: true,
                           ),
@@ -545,14 +541,14 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                           _buildPricingCard(
                             context,
                             ref: ref,
-                            title: 'Founder Lifetime',
+                            title: loc.founderLifetime,
                             price: pricing['lifetime'],
-                            period: 'one time',
-                            badge: 'LIMITED',
+                            period: loc.oneTime,
+                            badge: loc.limited,
                             features: [
-                              'Everything forever',
-                              'First 1,000 founders',
-                              'Price increases after',
+                              loc.everythingForever,
+                              loc.firstFounders,
+                              loc.priceIncreasesAfter,
                             ],
                             recommended: false,
                             isFounder: true,
@@ -578,15 +574,15 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                         _buildTrustItem(
                           context,
                           Icons.verified_user,
-                          '100% Privacy',
-                          'All data stays on your device',
+                          loc.privacy100,
+                          loc.dataOnDevice,
                         ),
                         const SizedBox(height: 12),
                         _buildTrustItem(
                           context,
                           Icons.lock,
-                          'Encrypted Storage',
-                          'Bank-grade security',
+                          loc.encryptedStorage,
+                          loc.bankGrade,
                         ),
                       ],
                     ),
@@ -704,6 +700,7 @@ class _ProScreenState extends ConsumerState<ProScreen> {
     required bool recommended,
     bool isFounder = false,
   }) {
+    final loc = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         border: recommended
@@ -806,7 +803,7 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                   child: Text(
-                    recommended ? 'Start Free Trial' : 'Choose Plan',
+                    recommended ? loc.startFreeTrial : loc.choosePlanButton,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -914,15 +911,13 @@ class _ProScreenState extends ConsumerState<ProScreen> {
       );
 
       if (!success) {
-        // Track purchase failure
-        AnalyticsService().logPurchaseFailure(
-          planType: planType,
-          errorMessage: 'Purchase cancelled by user',
-        );
+        // User cancelled - this is normal, track separately
+        AnalyticsService().logPurchaseCancelled(planType);
 
         if (context.mounted) {
+          final loc = AppLocalizations.of(context)!;
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Purchase cancelled or failed')),
+            SnackBar(content: Text(loc.purchaseCancelled)),
           );
         }
       } else {
@@ -932,7 +927,7 @@ class _ProScreenState extends ConsumerState<ProScreen> {
     } catch (e, st) {
       debugPrint('ProScreen: purchase flow error: $e\n$st');
 
-      // Track purchase failure
+      // Track ACTUAL purchase failure (errors, not cancellations)
       AnalyticsService().logPurchaseFailure(
         planType: planType,
         errorMessage: e.toString(),
@@ -1006,7 +1001,9 @@ class _ProScreenState extends ConsumerState<ProScreen> {
     List<Account> accounts,
     List<Liability> liabilities,
     WidgetRef ref,
+    BuildContext context,
   ) {
+    final loc = AppLocalizations.of(context)!;
     final result = <String, dynamic>{
       'hasData': false,
       'heroText': '',
@@ -1028,7 +1025,7 @@ class _ProScreenState extends ConsumerState<ProScreen> {
         result['hasData'] = true;
         result['debtSavings'] = {
           'amount': estimatedSavings,
-          'label': 'Save est. ',
+          'label': loc.saveEst,
         };
       }
     }
@@ -1076,8 +1073,9 @@ class _ProScreenState extends ConsumerState<ProScreen> {
 
       if (largestPercentage > 20) {
         result['hasData'] = true;
-        result['concentrationRisk'] =
-            'Cut concentration from ${largestPercentage.toStringAsFixed(0)}% → 20%';
+        result['concentrationRisk'] = loc.cutConcentration(
+          largestPercentage.toStringAsFixed(0),
+        );
       }
     }
 

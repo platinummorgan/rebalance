@@ -66,7 +66,8 @@ class AnalyticsService {
       },
     );
     debugPrint(
-        '[Analytics] Upgrade button tapped at: $location${planType != null ? " ($planType)" : ""}',);
+      '[Analytics] Upgrade button tapped at: $location${planType != null ? " ($planType)" : ""}',
+    );
   }
 
   /// Track when purchase flow starts (Google Play billing sheet opens)
@@ -109,7 +110,8 @@ class AnalyticsService {
       ],
     );
     debugPrint(
-        '[Analytics] Purchase completed: $planType (\$$price $currency)',);
+      '[Analytics] Purchase completed: $planType (\$$price $currency)',
+    );
   }
 
   /// Track when purchase fails
@@ -126,6 +128,18 @@ class AnalyticsService {
       },
     );
     debugPrint('[Analytics] Purchase failed: $planType - $errorMessage');
+  }
+
+  /// Track when user cancels purchase (normal behavior, not an error)
+  Future<void> logPurchaseCancelled(String planType) async {
+    await _analytics?.logEvent(
+      name: 'purchase_cancelled',
+      parameters: {
+        'plan_type': planType,
+        'timestamp': DateTime.now().toIso8601String(),
+      },
+    );
+    debugPrint('[Analytics] Purchase cancelled by user: $planType');
   }
 
   // ============================================================================

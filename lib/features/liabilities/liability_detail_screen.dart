@@ -133,15 +133,18 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
   DateTime? _selectedDueDate;
   int _selectedDayOfMonth = 15;
 
-  final Map<String, String> _liabilityTypes = {
-    'creditCard': 'Credit Card',
-    'mortgage': 'Mortgage',
-    'autoLoan': 'Auto Loan',
-    'personalLoan': 'Personal Loan',
-    'studentLoan': 'Student Loan',
-    'lineOfCredit': 'Line of Credit',
-    'other': 'Other',
-  };
+  Map<String, String> _getLiabilityTypes(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    return {
+      'creditCard': loc.liabilityTypeCreditCard,
+      'mortgage': loc.liabilityTypeMortgage,
+      'autoLoan': loc.liabilityTypeAutoLoan,
+      'personalLoan': loc.liabilityTypePersonalLoan,
+      'studentLoan': loc.liabilityTypeStudentLoan,
+      'lineOfCredit': loc.liabilityTypeLineOfCredit,
+      'other': loc.liabilityTypeOther,
+    };
+  }
 
   @override
   void initState() {
@@ -301,8 +304,9 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
       await ref.read(liabilitiesProvider.notifier).addLiability(liability);
 
       if (mounted) {
+        final loc = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Liability saved successfully!')),
+          SnackBar(content: Text(loc.liabilitySavedSuccessfully)),
         );
         context.pop();
       }
@@ -320,6 +324,13 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
   }
 
   String _getOrdinalSuffix(int day) {
+    final loc = AppLocalizations.of(context)!;
+    // Only English uses ordinal suffixes (st, nd, rd, th)
+    // Other languages just use the number
+    if (loc.localeName != 'en') {
+      return '';
+    }
+
     if (day >= 11 && day <= 13) return 'th';
     switch (day % 10) {
       case 1:
@@ -345,6 +356,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     final isEditing = widget.liabilityId != null;
     final isCreditCard = _selectedLiabilityType == 'creditCard';
     final settingsAsync = ref.watch(settingsProvider);
@@ -364,7 +376,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEditing ? 'Edit Liability' : 'Add Liability'),
+        title: Text(isEditing ? loc.editLiability : loc.addLiability),
         elevation: 0,
         actions: [
           TextButton(
@@ -393,20 +405,20 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Liability Details',
+                        loc.liabilityDetails,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: _nameController,
-                        decoration: const InputDecoration(
-                          labelText: 'Name',
-                          hintText: 'e.g., Chase Freedom Credit Card',
-                          border: OutlineInputBorder(),
+                        decoration: InputDecoration(
+                          labelText: loc.liabilityName,
+                          hintText: loc.liabilityNameHint,
+                          border: const OutlineInputBorder(),
                         ),
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Please enter a name for this liability';
+                            return loc.pleaseEnterLiabilityName;
                           }
                           return null;
                         },
@@ -418,7 +430,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                           labelText: 'Type',
                           border: OutlineInputBorder(),
                         ),
-                        items: _liabilityTypes.entries.map((entry) {
+                        items: _getLiabilityTypes(context).entries.map((entry) {
                           return DropdownMenuItem(
                             value: entry.key,
                             child: Text(entry.value),
@@ -434,7 +446,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                       TextFormField(
                         controller: _balanceController,
                         decoration: InputDecoration(
-                          labelText: 'Current Balance',
+                          labelText: loc.currentBalance,
                           hintText: '0.00',
                           border: const OutlineInputBorder(),
                           prefixText: currencySymbol,
@@ -447,13 +459,13 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                         ],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter the current balance';
+                            return loc.pleaseEnterCurrentBalance;
                           }
                           // Remove commas before parsing
                           final cleanValue = value.replaceAll(',', '');
                           final balance = double.tryParse(cleanValue);
                           if (balance == null || balance < 0) {
-                            return 'Please enter a valid balance';
+                            return loc.pleaseEnterValidBalance;
                           }
                           return null;
                         },
@@ -463,7 +475,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                         TextFormField(
                           controller: _creditLimitController,
                           decoration: InputDecoration(
-                            labelText: 'Credit Limit',
+                            labelText: loc.creditLimit,
                             hintText: '0.00',
                             border: const OutlineInputBorder(),
                             prefixText: currencySymbol,
@@ -482,14 +494,14 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                             final cleanValue = value.replaceAll(',', '');
                             final limit = double.tryParse(cleanValue);
                             if (limit == null || limit < 0) {
-                              return 'Please enter a valid credit limit';
+                              return loc.pleaseEnterValidCreditLimit;
                             }
                             // Remove commas from balance before comparing
                             final cleanBalance =
                                 _balanceController.text.replaceAll(',', '');
                             final balance = double.tryParse(cleanBalance) ?? 0;
                             if (limit < balance) {
-                              return 'Credit limit cannot be less than current balance';
+                              return loc.creditLimitCannotBeLessThanBalance;
                             }
                             return null;
                           },
@@ -501,10 +513,10 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                           Expanded(
                             child: TextFormField(
                               controller: _aprController,
-                              decoration: const InputDecoration(
-                                labelText: 'APR',
+                              decoration: InputDecoration(
+                                labelText: loc.apr,
                                 hintText: '0.00',
-                                border: OutlineInputBorder(),
+                                border: const OutlineInputBorder(),
                                 suffixText: '%',
                               ),
                               keyboardType:
@@ -516,11 +528,11 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                               ],
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter the APR';
+                                  return loc.pleaseEnterAPR;
                                 }
                                 final apr = double.tryParse(value);
                                 if (apr == null || apr < 0 || apr > 100) {
-                                  return 'Please enter a valid APR (0-100%)';
+                                  return loc.pleaseEnterValidAPR;
                                 }
                                 return null;
                               },
@@ -531,7 +543,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                             child: TextFormField(
                               controller: _minPaymentController,
                               decoration: InputDecoration(
-                                labelText: 'Minimum Payment',
+                                labelText: loc.minimumPayment,
                                 hintText: '0.00',
                                 border: const OutlineInputBorder(),
                                 prefixText: currencySymbol,
@@ -545,13 +557,13 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                               ],
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Enter min payment';
+                                  return loc.enterMinPayment;
                                 }
                                 // Remove commas before parsing
                                 final cleanValue = value.replaceAll(',', '');
                                 final payment = double.tryParse(cleanValue);
                                 if (payment == null || payment < 0) {
-                                  return 'Enter valid payment';
+                                  return loc.enterValidPayment;
                                 }
                                 return null;
                               },
@@ -561,7 +573,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'Payment Schedule',
+                        loc.paymentSchedule,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 12),
@@ -574,7 +586,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                             firstDate: DateTime.now(),
                             lastDate:
                                 DateTime.now().add(const Duration(days: 365)),
-                            helpText: 'Select next payment due date',
+                            helpText: loc.selectNextPaymentDueDate,
                           );
                           if (selectedDate != null) {
                             setState(() {
@@ -603,7 +615,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Next Payment Due Date',
+                                      loc.nextPaymentDueDate,
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: Theme.of(context)
@@ -615,7 +627,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                                     Text(
                                       _selectedDueDate != null
                                           ? '${_selectedDueDate!.month}/${_selectedDueDate!.day}/${_selectedDueDate!.year}'
-                                          : 'Tap to select date',
+                                          : loc.tapToSelectDate,
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: _selectedDueDate != null
@@ -647,10 +659,10 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                         ), // force rebuild if value adjusted
                         initialValue:
                             _selectedDayOfMonth > 31 ? 31 : _selectedDayOfMonth,
-                        decoration: const InputDecoration(
-                          labelText: 'Monthly Payment Day',
-                          border: OutlineInputBorder(),
-                          helperText: 'Day of each month when payment is due',
+                        decoration: InputDecoration(
+                          labelText: loc.monthlyPaymentDay,
+                          border: const OutlineInputBorder(),
+                          helperText: loc.dayOfEachMonth,
                         ),
                         // Support full month range (1-31)
                         items: List.generate(31, (index) => index + 1)
@@ -658,7 +670,9 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                               (day) => DropdownMenuItem(
                                 value: day,
                                 child: Text(
-                                  '$day${_getOrdinalSuffix(day)} of each month',
+                                  loc.dayOfMonth(
+                                    '$day${_getOrdinalSuffix(day)}',
+                                  ),
                                 ),
                               ),
                             )
@@ -683,22 +697,22 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Quick Stats',
+                          loc.quickStats,
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                         const SizedBox(height: 12),
                         _buildStatRow(
-                          'Monthly Interest',
+                          loc.monthlyInterest,
                           _calculateMonthlyInterest(),
                         ),
                         _buildStatRow(
-                          'Annual Interest Cost',
+                          loc.annualInterestCost,
                           _calculateAnnualInterest(),
                         ),
                         if (isCreditCard &&
                             _creditLimitController.text.isNotEmpty)
                           _buildStatRow(
-                            'Credit Utilization',
+                            loc.creditUtilization,
                             _calculateCreditUtilization(),
                           ),
                       ],
@@ -724,7 +738,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              'Payment History',
+                              loc.paymentHistory,
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                           ],
@@ -748,7 +762,9 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                           height: 20,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : Text(isEditing ? 'Update Liability' : 'Add Liability'),
+                      : Text(
+                          isEditing ? loc.updateLiability : loc.addLiability,
+                        ),
                 ),
               ),
             ],
@@ -797,6 +813,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
   }
 
   Widget _buildPaymentHistoryContent() {
+    final loc = AppLocalizations.of(context)!;
     return FutureBuilder<List<Payment>>(
       future: RepositoryService.getPaymentsForLiability(_existingLiability!.id),
       builder: (context, snapshot) {
@@ -830,7 +847,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                'No payments recorded yet',
+                loc.noPaymentsRecordedYet,
                 style: TextStyle(
                   color: Colors.grey.shade600,
                   fontSize: 16,
@@ -838,7 +855,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                'Payments made through the dashboard will appear here',
+                loc.paymentsWillAppearHere,
                 style: TextStyle(
                   color: Colors.grey.shade500,
                   fontSize: 14,
@@ -862,7 +879,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                 children: [
                   Expanded(
                     child: _buildPaymentStat(
-                      'Total Payments',
+                      loc.totalPayments,
                       payments.length.toString(),
                       Icons.payments,
                     ),
@@ -874,7 +891,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                   ),
                   Expanded(
                     child: _buildPaymentStat(
-                      'Total Paid',
+                      loc.totalPaid,
                       '\$${payments.map((p) => p.amount).reduce((a, b) => a + b).toStringAsFixed(2)}',
                       Icons.account_balance_wallet,
                     ),
@@ -886,7 +903,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                   ),
                   Expanded(
                     child: _buildPaymentStat(
-                      'Last Payment',
+                      loc.lastPayment,
                       payments.isNotEmpty
                           ? '${payments.first.paidDate.day}/${payments.first.paidDate.month}'
                           : 'None',
@@ -907,7 +924,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
               separatorBuilder: (context, index) => const Divider(height: 1),
               itemBuilder: (context, index) {
                 final payment = payments[index];
-                return _buildPaymentListItem(payment);
+                return _buildPaymentListItem(payment, loc);
               },
             ),
 
@@ -952,7 +969,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
     );
   }
 
-  Widget _buildPaymentListItem(Payment payment) {
+  Widget _buildPaymentListItem(Payment payment, AppLocalizations loc) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
       leading: Container(
@@ -1000,7 +1017,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
           ),
           if (payment.newBalance != null)
             Text(
-              'Balance: \$${payment.newBalance!.toStringAsFixed(2)}',
+              '${loc.balance}: \$${payment.newBalance!.toStringAsFixed(2)}',
               style: TextStyle(
                 fontSize: 11,
                 color: Colors.grey.shade500,
@@ -1012,6 +1029,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
   }
 
   void _showAllPaymentsDialog(List<Payment> payments) {
+    final loc = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -1025,9 +1043,9 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                 children: [
                   const Icon(Icons.history),
                   const SizedBox(width: 8),
-                  const Text(
-                    'All Payments',
-                    style: TextStyle(
+                  Text(
+                    loc.allPayments,
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -1047,7 +1065,7 @@ class _LiabilityDetailScreenState extends ConsumerState<LiabilityDetailScreen> {
                       const Divider(height: 1),
                   itemBuilder: (context, index) {
                     final payment = payments[index];
-                    return _buildPaymentListItem(payment);
+                    return _buildPaymentListItem(payment, loc);
                   },
                 ),
               ),
