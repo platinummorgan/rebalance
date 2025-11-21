@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import '../../app.dart';
 import '../../services/purchase_service.dart';
 import '../../services/analytics_service.dart';
@@ -19,68 +20,50 @@ class ProScreen extends ConsumerStatefulWidget {
 }
 
 class _ProScreenState extends ConsumerState<ProScreen> {
+  List<ProductDetails>? _products;
+  bool _loadingProducts = true;
+  String? _productError;
+
   @override
   void initState() {
     super.initState();
     // Track Pro screen view when screen loads
     WidgetsBinding.instance.addPostFrameCallback((_) {
       AnalyticsService().logProScreenView();
+      _loadProducts();
     });
   }
 
-  /// Get localized pricing based on user's currency setting
-  Map<String, dynamic> _getPricing(String currencyCode) {
-    switch (currencyCode) {
-      case 'INR':
-        return {
-          'monthly': '₹249',
-          'annual': '₹2,490',
-          'lifetime': '₹3,299',
-          'savings': '₹498',
-        };
-      case 'BDT':
-        return {
-          'monthly': '৳299',
-          'annual': '৳2,990',
-          'lifetime': '৳3,990',
-          'savings': '৳598',
-        };
-      case 'SDG': // Sudanese Pound
-        return {
-          'monthly': 'SDG 2,400',
-          'annual': 'SDG 14,400',
-          'lifetime': 'SDG 24,000',
-          'savings': 'SDG 14,400',
-        };
-      case 'IRR': // Iranian Rial
-        return {
-          'monthly': '۱۶۸,۰۰۰ ﷼',
-          'annual': '۱,۰۰۸,۰۰۰ ﷼',
-          'lifetime': '۱,۶۸۰,۰۰۰ ﷼',
-          'savings': '۱,۰۰۸,۰۰۰ ﷼',
-        };
-      case 'EUR':
-        return {
-          'monthly': '€3.99',
-          'annual': '€39.99',
-          'lifetime': '€49.99',
-          'savings': '€8',
-        };
-      case 'GBP':
-        return {
-          'monthly': '£3.49',
-          'annual': '£34.99',
-          'lifetime': '£44.99',
-          'savings': '£7',
-        };
-      case 'USD':
-      default:
-        return {
-          'monthly': '\$3.99',
-          'annual': '\$23.99',
-          'lifetime': '\$39.99',
-          'savings': '\$24',
-        };
+  /// Load real prices from Google Play Store
+  Future<void> _loadProducts() async {
+    try {
+      final purchaseService = ref.read(purchaseServiceProvider);
+      final products = await purchaseService.loadProducts();
+
+      if (mounted) {
+        setState(() {
+          _products = products;
+          _loadingProducts = false;
+        });
+      }
+    } catch (e) {
+      debugPrint('Failed to load products: $e');
+      if (mounted) {
+        setState(() {
+          _productError = e.toString();
+          _loadingProducts = false;
+        });
+      }
+    }
+  }
+
+  /// Get product by ID
+  ProductDetails? _getProduct(String productId) {
+    if (_products == null) return null;
+    try {
+      return _products!.firstWhere((p) => p.id == productId);
+    } catch (e) {
+      return null;
     }
   }
 
@@ -497,66 +480,105 @@ class _ProScreenState extends ConsumerState<ProScreen> {
 
                   const SizedBox(height: 16),
 
-                  // Get localized pricing
-                  Builder(
-                    builder: (context) {
-                      final settingsAsync = ref.watch(settingsProvider);
-                      final currency = settingsAsync.maybeWhen(
-                        data: (settings) => settings.currency,
-                        orElse: () => 'USD',
-                      );
-                      final pricing = _getPricing(currency);
+                  // Get real pricing from Google Play
+                  if (_loadingProducts)
+                    const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(32.0),
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
+                  else if (_productError != null)
+                    const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          'Unable to load pricing. Please check your connection.',
+                          style: TextStyle(color: Colors.red),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    )
+                  else if (_products != null)
+                    Builder(
+                      builder: (context) {
+                        final monthlyProduct =
+                            _getProduct(PurchaseService.monthlySubId);
+                        final annualProduct =
+                            _getProduct(PurchaseService.annualSubId);
+                        final lifetimeProduct =
+                            _getProduct(PurchaseService.lifetimeId);
 
-                      return Column(
-                        children: [
-                          _buildPricingCard(
-                            context,
-                            ref: ref,
-                            title: loc.proMonthly,
-                            price: pricing['monthly'],
-                            period: loc.perMonth,
-                            features: [
-                              loc.allProFeatures,
-                              loc.cancelAnytime,
-                              loc.freeTrialDays,
-                            ],
-                            recommended: false,
-                          ),
-                          const SizedBox(height: 12),
-                          _buildPricingCard(
-                            context,
-                            ref: ref,
-                            title: loc.annual,
-                            price: pricing['annual'],
-                            period: loc.perYear,
-                            badge: loc.bestValue,
-                            features: [
-                              loc.allProFeatures,
-                              '${loc.save} ${pricing['savings']}',
-                              loc.freeTrialDays,
-                            ],
-                            recommended: true,
-                          ),
-                          const SizedBox(height: 12),
-                          _buildPricingCard(
-                            context,
-                            ref: ref,
-                            title: loc.founderLifetime,
-                            price: pricing['lifetime'],
-                            period: loc.oneTime,
-                            badge: loc.limited,
-                            features: [
-                              loc.everythingForever,
-                              loc.firstFounders,
-                              loc.priceIncreasesAfter,
-                            ],
-                            recommended: false,
-                            isFounder: true,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+                        // Calculate savings for annual
+                        String? annualSavings;
+                        if (monthlyProduct != null && annualProduct != null) {
+                          final monthlyCost = monthlyProduct.rawPrice * 12;
+                          final savings = monthlyCost - annualProduct.rawPrice;
+                          if (savings > 0) {
+                            // Use same currency symbol as annual product
+                            annualSavings = annualProduct.currencyCode == 'USD'
+                                ? '\$${savings.toStringAsFixed(0)}'
+                                : '${annualProduct.price.split(annualProduct.rawPrice.toString())[0]}${savings.toStringAsFixed(0)}';
+                          }
+                        }
+
+                        return Column(
+                          children: [
+                            if (monthlyProduct != null)
+                              _buildPricingCard(
+                                context,
+                                ref: ref,
+                                title: loc.proMonthly,
+                                price: monthlyProduct.price,
+                                period: loc.perMonth,
+                                productId: monthlyProduct.id,
+                                features: [
+                                  loc.allProFeatures,
+                                  loc.cancelAnytime,
+                                  loc.freeTrialDays,
+                                ],
+                                recommended: false,
+                              ),
+                            const SizedBox(height: 12),
+                            if (annualProduct != null)
+                              _buildPricingCard(
+                                context,
+                                ref: ref,
+                                title: loc.annual,
+                                price: annualProduct.price,
+                                period: loc.perYear,
+                                productId: annualProduct.id,
+                                badge: loc.bestValue,
+                                features: [
+                                  loc.allProFeatures,
+                                  if (annualSavings != null)
+                                    '${loc.save} $annualSavings',
+                                  loc.freeTrialDays,
+                                ],
+                                recommended: true,
+                              ),
+                            const SizedBox(height: 12),
+                            if (lifetimeProduct != null)
+                              _buildPricingCard(
+                                context,
+                                ref: ref,
+                                title: loc.founderLifetime,
+                                price: lifetimeProduct.price,
+                                period: loc.oneTime,
+                                productId: lifetimeProduct.id,
+                                badge: loc.limited,
+                                features: [
+                                  loc.everythingForever,
+                                  loc.firstFounders,
+                                  loc.priceIncreasesAfter,
+                                ],
+                                recommended: false,
+                                isFounder: true,
+                              ),
+                          ],
+                        );
+                      },
+                    ),
 
                   const SizedBox(height: 24),
 
@@ -695,6 +717,7 @@ class _ProScreenState extends ConsumerState<ProScreen> {
     required String title,
     required String price,
     required String period,
+    required String productId,
     String? badge,
     required List<String> features,
     required bool recommended,
@@ -795,7 +818,7 @@ class _ProScreenState extends ConsumerState<ProScreen> {
               SizedBox(
                 width: double.infinity,
                 child: FilledButton(
-                  onPressed: () => _handlePurchase(context, ref, title),
+                  onPressed: () => _handlePurchase(context, ref, productId),
                   style: FilledButton.styleFrom(
                     backgroundColor: recommended
                         ? Theme.of(context).colorScheme.primary
@@ -821,15 +844,13 @@ class _ProScreenState extends ConsumerState<ProScreen> {
   Future<void> _handlePurchase(
     BuildContext context,
     WidgetRef ref,
-    String title,
+    String productId,
   ) async {
-    // Map title to product id
-    String productId;
+    // Map product ID to plan type for analytics
     String planType;
-    if (title.contains('Monthly') || title.toLowerCase().contains('monthly')) {
-      productId = PurchaseService.monthlySubId;
+    if (productId == PurchaseService.monthlySubId) {
       planType = 'monthly';
-    } else if (title.toLowerCase().contains('annual')) {
+    } else if (productId == PurchaseService.annualSubId) {
       productId = PurchaseService.annualSubId;
       planType = 'annual';
     } else {
@@ -859,7 +880,9 @@ class _ProScreenState extends ConsumerState<ProScreen> {
     }
 
     try {
-      debugPrint('ProScreen: _handlePurchase called for title=$title');
+      debugPrint(
+        'ProScreen: _handlePurchase called for productId=$productId planType=$planType',
+      );
 
       // Show loading using the root navigator so it stays above route changes
       showDialog(
@@ -872,10 +895,11 @@ class _ProScreenState extends ConsumerState<ProScreen> {
 
       final purchaseService = ref.read(purchaseServiceProvider);
 
-      // Timeout product load to avoid the spinner being stuck indefinitely
-      final products = await purchaseService
-          .loadProducts()
-          .timeout(const Duration(seconds: 10));
+      // Use already loaded products if available, otherwise load
+      final products = _products ??
+          await purchaseService
+              .loadProducts()
+              .timeout(const Duration(seconds: 10));
 
       debugPrint(
         'ProScreen: Looking for productId=$productId in ${products.map((p) => p.id).toList()}',
@@ -901,8 +925,8 @@ class _ProScreenState extends ConsumerState<ProScreen> {
       // Dismiss loading before launching Play Billing UI
       dismissDialog();
 
-      // Track purchase flow start (Google Play billing sheet opens)
-      AnalyticsService().logPurchaseFlowStart(planType);
+      // Track purchase started (user initiated purchase)
+      AnalyticsService().logPurchaseStarted(planType);
 
       final success = await purchaseService.purchaseProduct(product);
 
@@ -911,8 +935,11 @@ class _ProScreenState extends ConsumerState<ProScreen> {
       );
 
       if (!success) {
-        // User cancelled - this is normal, track separately
-        AnalyticsService().logPurchaseCancelled(planType);
+        // NOTE: This only catches billing UI launch failures, not user cancellations
+        // User cancellations in the Google Play billing sheet come through the
+        // purchase stream with PurchaseStatus.canceled and are logged in PurchaseService
+        // TODO: Consider listening to purchase stream here to show cancellation snackbar
+        AnalyticsService().logPurchaseCancel(planType);
 
         if (context.mounted) {
           final loc = AppLocalizations.of(context)!;
@@ -920,16 +947,16 @@ class _ProScreenState extends ConsumerState<ProScreen> {
             SnackBar(content: Text(loc.purchaseCancelled)),
           );
         }
-      } else {
-        // Track purchase success (also tracked in PurchaseService)
-        // Note: PurchaseService.dart should also call logPurchaseComplete when Pro is granted
       }
+      // Note: Success/failure/cancellation feedback comes through purchase stream
+      // and is handled in PurchaseService._handlePurchaseUpdates
     } catch (e, st) {
       debugPrint('ProScreen: purchase flow error: $e\n$st');
 
       // Track ACTUAL purchase failure (errors, not cancellations)
       AnalyticsService().logPurchaseFailure(
         planType: planType,
+        errorCode: 'EXCEPTION',
         errorMessage: e.toString(),
       );
 

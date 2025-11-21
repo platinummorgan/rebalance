@@ -493,6 +493,9 @@ class Settings extends HiveObject {
   @HiveField(28, defaultValue: 'en')
   String? language; // UI language: 'en', 'hi', 'bn', etc.
 
+  @HiveField(29)
+  DateTime? proExpiryDate; // When Pro subscription expires (null = lifetime)
+
   Settings({
     required this.riskBand,
     required this.monthlyEssentials,
@@ -500,6 +503,7 @@ class Settings extends HiveObject {
     this.notificationsEnabled = true,
     this.usEquityTargetPct = 0.8,
     this.isPro = false,
+    this.proExpiryDate,
     this.biometricLockEnabled = false,
     this.darkModeEnabled = false,
     this.colorTheme = ColorTheme.green, // Default to green (current)

@@ -259,13 +259,14 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       baseCurrency: fields[26] == null ? 'USD' : fields[26] as String,
       proBannerDismissed: fields[27] as bool?,
       language: fields[28] == null ? 'en' : fields[28] as String?,
+      proExpiryDate: fields[29] as DateTime?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Settings obj) {
     writer
-      ..writeByte(29)
+      ..writeByte(30)
       ..writeByte(0)
       ..write(obj.riskBand)
       ..writeByte(1)
@@ -323,7 +324,9 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       ..writeByte(27)
       ..write(obj.proBannerDismissed)
       ..writeByte(28)
-      ..write(obj.language);
+      ..write(obj.language)
+      ..writeByte(29)
+      ..write(obj.proExpiryDate);
   }
 
   @override

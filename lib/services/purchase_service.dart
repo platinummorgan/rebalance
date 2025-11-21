@@ -122,7 +122,7 @@ class PurchaseService {
   }
 
   /// Restore previous purchases (important for reinstalls)
-  Future<void> restorePurchases(Ref ref) async {
+  Future<void> restorePurchases() async {
     if (_iap == null) {
       debugPrint(
         'Restore purchases skipped: IAP not supported on this platform',
@@ -154,6 +154,17 @@ class PurchaseService {
         if (valid) {
           // Grant Pro access
           await _grantProAccess(ref, purchase.productID);
+
+          // Track successful purchase
+          try {
+            final analyticsService = AnalyticsService();
+            await analyticsService.logPurchaseSuccess(
+              planType: purchase.productID,
+              purchaseId: purchase.purchaseID ?? 'unknown',
+            );
+          } catch (e) {
+            debugPrint('Failed to log purchase success analytics: $e');
+          }
         }
 
         // Mark purchase as complete
@@ -181,14 +192,22 @@ class PurchaseService {
           final analyticsService = AnalyticsService();
           await analyticsService.logPurchaseFailure(
             planType: purchase.productID,
-            errorMessage:
-                'Code: $errorCode | Msg: $errorMessage | Details: $errorDetails',
+            errorCode: errorCode,
+            errorMessage: '$errorMessage | Details: $errorDetails',
           );
         } catch (e) {
           debugPrint('Failed to log analytics: $e');
         }
       } else if (purchase.status == PurchaseStatus.canceled) {
-        debugPrint('Purchase canceled by user: ${purchase.productID}');
+        // User cancelled the purchase - log to analytics
+        debugPrint('Purchase cancelled by user: ${purchase.productID}');
+
+        try {
+          final analyticsService = AnalyticsService();
+          await analyticsService.logPurchaseCancel(purchase.productID);
+        } catch (e) {
+          debugPrint('Failed to log purchase cancellation: $e');
+        }
       } else if (purchase.status == PurchaseStatus.pending) {
         debugPrint(
           'Purchase pending (awaiting payment): ${purchase.productID}',
@@ -216,6 +235,25 @@ class PurchaseService {
       return;
     }
 
+    // Extend from existing expiry when renewing; otherwise start from now
+    final now = DateTime.now();
+    final baseDate = (currentSettings.proExpiryDate != null &&
+            currentSettings.proExpiryDate!.isAfter(now))
+        ? currentSettings.proExpiryDate!
+        : now;
+
+    // Calculate expiry date based on product type
+    DateTime? expiryDate;
+    if (productId == monthlySubId) {
+      expiryDate = baseDate.add(const Duration(days: 31));
+    } else if (productId == annualSubId) {
+      expiryDate = baseDate.add(const Duration(days: 366));
+    }
+    // Lifetime has no expiry (null)
+
+    debugPrint(
+        'Setting Pro expiry: ${expiryDate?.toIso8601String() ?? "lifetime"}');
+
     // Create a NEW Settings object with isPro = true so Riverpod detects the change
     final updatedSettings = Settings(
       riskBand: currentSettings.riskBand,
@@ -224,6 +262,7 @@ class PurchaseService {
       notificationsEnabled: currentSettings.notificationsEnabled,
       usEquityTargetPct: currentSettings.usEquityTargetPct,
       isPro: true, // <-- Grant Pro access
+      proExpiryDate: expiryDate, // <-- Store expiry date
       biometricLockEnabled: currentSettings.biometricLockEnabled,
       darkModeEnabled: currentSettings.darkModeEnabled,
       colorTheme: currentSettings.colorTheme,
@@ -317,14 +356,67 @@ class PurchaseService {
   }
 
   /// Check if user has active subscription or lifetime purchase
-  Future<bool> hasActiveSubscription() async {
-    if (!await isAvailable()) {
+  Future<bool> hasActiveSubscription(Ref ref) async {
+    final settings = await _waitForSettings(ref);
+    if (settings == null || !settings.isPro) return false;
+
+    // If no expiry date, it's lifetime (always active)
+    if (settings.proExpiryDate == null) return true;
+
+    // Check if subscription has expired
+    final now = DateTime.now();
+    if (settings.proExpiryDate!.isBefore(now)) {
+      // Subscription expired - revoke Pro access
+      debugPrint('Subscription expired on ${settings.proExpiryDate}');
+      await _revokeProAccess(ref);
       return false;
     }
 
-    // For now, rely on local isPro flag
-    // In production, you'd query Google Play for active subscriptions
-    return true; // Placeholder - implement server-side verification
+    return true;
+  }
+
+  /// Revoke Pro access when subscription expires
+  Future<void> _revokeProAccess(Ref ref) async {
+    debugPrint('Revoking Pro access due to expiry');
+
+    final currentSettings = await _waitForSettings(ref);
+    if (currentSettings == null) return;
+
+    final updatedSettings = Settings(
+      riskBand: currentSettings.riskBand,
+      monthlyEssentials: currentSettings.monthlyEssentials,
+      driftThresholdPct: currentSettings.driftThresholdPct,
+      notificationsEnabled: currentSettings.notificationsEnabled,
+      usEquityTargetPct: currentSettings.usEquityTargetPct,
+      isPro: false, // <-- Revoke Pro access
+      proExpiryDate: null, // Clear expiry
+      biometricLockEnabled: currentSettings.biometricLockEnabled,
+      darkModeEnabled: currentSettings.darkModeEnabled,
+      colorTheme: currentSettings.colorTheme,
+      liquidityBondHaircut: currentSettings.liquidityBondHaircut,
+      bucketCap: currentSettings.bucketCap,
+      employerStockThreshold: currentSettings.employerStockThreshold,
+      monthlyIncome: currentSettings.monthlyIncome,
+      incomeMultiplierFallback: currentSettings.incomeMultiplierFallback,
+      schemaVersion: currentSettings.schemaVersion,
+      concentrationRiskSnoozedUntil:
+          currentSettings.concentrationRiskSnoozedUntil,
+      concentrationRiskResolvedAt: currentSettings.concentrationRiskResolvedAt,
+      homeCountry: currentSettings.homeCountry,
+      globalDiversificationMode: currentSettings.globalDiversificationMode,
+      intlTargetOverride: currentSettings.intlTargetOverride,
+      intlTolerancePct: currentSettings.intlTolerancePct,
+      intlFloorPct: currentSettings.intlFloorPct,
+      intlPenaltyScale: currentSettings.intlPenaltyScale,
+      financialHealthBaseline: currentSettings.financialHealthBaseline,
+      financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
+      currency: currentSettings.currency,
+      baseCurrency: currentSettings.baseCurrency,
+      language: currentSettings.language,
+    );
+
+    await ref.read(settingsProvider.notifier).updateSettings(updatedSettings);
+    debugPrint('Pro access revoked');
   }
 }
 
