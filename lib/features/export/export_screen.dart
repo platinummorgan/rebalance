@@ -4,6 +4,7 @@ import 'package:csv/csv.dart';
 import 'package:intl/intl.dart';
 import '../../data/repositories.dart';
 import '../../services/file_saver_service.dart';
+import '../../services/backup_service.dart';
 import '../../generated/app_localizations.dart';
 
 class ExportScreen extends ConsumerWidget {
@@ -35,24 +36,24 @@ class ExportScreen extends ConsumerWidget {
                 onTap: () => _showExportOptions(context, ref),
               ),
             ),
-            const Card(
+            Card(
               child: ListTile(
-                leading: Icon(Icons.security),
-                title: Text('Export Encrypted Backup'),
-                subtitle: Text(
-                  'Full backup with passphrase protection (Coming soon)',
+                leading: const Icon(Icons.backup),
+                title: const Text('Create Complete Backup'),
+                subtitle: const Text(
+                  'Export all data (accounts, debts, income, settings) to a single file',
                 ),
-                enabled: false,
+                onTap: () => _createBackup(context, ref),
               ),
             ),
-            const Card(
+            Card(
               child: ListTile(
-                leading: Icon(Icons.upload),
-                title: Text('Import Backup'),
-                subtitle: Text(
-                  'Restore from encrypted backup file (Coming soon)',
+                leading: const Icon(Icons.restore),
+                title: const Text('Restore from Backup'),
+                subtitle: const Text(
+                  'Restore all data from a backup file',
                 ),
-                enabled: false,
+                onTap: () => _restoreBackup(context, ref),
               ),
             ),
           ],
@@ -220,6 +221,147 @@ class ExportScreen extends ConsumerWidget {
       );
     } finally {
       dismissDialog();
+    }
+  }
+
+  Future<void> _createBackup(BuildContext context, WidgetRef ref) async {
+    try {
+      debugPrint('[Backup] Starting backup creation...');
+      
+      if (!context.mounted) return;
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(child: CircularProgressIndicator()),
+      );
+
+      final file = await BackupService.createBackup();
+      
+      if (!context.mounted) return;
+      Navigator.of(context).pop(); // Dismiss loading dialog
+
+      if (file == null) {
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Failed to create backup'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
+      // Share the backup file
+      final shared = await BackupService.shareBackup(file);
+      
+      if (!context.mounted) return;
+      if (shared) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Backup created successfully! Save it to a safe location.'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 4),
+          ),
+        );
+      }
+    } catch (e, stack) {
+      debugPrint('[Backup] Error creating backup: $e');
+      debugPrint('[Backup] Stack trace: $stack');
+      
+      if (!context.mounted) return;
+      Navigator.of(context).pop(); // Dismiss loading dialog if still showing
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Backup failed: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<void> _restoreBackup(BuildContext context, WidgetRef ref) async {
+    // Show confirmation dialog first
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Restore from Backup?'),
+        content: const Text(
+          'WARNING: This will replace ALL your current data with the data from the backup file.\n\n'
+          'Your current data will be permanently deleted.\n\n'
+          'Make sure you have a backup of your current data before proceeding.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: FilledButton.styleFrom(
+              backgroundColor: Colors.red,
+            ),
+            child: const Text('Restore'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !context.mounted) return;
+
+    try {
+      debugPrint('[Backup] Starting restore...');
+      
+      if (!context.mounted) return;
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(child: CircularProgressIndicator()),
+      );
+
+      final result = await BackupService.restoreFromFile();
+      
+      if (!context.mounted) return;
+      Navigator.of(context).pop(); // Dismiss loading dialog
+
+      if (result.success) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Restore Successful!'),
+            content: Text(result.summary),
+            actions: [
+              FilledButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(); // Go back to settings
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Restore failed: ${result.error}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e, stack) {
+      debugPrint('[Backup] Error restoring backup: $e');
+      debugPrint('[Backup] Stack trace: $stack');
+      
+      if (!context.mounted) return;
+      Navigator.of(context).pop(); // Dismiss loading dialog if still showing
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Restore failed: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 }

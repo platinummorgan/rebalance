@@ -74,16 +74,25 @@ class RepositoryService {
     final encryptionKey = await _getOrCreateEncryptionKey();
 
     // Open encrypted boxes with error recovery
+    // If we encounter BadPaddingException (decryption failure), it means the
+    // encryption key doesn't match the stored data. This can happen after
+    // app reinstalls or OS updates. We need to recover by clearing corrupted data.
+    bool encryptionError = false;
+
     try {
       _accountsBox = await Hive.openBox<Account>(
         'accounts',
         encryptionCipher: HiveAesCipher(encryptionKey),
       );
     } catch (e) {
-      // Do NOT automatically delete the user's data on open failure.
-      // Record the failure and rethrow so callers can surface diagnostics
       debugPrint('[Repository] Failed to open "accounts" box: $e');
-      rethrow;
+      if (e.toString().contains('BadPaddingException') ||
+          e.toString().contains('BAD_DECRYPT')) {
+        encryptionError = true;
+        debugPrint('[Repository] Detected encryption error in accounts box');
+      } else {
+        rethrow;
+      }
     }
 
     try {
@@ -93,7 +102,13 @@ class RepositoryService {
       );
     } catch (e) {
       debugPrint('[Repository] Failed to open "liabilities" box: $e');
-      rethrow;
+      if (e.toString().contains('BadPaddingException') ||
+          e.toString().contains('BAD_DECRYPT')) {
+        encryptionError = true;
+        debugPrint('[Repository] Detected encryption error in liabilities box');
+      } else if (!encryptionError) {
+        rethrow;
+      }
     }
 
     try {
@@ -103,7 +118,13 @@ class RepositoryService {
       );
     } catch (e) {
       debugPrint('[Repository] Failed to open "incomes" box: $e');
-      rethrow;
+      if (e.toString().contains('BadPaddingException') ||
+          e.toString().contains('BAD_DECRYPT')) {
+        encryptionError = true;
+        debugPrint('[Repository] Detected encryption error in incomes box');
+      } else if (!encryptionError) {
+        rethrow;
+      }
     }
 
     try {
@@ -113,7 +134,13 @@ class RepositoryService {
       );
     } catch (e) {
       debugPrint('[Repository] Failed to open "settings" box: $e');
-      rethrow;
+      if (e.toString().contains('BadPaddingException') ||
+          e.toString().contains('BAD_DECRYPT')) {
+        encryptionError = true;
+        debugPrint('[Repository] Detected encryption error in settings box');
+      } else if (!encryptionError) {
+        rethrow;
+      }
     }
 
     try {
@@ -123,7 +150,13 @@ class RepositoryService {
       );
     } catch (e) {
       debugPrint('[Repository] Failed to open "snapshots" box: $e');
-      rethrow;
+      if (e.toString().contains('BadPaddingException') ||
+          e.toString().contains('BAD_DECRYPT')) {
+        encryptionError = true;
+        debugPrint('[Repository] Detected encryption error in snapshots box');
+      } else if (!encryptionError) {
+        rethrow;
+      }
     }
 
     try {
@@ -133,7 +166,13 @@ class RepositoryService {
       );
     } catch (e) {
       debugPrint('[Repository] Failed to open "actionCards" box: $e');
-      rethrow;
+      if (e.toString().contains('BadPaddingException') ||
+          e.toString().contains('BAD_DECRYPT')) {
+        encryptionError = true;
+        debugPrint('[Repository] Detected encryption error in actionCards box');
+      } else if (!encryptionError) {
+        rethrow;
+      }
     }
 
     try {
@@ -143,7 +182,30 @@ class RepositoryService {
       );
     } catch (e) {
       debugPrint('[Repository] Failed to open "payments" box: $e');
-      rethrow;
+      if (e.toString().contains('BadPaddingException') ||
+          e.toString().contains('BAD_DECRYPT')) {
+        encryptionError = true;
+        debugPrint('[Repository] Detected encryption error in payments box');
+      } else if (!encryptionError) {
+        rethrow;
+      }
+    }
+
+    // If we detected encryption errors, DO NOT automatically delete user data.
+    // This can happen after app updates when the encryption key changes.
+    // Surface the error to the user with recovery instructions.
+    if (encryptionError) {
+      debugPrint('[Repository] CRITICAL: Encryption key mismatch detected');
+      debugPrint('[Repository] This usually happens after OS updates or app reinstalls');
+      debugPrint('[Repository] User data exists but cannot be decrypted with current key');
+      
+      // Throw error with user-friendly message instead of auto-deleting data
+      throw Exception(
+        'Unable to access your financial data due to encryption key changes. '
+        'This can happen after system updates. Your data is still stored safely. '
+        'Please try restarting the app. If the problem persists, contact support for data recovery. '
+        'DO NOT uninstall the app as this will permanently delete your data.'
+      );
     }
 
     try {
@@ -153,7 +215,15 @@ class RepositoryService {
       );
     } catch (e) {
       debugPrint('[Repository] Failed to open "notifications" box: $e');
-      rethrow;
+      if (e.toString().contains('BadPaddingException') ||
+          e.toString().contains('BAD_DECRYPT')) {
+        encryptionError = true;
+        debugPrint(
+          '[Repository] Detected encryption error in notifications box',
+        );
+      } else if (!encryptionError) {
+        rethrow;
+      }
     }
 
     _initialized = true;
