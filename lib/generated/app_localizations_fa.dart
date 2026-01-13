@@ -2200,4 +2200,369 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get businessLoansDescription => '• وام‌های تجاری - بدهی تجاری';
+
+  @override
+  String get upgradeForProFeatures =>
+      'برای برنامه‌های نامحدود، صادرات PDF و تجزیه و تحلیل پیشرفته به نسخه حرفه‌ای ارتقا دهید.';
+
+  @override
+  String get upgradeForPdfExports =>
+      'برای صادرات PDF، برنامه‌های نامحدود و تجزیه و تحلیل پیشرفته به نسخه حرفه‌ای ارتقا دهید.';
+
+  @override
+  String get pdfExportAvailable => 'صادرات PDF با Rebalance Pro در دسترس است.';
+
+  @override
+  String get pdfExportProMessage =>
+      'صادرات PDF با Rebalance Pro در دسترس است.\n\nبرای صادرات PDF، برنامه‌های نامحدود و تجزیه و تحلیل پیشرفته به نسخه حرفه‌ای ارتقا دهید.';
+
+  @override
+  String get taxOptimizationDescription =>
+      'کشش مالیاتی سالانه تخمینی را ببینید و نحوه کاهش آن را با موقعیت بهتر دارایی.';
+
+  @override
+  String potentialSavingsPerYear(String amount) {
+    return 'صرفه‌جویی بالقوه: $amount / سال';
+  }
+
+  @override
+  String get assetsAlreadyTaxEfficient =>
+      'دارایی‌های شما از قبل به طور کارآمد مالیاتی قرار گرفته‌اند. 👍';
+
+  @override
+  String estimatedYearlyImpact(String amount) {
+    return 'تأثیر سالانه تخمینی: $amount';
+  }
+
+  @override
+  String get unlockCustomAlerts => 'باز کردن قفل هشدارهای سفارشی';
+
+  @override
+  String get alertSettingsSaved => 'تنظیمات هشدار ذخیره شد';
+
+  @override
+  String failedToSave(String error) {
+    return 'ذخیره ناموفق بود: $error';
+  }
+
+  @override
+  String get thresholds => 'آستانه‌ها';
+
+  @override
+  String get driftThreshold => 'آستانه انحراف';
+
+  @override
+  String get concentrationCap => 'حد تمرکز';
+
+  @override
+  String get employerStockCap => 'حد سهام کارفرما';
+
+  @override
+  String get notifications => 'اعلان‌ها';
+
+  @override
+  String get enableAlertNotifications => 'فعال کردن اعلان‌های هشدار';
+
+  @override
+  String get receiveAlertNotificationsDescription =>
+      'هشدارهای داخل برنامه را هنگام نقض آستانه‌ها دریافت کنید';
+
+  @override
+  String get dollarImpactPreview => 'پیش‌نمایش تأثیر دلار';
+
+  @override
+  String get exampleImpact => 'نمونه تأثیر';
+
+  @override
+  String get exampleImpactDescription =>
+      'هنگامی که یک آستانه نقض می‌شود، هشدارها مبلغ تخمینی دلار مرتبط با قرار گرفتن بیش از حد را نشان می‌دهند تا کاربران تأثیر مالی واقعی را بدانند.';
+
+  @override
+  String get scenarioA => 'سناریو A';
+
+  @override
+  String get scenarioB => 'سناریو B';
+
+  @override
+  String get monthlyContribution => 'کمک ماهانه';
+
+  @override
+  String get expectedReturn => 'بازده مورد انتظار';
+
+  @override
+  String get volatility => 'نوسان';
+
+  @override
+  String get years => 'سال‌ها';
+
+  @override
+  String get goalAmount => 'مبلغ هدف';
+
+  @override
+  String get resultsA => 'نتایج A';
+
+  @override
+  String get resultsB => 'نتایج B';
+
+  @override
+  String get successProbability => 'احتمال موفقیت';
+
+  @override
+  String get medianEnding => 'پایان میانه';
+
+  @override
+  String get tenthPercentile => 'دهک دهم';
+
+  @override
+  String get ninetiethPercentile => 'دهک نودم';
+
+  @override
+  String get retirementSimulationDescription =>
+      'این ماشین حساب 1000 شبیه‌سازی را برای تخمین احتمال موفقیت بازنشستگی شما اجرا می‌کند.';
+
+  @override
+  String get yourRetirementPlan => 'طرح بازنشستگی شما';
+
+  @override
+  String get currentSavings => 'پس‌انداز فعلی';
+
+  @override
+  String get yearsUntilRetirement => 'سال‌ها تا بازنشستگی';
+
+  @override
+  String get desiredMonthlyIncome => 'درآمد ماهانه مطلوب';
+
+  @override
+  String get yearsInRetirement => 'سال‌های بازنشستگی';
+
+  @override
+  String get outcomeDistribution => 'توزیع نتایج';
+
+  @override
+  String get outcomeLikelihood => 'احتمال نتایج مختلف';
+
+  @override
+  String get fail => 'شکست';
+
+  @override
+  String get low => 'پایین';
+
+  @override
+  String get med => 'متوسط';
+
+  @override
+  String get high => 'بالا';
+
+  @override
+  String get recommendations => 'توصیه‌ها';
+
+  @override
+  String moveToTaxAdvantaged(Object amount, Object asset) {
+    return '$amount از $asset را به حساب مزایای مالیاتی منتقل کنید';
+  }
+
+  @override
+  String get estimatedAnnualImpact => 'تأثیر سالانه تخمینی';
+
+  @override
+  String considerIncreasingContributions(Object amount) {
+    return 'برای بهبود شانس خود، افزایش کمک‌های ماهانه به $amount را در نظر بگیرید.';
+  }
+
+  @override
+  String get excellentOnTrack => 'عالی! برنامه بازنشستگی شما در مسیر درست است.';
+
+  @override
+  String incomeExceedsSafeWithdrawal(Object desired, Object safe) {
+    return 'درآمد مطلوب شما ($desired) از مبلغ برداشت ایمن \"قانون 4٪\" ($safe) بیشتر است.';
+  }
+
+  @override
+  String timeIsAdvantage(Object years) {
+    return 'با $years سال تا بازنشستگی، زمان بزرگترین مزیت شماست. با کمک‌ها ثابت قدم باشید.';
+  }
+
+  @override
+  String get planReasonable =>
+      'برنامه شما منطقی است. سالانه بررسی کنید و با تغییر وضعیت خود تنظیم کنید.';
+
+  @override
+  String get successProbabilityLabel => 'احتمال موفقیت';
+
+  @override
+  String grade(Object grade) {
+    return 'نمره $grade';
+  }
+
+  @override
+  String get atRetirement => 'در بازنشستگی';
+
+  @override
+  String get medianAfterRetirement => 'میانه پس از بازنشستگی';
+
+  @override
+  String get bestCase90th => 'بهترین حالت (دهک 90)';
+
+  @override
+  String simulationsYears(Object simulations, Object years) {
+    return 'شبیه‌سازی‌ها: $simulations\\nسال‌ها: $years';
+  }
+
+  @override
+  String get distributionSortedOutcomes => 'توزیع (نتایج مرتب‌شده)';
+
+  @override
+  String get thisWeeksSafeToSpend => 'ایمن برای خرج کردن این هفته';
+
+  @override
+  String get onTrack => 'در مسیر درست';
+
+  @override
+  String daysOfBuffer(int days) {
+    return '$days روز ذخیره باقی‌مانده';
+  }
+
+  @override
+  String youllBeShort(String amount, String day) {
+    return '⚠ با این سرعت تا $day به میزان $amount کم خواهید آورد';
+  }
+
+  @override
+  String incomeAmount(String amount) {
+    return 'درآمد $amount';
+  }
+
+  @override
+  String billsAmount(String amount) {
+    return 'قبوض $amount';
+  }
+
+  @override
+  String get tapToSeeGuardrails => 'برای مشاهده محدودیت‌ها ضربه بزنید';
+
+  @override
+  String get moneyHealthScore => 'امتیاز سلامت مالی';
+
+  @override
+  String weakestArea(String area) {
+    return '$area ضعیف‌ترین نقطه شما در حال حاضر است';
+  }
+
+  @override
+  String get neverBrokeWeek => 'دیگر هرگز \'هفته بی‌پولی\' نداشته باشید.';
+
+  @override
+  String get answerQuestionsGuardrails =>
+      'به 3 سؤال سریع پاسخ دهید و ما به شما می‌گوییم این هفته چقدر می‌توانید با اطمینان خرج کنید.';
+
+  @override
+  String get setupGuardrails => 'تنظیم محدودیت‌های من (30 ثانیه)';
+
+  @override
+  String get updatedNow => 'هم اکنون به‌روزرسانی شد';
+
+  @override
+  String get weeklyGuardrails => 'محدودیت‌های هفتگی';
+
+  @override
+  String get safeToSpendThisWeek => 'امن برای خرج کردن این هفته';
+
+  @override
+  String get overBudgetThisWeek => 'بیش از بودجه این هفته';
+
+  @override
+  String alreadyOverThisWeek(String amount) {
+    return 'شما قبلاً $amount از بودجه این هفته فراتر رفته‌اید';
+  }
+
+  @override
+  String goingNegativeByDay(String day) {
+    return 'شما در مسیر منفی شدن تا $day هستید';
+  }
+
+  @override
+  String willBeShortByFriday(String amount) {
+    return 'تا جمعه $amount کمبود خواهید داشت';
+  }
+
+  @override
+  String bufferUntilNext(String day) {
+    return 'ذخیره تا $day بعدی';
+  }
+
+  @override
+  String bufferUntil(String day) {
+    return 'ذخیره تا $day';
+  }
+
+  @override
+  String get warningZoneToast =>
+      'شما این هفته در منطقه هشدار هستید. برای دیدن اینکه اگر بیشتر خرج کنید چه اتفاقی می‌افتد، روی کارت ضربه بزنید.';
+
+  @override
+  String get monday => 'دوشنبه';
+
+  @override
+  String get tuesday => 'سه‌شنبه';
+
+  @override
+  String get wednesday => 'چهارشنبه';
+
+  @override
+  String get thursday => 'پنج‌شنبه';
+
+  @override
+  String get friday => 'جمعه';
+
+  @override
+  String get saturday => 'شنبه';
+
+  @override
+  String get sunday => 'یکشنبه';
+
+  @override
+  String get buffer => 'ذخیره';
+
+  @override
+  String bufferUntilDay(String day) {
+    return 'اگر مانند هفته گذشته خرج کنید، تا $day ذخیره دارید';
+  }
+
+  @override
+  String get whatIfYouSpendMore => 'اگر بیشتر خرج کنید چه می‌شود؟';
+
+  @override
+  String get additionalSpending => 'هزینه اضافی';
+
+  @override
+  String ifYouSpendMore(String amount, String shortage, String date) {
+    return 'اگر این هفته +$amount بیشتر خرج کنید ← در $date به میزان $shortage کم خواهید آورد';
+  }
+
+  @override
+  String stillOnTrack(String buffer) {
+    return 'هنوز در مسیر هستید با ذخیره $buffer';
+  }
+
+  @override
+  String get weeklyIncome => 'درآمد هفتگی';
+
+  @override
+  String get weeklyBills => 'قبوض هفتگی';
+
+  @override
+  String get bufferDiscretionary => 'ذخیره / اختیاری';
+
+  @override
+  String get adjustIncome => 'تنظیم درآمد';
+
+  @override
+  String get editBills => 'ویرایش قبوض';
+
+  @override
+  String get neverGuessAgain => 'دیگر حدس نزنید';
+
+  @override
+  String get autoAlertsProUpsell =>
+      'هشدارهای خودکار دریافت کنید وقتی در آستانه تجاوز از مبلغ امن خرج هفتگی خود هستید. قبل از اشتباه بدانید.';
 }

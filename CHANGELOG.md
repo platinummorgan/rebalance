@@ -7,6 +7,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [1.0.11] - 2025-11-20 (build 28)
+
+### Added - Weekly Guardrails 📊
+- **Safe to Spend Card**: Prominent weekly spending guidance on dashboard
+  - Green state (✓): On track with 3+ days of buffer
+  - Orange state (⚠): Warning zone with <3 days buffer
+  - Red state (🚨): Over budget, negative safe-to-spend
+- **Accessibility Icons**: Color-blind friendly indicators for all states
+- **Weekly Guardrails Detail Screen**: Deep dive into weekly cashflow
+  - Interactive what-if slider to model extra spending scenarios
+  - Real-time buffer calculation showing days until negative
+  - Dynamic state indicators (green/yellow/red zones)
+  - Income and bills breakdown with quick edit access
+  - Pro upgrade prompt for users in tight budget situations
+- **One-time Coaching Toast**: Contextual guidance when entering warning zones
+- **Smart Buffer Calculations**: Daily burn rate analysis based on weekly bills
+
+### Improved - Complete Internationalization 🌍
+- **Full Multi-Language Support**: Dashboard now 100% localized across all 5 languages
+  - English, العربية (Arabic), বাংলা (Bengali), فارسی (Persian), हिन्दी (Hindi)
+- **Localized Day Names**: Monday-Sunday properly translated (e.g., सोमवार, मंगलवार in Hindi)
+- **Currency Conversion**: All amounts automatically convert to user's selected currency
+- **Component Names**: Financial health components fully translated (e.g., "Debt Load" → "ऋण भार")
+- **Dashboard Layout Optimization**:
+  - Changed Income/Bills to vertical stacked layout to prevent text cutoff
+  - Reduced font sizes for better information density (14px → 12px)
+  - Simplified "Updated today" indicator (removed pill background, 10px subtle text)
+  - Better spacing and visual hierarchy
+
+### Fixed
+- Text overflow on Income/Bills line ("Wee..." now shows full "Weekly Bills")
+- Currency amounts now convert properly using CurrencyText widget
+- Guardrails detail screen build errors resolved
+- Email language support link encoding working correctly
+
+### Changed
+- Net Worth card: Changed from bright green gradient to clean white card with teal accent
+- Better visual hierarchy between primary (Safe to Spend) and secondary (Net Worth) information
+- Letter grades (A-F) remain universal English for international consistency
+
+### Technical
+- Added 50+ translation strings across 5 ARB files
+- Implemented _translateComponentName() for health component localization
+- Fixed CurrencyFormatter vs CurrencyText usage patterns
+- Enhanced state management for weekly calculations
+- Improved analytics tracking for guardrails interactions
+
 ### Added
 - **CSV Import**: Bulk import accounts, liabilities, and income from CSV files
   - File picker with CSV filter for easy file selection

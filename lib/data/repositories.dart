@@ -196,16 +196,19 @@ class RepositoryService {
     // Surface the error to the user with recovery instructions.
     if (encryptionError) {
       debugPrint('[Repository] CRITICAL: Encryption key mismatch detected');
-      debugPrint('[Repository] This usually happens after OS updates or app reinstalls');
-      debugPrint('[Repository] User data exists but cannot be decrypted with current key');
-      
+      debugPrint(
+        '[Repository] This usually happens after OS updates or app reinstalls',
+      );
+      debugPrint(
+        '[Repository] User data exists but cannot be decrypted with current key',
+      );
+
       // Throw error with user-friendly message instead of auto-deleting data
       throw Exception(
-        'Unable to access your financial data due to encryption key changes. '
-        'This can happen after system updates. Your data is still stored safely. '
-        'Please try restarting the app. If the problem persists, contact support for data recovery. '
-        'DO NOT uninstall the app as this will permanently delete your data.'
-      );
+          'Unable to access your financial data due to encryption key changes. '
+          'This can happen after system updates. Your data is still stored safely. '
+          'Please try restarting the app. If the problem persists, contact support for data recovery. '
+          'DO NOT uninstall the app as this will permanently delete your data.');
     }
 
     try {

@@ -1,0 +1,553 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import '../../data/models.dart';
+import '../../data/repositories.dart';
+import '../../app.dart';
+import '../../utils/currency_formatter.dart';
+import '../../services/exchange_rate_service.dart';
+import '../../generated/app_localizations.dart';
+
+// Custom formatter to add commas while typing
+class ThousandsSeparatorInputFormatter extends TextInputFormatter {
+  final NumberFormat _formatter = NumberFormat('#,###');
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    if (newValue.text.isEmpty) {
+      return newValue;
+    }
+
+    // Remove all non-digit characters except decimal point
+    String digitsOnly = newValue.text.replaceAll(RegExp(r'[^\d.]'), '');
+
+    // Ensure only one decimal point
+    final parts = digitsOnly.split('.');
+    if (parts.length > 2) {
+      digitsOnly = '${parts[0]}.${parts.sublist(1).join()}';
+    }
+
+    // Limit to 2 decimal places
+    if (parts.length == 2 && parts[1].length > 2) {
+      digitsOnly = '${parts[0]}.${parts[1].substring(0, 2)}';
+    }
+
+    if (digitsOnly.isEmpty) {
+      return newValue.copyWith(text: '');
+    }
+
+    // Format with commas
+    final splitParts = digitsOnly.split('.');
+    final integerPart = splitParts[0];
+    final decimalPart = splitParts.length > 1 ? '.${splitParts[1]}' : '';
+
+    final formattedInteger = _formatter.format(int.tryParse(integerPart) ?? 0);
+    final formatted = '$formattedInteger$decimalPart';
+
+    return TextEditingValue(
+      text: formatted,
+      selection: TextSelection.collapsed(offset: formatted.length),
+    );
+  }
+}
+
+class AccountDetailScreen extends ConsumerStatefulWidget {
+  final String? accountId;
+
+  const AccountDetailScreen({super.key, this.accountId});
+
+  @override
+  ConsumerState<AccountDetailScreen> createState() =>
+      _AccountDetailScreenState();
+}
+
+class _AccountDetailScreenState extends ConsumerState<AccountDetailScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _balanceController = TextEditingController();
+
+  String _selectedAccountType = 'checking';
+  bool _isLocked = false;
+  double _pctCash = 100.0;
+  double _pctBonds = 0.0;
+  double _pctUsEq = 0.0;
+  double _pctIntlEq = 0.0;
+  double _pctRealEstate = 0.0;
+  double _pctAlt = 0.0;
+
+  bool _isLoading = false;
+  Account? _existingAccount;
+
+  Map<String, String> _getAccountTypes(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    return {
+      'cash': loc.accountTypeCashAccount,
+      'checking': loc.accountTypeCheckingAccount,
+      'savings': loc.accountTypeSavingsAccount,
+      'brokerage': loc.accountTypeBrokerageAccount,
+      'retirement': loc.accountTypeRetirement,
+      'hsa': loc.accountTypeHealthSavingsAccount,
+      'cd': loc.accountTypeCertificateOfDeposit,
+      'crypto': loc.accountTypeCryptocurrency,
+      'realestate': loc.accountTypeRealEstate,
+      'realestateequity': loc.accountTypeRealEstateEquity,
+      '529': loc.accountType529EducationSavings,
+      'other': loc.accountTypeOther,
+    };
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.accountId != null) {
+      _loadExistingAccount();
+    }
+  }
+
+  Future<void> _loadExistingAccount() async {
+    try {
+      final accounts = await RepositoryService.getAccounts();
+      _existingAccount = accounts.firstWhere((a) => a.id == widget.accountId);
+
+      if (_existingAccount != null) {
+        // Get user's display currency
+        final settings = await RepositoryService.getSettings();
+        final displayCurrency = settings.currency;
+
+        // Use original currency/balance if available to avoid rounding errors
+        final double displayBalance;
+        if (_existingAccount!.originalCurrency != null &&
+            _existingAccount!.originalBalance != null &&
+            _existingAccount!.originalCurrency == displayCurrency) {
+          // Same currency - use original balance directly (no rounding!)
+          displayBalance = _existingAccount!.originalBalance!;
+        } else {
+          // Different currency or no original - convert from USD
+          final exchangeService = ExchangeRateService();
+          displayBalance = await exchangeService.convert(
+            _existingAccount!.balance,
+            'USD',
+            displayCurrency,
+          );
+        }
+
+        _nameController.text = _existingAccount!.name;
+        _balanceController.text = displayBalance.toStringAsFixed(2);
+        _selectedAccountType = _existingAccount!.kind;
+        _isLocked = _existingAccount!.isLocked;
+        _pctCash = _existingAccount!.pctCash * 100;
+        _pctBonds = _existingAccount!.pctBonds * 100;
+        _pctUsEq = _existingAccount!.pctUsEq * 100;
+        _pctIntlEq = _existingAccount!.pctIntlEq * 100;
+        _pctRealEstate = _existingAccount!.pctRealEstate * 100;
+        _pctAlt = _existingAccount!.pctAlt * 100;
+        setState(() {});
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error loading account: $e')),
+        );
+      }
+    }
+  }
+
+  void _normalizeAllocations() {
+    final total =
+        _pctCash + _pctBonds + _pctUsEq + _pctIntlEq + _pctRealEstate + _pctAlt;
+    if (total > 100.0) {
+      final ratio = 100.0 / total;
+      _pctCash *= ratio;
+      _pctBonds *= ratio;
+      _pctUsEq *= ratio;
+      _pctIntlEq *= ratio;
+      _pctRealEstate *= ratio;
+      _pctAlt *= ratio;
+    }
+  }
+
+  Future<void> _saveAccount() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _isLoading = true);
+
+    try {
+      _normalizeAllocations();
+
+      // Get user's display currency and convert to USD for storage
+      final settings = await RepositoryService.getSettings();
+      final displayCurrency = settings.currency;
+      final exchangeService = ExchangeRateService();
+
+      final balanceInDisplayCurrency =
+          double.parse(_balanceController.text.replaceAll(',', ''));
+      final balanceUSD = await exchangeService.convert(
+        balanceInDisplayCurrency,
+        displayCurrency,
+        'USD',
+      );
+
+      final account = Account(
+        id: widget.accountId ??
+            DateTime.now().millisecondsSinceEpoch.toString(),
+        name: _nameController.text.trim(),
+        kind: _selectedAccountType,
+        balance: balanceUSD,
+        pctCash: _pctCash / 100,
+        pctBonds: _pctBonds / 100,
+        pctUsEq: _pctUsEq / 100,
+        pctIntlEq: _pctIntlEq / 100,
+        pctRealEstate: _pctRealEstate / 100,
+        pctAlt: _pctAlt / 100,
+        updatedAt: DateTime.now(),
+        isLocked: _isLocked,
+        // Store original currency and balance to avoid rounding errors
+        originalCurrency: displayCurrency,
+        originalBalance: balanceInDisplayCurrency,
+      );
+
+      await ref.read(accountsProvider.notifier).addAccount(account);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Account saved successfully!')),
+        );
+        context.pop();
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error saving account: $e')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _balanceController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    final isEditing = widget.accountId != null;
+    final settingsAsync = ref.watch(settingsProvider);
+    final currencySymbol = settingsAsync.value != null
+        ? CurrencyFormatter.format(0, settingsAsync.value!.currency)
+            .replaceAll('0', '')
+            .replaceAll('.', '')
+            .replaceAll(',', '')
+            .trim()
+        : '\$';
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(isEditing ? loc.editAccount : loc.addAccount),
+        elevation: 0,
+        actions: [
+          TextButton(
+            onPressed: _isLoading ? null : _saveAccount,
+            child: _isLoading
+                ? const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : Text(AppLocalizations.of(context)!.save),
+          ),
+        ],
+      ),
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.accountDetails,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!.accountName,
+                          hintText:
+                              AppLocalizations.of(context)!.exampleAccountName,
+                          border: const OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return AppLocalizations.of(context)!
+                                .pleaseEnterAccountName;
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      DropdownButtonFormField<String>(
+                        initialValue: _selectedAccountType,
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!.accountType,
+                          border: const OutlineInputBorder(),
+                        ),
+                        items: _getAccountTypes(context).entries.map((entry) {
+                          return DropdownMenuItem(
+                            value: entry.key,
+                            child: Text(entry.value),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          if (value != null) {
+                            setState(() {
+                              _selectedAccountType = value;
+                              // Auto-set locked status based on account type
+                              _isLocked = Account.isLockedByDefault(value);
+                            });
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Locked Account Toggle
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: _isLocked
+                              ? Colors.amber.shade50
+                              : Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: _isLocked
+                                ? Colors.amber.shade300
+                                : Colors.grey.shade300,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              _isLocked ? Icons.lock : Icons.lock_open,
+                              color: _isLocked
+                                  ? Colors.amber.shade700
+                                  : Colors.grey.shade600,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    AppLocalizations.of(context)!.lockedAccount,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15,
+                                      color: _isLocked
+                                          ? Colors.amber.shade900
+                                          : Colors.grey.shade800,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    _isLocked
+                                        ? AppLocalizations.of(context)!
+                                            .cannotBeRebalanced
+                                        : AppLocalizations.of(context)!
+                                            .canBeRebalanced,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: _isLocked
+                                          ? Colors.amber.shade800
+                                          : Colors.grey.shade700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Switch(
+                              value: _isLocked,
+                              onChanged: (value) {
+                                setState(() => _isLocked = value);
+                              },
+                              activeThumbColor: Colors.amber.shade700,
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _balanceController,
+                        decoration: InputDecoration(
+                          labelText:
+                              AppLocalizations.of(context)!.currentBalance,
+                          hintText: '0.00',
+                          border: const OutlineInputBorder(),
+                          prefixText: currencySymbol,
+                        ),
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
+                        inputFormatters: [
+                          ThousandsSeparatorInputFormatter(),
+                        ],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return AppLocalizations.of(context)!
+                                .pleaseEnterBalance;
+                          }
+                          // Remove commas before parsing
+                          final cleanValue = value.replaceAll(',', '');
+                          final balance = double.tryParse(cleanValue);
+                          if (balance == null || balance < 0) {
+                            return AppLocalizations.of(context)!
+                                .pleaseEnterValidBalance;
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        loc.assetAllocation,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        loc.assetAllocationDescription,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildAllocationSlider(
+                          loc.cashAndCashEquivalents, _pctCash, (value) {
+                        setState(() => _pctCash = value);
+                      }),
+                      _buildAllocationSlider(loc.bondsAndFixedIncome, _pctBonds,
+                          (value) {
+                        setState(() => _pctBonds = value);
+                      }),
+                      _buildAllocationSlider(loc.usEquity, _pctUsEq, (value) {
+                        setState(() => _pctUsEq = value);
+                      }),
+                      _buildAllocationSlider(
+                          loc.internationalEquity, _pctIntlEq, (value) {
+                        setState(() => _pctIntlEq = value);
+                      }),
+                      _buildAllocationSlider(
+                          loc.realEstateREITs, _pctRealEstate, (value) {
+                        setState(() => _pctRealEstate = value);
+                      }),
+                      _buildAllocationSlider(loc.alternatives, _pctAlt,
+                          (value) {
+                        setState(() => _pctAlt = value);
+                      }),
+                      const SizedBox(height: 16),
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHighest,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(loc.totalAllocation),
+                            Text(
+                              '${(_pctCash + _pctBonds + _pctUsEq + _pctIntlEq + _pctRealEstate + _pctAlt).toStringAsFixed(1)}%',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: (_pctCash +
+                                            _pctBonds +
+                                            _pctUsEq +
+                                            _pctIntlEq +
+                                            _pctRealEstate +
+                                            _pctAlt >
+                                        100.0)
+                                    ? Theme.of(context).colorScheme.error
+                                    : null,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: _isLoading ? null : _saveAccount,
+                  child: _isLoading
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : Text(isEditing ? loc.updateAccount : loc.addAccount),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAllocationSlider(
+    String label,
+    double value,
+    ValueChanged<double> onChanged,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(label),
+            Text('${value.toStringAsFixed(1)}%'),
+          ],
+        ),
+        Slider(
+          value: value,
+          min: 0,
+          max: 100,
+          divisions: 100,
+          onChanged: onChanged,
+        ),
+        const SizedBox(height: 8),
+      ],
+    );
+  }
+}

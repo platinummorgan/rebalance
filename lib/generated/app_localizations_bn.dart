@@ -273,7 +273,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get good => 'ভাল';
 
   @override
-  String get fair => 'মোটামুটি';
+  String get fair => 'মোটামুটি ভালো';
 
   @override
   String get needsWork => 'উন্নতি প্রয়োজন';
@@ -2201,4 +2201,370 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get businessLoansDescription => '• ব্যবসায়িক ঋণ - বাণিজ্যিক ঋণ';
+
+  @override
+  String get upgradeForProFeatures =>
+      'সীমাহীন পরিকল্পনা, PDF রপ্তানি এবং উন্নত বিশ্লেষণের জন্য প্রো-তে আপগ্রেড করুন।';
+
+  @override
+  String get upgradeForPdfExports =>
+      'PDF রপ্তানি, সীমাহীন পরিকল্পনা এবং উন্নত বিশ্লেষণের জন্য প্রো-তে আপগ্রেড করুন।';
+
+  @override
+  String get pdfExportAvailable => 'PDF রপ্তানি Rebalance Pro এর সাথে উপলব্ধ।';
+
+  @override
+  String get pdfExportProMessage =>
+      'PDF রপ্তানি Rebalance Pro এর সাথে উপলব্ধ।\n\nPDF রপ্তানি, সীমাহীন পরিকল্পনা এবং উন্নত বিশ্লেষণের জন্য প্রো-তে আপগ্রেড করুন।';
+
+  @override
+  String get taxOptimizationDescription =>
+      'আনুমানিক বার্ষিক কর টান দেখুন এবং ভাল সম্পদ অবস্থান দিয়ে কীভাবে এটি হ্রাস করা যায়।';
+
+  @override
+  String potentialSavingsPerYear(String amount) {
+    return 'সম্ভাব্য সঞ্চয়: $amount / বছর';
+  }
+
+  @override
+  String get assetsAlreadyTaxEfficient =>
+      'আপনার সম্পদ ইতিমধ্যে কর-দক্ষভাবে অবস্থিত। 👍';
+
+  @override
+  String estimatedYearlyImpact(String amount) {
+    return 'আনুমানিক বার্ষিক প্রভাব: $amount';
+  }
+
+  @override
+  String get unlockCustomAlerts => 'কাস্টম সতর্কতা আনলক করুন';
+
+  @override
+  String get alertSettingsSaved => 'সতর্কতা সেটিংস সংরক্ষিত হয়েছে';
+
+  @override
+  String failedToSave(String error) {
+    return 'সংরক্ষণ ব্যর্থ: $error';
+  }
+
+  @override
+  String get thresholds => 'থ্রেশহোল্ড';
+
+  @override
+  String get driftThreshold => 'ড্রিফট থ্রেশহোল্ড';
+
+  @override
+  String get concentrationCap => 'ঘনত্ব সীমা';
+
+  @override
+  String get employerStockCap => 'নিয়োগকর্তা স্টক সীমা';
+
+  @override
+  String get notifications => 'বিজ্ঞপ্তি';
+
+  @override
+  String get enableAlertNotifications => 'সতর্কতা বিজ্ঞপ্তি সক্ষম করুন';
+
+  @override
+  String get receiveAlertNotificationsDescription =>
+      'থ্রেশহোল্ড লঙ্ঘিত হলে পুশ-স্টাইল ইন-অ্যাপ সতর্কতা পান';
+
+  @override
+  String get dollarImpactPreview => 'ডলার প্রভাব প্রিভিউ';
+
+  @override
+  String get exampleImpact => 'উদাহরণ প্রভাব';
+
+  @override
+  String get exampleImpactDescription =>
+      'যখন একটি থ্রেশহোল্ড লঙ্ঘিত হয়, সতর্কতাগুলি অতিরিক্ত এক্সপোজারের সাথে যুক্ত আনুমানিক ডলার পরিমাণ দেখাবে যাতে ব্যবহারকারীরা প্রকৃত আর্থিক প্রভাব জানতে পারেন।';
+
+  @override
+  String get scenarioA => 'পরিস্থিতি A';
+
+  @override
+  String get scenarioB => 'পরিস্থিতি B';
+
+  @override
+  String get monthlyContribution => 'মাসিক অবদান';
+
+  @override
+  String get expectedReturn => 'প্রত্যাশিত রিটার্ন';
+
+  @override
+  String get volatility => 'অস্থিরতা';
+
+  @override
+  String get years => 'বছর';
+
+  @override
+  String get goalAmount => 'লক্ষ্য পরিমাণ';
+
+  @override
+  String get resultsA => 'ফলাফল A';
+
+  @override
+  String get resultsB => 'ফলাফল B';
+
+  @override
+  String get successProbability => 'সাফল্যের সম্ভাবনা';
+
+  @override
+  String get medianEnding => 'মধ্যমা সমাপ্তি';
+
+  @override
+  String get tenthPercentile => '১০তম পার্সেন্টাইল';
+
+  @override
+  String get ninetiethPercentile => '৯০তম পার্সেন্টাইল';
+
+  @override
+  String get retirementSimulationDescription =>
+      'এই ক্যালকুলেটর আপনার অবসর সাফল্যের সম্ভাবনা অনুমান করতে ১,০০০টি সিমুলেশন চালায়।';
+
+  @override
+  String get yourRetirementPlan => 'আপনার অবসর পরিকল্পনা';
+
+  @override
+  String get currentSavings => 'বর্তমান সঞ্চয়';
+
+  @override
+  String get yearsUntilRetirement => 'অবসর পর্যন্ত বছর';
+
+  @override
+  String get desiredMonthlyIncome => 'কাঙ্ক্ষিত মাসিক আয়';
+
+  @override
+  String get yearsInRetirement => 'অবসরে বছর';
+
+  @override
+  String get outcomeDistribution => 'ফলাফল বিতরণ';
+
+  @override
+  String get outcomeLikelihood => 'বিভিন্ন ফলাফলের সম্ভাবনা';
+
+  @override
+  String get fail => 'ব্যর্থ';
+
+  @override
+  String get low => 'কম';
+
+  @override
+  String get med => 'মাঝারি';
+
+  @override
+  String get high => 'উচ্চ';
+
+  @override
+  String get recommendations => 'সুপারিশ';
+
+  @override
+  String moveToTaxAdvantaged(Object amount, Object asset) {
+    return '$asset এর $amount কর-সুবিধাযুক্ত অ্যাকাউন্টে স্থানান্তর করুন';
+  }
+
+  @override
+  String get estimatedAnnualImpact => 'আনুমানিক বার্ষিক প্রভাব';
+
+  @override
+  String considerIncreasingContributions(Object amount) {
+    return 'আপনার সম্ভাবনা উন্নত করতে মাসিক অবদান $amount এ বৃদ্ধি করার কথা বিবেচনা করুন।';
+  }
+
+  @override
+  String get excellentOnTrack =>
+      'চমৎকার! আপনার অবসর পরিকল্পনা ট্র্যাকে রয়েছে।';
+
+  @override
+  String incomeExceedsSafeWithdrawal(Object desired, Object safe) {
+    return 'আপনার কাঙ্ক্ষিত আয় ($desired) \"৪% নিয়ম\" নিরাপদ তোলার পরিমাণ ($safe) অতিক্রম করে।';
+  }
+
+  @override
+  String timeIsAdvantage(Object years) {
+    return 'অবসর পর্যন্ত $years বছরের সাথে, সময় আপনার সবচেয়ে বড় সুবিধা। অবদানের সাথে সামঞ্জস্যপূর্ণ থাকুন।';
+  }
+
+  @override
+  String get planReasonable =>
+      'আপনার পরিকল্পনা যুক্তিসঙ্গত। বার্ষিক পর্যালোচনা করুন এবং আপনার পরিস্থিতি পরিবর্তনের সাথে সাথে সামঞ্জস্য করুন।';
+
+  @override
+  String get successProbabilityLabel => 'সাফল্যের সম্ভাবনা';
+
+  @override
+  String grade(Object grade) {
+    return 'গ্রেড $grade';
+  }
+
+  @override
+  String get atRetirement => 'অবসরে';
+
+  @override
+  String get medianAfterRetirement => 'অবসরের পরে মধ্যমা';
+
+  @override
+  String get bestCase90th => 'সেরা ক্ষেত্রে (৯০তম)';
+
+  @override
+  String simulationsYears(Object simulations, Object years) {
+    return 'সিমুলেশন: $simulations\\nবছর: $years';
+  }
+
+  @override
+  String get distributionSortedOutcomes => 'বিতরণ (সাজানো ফলাফল)';
+
+  @override
+  String get thisWeeksSafeToSpend => 'এই সপ্তাহের নিরাপদ খরচ';
+
+  @override
+  String get onTrack => 'ঠিক আছে';
+
+  @override
+  String daysOfBuffer(int days) {
+    return '$days দিনের বাফার বাকি';
+  }
+
+  @override
+  String youllBeShort(String amount, String day) {
+    return '⚠ এই গতিতে $day তে $amount কম হবে';
+  }
+
+  @override
+  String incomeAmount(String amount) {
+    return 'আয় $amount';
+  }
+
+  @override
+  String billsAmount(String amount) {
+    return 'বিল $amount';
+  }
+
+  @override
+  String get tapToSeeGuardrails => 'সীমা দেখতে ট্যাপ করুন';
+
+  @override
+  String get moneyHealthScore => 'অর্থ স্বাস্থ্য স্কোর';
+
+  @override
+  String weakestArea(String area) {
+    return '$area এখন আপনার দুর্বলতম এলাকা';
+  }
+
+  @override
+  String get neverBrokeWeek => 'আর কখনো \'ভাঙ্গা সপ্তাহ\' হবে না।';
+
+  @override
+  String get answerQuestionsGuardrails =>
+      '3টি দ্রুত প্রশ্নের উত্তর দিন এবং আমরা আপনাকে বলব এই সপ্তাহে কত নিরাপদে খরচ করতে পারবেন।';
+
+  @override
+  String get setupGuardrails => 'আমার সীমা সেটআপ করুন (30 সেকেন্ড)';
+
+  @override
+  String get updatedNow => 'এখন আপডেট হয়েছে';
+
+  @override
+  String get weeklyGuardrails => 'সাপ্তাহিক সীমা';
+
+  @override
+  String get safeToSpendThisWeek => 'এই সপ্তাহে খরচ করা নিরাপদ';
+
+  @override
+  String get overBudgetThisWeek => 'এই সপ্তাহে বাজেটের বেশি';
+
+  @override
+  String alreadyOverThisWeek(String amount) {
+    return 'আপনি ইতিমধ্যে এই সপ্তাহে $amount বেশি খরচ করেছেন';
+  }
+
+  @override
+  String goingNegativeByDay(String day) {
+    return 'আপনি $day এর মধ্যে নেগেটিভ হতে চলেছেন';
+  }
+
+  @override
+  String willBeShortByFriday(String amount) {
+    return 'শুক্রবারের মধ্যে আপনার $amount কম পড়বে';
+  }
+
+  @override
+  String bufferUntilNext(String day) {
+    return 'পরবর্তী $day পর্যন্ত বাফার';
+  }
+
+  @override
+  String bufferUntil(String day) {
+    return '$day পর্যন্ত বাফার';
+  }
+
+  @override
+  String get warningZoneToast =>
+      'আপনি এই সপ্তাহে সতর্কতা অঞ্চলে আছেন। আরও খরচ করলে কী হবে তা দেখতে কার্ডে ট্যাপ করুন।';
+
+  @override
+  String get monday => 'সোমবার';
+
+  @override
+  String get tuesday => 'মঙ্গলবার';
+
+  @override
+  String get wednesday => 'বুধবার';
+
+  @override
+  String get thursday => 'বৃহস্পতিবার';
+
+  @override
+  String get friday => 'শুক্রবার';
+
+  @override
+  String get saturday => 'শনিবার';
+
+  @override
+  String get sunday => 'রবিবার';
+
+  @override
+  String get buffer => 'বাফার';
+
+  @override
+  String bufferUntilDay(String day) {
+    return 'আপনি যদি গত সপ্তাহের মতো খরচ করতে থাকেন, তাহলে $day পর্যন্ত বাফার আছে';
+  }
+
+  @override
+  String get whatIfYouSpendMore => 'আরও খরচ করলে কি হবে?';
+
+  @override
+  String get additionalSpending => 'অতিরিক্ত খরচ';
+
+  @override
+  String ifYouSpendMore(String amount, String shortage, String date) {
+    return 'এই সপ্তাহে +$amount বেশি খরচ করলে → $date তারিখে $shortage কম হবে';
+  }
+
+  @override
+  String stillOnTrack(String buffer) {
+    return '$buffer বাফার সহ এখনও ট্র্যাকে আছে';
+  }
+
+  @override
+  String get weeklyIncome => 'সাপ্তাহিক আয়';
+
+  @override
+  String get weeklyBills => 'সাপ্তাহিক বিল';
+
+  @override
+  String get bufferDiscretionary => 'বাফার / ঐচ্ছিক';
+
+  @override
+  String get adjustIncome => 'আয় সামঞ্জস্য করুন';
+
+  @override
+  String get editBills => 'বিল সম্পাদনা করুন';
+
+  @override
+  String get neverGuessAgain => 'আর কখনও অনুমান করবেন না';
+
+  @override
+  String get autoAlertsProUpsell =>
+      'এই সপ্তাহে আপনার নিরাপদ খরচ অতিক্রম করতে চলেছেন তখন স্বয়ংক্রিয় সতর্কতা পান। ভুল করার আগে জানুন।';
 }

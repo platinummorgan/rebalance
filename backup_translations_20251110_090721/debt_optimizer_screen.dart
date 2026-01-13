@@ -52,8 +52,10 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
         appBar:
             AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
         body: Center(
-            child: Text(AppLocalizations.of(context)!
-                .errorWithMessage(error.toString()))),
+          child: Text(
+            AppLocalizations.of(context)!.errorWithMessage(error.toString()),
+          ),
+        ),
       ),
       data: (liabilities) => settingsAsync.when(
         loading: () => Scaffold(
@@ -65,8 +67,10 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
           appBar:
               AppBar(title: Text(AppLocalizations.of(context)!.debtOptimizer)),
           body: Center(
-              child: Text(AppLocalizations.of(context)!
-                  .errorWithMessage(error.toString()))),
+            child: Text(
+              AppLocalizations.of(context)!.errorWithMessage(error.toString()),
+            ),
+          ),
         ),
         data: (settings) => FutureBuilder<List<Liability>>(
           future: _convertLiabilities(
@@ -79,17 +83,22 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Scaffold(
                 appBar: AppBar(
-                    title: Text(AppLocalizations.of(context)!.debtOptimizer)),
+                  title: Text(AppLocalizations.of(context)!.debtOptimizer),
+                ),
                 body: const Center(child: CircularProgressIndicator()),
               );
             }
             if (snapshot.hasError) {
               return Scaffold(
                 appBar: AppBar(
-                    title: Text(AppLocalizations.of(context)!.debtOptimizer)),
+                  title: Text(AppLocalizations.of(context)!.debtOptimizer),
+                ),
                 body: Center(
-                    child: Text(AppLocalizations.of(context)!
-                        .errorWithMessage(snapshot.error.toString()))),
+                  child: Text(
+                    AppLocalizations.of(context)!
+                        .errorWithMessage(snapshot.error.toString()),
+                  ),
+                ),
               );
             }
             final convertedLiabilities = snapshot.data ?? liabilities;
@@ -435,7 +444,8 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                             Navigator.pushNamed(context, '/pro');
                           },
                           child: Text(
-                              AppLocalizations.of(context)!.upgradeToProTitle),
+                            AppLocalizations.of(context)!.upgradeToProTitle,
+                          ),
                         ),
                       ),
                     ],

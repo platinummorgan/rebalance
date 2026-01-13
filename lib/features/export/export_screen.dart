@@ -225,23 +225,31 @@ class ExportScreen extends ConsumerWidget {
   }
 
   Future<void> _createBackup(BuildContext context, WidgetRef ref) async {
+    bool dialogShowing = false;
     try {
       debugPrint('[Backup] Starting backup creation...');
-      
+
       if (!context.mounted) return;
       showDialog(
         context: context,
         barrierDismissible: false,
         builder: (_) => const Center(child: CircularProgressIndicator()),
       );
+      dialogShowing = true;
 
-      final file = await BackupService.createBackup();
-      
+      final filePath = await BackupService.createBackup();
+
+      debugPrint('[Backup] Got filePath: $filePath');
+
+      // Dismiss loading dialog
+      if (context.mounted && dialogShowing) {
+        Navigator.of(context, rootNavigator: true).pop();
+        dialogShowing = false;
+      }
+
       if (!context.mounted) return;
-      Navigator.of(context).pop(); // Dismiss loading dialog
 
-      if (file == null) {
-        if (!context.mounted) return;
+      if (filePath == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Failed to create backup'),
@@ -251,26 +259,30 @@ class ExportScreen extends ConsumerWidget {
         return;
       }
 
-      // Share the backup file
-      final shared = await BackupService.shareBackup(file);
-      
-      if (!context.mounted) return;
-      if (shared) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Backup created successfully! Save it to a safe location.'),
-            backgroundColor: Colors.green,
-            duration: Duration(seconds: 4),
+      // Show success with file location
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Backup saved to Downloads:\n$filePath'),
+          backgroundColor: Colors.green,
+          duration: const Duration(seconds: 5),
+          action: SnackBarAction(
+            label: 'OK',
+            textColor: Colors.white,
+            onPressed: () {},
           ),
-        );
-      }
+        ),
+      );
     } catch (e, stack) {
       debugPrint('[Backup] Error creating backup: $e');
       debugPrint('[Backup] Stack trace: $stack');
-      
+
+      if (context.mounted && dialogShowing) {
+        Navigator.of(context, rootNavigator: true).pop();
+        dialogShowing = false;
+      }
+
       if (!context.mounted) return;
-      Navigator.of(context).pop(); // Dismiss loading dialog if still showing
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Backup failed: $e'),
@@ -311,7 +323,7 @@ class ExportScreen extends ConsumerWidget {
 
     try {
       debugPrint('[Backup] Starting restore...');
-      
+
       if (!context.mounted) return;
       showDialog(
         context: context,
@@ -320,7 +332,7 @@ class ExportScreen extends ConsumerWidget {
       );
 
       final result = await BackupService.restoreFromFile();
-      
+
       if (!context.mounted) return;
       Navigator.of(context).pop(); // Dismiss loading dialog
 
@@ -352,10 +364,10 @@ class ExportScreen extends ConsumerWidget {
     } catch (e, stack) {
       debugPrint('[Backup] Error restoring backup: $e');
       debugPrint('[Backup] Stack trace: $stack');
-      
+
       if (!context.mounted) return;
       Navigator.of(context).pop(); // Dismiss loading dialog if still showing
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Restore failed: $e'),

@@ -70,76 +70,64 @@ class AnalyticsService {
     );
   }
 
-  /// Track when purchase flow starts (Google Play billing sheet opens)
-  Future<void> logPurchaseFlowStart(String planType) async {
+  /// Track when purchase is initiated (user taps buy button)
+  Future<void> logPurchaseStarted(String planType) async {
     await _analytics?.logEvent(
-      name: 'purchase_flow_start',
+      name: 'purchase_started',
       parameters: {
         'plan_type': planType,
         'timestamp': DateTime.now().toIso8601String(),
       },
     );
-    debugPrint('[Analytics] Purchase flow started: $planType');
+    debugPrint('[Analytics] Purchase started: $planType');
   }
 
   /// Track when purchase completes successfully
-  Future<void> logPurchaseComplete({
+  Future<void> logPurchaseSuccess({
     required String planType,
-    required double price,
-    required String currency,
+    required String purchaseId,
   }) async {
     await _analytics?.logEvent(
-      name: 'purchase_complete',
+      name: 'purchase_success',
       parameters: {
         'plan_type': planType,
-        'price': price,
-        'currency': currency,
+        'purchase_id': purchaseId,
         'timestamp': DateTime.now().toIso8601String(),
       },
     );
-    await _analytics?.logPurchase(
-      value: price,
-      currency: currency,
-      items: [
-        AnalyticsEventItem(
-          itemName: 'pro_subscription',
-          itemId: planType,
-          price: price,
-          quantity: 1,
-        ),
-      ],
-    );
-    debugPrint(
-      '[Analytics] Purchase completed: $planType (\$$price $currency)',
-    );
+    debugPrint('[Analytics] Purchase success: $planType (ID: $purchaseId)');
   }
 
   /// Track when purchase fails
   Future<void> logPurchaseFailure({
     required String planType,
+    required String errorCode,
     required String errorMessage,
   }) async {
     await _analytics?.logEvent(
       name: 'purchase_failure',
       parameters: {
         'plan_type': planType,
+        'error_code': errorCode,
         'error_message': errorMessage,
         'timestamp': DateTime.now().toIso8601String(),
       },
     );
-    debugPrint('[Analytics] Purchase failed: $planType - $errorMessage');
+    debugPrint(
+      '[Analytics] Purchase failure: $planType - Code: $errorCode, Message: $errorMessage',
+    );
   }
 
   /// Track when user cancels purchase (normal behavior, not an error)
-  Future<void> logPurchaseCancelled(String planType) async {
+  Future<void> logPurchaseCancel(String planType) async {
     await _analytics?.logEvent(
-      name: 'purchase_cancelled',
+      name: 'purchase_cancel',
       parameters: {
         'plan_type': planType,
         'timestamp': DateTime.now().toIso8601String(),
       },
     );
-    debugPrint('[Analytics] Purchase cancelled by user: $planType');
+    debugPrint('[Analytics] Purchase cancel: $planType');
   }
 
   // ============================================================================
@@ -229,6 +217,98 @@ class AnalyticsService {
       },
     );
     debugPrint('[Analytics] Pro banner dismissed');
+  }
+
+  // ============================================================================
+  // GUARDRAILS TRACKING
+  // ============================================================================
+
+  /// Track when user views Weekly Guardrails screen
+  Future<void> logGuardrailsScreenView() async {
+    await _analytics?.logEvent(
+      name: 'guardrails_screen_view',
+      parameters: {
+        'timestamp': DateTime.now().toIso8601String(),
+      },
+    );
+    debugPrint('[Analytics] Guardrails screen viewed');
+  }
+
+  /// Track when user adjusts the what-if slider
+  Future<void> logGuardrailsSliderChange({
+    required double additionalSpending,
+    required double safeToSpend,
+  }) async {
+    final percentOfBudget =
+        safeToSpend > 0 ? (additionalSpending / safeToSpend) * 100 : 0.0;
+    await _analytics?.logEvent(
+      name: 'guardrails_slider_change',
+      parameters: {
+        'additional_spending': additionalSpending,
+        'percent_of_budget': percentOfBudget.round(),
+        'timestamp': DateTime.now().toIso8601String(),
+      },
+    );
+    debugPrint(
+      '[Analytics] Guardrails slider changed: +\$${additionalSpending.toStringAsFixed(2)} (${percentOfBudget.toStringAsFixed(0)}%)',
+    );
+  }
+
+  /// Track when slider goes into red state (user would be short)
+  Future<void> logGuardrailsStateRed({
+    required double shortage,
+    required String dayName,
+  }) async {
+    await _analytics?.logEvent(
+      name: 'guardrails_state_red',
+      parameters: {
+        'shortage_amount': shortage,
+        'shortage_day': dayName,
+        'timestamp': DateTime.now().toIso8601String(),
+      },
+    );
+    debugPrint(
+      '[Analytics] Guardrails RED state: short \$${shortage.toStringAsFixed(2)} by $dayName',
+    );
+  }
+
+  /// Track when slider goes into yellow state (tight buffer)
+  Future<void> logGuardrailsStateYellow({
+    required double bufferLeft,
+  }) async {
+    await _analytics?.logEvent(
+      name: 'guardrails_state_yellow',
+      parameters: {
+        'buffer_amount': bufferLeft,
+        'timestamp': DateTime.now().toIso8601String(),
+      },
+    );
+    debugPrint(
+      '[Analytics] Guardrails YELLOW state: tight with \$${bufferLeft.toStringAsFixed(2)} buffer',
+    );
+  }
+
+  /// Track when Pro upsell card is shown on guardrails screen
+  Future<void> logGuardrailsProBannerView() async {
+    await _analytics?.logEvent(
+      name: 'guardrails_pro_banner_view',
+      parameters: {
+        'timestamp': DateTime.now().toIso8601String(),
+      },
+    );
+    debugPrint('[Analytics] Guardrails Pro banner viewed');
+  }
+
+  /// Track when user clicks Pro CTA from guardrails screen
+  Future<void> logProBannerClick() async {
+    await _analytics?.logEvent(
+      name: 'pro_banner_click',
+      parameters: {
+        'source': 'guardrails',
+        'timestamp': DateTime.now().toIso8601String(),
+      },
+    );
+    debugPrint('[Analytics] Pro banner clicked from guardrails');
   }
 
   // ============================================================================

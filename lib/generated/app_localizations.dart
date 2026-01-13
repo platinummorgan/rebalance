@@ -599,7 +599,7 @@ abstract class AppLocalizations {
   /// No description provided for @debtLoad.
   ///
   /// In en, this message translates to:
-  /// **'Debt Load'**
+  /// **'Debt load'**
   String get debtLoad;
 
   /// No description provided for @concentration.
@@ -4178,6 +4178,624 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'• Business Loans - Commercial debt'**
   String get businessLoansDescription;
+
+  /// No description provided for @upgradeForProFeatures.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro for unlimited plans, PDF exports, and advanced analytics.'**
+  String get upgradeForProFeatures;
+
+  /// No description provided for @upgradeForPdfExports.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Pro for PDF exports, unlimited plans, and advanced analytics.'**
+  String get upgradeForPdfExports;
+
+  /// No description provided for @pdfExportAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF Export is available with Rebalance Pro.'**
+  String get pdfExportAvailable;
+
+  /// No description provided for @pdfExportProMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF Export is available with Rebalance Pro.\n\nUpgrade to Pro for PDF exports, unlimited plans, and advanced analytics.'**
+  String get pdfExportProMessage;
+
+  /// No description provided for @taxOptimizationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'See estimated annual tax drag and how to reduce it with better asset location.'**
+  String get taxOptimizationDescription;
+
+  /// No description provided for @potentialSavingsPerYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Potential Savings: {amount} / yr'**
+  String potentialSavingsPerYear(String amount);
+
+  /// No description provided for @assetsAlreadyTaxEfficient.
+  ///
+  /// In en, this message translates to:
+  /// **'Your assets are already tax-efficiently located. 👍'**
+  String get assetsAlreadyTaxEfficient;
+
+  /// No description provided for @estimatedYearlyImpact.
+  ///
+  /// In en, this message translates to:
+  /// **'Est. yearly impact: {amount}'**
+  String estimatedYearlyImpact(String amount);
+
+  /// No description provided for @unlockCustomAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Custom Alerts'**
+  String get unlockCustomAlerts;
+
+  /// No description provided for @alertSettingsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Alert settings saved'**
+  String get alertSettingsSaved;
+
+  /// No description provided for @failedToSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save: {error}'**
+  String failedToSave(String error);
+
+  /// No description provided for @thresholds.
+  ///
+  /// In en, this message translates to:
+  /// **'Thresholds'**
+  String get thresholds;
+
+  /// No description provided for @driftThreshold.
+  ///
+  /// In en, this message translates to:
+  /// **'Drift Threshold'**
+  String get driftThreshold;
+
+  /// No description provided for @concentrationCap.
+  ///
+  /// In en, this message translates to:
+  /// **'Concentration Cap'**
+  String get concentrationCap;
+
+  /// No description provided for @employerStockCap.
+  ///
+  /// In en, this message translates to:
+  /// **'Employer Stock Cap'**
+  String get employerStockCap;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @enableAlertNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Alert Notifications'**
+  String get enableAlertNotifications;
+
+  /// No description provided for @receiveAlertNotificationsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive push-style in-app alerts when thresholds breach'**
+  String get receiveAlertNotificationsDescription;
+
+  /// No description provided for @dollarImpactPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Dollar Impact Preview'**
+  String get dollarImpactPreview;
+
+  /// No description provided for @exampleImpact.
+  ///
+  /// In en, this message translates to:
+  /// **'Example Impact'**
+  String get exampleImpact;
+
+  /// No description provided for @exampleImpactDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'When a threshold breaches, alerts will show an estimated dollar amount tied to the excess exposure so users know the real financial impact.'**
+  String get exampleImpactDescription;
+
+  /// No description provided for @scenarioA.
+  ///
+  /// In en, this message translates to:
+  /// **'Scenario A'**
+  String get scenarioA;
+
+  /// No description provided for @scenarioB.
+  ///
+  /// In en, this message translates to:
+  /// **'Scenario B'**
+  String get scenarioB;
+
+  /// No description provided for @monthlyContribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Contribution'**
+  String get monthlyContribution;
+
+  /// No description provided for @expectedReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected Return'**
+  String get expectedReturn;
+
+  /// No description provided for @volatility.
+  ///
+  /// In en, this message translates to:
+  /// **'Volatility'**
+  String get volatility;
+
+  /// No description provided for @years.
+  ///
+  /// In en, this message translates to:
+  /// **'Years'**
+  String get years;
+
+  /// No description provided for @goalAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal Amount'**
+  String get goalAmount;
+
+  /// No description provided for @resultsA.
+  ///
+  /// In en, this message translates to:
+  /// **'Results A'**
+  String get resultsA;
+
+  /// No description provided for @resultsB.
+  ///
+  /// In en, this message translates to:
+  /// **'Results B'**
+  String get resultsB;
+
+  /// No description provided for @successProbability.
+  ///
+  /// In en, this message translates to:
+  /// **'Success Probability'**
+  String get successProbability;
+
+  /// No description provided for @medianEnding.
+  ///
+  /// In en, this message translates to:
+  /// **'Median Ending'**
+  String get medianEnding;
+
+  /// No description provided for @tenthPercentile.
+  ///
+  /// In en, this message translates to:
+  /// **'10th Percentile'**
+  String get tenthPercentile;
+
+  /// No description provided for @ninetiethPercentile.
+  ///
+  /// In en, this message translates to:
+  /// **'90th Percentile'**
+  String get ninetiethPercentile;
+
+  /// No description provided for @retirementSimulationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'This calculator runs 1,000 simulations to estimate your retirement success probability.'**
+  String get retirementSimulationDescription;
+
+  /// No description provided for @yourRetirementPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Retirement Plan'**
+  String get yourRetirementPlan;
+
+  /// No description provided for @currentSavings.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Savings'**
+  String get currentSavings;
+
+  /// No description provided for @yearsUntilRetirement.
+  ///
+  /// In en, this message translates to:
+  /// **'Years Until Retirement'**
+  String get yearsUntilRetirement;
+
+  /// No description provided for @desiredMonthlyIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Desired Monthly Income'**
+  String get desiredMonthlyIncome;
+
+  /// No description provided for @yearsInRetirement.
+  ///
+  /// In en, this message translates to:
+  /// **'Years in Retirement'**
+  String get yearsInRetirement;
+
+  /// No description provided for @outcomeDistribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Outcome Distribution'**
+  String get outcomeDistribution;
+
+  /// No description provided for @outcomeLikelihood.
+  ///
+  /// In en, this message translates to:
+  /// **'How likely different outcomes are'**
+  String get outcomeLikelihood;
+
+  /// No description provided for @fail.
+  ///
+  /// In en, this message translates to:
+  /// **'Fail'**
+  String get fail;
+
+  /// No description provided for @low.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get low;
+
+  /// No description provided for @med.
+  ///
+  /// In en, this message translates to:
+  /// **'Med'**
+  String get med;
+
+  /// No description provided for @high.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get high;
+
+  /// No description provided for @recommendations.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommendations'**
+  String get recommendations;
+
+  /// No description provided for @moveToTaxAdvantaged.
+  ///
+  /// In en, this message translates to:
+  /// **'Move {amount} of {asset} to tax-advantaged account'**
+  String moveToTaxAdvantaged(Object amount, Object asset);
+
+  /// No description provided for @estimatedAnnualImpact.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated annual impact'**
+  String get estimatedAnnualImpact;
+
+  /// No description provided for @considerIncreasingContributions.
+  ///
+  /// In en, this message translates to:
+  /// **'Consider increasing monthly contributions to {amount} to improve your odds.'**
+  String considerIncreasingContributions(Object amount);
+
+  /// No description provided for @excellentOnTrack.
+  ///
+  /// In en, this message translates to:
+  /// **'Excellent! Your retirement plan is on track.'**
+  String get excellentOnTrack;
+
+  /// No description provided for @incomeExceedsSafeWithdrawal.
+  ///
+  /// In en, this message translates to:
+  /// **'Your desired income ({desired}) exceeds the \"4% rule\" safe withdrawal amount ({safe}).'**
+  String incomeExceedsSafeWithdrawal(Object desired, Object safe);
+
+  /// No description provided for @timeIsAdvantage.
+  ///
+  /// In en, this message translates to:
+  /// **'With {years} years until retirement, time is your biggest advantage. Stay consistent with contributions.'**
+  String timeIsAdvantage(Object years);
+
+  /// No description provided for @planReasonable.
+  ///
+  /// In en, this message translates to:
+  /// **'Your plan is reasonable. Review annually and adjust as your situation changes.'**
+  String get planReasonable;
+
+  /// No description provided for @successProbabilityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Success Probability'**
+  String get successProbabilityLabel;
+
+  /// No description provided for @grade.
+  ///
+  /// In en, this message translates to:
+  /// **'Grade {grade}'**
+  String grade(Object grade);
+
+  /// No description provided for @atRetirement.
+  ///
+  /// In en, this message translates to:
+  /// **'At Retirement'**
+  String get atRetirement;
+
+  /// No description provided for @medianAfterRetirement.
+  ///
+  /// In en, this message translates to:
+  /// **'Median After Retirement'**
+  String get medianAfterRetirement;
+
+  /// No description provided for @bestCase90th.
+  ///
+  /// In en, this message translates to:
+  /// **'Best Case (90th)'**
+  String get bestCase90th;
+
+  /// No description provided for @simulationsYears.
+  ///
+  /// In en, this message translates to:
+  /// **'Simulations: {simulations}\\nYears: {years}'**
+  String simulationsYears(Object simulations, Object years);
+
+  /// No description provided for @distributionSortedOutcomes.
+  ///
+  /// In en, this message translates to:
+  /// **'Distribution (sorted outcomes)'**
+  String get distributionSortedOutcomes;
+
+  /// No description provided for @thisWeeksSafeToSpend.
+  ///
+  /// In en, this message translates to:
+  /// **'This week\'s safe-to-spend'**
+  String get thisWeeksSafeToSpend;
+
+  /// No description provided for @onTrack.
+  ///
+  /// In en, this message translates to:
+  /// **'On track'**
+  String get onTrack;
+
+  /// No description provided for @daysOfBuffer.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days of buffer left'**
+  String daysOfBuffer(int days);
+
+  /// No description provided for @youllBeShort.
+  ///
+  /// In en, this message translates to:
+  /// **'⚠ You\'ll be short {amount} by {day} at this pace'**
+  String youllBeShort(String amount, String day);
+
+  /// No description provided for @incomeAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Income {amount}'**
+  String incomeAmount(String amount);
+
+  /// No description provided for @billsAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Bills {amount}'**
+  String billsAmount(String amount);
+
+  /// No description provided for @tapToSeeGuardrails.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to see guardrails'**
+  String get tapToSeeGuardrails;
+
+  /// No description provided for @moneyHealthScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Money health score'**
+  String get moneyHealthScore;
+
+  /// No description provided for @weakestArea.
+  ///
+  /// In en, this message translates to:
+  /// **'{area} is your weakest area right now'**
+  String weakestArea(String area);
+
+  /// No description provided for @neverBrokeWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Never have a \'broke week\' again.'**
+  String get neverBrokeWeek;
+
+  /// No description provided for @answerQuestionsGuardrails.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer 3 quick questions and we\'ll tell you how much you can safely spend this week.'**
+  String get answerQuestionsGuardrails;
+
+  /// No description provided for @setupGuardrails.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up my guardrails (30 seconds)'**
+  String get setupGuardrails;
+
+  /// No description provided for @updatedNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated now'**
+  String get updatedNow;
+
+  /// No description provided for @weeklyGuardrails.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly Guardrails'**
+  String get weeklyGuardrails;
+
+  /// No description provided for @safeToSpendThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Safe to spend this week'**
+  String get safeToSpendThisWeek;
+
+  /// No description provided for @overBudgetThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Over budget this week'**
+  String get overBudgetThisWeek;
+
+  /// No description provided for @alreadyOverThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re already {amount} over this week'**
+  String alreadyOverThisWeek(String amount);
+
+  /// No description provided for @goingNegativeByDay.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re on track to go negative by {day}'**
+  String goingNegativeByDay(String day);
+
+  /// No description provided for @willBeShortByFriday.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll be short {amount} by Friday'**
+  String willBeShortByFriday(String amount);
+
+  /// No description provided for @bufferUntilNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Buffer until next {day}'**
+  String bufferUntilNext(String day);
+
+  /// No description provided for @bufferUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Buffer until {day}'**
+  String bufferUntil(String day);
+
+  /// No description provided for @warningZoneToast.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re in the warning zone this week. Tap the card to see what happens if you spend more.'**
+  String get warningZoneToast;
+
+  /// No description provided for @monday.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get monday;
+
+  /// No description provided for @tuesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get tuesday;
+
+  /// No description provided for @wednesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get wednesday;
+
+  /// No description provided for @thursday.
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get thursday;
+
+  /// No description provided for @friday.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get friday;
+
+  /// No description provided for @saturday.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get saturday;
+
+  /// No description provided for @sunday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get sunday;
+
+  /// No description provided for @buffer.
+  ///
+  /// In en, this message translates to:
+  /// **'buffer'**
+  String get buffer;
+
+  /// No description provided for @bufferUntilDay.
+  ///
+  /// In en, this message translates to:
+  /// **'If you keep spending like last week, you have buffer until {day}'**
+  String bufferUntilDay(String day);
+
+  /// No description provided for @whatIfYouSpendMore.
+  ///
+  /// In en, this message translates to:
+  /// **'What if you spend more?'**
+  String get whatIfYouSpendMore;
+
+  /// No description provided for @additionalSpending.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional spending'**
+  String get additionalSpending;
+
+  /// No description provided for @ifYouSpendMore.
+  ///
+  /// In en, this message translates to:
+  /// **'If you spend +{amount} more this week → you\'ll run short by {shortage} on {date}'**
+  String ifYouSpendMore(String amount, String shortage, String date);
+
+  /// No description provided for @stillOnTrack.
+  ///
+  /// In en, this message translates to:
+  /// **'Still on track with {buffer} buffer'**
+  String stillOnTrack(String buffer);
+
+  /// No description provided for @weeklyIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly income'**
+  String get weeklyIncome;
+
+  /// No description provided for @weeklyBills.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly bills'**
+  String get weeklyBills;
+
+  /// No description provided for @bufferDiscretionary.
+  ///
+  /// In en, this message translates to:
+  /// **'Buffer / Discretionary'**
+  String get bufferDiscretionary;
+
+  /// No description provided for @adjustIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust income'**
+  String get adjustIncome;
+
+  /// No description provided for @editBills.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit bills'**
+  String get editBills;
+
+  /// No description provided for @neverGuessAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Never guess again'**
+  String get neverGuessAgain;
+
+  /// No description provided for @autoAlertsProUpsell.
+  ///
+  /// In en, this message translates to:
+  /// **'Get automatic alerts when you\'re about to go over your safe-to-spend for the week. Know before you blow it.'**
+  String get autoAlertsProUpsell;
 }
 
 class _AppLocalizationsDelegate

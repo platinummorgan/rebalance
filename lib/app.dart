@@ -111,10 +111,13 @@ final appInitProvider = FutureProvider<bool>((ref) async {
     // (important after reinstalls/updates where local settings may have been
     // reset). If restore fails we log the error but do not clear user data.
     try {
-      await purchaseService.restorePurchases(ref);
+      await purchaseService.restorePurchases();
     } catch (restoreError) {
       debugPrint('Restore purchases during init failed: $restoreError');
     }
+
+    // Enforce subscription expiry locally so expired subs lose Pro on launch
+    await purchaseService.hasActiveSubscription(ref);
 
     return true;
   } catch (e) {

@@ -14,6 +14,7 @@ import 'features/targets/targets_screen.dart';
 import 'features/targets/targets_detail_screen.dart';
 import 'features/export/export_screen.dart';
 import 'features/pro/pro_screen.dart';
+import 'features/pro/purchase_test_screen.dart';
 import 'features/reports/reports_screen.dart';
 import 'features/rebalancing/rebalancing_plan_screen.dart';
 import 'features/debt/debt_optimizer_screen.dart';
@@ -24,10 +25,12 @@ import 'features/income/income_screen.dart';
 import 'features/income/income_detail_screen.dart';
 import 'features/import/csv_import_screen.dart';
 import 'features/retirement/retirement_calculator_screen.dart';
+import 'features/dashboard/guardrails_detail_screen.dart';
 
 class AppRouter {
   static const String onboarding = '/onboarding';
   static const String dashboard = '/dashboard';
+  static const String guardrails = '/guardrails';
   static const String income = '/income';
   static const String incomeDetail = '/income/:id';
   static const String addIncome = '/income/add';
@@ -49,6 +52,7 @@ class AppRouter {
   static const String csvImport = '/import/csv';
   static const String retirementCalculator = '/retirement-calculator';
   static const String pro = '/pro';
+  static const String purchaseTest = '/purchase-test';
   static const String about = '/about';
 
   static final GoRouter router = GoRouter(
@@ -71,6 +75,13 @@ class AppRouter {
             path: dashboard,
             name: 'dashboard',
             builder: (context, state) => const DashboardScreen(),
+          ),
+
+          // Weekly Guardrails Detail
+          GoRoute(
+            path: guardrails,
+            name: 'guardrails',
+            builder: (context, state) => const GuardrailsDetailScreen(),
           ),
 
           // Income section
@@ -224,6 +235,13 @@ class AppRouter {
             path: pro,
             name: 'pro',
             builder: (context, state) => const ProScreen(),
+          ),
+
+          // Purchase Testing (Developer Tool)
+          GoRoute(
+            path: purchaseTest,
+            name: 'purchaseTest',
+            builder: (context, state) => const PurchaseTestScreen(),
           ),
 
           // About & Legal
@@ -644,6 +662,28 @@ class _AboutScreenState extends State<AboutScreen> {
                   ],
                 );
               },
+            ),
+
+            const SizedBox(height: 40),
+            const Divider(),
+            const SizedBox(height: 16),
+
+            // Developer Tools Section
+            const Text(
+              'Developer Tools',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 12),
+            ListTile(
+              leading: const Icon(Icons.shopping_cart, color: Colors.purple),
+              title: const Text('Test Purchases'),
+              subtitle: const Text('Verify Google Play billing integration'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push(AppRouter.purchaseTest),
+              tileColor: Colors.purple.shade50,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
           ],
         ),

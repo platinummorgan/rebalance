@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -360,7 +361,7 @@ class TargetsScreen extends ConsumerWidget {
             ),
 
             // Debug Pro Toggle (only visible in debug mode)
-            if (const bool.fromEnvironment('dart.vm.product') == false) ...[
+            if (kDebugMode) ...[
               Card(
                 margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 color: Colors.orange.shade50,
@@ -844,21 +845,33 @@ class TargetsScreen extends ConsumerWidget {
   }
 
   void _requestLanguageSupport(BuildContext context) async {
-    final Uri emailUri = Uri(
-      scheme: 'mailto',
-      path: 'Support@platovalabs.com',
-      query:
-          'subject=Language Support Request&body=I would like to request support for the following language:%0D%0A%0D%0ALanguage: %0D%0ARegion: %0D%0A%0D%0AThank you!',
+    const String emailAddress = 'support@platovalabs.com';
+    final String subject = Uri.encodeComponent('Language Support Request');
+    final String body = Uri.encodeComponent(
+      'I would like to request support for the following language:\n\nLanguage: \nRegion: \n\nThank you!',
     );
 
-    if (await canLaunchUrl(emailUri)) {
-      await launchUrl(emailUri);
-    } else {
+    final Uri emailUri =
+        Uri.parse('mailto:$emailAddress?subject=$subject&body=$body');
+
+    try {
+      if (!await launchUrl(emailUri, mode: LaunchMode.externalApplication)) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'Could not open email. Please email support@platovalabs.com',
+              ),
+            ),
+          );
+        }
+      }
+    } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
-              'Could not open email. Please email Support@platovalabs.com',
+              'Could not open email. Please email support@platovalabs.com',
             ),
           ),
         );

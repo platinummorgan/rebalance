@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import '../data/repositories.dart';
 import '../data/models.dart';
+import 'file_saver_service.dart';
 
 /// Service for creating and restoring complete app backups
-/// 
+///
 /// Creates a single JSON file containing:
 /// - All accounts
 /// - All liabilities
@@ -17,9 +17,9 @@ import '../data/models.dart';
 class BackupService {
   static const String _backupVersion = '1.0';
 
-  /// Creates a complete backup of all user data
-  /// Returns the file if successful, null otherwise
-  static Future<File?> createBackup() async {
+  /// Creates a complete backup of all user data and saves to Downloads
+  /// Returns the file path if successful, null otherwise
+  static Future<String?> createBackup() async {
     try {
       debugPrint('[Backup] Creating complete backup...');
 
@@ -48,17 +48,22 @@ class BackupService {
       // Convert to JSON
       final jsonString = const JsonEncoder.withIndent('  ').convert(backupData);
 
-      // Save to file
-      final directory = await getApplicationDocumentsDirectory();
-      final timestamp = DateTime.now().toIso8601String().replaceAll(':', '-').split('.')[0];
+      // Save directly to Downloads folder using native Android API
+      final timestamp =
+          DateTime.now().toIso8601String().replaceAll(':', '-').split('.')[0];
       final fileName = 'wealth_dial_backup_$timestamp.json';
-      final file = File('${directory.path}/$fileName');
-      await file.writeAsString(jsonString);
 
-      debugPrint('[Backup] Backup created: ${file.path}');
-      debugPrint('[Backup] File size: ${(await file.length() / 1024).toStringAsFixed(2)} KB');
+      final filePath = await FileSaverService.saveToDownloads(
+        fileName: fileName,
+        content: jsonString,
+      );
 
-      return file;
+      debugPrint('[Backup] Backup saved to Downloads: $filePath');
+      debugPrint(
+        '[Backup] File size: ${(jsonString.length / 1024).toStringAsFixed(2)} KB',
+      );
+
+      return filePath;
     } catch (e, stack) {
       debugPrint('[Backup] Failed to create backup: $e');
       debugPrint('[Backup] Stack trace: $stack');
@@ -72,7 +77,8 @@ class BackupService {
       final result = await Share.shareXFiles(
         [XFile(backupFile.path)],
         subject: 'Wealth Dial Backup',
-        text: 'Your Wealth Dial data backup from ${DateTime.now().toString().split(' ')[0]}',
+        text:
+            'Your Wealth Dial data backup from ${DateTime.now().toString().split(' ')[0]}',
       );
 
       return result.status == ShareResultStatus.success;
@@ -88,12 +94,10 @@ class BackupService {
     try {
       debugPrint('[Backup] Starting restore process...');
 
-      // Pick file
+      // Pick file - allow both JSON and all files for flexibility
       final result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['json'],
-        withData: false,
-        withReadStream: false,
+        type: FileType.any,
+        allowMultiple: false,
       );
 
       if (result == null || result.files.isEmpty) {
@@ -153,9 +157,13 @@ class BackupService {
       debugPrint('[Backup] Backup timestamp: ${backupData['timestamp']}');
 
       // Parse and count items
-      final accountsList = (backupData['accounts'] as List?)?.cast<Map<String, dynamic>>() ?? [];
-      final liabilitiesList = (backupData['liabilities'] as List?)?.cast<Map<String, dynamic>>() ?? [];
-      final incomesList = (backupData['incomes'] as List?)?.cast<Map<String, dynamic>>() ?? [];
+      final accountsList =
+          (backupData['accounts'] as List?)?.cast<Map<String, dynamic>>() ?? [];
+      final liabilitiesList =
+          (backupData['liabilities'] as List?)?.cast<Map<String, dynamic>>() ??
+              [];
+      final incomesList =
+          (backupData['incomes'] as List?)?.cast<Map<String, dynamic>>() ?? [];
 
       debugPrint('[Backup] Found:');
       debugPrint('[Backup]   - ${accountsList.length} accounts');
@@ -205,7 +213,8 @@ class BackupService {
       // Restore settings
       if (backupData['settings'] != null) {
         try {
-          final settings = _settingsFromJson(backupData['settings'] as Map<String, dynamic>);
+          final settings =
+              _settingsFromJson(backupData['settings'] as Map<String, dynamic>);
           await RepositoryService.saveSettings(settings);
           debugPrint('[Backup] Settings restored');
         } catch (e) {
@@ -362,10 +371,13 @@ class BackupService {
           (e) => e.toString() == json['riskBand'],
           orElse: () => RiskBand.balanced,
         ),
-        monthlyEssentials: (json['monthlyEssentials'] as num?)?.toDouble() ?? 0.0,
-        driftThresholdPct: (json['driftThresholdPct'] as num?)?.toDouble() ?? 5.0,
+        monthlyEssentials:
+            (json['monthlyEssentials'] as num?)?.toDouble() ?? 0.0,
+        driftThresholdPct:
+            (json['driftThresholdPct'] as num?)?.toDouble() ?? 5.0,
         notificationsEnabled: json['notificationsEnabled'] as bool? ?? true,
-        usEquityTargetPct: (json['usEquityTargetPct'] as num?)?.toDouble() ?? 60.0,
+        usEquityTargetPct:
+            (json['usEquityTargetPct'] as num?)?.toDouble() ?? 60.0,
         isPro: json['isPro'] as bool? ?? false,
         biometricLockEnabled: json['biometricLockEnabled'] as bool? ?? false,
         darkModeEnabled: json['darkModeEnabled'] as bool? ?? false,
@@ -374,7 +386,8 @@ class BackupService {
           orElse: () => ColorTheme.blue,
         ),
         homeCountry: json['homeCountry'] as String? ?? 'US',
-        globalDiversificationMode: json['globalDiversificationMode'] as String? ?? 'moderate',
+        globalDiversificationMode:
+            json['globalDiversificationMode'] as String? ?? 'moderate',
         intlTargetOverride: (json['intlTargetOverride'] as num?)?.toDouble(),
         intlTolerancePct: (json['intlTolerancePct'] as num?)?.toDouble() ?? 5.0,
         intlFloorPct: (json['intlFloorPct'] as num?)?.toDouble() ?? 10.0,

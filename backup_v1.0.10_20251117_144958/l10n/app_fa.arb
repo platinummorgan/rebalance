@@ -1,0 +1,975 @@
+{
+  "@@locale": "fa",
+  "appTitle": "ریبالانس",
+  "netWorth": "ارزش خالص",
+  "assets": "دارایی‌ها",
+  "liabilities": "بدهی‌ها",
+  "cashFlow": "جریان نقدی",
+  "healthScore": "امتیاز سلامت مالی",
+  "proFeatures": "ویژگی‌های حرفه‌ای",
+  "choosePlan": "طرح خود را انتخاب کنید",
+  "upgradeToProTitle": "ارتقا به نسخه حرفه‌ای",
+  "allProFeatures": "تمام ویژگی‌های حرفه‌ای",
+  "cancelAnytime": "لغو در هر زمان",
+  "freeTrialDays": "7 روز آزمایش رایگان",
+  "proMonthly": "حرفه‌ای ماهانه",
+  "perMonth": "در ماه",
+  "annual": "سالانه",
+  "perYear": "در سال",
+  "founderLifetime": "بنیانگذار مادام‌العمر",
+  "oneTime": "یک بار",
+  "bestValue": "بهترین ارزش",
+  "limited": "محدود",
+  "saveMoney": "صرفه‌جویی {amount}",
+  "everythingForever": "همه چیز برای همیشه",
+  "firstFounders": "1,000 بنیانگذار اول",
+  "priceIncreasesAfter": "قیمت بعداً افزایش می‌یابد",
+  "retirementCalculator": "ماشین‌حساب بازنشستگی",
+  "debtOptimizer": "بهینه‌ساز بدهی",
+  "scenarioEngine": "موتور سناریو",
+  "taxSmartAllocation": "تخصیص هوشمند مالیاتی",
+  "customAlerts": "هشدارهای سفارشی",
+  "advancedAnalytics": "تحلیل‌های پیشرفته",
+  "unlockWithPro": "باز کردن با نسخه حرفه‌ای",
+  "startFreeTrial": "شروع آزمایش رایگان",
+  "choosePlanButton": "انتخاب طرح",
+  "settings": "تنظیمات",
+  "currency": "ارز",
+  "darkMode": "حالت تاریک",
+  "colorTheme": "تم رنگی",
+  "language": "زبان",
+  "accounts": "حساب‌ها",
+  "addAccount": "افزودن حساب",
+  "editAccount": "ویرایش حساب",
+  "accountName": "نام حساب",
+  "accountType": "نوع حساب",
+  "balance": "موجودی",
+  "accountDetails": "جزئیات حساب",
+  "pleaseEnterAccountName": "لطفا نام حساب را وارد کنید",
+  "exampleAccountName": "مثال: Chase Checking",
+  "lockedAccount": "حساب قفل شده",
+  "cannotBeRebalanced": "نمی‌توان تعادل مجدد کرد (401k، بازنشستگی، محدود)",
+  "canBeRebalanced": "می‌تواند در برنامه‌های تعادل مجدد گنجانده شود",
+  "currentBalance": "موجودی فعلی",
+  "pleaseEnterBalance": "لطفا موجودی را وارد کنید",
+  "pleaseEnterValidBalance": "لطفا موجودی معتبر وارد کنید",
+  "debts": "بدهی‌ها",
+  "addDebt": "افزودن بدهی",
+  "minimumPayment": "حداقل پرداخت",
+  "interestRate": "نرخ بهره",
+  "rebalancing": "متعادل‌سازی مجدد",
+  "createPlan": "ایجاد طرح متعادل‌سازی",
+  "targetAllocation": "تخصیص هدف",
+  "dashboard": "داشبورد",
+  "reports": "گزارش‌ها",
+  "targets": "اهداف",
+  "save": "ذخیره",
+  "cancel": "لغو",
+  "delete": "حذف",
+  "edit": "ویرایش",
+  "add": "افزودن",
+  "confirm": "تأیید",
+  "loading": "در حال بارگذاری...",
+  "error": "خطا",
+  "errorWithMessage": "خطا: {message}",
+  "@errorWithMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "success": "موفق",
+  "recentAccounts": "حساب‌های اخیر",
+  "viewAll": "مشاهده همه",
+  "noAccountsYet": "هنوز حسابی وجود ندارد",
+  "getStarted": "اولین حساب خود را اضافه کنید",
+  "totalAssets": "کل دارایی‌ها",
+  "totalLiabilities": "کل بدهی‌ها",
+  "financialHealth": "سلامت مالی",
+  "allocation": "تخصیص",
+  "liquidity": "نقدینگی",
+  "debtLoad": "بار بدهی",
+  "concentration": "تمرکز",
+  "excellent": "عالی",
+  "good": "خوب",
+  "fair": "متوسط",
+  "needsWork": "نیاز به بهبود دارد",
+  "critical": "بحرانی",
+  "poor": "ضعیف",
+  "financialHealthScore": "نمره سلامت مالی",
+  "howBalancedIsYourPortfolio": "پرتفوی شما چقدر متعادل است؟",
+  "wellBalanced": "به خوبی متعادل",
+  "excellentHealth": "سلامت عالی",
+  "goodHealth": "سلامت خوب",
+  "fairHealth": "سلامت متوسط",
+  "needsWorkHealth": "نیاز به بهبود دارد",
+  "poorHealth": "سلامت ضعیف",
+  "weightedBreakdown": "تفکیک وزنی",
+  "fixedIncomeBalance": "تعادل درآمد ثابت",
+  "liquidityBuffer": "ذخیره نقدینگی",
+  "internationalExposure": "قرارگیری بین‌المللی",
+  "debtManagement": "مدیریت بدهی",
+  "whatMoved": "چه چیزی تغییر کرد",
+  "sinceLast30d": "از 30 روز گذشته:",
+  "reducedUsEquityPosition": "موقعیت سهام آمریکا کاهش یافت",
+  "addedFixedIncomeAllocation": "تخصیص درآمد ثابت اضافه شد",
+  "noChangeInCashPosition": "تغییری در موقعیت نقدی وجود ندارد",
+  "nextActions": "اقدامات بعدی",
+  "openMixAndDials": "باز کردن ترکیب و صفحه‌ها",
+  "reviewDetailedAllocationBreakdown": "بررسی تفصیل تخصیص دقیق",
+  "addToPlan": "افزودن به برنامه",
+  "createRebalancingStrategy": "ایجاد استراتژی متعادل‌سازی مجدد",
+  "setTargetAllocation": "تنظیم تخصیص هدف",
+  "adjustYourRiskPreferences": "تنظیم ترجیحات ریسک خود",
+  "financialHealthTrend": "روند سلامت مالی",
+  "keyInsights": "بینش‌های کلیدی",
+  "runSimulation": "اجرای شبیه‌سازی",
+  "explainGradeBands": "توضیح محدوده‌های درجه",
+  "seeHowAddingBondsAffectsScore": "ببینید اضافه کردن 1,500 دلار به اوراق قرضه چگونه بر نمره شما تأثیر می‌گذارد",
+  "strongUpwardTrend": "روند صعودی قوی در طی 6 ماه",
+  "consistentImprovementPattern": "الگوی بهبود مداوم",
+  "approachingExcellentHealth": "نزدیک شدن به سلامت مالی عالی",
+  "gradualImprovementTrend": "روند بهبود تدریجی",
+  "steadyProgressPattern": "الگوی پیشرفت پایدار",
+  "decliningTrendNeedsAttention": "روند نزولی نیاز به توجه دارد",
+  "highVolatilityInScores": "نوسان بالا در نمرات",
+  "considerReviewingStrategy": "بررسی استراتژی مالی را در نظر بگیرید",
+  "slightDownwardTrend": "روند نزولی جزئی",
+  "monitorForContinuedDecline": "نظارت بر کاهش مداوم",
+  "stableFinancialHealthScore": "نمره سلامت مالی پایدار",
+  "lowVolatilityIndicatesConsistency": "نوسان کم نشان‌دهنده ثبات است",
+  "overall": "کلی",
+  "weakest": "ضعیف‌ترین",
+  "healthCalculatedFromComponents": "سلامت از 5 جزء محاسبه شده است",
+  "open": "باز کردن",
+  "go": "برو",
+  "netWorthLabel": "خالص دارایی",
+  "assetAllocation": "تخصیص دارایی",
+  "cash": "نقدی",
+  "bonds": "اوراق قرضه",
+  "equities": "سهام",
+  "realEstate": "املاک",
+  "commodities": "کالاها",
+  "crypto": "رمزارز",
+  "other": "سایر",
+  "totalEquities": "کل سهام",
+  "vsTarget": "در مقابل هدف",
+  "viewFullAnalysis": "مشاهده تحلیل کامل",
+  "reduce": "کاهش",
+  "concentrationRisk": "ریسک تمرکز",
+  "highRisk": "ریسک بالا",
+  "mediumRisk": "ریسک متوسط",
+  "lowRisk": "ریسک پایین",
+  "spotted": "مشاهده شد",
+  "ago": "پیش",
+  "updated": "به‌روزرسانی شد",
+  "addYourFirstAccount": "اولین حساب خود را اضافه کنید",
+  "checkingAccount": "حساب جاری",
+  "savingsAccount": "حساب پس‌انداز",
+  "brokerageAccount": "حساب کارگزاری",
+  "retirementAccount": "حساب بازنشستگی",
+  "reduceConcentrationRisk": "کاهش ریسک تمرکز",
+  "largestBucket": "بزرگترین سبد",
+  "capPerBucket": "سقف هر سبد",
+  "targetShift": "تغییر هدف",
+  "createRebalancingPlan": "ایجاد برنامه تعادل مجدد",
+  "shiftPerMonth": "تغییر ماهانه",
+  "spottedAgo": "مشاهده شد",
+  "updatedToday": "امروز به‌روزرسانی شد",
+  "updatedYesterday": "دیروز به‌روزرسانی شد",
+  "updatedDaysAgo": "{days} روز پیش به‌روزرسانی شد",
+  "hoursAgo": "{hours} ساعت پیش",
+  "daysAgo": "{days} روز پیش",
+  "monthsAgo": "{months} ماه پیش",
+  "incomeSourceName": "نام منبع درآمد",
+  "incomeSourceNameHint": "مثلاً، حقوق شرکت فناوری",
+  "pleaseEnterName": "لطفاً نام را وارد کنید",
+  "incomeType": "نوع درآمد",
+  "incomeTypeSalary": "حقوق",
+  "incomeTypeHourlyWage": "دستمزد ساعتی",
+  "incomeTypeBonus": "پاداش",
+  "incomeTypeCommission": "کمیسیون",
+  "incomeTypeFreelance": "فریلنس",
+  "incomeTypeRentalIncome": "درآمد اجاره",
+  "incomeTypeInvestmentIncome": "درآمد سرمایه‌گذاری",
+  "incomeTypePension": "بازنشستگی",
+  "incomeTypeSocialSecurity": "تأمین اجتماعی",
+  "incomeTypeOther": "سایر",
+  "grossAmount": "مبلغ ناخالص",
+  "pleaseEnterAmount": "لطفاً مبلغ را وارد کنید",
+  "pleaseEnterValidNumber": "لطفاً یک عدد معتبر وارد کنید",
+  "frequency": "فرکانس",
+  "addTaxDeductionBreakdown": "افزودن جزئیات مالیات و کسورات",
+  "trackFederalTaxStateTax": "ردیابی مالیات فدرال، مالیات ایالتی و کسورات",
+  "deductionsPerPaymentPeriod": "کسورات (در هر دوره پرداخت)",
+  "federalTax": "مالیات فدرال",
+  "stateTax": "مالیات ایالتی",
+  "socialSecurityTax": "مالیات تأمین اجتماعی",
+  "medicareTax": "مالیات مراقبت‌های پزشکی",
+  "retirement401k": "بازنشستگی (401k، IRA)",
+  "healthInsurancePremium": "حق بیمه سلامت",
+  "otherDeductions": "سایر کسورات",
+  "addIncome": "افزودن درآمد",
+  "importFromCSV": "وارد کردن از CSV",
+  "importDataFromCSV": "وارد کردن داده‌ها از CSV",
+  "selectCSVFileDescription": "یک فایل CSV برای وارد کردن حساب‌ها، بدهی‌ها یا داده‌های درآمد انتخاب کنید",
+  "selectCSVFile": "انتخاب فایل CSV",
+  "csvFormatRequirements": "الزامات قالب CSV",
+  "accountsLabel": "حساب‌ها",
+  "accountsCSVFormat": "name,type,balance,locked,cash,bonds,usEq,intlEq,realEstate,alt",
+  "liabilitiesLabel": "بدهی‌ها",
+  "liabilitiesCSVFormat": "name,type,balance,interestRate,minPayment",
+  "incomeLabel": "درآمد",
+  "incomeCSVFormat": "name,type,grossAmount,frequency",
+  "readyToImport": "آماده برای وارد کردن",
+  "rowsHadErrors": "ردیف دارای خطا بود",
+  "importError": "خطای وارد کردن",
+  "unknownError": "خطای ناشناخته",
+  "tryAgain": "دوباره تلاش کنید",
+  "income": "درآمد",
+  "unlockPro": "باز کردن پرو",
+  "yourProFeatures": "ویژگی‌های پرو شما",
+  "debtPayoffOptimizer": "بهینه‌ساز پرداخت بدهی",
+  "debtPayoffDescription": "استراتژی‌های بهمن در مقابل گلوله برفی را با برنامه‌های پرداخت ماهانه مقایسه کنید",
+  "saveThousands": "هزاران دلار سود صرفه‌جویی کنید",
+  "rebalancingAutopilot": "خلبان خودکار تعادل مجدد",
+  "rebalancingDescription": "دستورالعمل‌های تجاری خاص با معیارهای ریسک قبل/بعد دریافت کنید",
+  "reduceRisk": "ریسک پرتفوی را کاهش دهید",
+  "whatIfScenarioEngine": "موتور سناریو چه می‌شود اگر",
+  "whatIfDescription": "شبیه‌سازی مونت کارلو احتمال موفقیت را با پارامترهای قابل تنظیم نشان می‌دهد",
+  "seeProbability": "احتمال موفقیت را ببینید",
+  "customAlertsWithContext": "هشدارهای سفارشی با زمینه",
+  "customAlertsDescription": "آستانه‌های سفارشی با هشدارهای تأثیر دلاری تنظیم کنید",
+  "knowImpact": "تأثیر مالی را بدانید",
+  "taxSmartDescription": "قرارگیری حساب را بهینه کنید و فرصت‌های برداشت ضرر مالیاتی را شناسایی کنید",
+  "saveTaxes": "سالانه در مالیات صرفه‌جویی کنید",
+  "retirementDescription": "شبیه‌سازی مونت کارلو احتمال موفقیت بازنشستگی را پیش‌بینی می‌کند",
+  "advancedPortfolioAnalytics": "تحلیل‌های پیشرفته پرتفوی",
+  "advancedAnalyticsDescription": "شاخص تمرکز HHI، قرار گرفتن در معرض عامل، پیگیری چند پرتفوی",
+  "planDetails": "جزئیات طرح",
+  "proActive": "پرو فعال",
+  "rebalancePro": "تعادل مجدد پرو",
+  "basedOnYourPortfolio": "بر اساس پرتفوی شما:",
+  "saveMoneyReduceRisk": "با برنامه‌ریزی مالی هوشمند پول صرفه‌جویی و ریسک کاهش دهید",
+  "compareStrategies": "استراتژی‌های بهمن در مقابل گلوله برفی را مقایسه کنید. برنامه‌های پرداخت ماهانه دریافت کنید و کل صرفه‌جویی سود را ببینید.",
+  "getSpecificTrades": "دستورالعمل‌های تجاری خاص دریافت کنید. معیارهای ریسک قبل/بعد و کاهش نوسان را ببینید.",
+  "monteCarloSimulation": "شبیه‌سازی مونت کارلو (1000 اجرا) احتمال موفقیت را نشان می‌دهد. مشارکت‌ها، بازده و جدول زمانی را برای بهینه‌سازی برنامه خود تنظیم کنید.",
+  "customThresholds": "آستانه‌های سفارشی برای تمرکز، جریان، DSCR تنظیم کنید. هر هشدار تأثیر دلاری را نشان می‌دهد.",
+  "optimizeAccounts": "بهینه کنید کدام حساب کدام دارایی را نگه می‌دارد. فرصت‌های برداشت ضرر مالیاتی را شناسایی کنید. کشش مالیاتی سالانه را کاهش دهید.",
+  "projectRetirement": "شبیه‌سازی مونت کارلو (1000 اجرا) احتمال موفقیت بازنشستگی را پیش‌بینی می‌کند. پس‌انداز، جدول زمانی و درآمد را برای بهینه‌سازی برنامه خود تنظیم کنید.",
+  "hhiConcentration": "شاخص تمرکز HHI، تجزیه قرار گرفتن در معرض عامل، پیگیری چند پرتفوی، وزن‌های امتیازدهی سفارشی.",
+  "privacy100": "100٪ حریم خصوصی",
+  "dataOnDevice": "همه داده‌ها در دستگاه شما باقی می‌مانند",
+  "encryptedStorage": "ذخیره‌سازی رمزگذاری شده",
+  "bankGrade": "امنیت درجه بانکی",
+  "saveEst": "صرفه‌جویی تخمینی ",
+  "purchaseCancelled": "خرید لغو شد",
+  "rebalancingPlan": "طرح تعادل مجدد",
+  "rebalancingGuide": "راهنمای تعادل مجدد",
+  "addAccountsForRebalancing": "حساب‌هایی با دارایی‌ها برای ساخت طرح تعادل مجدد شخصی خود اضافه کنید",
+  "rebalancingPlanProDescription": "دستورالعمل‌های تجاری خاص با معیارهای ریسک قبل/بعد دریافت کنید. دقیقاً ببینید چه چیزی را برای رسیدن به تخصیص هدف خود باید بخرید یا بفروشید.",
+  "yourPersonalizedPlan": "طرح شخصی شما",
+  "customizeTrackExecute": "سفارشی‌سازی استراتژی، پیگیری پیشرفت، اجرای معاملات",
+  "lockedAccountsDetected": "حساب‌های قفل شده شناسایی شد",
+  "lockedAccountsMessage": "قفل شده است (مثلاً 401k، بازنشستگی). طرح فقط استفاده می‌کند",
+  "inUnlockedAccounts": "در حساب‌های باز شده",
+  "lockedAccountsTip": "نکته: برای 401k/بازنشستگی، به جای تعادل مجدد دارایی‌های موجود، تخصیص مشارکت خود را به‌روزرسانی کنید.",
+  "rebalancingStrategy": "استراتژی تعادل مجدد",
+  "dollarCostAverageRecommended": "میانگین هزینه دلاری (توصیه شده)",
+  "dollarCostDescription": "معاملات را در چند ماه پخش کنید تا ریسک زمان‌بندی را کاهش دهید",
+  "immediateRebalance": "تعادل مجدد فوری",
+  "immediateRebalanceDescription": "اگر اعتماد قوی دارید همه معاملات را اکنون اجرا کنید",
+  "glidePathDuration": "مدت مسیر لغزش",
+  "howManyMonthsToSpread": "می‌خواهید تعادل مجدد را در چند ماه پخش کنید؟",
+  "fast": "سریع",
+  "gradual": "تدریجی",
+  "months": "ماه",
+  "month": "ماه",
+  "executeNow": "اکنون اجرا کنید",
+  "totalToRebalanceImmediately": "مجموع برای تعادل مجدد فوری",
+  "monthlyTransferAmount": "مبلغ انتقال ماهانه",
+  "overMonths": "در طی",
+  "total": "مجموع",
+  "beforeVsAfter": "قبل در مقابل بعد",
+  "current": "فعلی",
+  "target": "هدف",
+  "executionChecklist": "لیست بررسی اجرا",
+  "trackMonthlyProgress": "پیشرفت ماهانه خود را هنگام اجرای معاملات پیگیری کنید",
+  "transfer": "انتقال",
+  "ofMonthsCompleted": "از",
+  "monthsCompleted": "ماه‌های تکمیل شده",
+  "exportPDF": "خروجی PDF",
+  "pdfExportComingSoon": "خروجی PDF به زودی!",
+  "whyRebalance": "چرا تعادل مجدد؟",
+  "whyRebalanceDescription": "حرکات بازار باعث می‌شود پرتفوی شما از تخصیص هدف منحرف شود و ریسک افزایش یابد. تعادل مجدد پروفایل ریسک/بازده مطلوب شما را بازیابی می‌کند.",
+  "dollarCostAveragingTitle": "میانگین هزینه دلاری",
+  "dollarCostAveragingDescription": "پخش معاملات در طول زمان ریسک زمان‌بندی و تأثیر بازار را کاهش می‌دهد. برای اکثر سرمایه‌گذاران توصیه می‌شود.",
+  "immediateRebalancingTitle": "تعادل مجدد فوری",
+  "immediateRebalancingDescription": "همه معاملات را یکباره اجرا کنید. بهترین اگر اعتماد بازار قوی دارید یا نیاز به تعادل مجدد فوری دارید.",
+  "youreWellBalanced": "شما خوب متعادل هستید!",
+  "noRebalancingNeeded": "پرتفوی شما در محدوده تحمل تخصیص هدف است. در این زمان نیازی به تعادل مجدد نیست.",
+  "accountType529EducationSavings": "529 پس‌انداز آموزشی",
+  "accountTypeBrokerage": "کارگزاری",
+  "accountTypeBrokerageAccount": "حساب کارگزاری",
+  "accountTypeCash": "نقدی",
+  "accountTypeCashAccount": "حساب نقدی",
+  "accountTypeCD": "CD",
+  "accountTypeCertificateOfDeposit": "گواهی سپرده",
+  "accountTypeChecking": "جاری",
+  "accountTypeCheckingAccount": "حساب جاری",
+  "accountTypeCrypto": "کریپتو",
+  "accountTypeCryptocurrency": "ارز دیجیتال",
+  "accountTypeHealthSavingsAccount": "حساب پس‌انداز سلامت (HSA)",
+  "accountTypeHSA": "HSA",
+  "accountTypeOther": "دیگر",
+  "accountTypeRealEstate": "املاک",
+  "accountTypeRealEstateEquity": "سهام املاک",
+  "accountTypeRetirement": "بازنشستگی",
+  "accountTypeSavings": "پس‌انداز",
+  "accountTypeSavingsAccount": "حساب پس‌انداز",
+  "liabilityTypeAutoLoan": "وام خودرو",
+  "liabilityTypeCreditCard": "کارت اعتباری",
+  "liabilityTypeLineOfCredit": "خط اعتباری",
+  "liabilityTypeMortgage": "وام مسکن",
+  "liabilityTypeOther": "دیگر",
+  "liabilityTypePersonalLoan": "وام شخصی",
+  "liabilityTypeStudentLoan": "وام دانشجویی",
+  "about": "درباره",
+  "account": "حساب",
+  "accountDeletedSuccessfully": "حساب با موفقیت حذف شد",
+  "accountsPlural": "حساب‌ها",
+  "addIncomeSource": "افزودن منبع درآمد",
+  "addLiability": "افزودن بدهی",
+  "addNewAccount": "افزودن حساب جدید",
+  "addYourFirstIncomeSource": "اولین منبع درآمد خود را برای پیگیری جریان نقدی اضافه کنید",
+  "addYourFirstLiability": "اولین بدهی خود را برای پیگیری بدهی‌ها اضافه کنید",
+  "allocationTargets": "اهداف تخصیص",
+  "allocationTargetsDescription": "درصدهای تخصیص دارایی هدف خود را تنظیم کنید",
+  "allPayments": "همه پرداخت‌ها",
+  "alternatives": "جایگزین‌ها",
+  "amountCannotBeNegative": "مبلغ نمی‌تواند منفی باشد",
+  "annualInterestCost": "هزینه سود سالانه",
+  "appInfoAndDisclaimers": "اطلاعات برنامه و سلب مسئولیت",
+  "apr": "APR",
+  "arabic": "عربی",
+  "areYouSureDeleteAccount": "آیا مطمئن هستید که می‌خواهید این حساب را حذف کنید؟",
+  "areYouSureDeleteIncome": "آیا مطمئن هستید که می‌خواهید این منبع درآمد را حذف کنید؟",
+  "areYouSureExit": "آیا مطمئن هستید که می‌خواهید خارج شوید؟",
+  "assetAllocationDescription": "برای مدیریت ریسک در کلاس‌های دارایی متنوع سازی کنید",
+  "avgInterestRate": "نرخ بهره متوسط",
+  "backToDashboard": "بازگشت به داشبورد",
+  "backToSnapshot": "بازگشت به اسنپ‌شات",
+  "backupRestoreData": "پشتیبان‌گیری و بازیابی داده",
+  "balanced": "متعادل",
+  "bengali": "بنگالی",
+  "bondsAndFixedIncome": "اوراق قرضه و درآمد ثابت",
+  "budgetAndPlanning": "بودجه و برنامه‌ریزی",
+  "budgetAndPlanningDescription": "هزینه‌ها را پیگیری کنید و برای اهداف برنامه‌ریزی کنید",
+  "cap": "سقف",
+  "cashAndCashEquivalents": "نقد و معادل نقد",
+  "chooseColorScheme": "طرح رنگ را انتخاب کنید",
+  "chooseLanguage": "زبان را انتخاب کنید",
+  "closeApplication": "بستن برنامه",
+  "colorAmber": "کهربایی",
+  "colorBlue": "آبی",
+  "colorGreen": "سبز",
+  "colorIndigo": "نیلی",
+  "colorOrange": "نارنجی",
+  "colorPink": "صورتی",
+  "colorPurple": "بنفش",
+  "colorRed": "قرمز",
+  "colorTeal": "فیروزه‌ای",
+  "componentConcentration": "تمرکز",
+  "componentDebtLoad": "بار بدهی",
+  "componentFixedIncome": "درآمد ثابت",
+  "componentHomeBias": "تعصب داخلی",
+  "componentLiquidity": "نقدینگی",
+  "controlInternationalExposure": "کنترل قرار گرفتن در معرض بین‌المللی",
+  "creditLimit": "حد اعتباری",
+  "creditLimitCannotBeLessThanBalance": "حد اعتباری نمی‌تواند کمتر از موجودی فعلی باشد",
+  "creditUtilization": "استفاده از اعتبار",
+  "dayOfEachMonth": "روز هر ماه",
+  "debt": "بدهی",
+  "debtsAndLiabilities": "بدهی‌ها و تعهدات",
+  "debtsPlural": "بدهی‌ها",
+  "defaultPolicyPenalizeLargeDeviations": "سیاست پیش‌فرض: انحرافات بزرگ از اهداف را جریمه کنید",
+  "deleteAccount": "حذف حساب",
+  "deletedSuccessfully": "با موفقیت حذف شد",
+  "deleteIncomeSource": "حذف منبع درآمد",
+  "discard": "لغو",
+  "displayInCurrency": "نمایش به ارز",
+  "editIncome": "ویرایش درآمد",
+  "editLiability": "ویرایش بدهی",
+  "english": "انگلیسی",
+  "enterMinPayment": "حداقل پرداخت را وارد کنید",
+  "enterMonthlyEssentials": "ضروریات ماهانه را وارد کنید",
+  "enterTargetPercentage": "درصد هدف را وارد کنید",
+  "enterValidAmount": "مبلغ معتبر وارد کنید",
+  "enterValidNumber": "عدد معتبر وارد کنید",
+  "enterValidPayment": "پرداخت معتبر وارد کنید",
+  "errorDeletingAccount": "خطا در حذف حساب",
+  "errorLoadingAccounts": "خطا در بارگذاری حساب‌ها",
+  "errorLoadingLiabilities": "خطا در بارگذاری بدهی‌ها",
+  "excludeInternationalExposure": "قرار گرفتن در معرض بین‌المللی را حذف کنید",
+  "exit": "خروج",
+  "exitApp": "خروج از برنامه",
+  "filteredFromSnapshot": "فیلتر شده از اسنپ‌شات",
+  "financialScore": "امتیاز مالی",
+  "frequencyAnnual": "سالانه",
+  "frequencyAnnually": "به صورت سالانه",
+  "frequencyBiWeekly": "دو هفته یکبار",
+  "frequencyBiweekly": "دو هفته یکبار",
+  "frequencyDaily": "روزانه",
+  "frequencyHourly": "ساعتی",
+  "frequencyMonthly": "ماهانه",
+  "frequencyQuarterly": "فصلی",
+  "frequencySemiMonthly": "نیم‌ماهانه",
+  "frequencyWeekly": "هفتگی",
+  "goBack": "بازگشت",
+  "gotIt": "متوجه شدم",
+  "help": "راهنما",
+  "helpAllocationTargetsText": "درصدهای هدف را برای هر کلاس دارایی تنظیم کنید. برنامه هنگامی که تخصیص واقعی شما خیلی از این اهداف منحرف شود به شما هشدار می‌دهد.",
+  "helpAllocationTargetsTitle": "راهنمای اهداف تخصیص",
+  "helpMonthlyEssentialsText": "هزینه‌های ضروری ماهانه خود را وارد کنید (اجاره، آب و برق، مواد غذایی و غیره). این به محاسبه هدف صندوق اضطراری شما کمک می‌کند.",
+  "helpMonthlyEssentialsTitle": "راهنمای ضروریات ماهانه",
+  "helpRiskProfileText": "یک پروفایل ریسک انتخاب کنید که با اهداف سرمایه‌گذاری و افق زمانی شما مطابقت داشته باشد. محافظه‌کارانه اوراق قرضه و نقد را ترجیح می‌دهد، رشد سهام را ترجیح می‌دهد، متعادل بین آنهاست.",
+  "helpRiskProfileTitle": "راهنمای پروفایل ریسک",
+  "hindi": "هندی",
+  "howWeProtectData": "چگونه از داده‌های شما محافظت می‌کنیم",
+  "importAccountsDebtsIncome": "وارد کردن حساب‌ها، بدهی‌ها و درآمد",
+  "importAndExport": "وارد کردن و خروجی",
+  "importCSV": "وارد کردن CSV",
+  "income1099": "درآمد 1099",
+  "incomeBonus": "پاداش",
+  "incomeFreelance": "آزاد",
+  "incomeInvestment": "سرمایه‌گذاری",
+  "incomePension": "بازنشستگی",
+  "incomeRental": "اجاره",
+  "incomeSalary": "حقوق",
+  "incomeSocialSecurity": "تامین اجتماعی",
+  "incomeSourceAdded": "منبع درآمد اضافه شد",
+  "incomeSourceDeleted": "منبع درآمد حذف شد",
+  "incomeSourceUpdated": "منبع درآمد به‌روزرسانی شد",
+  "incomeW2": "درآمد W-2",
+  "internationalEquity": "سهام بین‌المللی",
+  "intlEquity": "سهام بین‌المللی",
+  "justNow": "همین الان",
+  "lastPayment": "آخرین پرداخت",
+  "legalTermsAndConditions": "شرایط و ضوابط قانونی",
+  "lessPunitive": "کمتر مجازات‌آمیز",
+  "liabilityDetails": "جزئیات بدهی",
+  "liabilityName": "نام بدهی",
+  "liabilityNameHint": "به عنوان مثال، Chase Visa، وام دانشجویی",
+  "liabilitySavedSuccessfully": "بدهی با موفقیت ذخیره شد",
+  "light": "روشن",
+  "minPayment": "حداقل پرداخت",
+  "monthlyEssentialExpenses": "هزینه‌های ضروری ماهانه",
+  "monthlyEssentialsHelper": "هزینه‌های ضروری ماهانه خود را وارد کنید",
+  "monthlyEssentialsHelperUSD": "به عنوان مثال، 3000 دلار برای اجاره، آب و برق، مواد غذایی",
+  "monthlyInterest": "سود ماهانه",
+  "monthlyPaymentDay": "روز پرداخت ماهانه",
+  "monthlyPayments": "پرداخت‌های ماهانه",
+  "net": "خالص",
+  "netIncome": "درآمد خالص",
+  "nextPaymentDueDate": "تاریخ سررسید پرداخت بعدی",
+  "noDebtsTracked": "هنوز بدهی ردیابی نشده است",
+  "noIncomeSourcesYet": "هنوز منبع درآمدی وجود ندارد",
+  "noPaymentsRecordedYet": "هنوز پرداختی ثبت نشده است",
+  "offMute": "خاموش/بی‌صدا",
+  "optimizePayoffStrategy": "بهینه‌سازی استراتژی پرداخت",
+  "paymentHistory": "تاریخچه پرداخت",
+  "paymentSchedule": "برنامه پرداخت",
+  "paymentsWillAppearHere": "پرداخت‌ها اینجا نمایش داده می‌شوند",
+  "percentageMustBeBetween": "درصد باید بین 0 و 100 باشد",
+  "persian": "فارسی",
+  "pleaseEnterAPR": "لطفاً APR را وارد کنید",
+  "pleaseEnterCurrentBalance": "لطفاً موجودی فعلی را وارد کنید",
+  "pleaseEnterLiabilityName": "لطفاً نام بدهی را وارد کنید",
+  "pleaseEnterValidAPR": "لطفاً یک APR معتبر وارد کنید",
+  "pleaseEnterValidCreditLimit": "لطفاً یک حد اعتباری معتبر وارد کنید",
+  "privacyPolicy": "سیاست حریم خصوصی",
+  "proFeature": "ویژگی پرو",
+  "proStatus": "وضعیت پرو",
+  "pts": "امتیاز",
+  "quickStats": "آمار سریع",
+  "realEstateREITs": "املاک و REITs",
+  "requestLanguage": "درخواست زبان",
+  "retry": "تلاش مجدد",
+  "riskBalanced": "متعادل",
+  "riskBalancedAllocation": "60% سهام، 35% اوراق قرضه، 5% نقد",
+  "riskBalancedDescription": "رشد متوسط با مقداری ثبات",
+  "riskConservative": "محافظه‌کارانه",
+  "riskConservativeAllocation": "30% سهام، 50% اوراق قرضه، 20% نقد",
+  "riskConservativeDescription": "اولویت دادن به ثبات و حفظ سرمایه",
+  "riskGrowth": "رشد",
+  "riskGrowthAllocation": "80% سهام، 15% اوراق قرضه، 5% نقد",
+  "riskGrowthDescription": "به حداکثر رساندن پتانسیل رشد بلندمدت",
+  "riskProfile": "پروفایل ریسک",
+  "riskProfileDescription": "تحمل ریسک سرمایه‌گذاری خود را انتخاب کنید",
+  "saveChanges": "ذخیره تغییرات",
+  "selectNextPaymentDueDate": "تاریخ سررسید پرداخت بعدی را انتخاب کنید",
+  "sendFeedback": "ارسال بازخورد",
+  "setTargetsAndThresholds": "تنظیم اهداف و آستانه‌ها",
+  "settingsSavedSuccessfully": "تنظیمات با موفقیت ذخیره شد",
+  "shareThoughtsAndSuggestions": "افکار و پیشنهادات خود را به اشتراک بگذارید",
+  "showAll": "نمایش همه",
+  "source": "منبع",
+  "sources": "منابع",
+  "stable": "پایدار",
+  "standard": "استاندارد",
+  "tapToSelectDate": "برای انتخاب تاریخ ضربه بزنید",
+  "targetsAndAlerts": "اهداف و هشدارها",
+  "targetsAndAlertsHelp": "راهنمای اهداف و هشدارها",
+  "taxRate": "نرخ مالیات",
+  "termsOfService": "شرایط خدمات",
+  "testingAsFreeUser": "آزمایش به عنوان کاربر رایگان",
+  "testingAsProUser": "آزمایش به عنوان کاربر پرو",
+  "timeframe30d": "30 روز",
+  "totalAllocation": "کل تخصیص",
+  "totalDebt": "کل بدهی",
+  "totalMonthlyIncome": "کل درآمد ماهانه",
+  "totalPaid": "کل پرداخت شده",
+  "totalPayments": "کل پرداخت‌ها",
+  "trackCreditCardsAndLoans": "پیگیری کارت‌های اعتباری و وام‌ها",
+  "trackYourIncomeSources": "منابع درآمد خود را پیگیری کنید",
+  "trackYourNetWorth": "ارزش خالص خود را پیگیری کنید",
+  "trend": "روند",
+  "unlockAdvancedFeatures": "باز کردن ویژگی‌های پیشرفته",
+  "unsavedChanges": "تغییرات ذخیره نشده",
+  "unsavedChangesMessage": "شما تغییرات ذخیره نشده دارید. آیا می‌خواهید آنها را لغو کنید؟",
+  "updateAccount": "به‌روزرسانی حساب",
+  "updateLiability": "به‌روزرسانی بدهی",
+  "used": "استفاده شده",
+  "useDarkTheme": "استفاده از تم تیره",
+  "usEquity": "سهام آمریکا",
+  "usEquityTarget": "هدف سهام آمریکا",
+  "usEquityTargetHelper": "درصد هدف برای سهام آمریکا",
+  "view": "مشاهده",
+  "viewAllAccounts": "مشاهده همه حساب‌ها",
+  "whatTypesOfDebt": "چه نوع بدهی‌هایی را می‌توانید پیگیری کنید؟",
+  "why": "چرا",
+  "cutConcentration": "کاهش تمرکز: {details}",
+  "@cutConcentration": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "errorSavingIncome": "خطا در ذخیره درآمد: {error}",
+  "@errorSavingIncome": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteIncomeConfirm": "آیا مطمئن هستید که می‌خواهید {name} را حذف کنید؟",
+  "@deleteIncomeConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "errorLoadingSettings": "خطا در بارگذاری تنظیمات: {error}",
+  "@errorLoadingSettings": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToSaveSettings": "ذخیره تنظیمات انجام نشد: {error}",
+  "@failedToSaveSettings": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "dayOfMonth": "روز ماه: {day}",
+  "@dayOfMonth": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "errorLoadingIncome": "خطا در بارگذاری درآمد: {error}",
+  "@errorLoadingIncome": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorDeletingIncome": "خطا در حذف درآمد: {error}",
+  "@errorDeletingIncome": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "mixAndDials": "ترکیب و صفحه‌ها",
+  "errorLoadingDataWithError": "خطا در بارگذاری داده: {error}",
+  "@errorLoadingDataWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorLoadingDebtData": "خطا در بارگذاری داده‌های بدهی: {error}",
+  "@errorLoadingDebtData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noDataAvailable": "داده‌ای در دسترس نیست",
+  "dollarCostAveragingCalculations": "محاسبات میانگین هزینه دلار",
+  "primarySecondaryRebalancingTargets": "اهداف تعادل مجدد اولیه/ثانویه",
+  "timelineWithMonitoringAlerts": "جدول زمانی با هشدارهای نظارتی",
+  "adjustTargetAllocation": "تنظیم تخصیص هدف",
+  "savePlan": "ذخیره طرح",
+  "previewPdf": "پیش‌نمایش PDF",
+  "back": "برگشت",
+  "aboutMixAndDials": "درباره ترکیب و صفحه‌ها",
+  "mixAndDialsDescription": "این صفحه تحلیل مفصلی از پورتفولیو شما ارائه می‌دهد:",
+  "assetAllocationBreakdown": "• تخصیص دارایی - تفکیک بصری سرمایه‌گذاری‌های شما",
+  "diversificationDials": "• صفحه‌های تنوع - توزیع ریسک و جغرافیایی",
+  "rebalancingPlansRecommendations": "• طرح‌های تعادل مجدد - پیشنهادات قابل اجرا",
+  "rebalancingPlanSavedSuccessfully": "طرح تعادل مجدد با موفقیت ذخیره شد!",
+  "planSaved": "طرح ذخیره شد",
+  "ok": "تأیید",
+  "pdfPreview": "پیش‌نمایش PDF",
+  "close": "بستن",
+  "pdfExportFeatureComingSoon": "ویژگی صادرات PDF به زودی!",
+  "downloadPdf": "دانلود PDF",
+  "maybeLater": "شاید بعداً",
+  "errorLoadingAccountsWithError": "خطا در بارگذاری حساب‌ها: {error}",
+  "@errorLoadingAccountsWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "gettingStartedGuide": "راهنمای شروع",
+  "previewWithSampleData": "پیش‌نمایش با داده نمونه",
+  "archiveAccount": "بایگانی حساب",
+  "archived": "بایگانی شده",
+  "archive": "بایگانی",
+  "loadSampleData": "بارگذاری داده نمونه",
+  "sampleDataLoaded": "داده نمونه بارگذاری شد!",
+  "load": "بارگذاری",
+  "viewAccountsWithUsEquity": "مشاهده حساب‌ها با سهام آمریکا",
+  "learnMore": "بیشتر بدانید",
+  "riskNudgeSnoozed": "یادآوری ریسک برای 30 روز به تعویق افتاد",
+  "riskMarkedAsResolved": "ریسک به عنوان حل شده علامت‌گذاری شد",
+  "howWeCalculateThis": "چگونه این را محاسبه می‌کنیم",
+  "yourFinancialHealthScoreBasedOn": "امتیاز سلامت مالی شما بر اساس:",
+  "concentrationRiskPercent": "• ریسک تمرکز (30%)",
+  "fixedIncomeBalancePercent": "• تعادل درآمد ثابت (25%)",
+  "liquidityBufferPercent": "• بافر نقدینگی (20%)",
+  "internationalExposurePercent": "• قرار گرفتن در معرض بین‌المللی (15%)",
+  "debtManagementPercent": "• مدیریت بدهی (10%)",
+  "addAccounts": "افزودن حساب‌ها",
+  "addMonthlyEssentials": "افزودن ملزومات ماهانه",
+  "noTrendDataAvailable": "داده‌های روند در دسترس نیست",
+  "exportPdfReport": "صدور گزارش PDF",
+  "saveAsSnapshot": "ذخیره به عنوان اسنپ‌شات",
+  "viewScoreHistory": "مشاهده تاریخچه امتیاز",
+  "compare": "مقایسه",
+  "create": "ایجاد",
+  "saved": "ذخیره شد",
+  "failedToCreateSnapshot": "ایجاد اسنپ‌شات ناموفق بود: {error}",
+  "@failedToCreateSnapshot": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "snapshotDetail": "جزئیات اسنپ‌شات",
+  "snapshotNote": "یادداشت اسنپ‌شات",
+  "savedToDownloads": "ذخیره شده در Downloads/{filename}",
+  "@savedToDownloads": {
+    "placeholders": {
+      "filename": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadFailed": "دانلود ناموفق بود: {error}",
+  "@downloadFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "isAvailableWithRebalancePro": "{feature} با Rebalance Pro در دسترس است.",
+  "@isAvailableWithRebalancePro": {
+    "placeholders": {
+      "feature": {
+        "type": "String"
+      }
+    }
+  },
+  "startCompare": "شروع مقایسه",
+  "selectThisAsStartingPoint": "این را به عنوان نقطه شروع برای مقایسه انتخاب کنید",
+  "deleteSnapshot": "اسنپ‌شات حذف شود؟",
+  "failedToDeleteSnapshot": "حذف اسنپ‌شات ناموفق بود: {error}",
+  "@failedToDeleteSnapshot": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "unlockTaxOptimization": "باز کردن بهینه‌سازی مالیات",
+  "estimatedAnnualTaxSavings": "صرفه‌جویی مالیاتی سالانه تخمینی",
+  "potentialSavings": "صرفه‌جویی بالقوه: {amount} / سال",
+  "@potentialSavings": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "yourAssetsAreAlreadyTaxEfficient": "دارایی‌های شما از قبل به صورت کارآمد از نظر مالیاتی قرار دارند. 👍",
+  "suggestedReallocation": "تخصیص مجدد پیشنهادی",
+  "assumptionsAndMethodology": "فرضیات و روش‌شناسی",
+  "enableNotifications": "فعال‌سازی اعلان‌ها",
+  "getAlertsAboutDrift": "دریافت هشدار درباره انحراف و فرصت‌های تعادل مجدد",
+  "set": "تنظیم",
+  "howItWorks": "چگونه کار می‌کند",
+  "averageAnnualReturn": "• میانگین بازدهی سالانه: 7%",
+  "marketVolatility": "• نوسانات بازار: 15%",
+  "inflationRate": "• تورم: 3% در سال",
+  "noDebtsToOptimize": "بدهی برای بهینه‌سازی وجود ندارد!",
+  "addLiabilitiesFromTab": "برای استفاده از این ابزار، بدهی‌ها را از تب بدهی‌ها اضافه کنید.",
+  "currentDebt": "بدهی فعلی",
+  "liabilityCount": "{count} {count, plural, =1{بدهی} other{بدهی}} • {minPayment}/ماه حداقل",
+  "@liabilityCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "minPayment": {
+        "type": "String"
+      }
+    }
+  },
+  "extraMonthlyPayment": "پرداخت اضافی ماهانه",
+  "totalMonthlyPayment": "کل پرداخت ماهانه: {amount}",
+  "@totalMonthlyPayment": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoffStrategies": "استراتژی‌های بازپرداخت",
+  "strategyRecommendation": "ما گزینه با بهره کل کمتر را توصیه می‌کنیم. شما همچنان می‌توانید دیگری را برای برد‌های انگیزشی انتخاب کنید.",
+  "avalanche": "بهمن",
+  "avalancheRecommended": "بهمن (توصیه شده)",
+  "avalancheDescription": "بالاترین نرخ بهره اول – بهره کل را کاهش می‌دهد",
+  "snowball": "گلوله برفی",
+  "snowballRecommended": "گلوله برفی (توصیه شده)",
+  "snowballDescription": "کوچکترین مانده اول – برد‌های روانی سریع‌تر",
+  "unlockDetailedPayoffSchedule": "باز کردن برنامه بازپرداخت تفصیلی",
+  "monthByMonthBreakdown": "تفکیک ماه‌به‌ماه پرداخت دریافت کنید که نشان می‌دهد:",
+  "exactPayoffDate": "تاریخ دقیق بازپرداخت برای هر بدهی",
+  "principalVsInterest": "تفکیک اصل در مقابل بهره",
+  "remainingBalanceTracking": "ردیابی مانده باقیمانده",
+  "totalInterestSaved": "کل بهره صرفه‌جویی شده: {amount}",
+  "@totalInterestSaved": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "debtPayoffOrder": "ترتیب بازپرداخت بدهی",
+  "debtsWillBePaidInOrder": "بدهی‌ها به این ترتیب پرداخت خواهند شد (استراتژی {strategy}):",
+  "@debtsWillBePaidInOrder": {
+    "placeholders": {
+      "strategy": {
+        "type": "String"
+      }
+    }
+  },
+  "paidOff": "پرداخت شده",
+  "payoffTime": "زمان بازپرداخت",
+  "monthsCount": "{count} ماه",
+  "@monthsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalInterest": "کل بهره",
+  "saveVsMinimum": "صرفه‌جویی {amount} در مقابل حداقل پرداخت‌ها",
+  "@saveVsMinimum": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "detailedPaymentSchedule": "برنامه پرداخت تفصیلی",
+  "monthByMonthStrategy": "تفکیک ماه‌به‌ماه (استراتژی {strategy}):",
+  "@monthByMonthStrategy": {
+    "placeholders": {
+      "strategy": {
+        "type": "String"
+      }
+    }
+  },
+  "monthNumber": "ماه {number}",
+  "@monthNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "principalAndInterest": "{principal} اصل • {interest} بهره",
+  "@principalAndInterest": {
+    "placeholders": {
+      "principal": {
+        "type": "String"
+      },
+      "interest": {
+        "type": "String"
+      }
+    }
+  },
+  "remaining": "باقیمانده: {amount}",
+  "@remaining": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "moreMonths": "... {count} ماه دیگر",
+  "@moreMonths": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "strategyComparison": "مقایسه استراتژی",
+  "strategySavingsComparison": "{strategy} {interestDiff} بهره بیشتر صرفه‌جویی می‌کند{monthsInfo} در مقابل رویکرد دیگر.",
+  "@strategySavingsComparison": {
+    "placeholders": {
+      "strategy": {
+        "type": "String"
+      },
+      "interestDiff": {
+        "type": "String"
+      },
+      "monthsInfo": {
+        "type": "String"
+      }
+    }
+  },
+  "andFinishesEarlier": " و {months} ماه{plural} زودتر به پایان می‌رسد",
+  "@andFinishesEarlier": {
+    "placeholders": {
+      "months": {
+        "type": "int"
+      },
+      "plural": {
+        "type": "String"
+      }
+    }
+  },
+  "unlockDebtPayoffOptimizer": "باز کردن بهینه‌ساز بازپرداخت بدهی",
+  "fastestPathToDebtFreedom": "سریع‌ترین مسیر به آزادی از بدهی را پیدا کنید",
+  "compareAvalancheSnowball": "استراتژی‌های بهمن در مقابل گلوله برفی را مقایسه کنید",
+  "seeExactPayoffDates": "تاریخ‌های دقیق بازپرداخت برای هر بدهی را ببینید",
+  "calculateInterestSavings": "کل صرفه‌جویی بهره را محاسبه کنید",
+  "getMonthlySchedule": "برنامه پرداخت ماه‌به‌ماه دریافت کنید",
+  "best": "بهترین",
+  "selected": "انتخاب شده",
+  "selectStrategy": "استراتژی انتخاب کنید",
+  "typesOfDebtYouCanTrack": "انواع بدهی که می‌توانید ردیابی کنید",
+  "creditCardsDescription": "• کارت‌های اعتباری - ردیابی موجودی و استفاده از اعتبار",
+  "mortgagesDescription": "• رهن - وام‌های مسکن و تأمین مجدد مالی",
+  "autoLoansDescription": "• وام‌های خودرو - تأمین مالی خودرو و وسیله نقلیه",
+  "studentLoansDescription": "• وام‌های دانشجویی - بدهی تحصیلی",
+  "personalLoansDescription": "• وام‌های شخصی - بدهی بدون وثیقه",
+  "helocDescription": "• HELOC - خطوط اعتباری سهام مسکن",
+  "businessLoansDescription": "• وام‌های تجاری - بدهی تجاری",
+  "upgradeForProFeatures": "برای برنامه‌های نامحدود، صادرات PDF و تجزیه و تحلیل پیشرفته به نسخه حرفه‌ای ارتقا دهید.",
+  "upgradeForPdfExports": "برای صادرات PDF، برنامه‌های نامحدود و تجزیه و تحلیل پیشرفته به نسخه حرفه‌ای ارتقا دهید.",
+  "pdfExportAvailable": "صادرات PDF با Rebalance Pro در دسترس است.",
+  "pdfExportProMessage": "صادرات PDF با Rebalance Pro در دسترس است.\n\nبرای صادرات PDF، برنامه‌های نامحدود و تجزیه و تحلیل پیشرفته به نسخه حرفه‌ای ارتقا دهید.",
+  "taxOptimizationDescription": "کشش مالیاتی سالانه تخمینی را ببینید و نحوه کاهش آن را با موقعیت بهتر دارایی.",
+  "potentialSavingsPerYear": "صرفه‌جویی بالقوه: {amount} / سال",
+  "assetsAlreadyTaxEfficient": "دارایی‌های شما از قبل به طور کارآمد مالیاتی قرار گرفته‌اند. 👍",
+  "estimatedYearlyImpact": "تأثیر سالانه تخمینی: {amount}",
+  "unlockCustomAlerts": "باز کردن قفل هشدارهای سفارشی",
+  "alertSettingsSaved": "تنظیمات هشدار ذخیره شد",
+  "failedToSave": "ذخیره ناموفق بود: {error}",
+  "thresholds": "آستانه‌ها",
+  "driftThreshold": "آستانه انحراف",
+  "concentrationCap": "حد تمرکز",
+  "employerStockCap": "حد سهام کارفرما",
+  "notifications": "اعلان‌ها",
+  "enableAlertNotifications": "فعال کردن اعلان‌های هشدار",
+  "receiveAlertNotificationsDescription": "هشدارهای داخل برنامه را هنگام نقض آستانه‌ها دریافت کنید",
+  "dollarImpactPreview": "پیش‌نمایش تأثیر دلار",
+  "exampleImpact": "نمونه تأثیر",
+  "exampleImpactDescription": "هنگامی که یک آستانه نقض می‌شود، هشدارها مبلغ تخمینی دلار مرتبط با قرار گرفتن بیش از حد را نشان می‌دهند تا کاربران تأثیر مالی واقعی را بدانند.",
+  "scenarioA": "سناریو A",
+  "scenarioB": "سناریو B",
+  "monthlyContribution": "کمک ماهانه",
+  "expectedReturn": "بازده مورد انتظار",
+  "volatility": "نوسان",
+  "years": "سال‌ها",
+  "goalAmount": "مبلغ هدف",
+  "resultsA": "نتایج A",
+  "resultsB": "نتایج B",
+  "successProbability": "احتمال موفقیت",
+  "medianEnding": "پایان میانه",
+  "tenthPercentile": "دهک دهم",
+  "ninetiethPercentile": "دهک نودم",
+  "retirementSimulationDescription": "این ماشین حساب 1000 شبیه‌سازی را برای تخمین احتمال موفقیت بازنشستگی شما اجرا می‌کند.",
+  "yourRetirementPlan": "طرح بازنشستگی شما",
+  "currentSavings": "پس‌انداز فعلی",
+  "yearsUntilRetirement": "سال‌ها تا بازنشستگی",
+  "desiredMonthlyIncome": "درآمد ماهانه مطلوب",
+  "yearsInRetirement": "سال‌های بازنشستگی",
+  "outcomeDistribution": "توزیع نتایج",
+  "outcomeLikelihood": "احتمال نتایج مختلف",
+  "fail": "شکست",
+  "low": "پایین",
+  "med": "متوسط",
+  "high": "بالا",
+  "recommendations": "توصیه‌ها",
+  "moveToTaxAdvantaged": "{amount} از {asset} را به حساب مزایای مالیاتی منتقل کنید",
+  "estimatedAnnualImpact": "تأثیر سالانه تخمینی",
+  "considerIncreasingContributions": "برای بهبود شانس خود، افزایش کمک‌های ماهانه به {amount} را در نظر بگیرید.",
+  "excellentOnTrack": "عالی! برنامه بازنشستگی شما در مسیر درست است.",
+  "incomeExceedsSafeWithdrawal": "درآمد مطلوب شما ({desired}) از مبلغ برداشت ایمن \"قانون 4٪\" ({safe}) بیشتر است.",
+  "timeIsAdvantage": "با {years} سال تا بازنشستگی، زمان بزرگترین مزیت شماست. با کمک‌ها ثابت قدم باشید.",
+  "planReasonable": "برنامه شما منطقی است. سالانه بررسی کنید و با تغییر وضعیت خود تنظیم کنید.",
+  "successProbabilityLabel": "احتمال موفقیت",
+  "grade": "نمره {grade}",
+  "atRetirement": "در بازنشستگی",
+  "medianAfterRetirement": "میانه پس از بازنشستگی",
+  "bestCase90th": "بهترین حالت (دهک 90)",
+  "simulationsYears": "شبیه‌سازی‌ها: {simulations}\\nسال‌ها: {years}",
+  "distributionSortedOutcomes": "توزیع (نتایج مرتب‌شده)"
+}

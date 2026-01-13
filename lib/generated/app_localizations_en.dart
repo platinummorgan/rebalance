@@ -260,7 +260,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get liquidity => 'Liquidity';
 
   @override
-  String get debtLoad => 'Debt Load';
+  String get debtLoad => 'Debt load';
 
   @override
   String get concentration => 'Concentration';
@@ -2197,4 +2197,370 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get businessLoansDescription => '• Business Loans - Commercial debt';
+
+  @override
+  String get upgradeForProFeatures =>
+      'Upgrade to Pro for unlimited plans, PDF exports, and advanced analytics.';
+
+  @override
+  String get upgradeForPdfExports =>
+      'Upgrade to Pro for PDF exports, unlimited plans, and advanced analytics.';
+
+  @override
+  String get pdfExportAvailable =>
+      'PDF Export is available with Rebalance Pro.';
+
+  @override
+  String get pdfExportProMessage =>
+      'PDF Export is available with Rebalance Pro.\n\nUpgrade to Pro for PDF exports, unlimited plans, and advanced analytics.';
+
+  @override
+  String get taxOptimizationDescription =>
+      'See estimated annual tax drag and how to reduce it with better asset location.';
+
+  @override
+  String potentialSavingsPerYear(String amount) {
+    return 'Potential Savings: $amount / yr';
+  }
+
+  @override
+  String get assetsAlreadyTaxEfficient =>
+      'Your assets are already tax-efficiently located. 👍';
+
+  @override
+  String estimatedYearlyImpact(String amount) {
+    return 'Est. yearly impact: $amount';
+  }
+
+  @override
+  String get unlockCustomAlerts => 'Unlock Custom Alerts';
+
+  @override
+  String get alertSettingsSaved => 'Alert settings saved';
+
+  @override
+  String failedToSave(String error) {
+    return 'Failed to save: $error';
+  }
+
+  @override
+  String get thresholds => 'Thresholds';
+
+  @override
+  String get driftThreshold => 'Drift Threshold';
+
+  @override
+  String get concentrationCap => 'Concentration Cap';
+
+  @override
+  String get employerStockCap => 'Employer Stock Cap';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get enableAlertNotifications => 'Enable Alert Notifications';
+
+  @override
+  String get receiveAlertNotificationsDescription =>
+      'Receive push-style in-app alerts when thresholds breach';
+
+  @override
+  String get dollarImpactPreview => 'Dollar Impact Preview';
+
+  @override
+  String get exampleImpact => 'Example Impact';
+
+  @override
+  String get exampleImpactDescription =>
+      'When a threshold breaches, alerts will show an estimated dollar amount tied to the excess exposure so users know the real financial impact.';
+
+  @override
+  String get scenarioA => 'Scenario A';
+
+  @override
+  String get scenarioB => 'Scenario B';
+
+  @override
+  String get monthlyContribution => 'Monthly Contribution';
+
+  @override
+  String get expectedReturn => 'Expected Return';
+
+  @override
+  String get volatility => 'Volatility';
+
+  @override
+  String get years => 'Years';
+
+  @override
+  String get goalAmount => 'Goal Amount';
+
+  @override
+  String get resultsA => 'Results A';
+
+  @override
+  String get resultsB => 'Results B';
+
+  @override
+  String get successProbability => 'Success Probability';
+
+  @override
+  String get medianEnding => 'Median Ending';
+
+  @override
+  String get tenthPercentile => '10th Percentile';
+
+  @override
+  String get ninetiethPercentile => '90th Percentile';
+
+  @override
+  String get retirementSimulationDescription =>
+      'This calculator runs 1,000 simulations to estimate your retirement success probability.';
+
+  @override
+  String get yourRetirementPlan => 'Your Retirement Plan';
+
+  @override
+  String get currentSavings => 'Current Savings';
+
+  @override
+  String get yearsUntilRetirement => 'Years Until Retirement';
+
+  @override
+  String get desiredMonthlyIncome => 'Desired Monthly Income';
+
+  @override
+  String get yearsInRetirement => 'Years in Retirement';
+
+  @override
+  String get outcomeDistribution => 'Outcome Distribution';
+
+  @override
+  String get outcomeLikelihood => 'How likely different outcomes are';
+
+  @override
+  String get fail => 'Fail';
+
+  @override
+  String get low => 'Low';
+
+  @override
+  String get med => 'Med';
+
+  @override
+  String get high => 'High';
+
+  @override
+  String get recommendations => 'Recommendations';
+
+  @override
+  String moveToTaxAdvantaged(Object amount, Object asset) {
+    return 'Move $amount of $asset to tax-advantaged account';
+  }
+
+  @override
+  String get estimatedAnnualImpact => 'Estimated annual impact';
+
+  @override
+  String considerIncreasingContributions(Object amount) {
+    return 'Consider increasing monthly contributions to $amount to improve your odds.';
+  }
+
+  @override
+  String get excellentOnTrack => 'Excellent! Your retirement plan is on track.';
+
+  @override
+  String incomeExceedsSafeWithdrawal(Object desired, Object safe) {
+    return 'Your desired income ($desired) exceeds the \"4% rule\" safe withdrawal amount ($safe).';
+  }
+
+  @override
+  String timeIsAdvantage(Object years) {
+    return 'With $years years until retirement, time is your biggest advantage. Stay consistent with contributions.';
+  }
+
+  @override
+  String get planReasonable =>
+      'Your plan is reasonable. Review annually and adjust as your situation changes.';
+
+  @override
+  String get successProbabilityLabel => 'Success Probability';
+
+  @override
+  String grade(Object grade) {
+    return 'Grade $grade';
+  }
+
+  @override
+  String get atRetirement => 'At Retirement';
+
+  @override
+  String get medianAfterRetirement => 'Median After Retirement';
+
+  @override
+  String get bestCase90th => 'Best Case (90th)';
+
+  @override
+  String simulationsYears(Object simulations, Object years) {
+    return 'Simulations: $simulations\\nYears: $years';
+  }
+
+  @override
+  String get distributionSortedOutcomes => 'Distribution (sorted outcomes)';
+
+  @override
+  String get thisWeeksSafeToSpend => 'This week\'s safe-to-spend';
+
+  @override
+  String get onTrack => 'On track';
+
+  @override
+  String daysOfBuffer(int days) {
+    return '$days days of buffer left';
+  }
+
+  @override
+  String youllBeShort(String amount, String day) {
+    return '⚠ You\'ll be short $amount by $day at this pace';
+  }
+
+  @override
+  String incomeAmount(String amount) {
+    return 'Income $amount';
+  }
+
+  @override
+  String billsAmount(String amount) {
+    return 'Bills $amount';
+  }
+
+  @override
+  String get tapToSeeGuardrails => 'Tap to see guardrails';
+
+  @override
+  String get moneyHealthScore => 'Money health score';
+
+  @override
+  String weakestArea(String area) {
+    return '$area is your weakest area right now';
+  }
+
+  @override
+  String get neverBrokeWeek => 'Never have a \'broke week\' again.';
+
+  @override
+  String get answerQuestionsGuardrails =>
+      'Answer 3 quick questions and we\'ll tell you how much you can safely spend this week.';
+
+  @override
+  String get setupGuardrails => 'Set up my guardrails (30 seconds)';
+
+  @override
+  String get updatedNow => 'Updated now';
+
+  @override
+  String get weeklyGuardrails => 'Weekly Guardrails';
+
+  @override
+  String get safeToSpendThisWeek => 'Safe to spend this week';
+
+  @override
+  String get overBudgetThisWeek => 'Over budget this week';
+
+  @override
+  String alreadyOverThisWeek(String amount) {
+    return 'You\'re already $amount over this week';
+  }
+
+  @override
+  String goingNegativeByDay(String day) {
+    return 'You\'re on track to go negative by $day';
+  }
+
+  @override
+  String willBeShortByFriday(String amount) {
+    return 'You\'ll be short $amount by Friday';
+  }
+
+  @override
+  String bufferUntilNext(String day) {
+    return 'Buffer until next $day';
+  }
+
+  @override
+  String bufferUntil(String day) {
+    return 'Buffer until $day';
+  }
+
+  @override
+  String get warningZoneToast =>
+      'You\'re in the warning zone this week. Tap the card to see what happens if you spend more.';
+
+  @override
+  String get monday => 'Monday';
+
+  @override
+  String get tuesday => 'Tuesday';
+
+  @override
+  String get wednesday => 'Wednesday';
+
+  @override
+  String get thursday => 'Thursday';
+
+  @override
+  String get friday => 'Friday';
+
+  @override
+  String get saturday => 'Saturday';
+
+  @override
+  String get sunday => 'Sunday';
+
+  @override
+  String get buffer => 'buffer';
+
+  @override
+  String bufferUntilDay(String day) {
+    return 'If you keep spending like last week, you have buffer until $day';
+  }
+
+  @override
+  String get whatIfYouSpendMore => 'What if you spend more?';
+
+  @override
+  String get additionalSpending => 'Additional spending';
+
+  @override
+  String ifYouSpendMore(String amount, String shortage, String date) {
+    return 'If you spend +$amount more this week → you\'ll run short by $shortage on $date';
+  }
+
+  @override
+  String stillOnTrack(String buffer) {
+    return 'Still on track with $buffer buffer';
+  }
+
+  @override
+  String get weeklyIncome => 'Weekly income';
+
+  @override
+  String get weeklyBills => 'Weekly bills';
+
+  @override
+  String get bufferDiscretionary => 'Buffer / Discretionary';
+
+  @override
+  String get adjustIncome => 'Adjust income';
+
+  @override
+  String get editBills => 'Edit bills';
+
+  @override
+  String get neverGuessAgain => 'Never guess again';
+
+  @override
+  String get autoAlertsProUpsell =>
+      'Get automatic alerts when you\'re about to go over your safe-to-spend for the week. Know before you blow it.';
 }

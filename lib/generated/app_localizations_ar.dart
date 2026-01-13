@@ -2185,4 +2185,370 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get businessLoansDescription => '• قروض الأعمال - الديون التجارية';
+
+  @override
+  String get upgradeForProFeatures =>
+      'قم بالترقية إلى النسخة الاحترافية للحصول على خطط غير محدودة وتصدير PDF وتحليلات متقدمة.';
+
+  @override
+  String get upgradeForPdfExports =>
+      'قم بالترقية إلى النسخة الاحترافية لتصدير PDF والخطط غير المحدودة والتحليلات المتقدمة.';
+
+  @override
+  String get pdfExportAvailable => 'تصدير PDF متاح مع Rebalance Pro.';
+
+  @override
+  String get pdfExportProMessage =>
+      'تصدير PDF متاح مع Rebalance Pro.\n\nقم بالترقية إلى النسخة الاحترافية لتصدير PDF والخطط غير المحدودة والتحليلات المتقدمة.';
+
+  @override
+  String get taxOptimizationDescription =>
+      'راجع تقدير السحب الضريبي السنوي وكيفية تقليله بوضع أفضل للأصول.';
+
+  @override
+  String potentialSavingsPerYear(String amount) {
+    return 'التوفير المحتمل: $amount / سنة';
+  }
+
+  @override
+  String get assetsAlreadyTaxEfficient =>
+      'أصولك موجودة بالفعل بكفاءة ضريبية. 👍';
+
+  @override
+  String estimatedYearlyImpact(String amount) {
+    return 'التأثير السنوي المقدر: $amount';
+  }
+
+  @override
+  String get unlockCustomAlerts => 'فتح التنبيهات المخصصة';
+
+  @override
+  String get alertSettingsSaved => 'تم حفظ إعدادات التنبيه';
+
+  @override
+  String failedToSave(String error) {
+    return 'فشل الحفظ: $error';
+  }
+
+  @override
+  String get thresholds => 'العتبات';
+
+  @override
+  String get driftThreshold => 'عتبة الانحراف';
+
+  @override
+  String get concentrationCap => 'حد التركيز';
+
+  @override
+  String get employerStockCap => 'حد أسهم صاحب العمل';
+
+  @override
+  String get notifications => 'الإشعارات';
+
+  @override
+  String get enableAlertNotifications => 'تمكين إشعارات التنبيه';
+
+  @override
+  String get receiveAlertNotificationsDescription =>
+      'تلقي تنبيهات داخل التطبيق عند تجاوز العتبات';
+
+  @override
+  String get dollarImpactPreview => 'معاينة التأثير بالدولار';
+
+  @override
+  String get exampleImpact => 'مثال على التأثير';
+
+  @override
+  String get exampleImpactDescription =>
+      'عند تجاوز العتبة، ستظهر التنبيهات مبلغًا تقديريًا بالدولار مرتبطًا بالتعرض الزائد حتى يعرف المستخدمون التأثير المالي الحقيقي.';
+
+  @override
+  String get scenarioA => 'السيناريو A';
+
+  @override
+  String get scenarioB => 'السيناريو B';
+
+  @override
+  String get monthlyContribution => 'المساهمة الشهرية';
+
+  @override
+  String get expectedReturn => 'العائد المتوقع';
+
+  @override
+  String get volatility => 'التقلب';
+
+  @override
+  String get years => 'السنوات';
+
+  @override
+  String get goalAmount => 'مبلغ الهدف';
+
+  @override
+  String get resultsA => 'النتائج A';
+
+  @override
+  String get resultsB => 'النتائج B';
+
+  @override
+  String get successProbability => 'احتمالية النجاح';
+
+  @override
+  String get medianEnding => 'النهاية المتوسطة';
+
+  @override
+  String get tenthPercentile => 'العاشر المئوي';
+
+  @override
+  String get ninetiethPercentile => 'التسعون المئوي';
+
+  @override
+  String get retirementSimulationDescription =>
+      'تقوم هذه الحاسبة بتشغيل 1000 محاكاة لتقدير احتمالية نجاح تقاعدك.';
+
+  @override
+  String get yourRetirementPlan => 'خطة التقاعد الخاصة بك';
+
+  @override
+  String get currentSavings => 'المدخرات الحالية';
+
+  @override
+  String get yearsUntilRetirement => 'سنوات حتى التقاعد';
+
+  @override
+  String get desiredMonthlyIncome => 'الدخل الشهري المطلوب';
+
+  @override
+  String get yearsInRetirement => 'سنوات التقاعد';
+
+  @override
+  String get outcomeDistribution => 'توزيع النتائج';
+
+  @override
+  String get outcomeLikelihood => 'مدى احتمالية النتائج المختلفة';
+
+  @override
+  String get fail => 'فشل';
+
+  @override
+  String get low => 'منخفض';
+
+  @override
+  String get med => 'متوسط';
+
+  @override
+  String get high => 'عالٍ';
+
+  @override
+  String get recommendations => 'التوصيات';
+
+  @override
+  String moveToTaxAdvantaged(Object amount, Object asset) {
+    return 'انقل $amount من $asset إلى حساب ذو امتياز ضريبي';
+  }
+
+  @override
+  String get estimatedAnnualImpact => 'التأثير السنوي المقدر';
+
+  @override
+  String considerIncreasingContributions(Object amount) {
+    return 'فكر في زيادة المساهمات الشهرية إلى $amount لتحسين فرصك.';
+  }
+
+  @override
+  String get excellentOnTrack =>
+      'ممتاز! خطة التقاعد الخاصة بك على المسار الصحيح.';
+
+  @override
+  String incomeExceedsSafeWithdrawal(Object desired, Object safe) {
+    return 'دخلك المطلوب ($desired) يتجاوز مبلغ السحب الآمن وفقًا لـ \"قاعدة 4٪\" ($safe).';
+  }
+
+  @override
+  String timeIsAdvantage(Object years) {
+    return 'مع $years سنة حتى التقاعد، الوقت هو أكبر ميزة لك. ابق متسقًا مع المساهمات.';
+  }
+
+  @override
+  String get planReasonable =>
+      'خطتك معقولة. راجعها سنويًا وقم بالتعديل مع تغير وضعك.';
+
+  @override
+  String get successProbabilityLabel => 'احتمالية النجاح';
+
+  @override
+  String grade(Object grade) {
+    return 'الدرجة $grade';
+  }
+
+  @override
+  String get atRetirement => 'عند التقاعد';
+
+  @override
+  String get medianAfterRetirement => 'الوسيط بعد التقاعد';
+
+  @override
+  String get bestCase90th => 'أفضل حالة (المئوية 90)';
+
+  @override
+  String simulationsYears(Object simulations, Object years) {
+    return 'المحاكاة: $simulations\\nالسنوات: $years';
+  }
+
+  @override
+  String get distributionSortedOutcomes => 'التوزيع (النتائج المرتبة)';
+
+  @override
+  String get thisWeeksSafeToSpend => 'آمن للإنفاق هذا الأسبوع';
+
+  @override
+  String get onTrack => 'على المسار الصحيح';
+
+  @override
+  String daysOfBuffer(int days) {
+    return '$days أيام من الاحتياطي متبقية';
+  }
+
+  @override
+  String youllBeShort(String amount, String day) {
+    return '⚠ ستكون قصيرًا $amount بحلول $day بهذه الوتيرة';
+  }
+
+  @override
+  String incomeAmount(String amount) {
+    return 'الدخل $amount';
+  }
+
+  @override
+  String billsAmount(String amount) {
+    return 'الفواتير $amount';
+  }
+
+  @override
+  String get tapToSeeGuardrails => 'اضغط لرؤية الحدود';
+
+  @override
+  String get moneyHealthScore => 'نقاط الصحة المالية';
+
+  @override
+  String weakestArea(String area) {
+    return '$area هو أضعف مجال لديك الآن';
+  }
+
+  @override
+  String get neverBrokeWeek => 'لن تعاني من \'أسبوع مفلس\' مرة أخرى.';
+
+  @override
+  String get answerQuestionsGuardrails =>
+      'أجب على 3 أسئلة سريعة وسنخبرك بالمبلغ الآمن للإنفاق هذا الأسبوع.';
+
+  @override
+  String get setupGuardrails => 'إعداد حدودي (30 ثانية)';
+
+  @override
+  String get updatedNow => 'محدث الآن';
+
+  @override
+  String get weeklyGuardrails => 'الحدود الأسبوعية';
+
+  @override
+  String get safeToSpendThisWeek => 'آمن للإنفاق هذا الأسبوع';
+
+  @override
+  String get overBudgetThisWeek => 'تجاوز الميزانية هذا الأسبوع';
+
+  @override
+  String alreadyOverThisWeek(String amount) {
+    return 'لقد تجاوزت بالفعل $amount هذا الأسبوع';
+  }
+
+  @override
+  String goingNegativeByDay(String day) {
+    return 'أنت على وشك أن تصبح سلبيًا بحلول $day';
+  }
+
+  @override
+  String willBeShortByFriday(String amount) {
+    return 'ستكون قصيرًا $amount بحلول الجمعة';
+  }
+
+  @override
+  String bufferUntilNext(String day) {
+    return 'احتياطي حتى $day القادم';
+  }
+
+  @override
+  String bufferUntil(String day) {
+    return 'احتياطي حتى $day';
+  }
+
+  @override
+  String get warningZoneToast =>
+      'أنت في منطقة التحذير هذا الأسبوع. اضغط على البطاقة لمعرفة ما سيحدث إذا أنفقت أكثر.';
+
+  @override
+  String get monday => 'الاثنين';
+
+  @override
+  String get tuesday => 'الثلاثاء';
+
+  @override
+  String get wednesday => 'الأربعاء';
+
+  @override
+  String get thursday => 'الخميس';
+
+  @override
+  String get friday => 'الجمعة';
+
+  @override
+  String get saturday => 'السبت';
+
+  @override
+  String get sunday => 'الأحد';
+
+  @override
+  String get buffer => 'احتياطي';
+
+  @override
+  String bufferUntilDay(String day) {
+    return 'إذا استمررت في الإنفاق كما في الأسبوع الماضي، لديك احتياطي حتى $day';
+  }
+
+  @override
+  String get whatIfYouSpendMore => 'ماذا لو أنفقت أكثر؟';
+
+  @override
+  String get additionalSpending => 'إنفاق إضافي';
+
+  @override
+  String ifYouSpendMore(String amount, String shortage, String date) {
+    return 'إذا أنفقت +$amount أكثر هذا الأسبوع ← ستكون قصيرًا بمقدار $shortage في $date';
+  }
+
+  @override
+  String stillOnTrack(String buffer) {
+    return 'لا تزال على المسار الصحيح مع احتياطي $buffer';
+  }
+
+  @override
+  String get weeklyIncome => 'الدخل الأسبوعي';
+
+  @override
+  String get weeklyBills => 'الفواتير الأسبوعية';
+
+  @override
+  String get bufferDiscretionary => 'الاحتياطي / الاختياري';
+
+  @override
+  String get adjustIncome => 'تعديل الدخل';
+
+  @override
+  String get editBills => 'تعديل الفواتير';
+
+  @override
+  String get neverGuessAgain => 'لا مزيد من التخمين';
+
+  @override
+  String get autoAlertsProUpsell =>
+      'احصل على تنبيهات تلقائية عندما تكون على وشك تجاوز مبلغك الآمن للإنفاق هذا الأسبوع. اعرف قبل أن تفشل.';
 }
