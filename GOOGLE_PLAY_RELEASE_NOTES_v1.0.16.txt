@@ -1,0 +1,5 @@
+NEW: Monthly Expenses Tracker - Track recurring bills itemized by category (rent, utilities, insurance, subscriptions) with optional due dates. Weekly Guardrails now calculates from your actual expense list for better budget control.
+
+IMPROVED: Fixed account display for large balances ($100K+) - amounts now scale smoothly without wrapping. Last updated timestamps show real-time accuracy.
+
+Better budget visibility with itemized expense tracking. Private, offline, fast financial management.

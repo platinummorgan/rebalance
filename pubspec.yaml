@@ -1,7 +1,7 @@
 name: rebalance
 description: Portfolio rebalancing and asset allocation tracking - private, offline, and fast.
 publish_to: 'none'
-version: 1.0.15+32
+version: 1.0.16+33
 
 environment:
   sdk: '>=3.0.0 <4.0.0'

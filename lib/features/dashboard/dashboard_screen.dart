@@ -225,6 +225,11 @@ class DashboardScreen extends ConsumerWidget {
             child: _buildWeeklyGuardrailsCard(context, ref),
           ),
 
+          // Profile Completion Indicator
+          SliverToBoxAdapter(
+            child: _buildProfileCompletionCard(context, ref, accounts),
+          ),
+
           // Enhanced Net Worth Card with History
           SliverToBoxAdapter(
             child: _buildNetWorthCard(context, ref, accounts),
@@ -589,14 +594,18 @@ class DashboardScreen extends ConsumerWidget {
                     ),
                     const SizedBox(width: 12),
                     Flexible(
-                      child: CurrencyText(
-                        account.balance,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 17,
-                          fontFeatures: [
-                            FontFeature.tabularFigures(),
-                          ],
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerRight,
+                        child: CurrencyText(
+                          account.balance,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 17,
+                            fontFeatures: [
+                              FontFeature.tabularFigures(),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -674,12 +683,16 @@ class DashboardScreen extends ConsumerWidget {
 
   // Get last updated text (mock for now)
   String _getLastUpdatedText(BuildContext context, Account account) {
-    // In real app, this would check actual last sync time
-    final daysAgo = (account.id.hashCode % 7) + 1; // Mock: 1-7 days ago
     final loc = AppLocalizations.of(context)!;
-    if (daysAgo <= 1) return loc.updatedToday;
-    if (daysAgo == 2) return loc.updatedYesterday;
-    return 'Updated ${daysAgo}d ago'; // Will fix template later
+    final now = DateTime.now();
+    final updated = account.updatedAt;
+    final difference = now.difference(updated);
+
+    if (difference.inMinutes < 1) return 'Updated just now';
+    if (difference.inHours < 1) return 'Updated ${difference.inMinutes}m ago';
+    if (difference.inDays < 1) return loc.updatedToday;
+    if (difference.inDays == 1) return loc.updatedYesterday;
+    return 'Updated ${difference.inDays}d ago';
   }
 
   // Quick actions sheet for long press
@@ -2222,206 +2235,551 @@ class DashboardScreen extends ConsumerWidget {
     return const SizedBox.shrink();
   }
 
+  Widget _buildProfileCompletionCard(
+    BuildContext context,
+    WidgetRef ref,
+    List<Account> accounts,
+  ) {
+    final loc = AppLocalizations.of(context)!;
+    final settingsAsync = ref.watch(settingsProvider);
+    final incomesAsync = ref.watch(incomesProvider);
+    final liabilitiesAsync = ref.watch(liabilitiesProvider);
+
+    return settingsAsync.when(
+      data: (settings) => incomesAsync.when(
+        data: (incomes) => liabilitiesAsync.when(
+          data: (liabilities) {
+            // Calculate completion
+            final completion = _calculateProfileCompletion(
+              settings,
+              accounts,
+              incomes,
+              liabilities,
+            );
+
+            // Hide if 100% complete or dismissed
+            if (completion['percentage'] >= 100) {
+              return const SizedBox.shrink();
+            }
+
+            final percentage = completion['percentage'] as int;
+            final missingItems = completion['missing'] as List<String>;
+
+            return Container(
+              margin: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+              child: Material(
+                elevation: 4,
+                shadowColor:
+                    Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(20),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: () =>
+                      _showProfileCompletionDetails(context, missingItems),
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Theme.of(context).colorScheme.primaryContainer,
+                          Theme.of(context).colorScheme.secondaryContainer,
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.3),
+                        width: 1.5,
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Icon(
+                                Icons.psychology_rounded,
+                                color: Theme.of(context).colorScheme.primary,
+                                size: 24,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Profile Setup',
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: 0.3,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    '$percentage% complete',
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer
+                                          .withOpacity(0.7),
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 16,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.6),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 14),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: LinearProgressIndicator(
+                            value: percentage / 100,
+                            minHeight: 8,
+                            backgroundColor: Theme.of(context)
+                                .colorScheme
+                                .surface
+                                .withOpacity(0.5),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          'Complete your profile for better insights',
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer
+                                .withOpacity(0.8),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+          loading: () => const SizedBox.shrink(),
+          error: (_, __) => const SizedBox.shrink(),
+        ),
+        loading: () => const SizedBox.shrink(),
+        error: (_, __) => const SizedBox.shrink(),
+      ),
+      loading: () => const SizedBox.shrink(),
+      error: (_, __) => const SizedBox.shrink(),
+    );
+  }
+
+  Map<String, dynamic> _calculateProfileCompletion(
+    Settings settings,
+    List<Account> accounts,
+    List<Income> incomes,
+    List<Liability> liabilities,
+  ) {
+    int completed = 0;
+    int total = 5;
+    List<String> missing = [];
+
+    // Check accounts (20%)
+    if (accounts.isNotEmpty) {
+      completed++;
+    } else {
+      missing.add('Add at least one account');
+    }
+
+    // Check income (20%)
+    if (incomes.isNotEmpty) {
+      completed++;
+    } else {
+      missing.add('Add your income sources');
+    }
+
+    // Check monthly essentials (20%)
+    if (settings.monthlyEssentials > 0) {
+      completed++;
+    } else {
+      missing.add('Set monthly essential expenses');
+    }
+
+    // Check risk profile/allocation targets (20%)
+    // Risk band is always set, so check if it's been actively configured
+    // by checking if user has at least 2 accounts (indicating they've engaged with allocation)
+    if (accounts.length >= 2) {
+      completed++;
+    } else {
+      missing.add('Add multiple accounts for allocation tracking');
+    }
+
+    // Check liabilities (20% - optional but good to have)
+    if (liabilities.isNotEmpty) {
+      completed++;
+    } else {
+      missing.add('Add debts (if any)');
+    }
+
+    final percentage = ((completed / total) * 100).round();
+
+    return {
+      'percentage': percentage,
+      'completed': completed,
+      'total': total,
+      'missing': missing,
+    };
+  }
+
+  void _showProfileCompletionDetails(
+      BuildContext context, List<String> missing) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Drag handle
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.outline,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                Icon(
+                  Icons.checklist_rounded,
+                  size: 28,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'Complete Your Setup',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Add these to unlock better insights:',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withOpacity(0.7),
+                  ),
+            ),
+            const SizedBox(height: 16),
+            ...missing.map((item) => Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.add,
+                          size: 16,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          item,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  // Navigate to appropriate screen based on first missing item
+                  if (missing.contains('Add at least one account')) {
+                    context.push(AppRouter.accounts);
+                  } else if (missing.contains('Add your income sources')) {
+                    context.push(AppRouter.income);
+                  } else if (missing
+                      .contains('Set monthly essential expenses')) {
+                    context.push(AppRouter.targets);
+                  } else if (missing.contains('Configure allocation targets')) {
+                    context.push(AppRouter.targets);
+                  } else if (missing.contains('Add debts (if any)')) {
+                    context.push(AppRouter.liabilities);
+                  }
+                },
+                child: const Text('Get Started'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildWeeklyGuardrailsCard(BuildContext context, WidgetRef ref) {
     final loc = AppLocalizations.of(context)!;
     final settingsAsync = ref.watch(settingsProvider);
     final incomesAsync = ref.watch(incomesProvider);
     final liabilitiesAsync = ref.watch(liabilitiesProvider);
     final accountsAsync = ref.watch(accountsProvider);
+    final expensesAsync = ref.watch(expensesProvider);
 
     return settingsAsync.when(
       data: (settings) => incomesAsync.when(
         data: (incomes) => liabilitiesAsync.when(
           data: (liabilities) => accountsAsync.when(
-            data: (accounts) {
-              // Calculate weekly data
-              final weeklyData = _calculateWeeklyGuardrailsData(
-                settings,
-                incomes,
-                liabilities,
-                accounts,
-              );
+            data: (accounts) => expensesAsync.when(
+              data: (expenses) {
+                // Calculate weekly data
+                final weeklyData = _calculateWeeklyGuardrailsData(
+                  settings,
+                  incomes,
+                  liabilities,
+                  accounts,
+                  expenses,
+                );
 
-              final safeToSpend = (weeklyData['safeToSpend'] as num).toDouble();
-              final daysOfBuffer = weeklyData['daysOfBuffer'] as int;
-              final weeklyIncome =
-                  (weeklyData['weeklyIncome'] as num).toDouble();
-              final weeklyBills = (weeklyData['weeklyBills'] as num).toDouble();
+                final safeToSpend =
+                    (weeklyData['safeToSpend'] as num).toDouble();
+                final daysOfBuffer = weeklyData['daysOfBuffer'] as int;
+                final weeklyIncome =
+                    (weeklyData['weeklyIncome'] as num).toDouble();
+                final weeklyBills =
+                    (weeklyData['weeklyBills'] as num).toDouble();
 
-              // Determine state colors
-              final Color statusColor;
-              final String statusIcon;
-              final String statusText;
+                // Determine state colors
+                final Color statusColor;
+                final String statusIcon;
+                final String statusText;
 
-              if (safeToSpend < 0) {
-                statusColor = Colors.red;
-                statusIcon = '🚨';
-                statusText = loc.overBudgetThisWeek;
-              } else if (daysOfBuffer < 3) {
-                statusColor = Colors.orange;
-                statusIcon = '⚠';
-                statusText = loc.onTrack;
-              } else {
-                statusColor = Colors.green;
-                statusIcon = '✓';
-                statusText = loc.onTrack;
-              }
+                if (safeToSpend < 0) {
+                  statusColor = Colors.red;
+                  statusIcon = '🚨';
+                  statusText = loc.overBudgetThisWeek;
+                } else if (daysOfBuffer < 3) {
+                  statusColor = Colors.orange;
+                  statusIcon = '⚠';
+                  statusText = loc.onTrack;
+                } else {
+                  statusColor = Colors.green;
+                  statusIcon = '✓';
+                  statusText = loc.onTrack;
+                }
 
-              return Container(
-                margin: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-                child: Material(
-                  elevation: 8,
-                  shadowColor: statusColor.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(24),
-                  child: InkWell(
+                return Container(
+                  margin: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+                  child: Material(
+                    elevation: 8,
+                    shadowColor: statusColor.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(24),
-                    onTap: () => context.push(AppRouter.guardrails),
-                    child: Container(
-                      padding: const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            statusColor.withOpacity(0.15),
-                            statusColor.withOpacity(0.08),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(24),
+                      onTap: () => context.push(AppRouter.guardrails),
+                      child: Container(
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              statusColor.withOpacity(0.15),
+                              statusColor.withOpacity(0.08),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(24),
+                          border: Border.all(
+                            color: statusColor.withOpacity(0.3),
+                            width: 2,
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  statusIcon,
+                                  style: const TextStyle(fontSize: 24),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        loc.weeklyGuardrails,
+                                        style: TextStyle(
+                                          color: statusColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 0.5,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        statusText,
+                                        style: TextStyle(
+                                          color: statusColor,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  size: 16,
+                                  color: statusColor.withOpacity(0.7),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              loc.safeToSpendThisWeek,
+                              style: TextStyle(
+                                color: statusColor.withOpacity(0.9),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            CurrencyText(
+                              safeToSpend,
+                              style: TextStyle(
+                                color: statusColor,
+                                fontSize: 42,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: -1.5,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            if (daysOfBuffer >= 0)
+                              Text(
+                                loc.daysOfBuffer(daysOfBuffer),
+                                style: TextStyle(
+                                  color: statusColor.withOpacity(0.8),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            const SizedBox(height: 16),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        loc.weeklyIncome,
+                                        style: TextStyle(
+                                          color: statusColor.withOpacity(0.7),
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      CurrencyText(
+                                        weeklyIncome,
+                                        style: TextStyle(
+                                          color: statusColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        loc.weeklyBills,
+                                        style: TextStyle(
+                                          color: statusColor.withOpacity(0.7),
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      CurrencyText(
+                                        weeklyBills,
+                                        style: TextStyle(
+                                          color: statusColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
-                        borderRadius: BorderRadius.circular(24),
-                        border: Border.all(
-                          color: statusColor.withOpacity(0.3),
-                          width: 2,
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                statusIcon,
-                                style: const TextStyle(fontSize: 24),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      loc.weeklyGuardrails,
-                                      style: TextStyle(
-                                        color: statusColor,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing: 0.5,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      statusText,
-                                      style: TextStyle(
-                                        color: statusColor,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                size: 16,
-                                color: statusColor.withOpacity(0.7),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            loc.safeToSpendThisWeek,
-                            style: TextStyle(
-                              color: statusColor.withOpacity(0.9),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          CurrencyText(
-                            safeToSpend,
-                            style: TextStyle(
-                              color: statusColor,
-                              fontSize: 42,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: -1.5,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          if (daysOfBuffer >= 0)
-                            Text(
-                              loc.daysOfBuffer(daysOfBuffer),
-                              style: TextStyle(
-                                color: statusColor.withOpacity(0.8),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          const SizedBox(height: 16),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      loc.weeklyIncome,
-                                      style: TextStyle(
-                                        color: statusColor.withOpacity(0.7),
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    CurrencyText(
-                                      weeklyIncome,
-                                      style: TextStyle(
-                                        color: statusColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      loc.weeklyBills,
-                                      style: TextStyle(
-                                        color: statusColor.withOpacity(0.7),
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    CurrencyText(
-                                      weeklyBills,
-                                      style: TextStyle(
-                                        color: statusColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+              loading: () => const SizedBox.shrink(),
+              error: (_, __) => const SizedBox.shrink(),
+            ),
             loading: () => const SizedBox.shrink(),
             error: (_, __) => const SizedBox.shrink(),
           ),
@@ -2441,6 +2799,7 @@ class DashboardScreen extends ConsumerWidget {
     List<Income> incomes,
     List<Liability> liabilities,
     List<Account> accounts,
+    List<MonthlyExpense> expenses,
   ) {
     // Calculate weekly income (using monthlyNet - after tax)
     double weeklyIncome = 0;
@@ -2449,9 +2808,12 @@ class DashboardScreen extends ConsumerWidget {
       weeklyIncome += netMonthly / 4.33;
     }
 
-    // Calculate weekly bills (monthly essentials + debt payments)
-    final monthlyEssentials = settings.monthlyEssentials;
-    double weeklyBills = monthlyEssentials / 4.33;
+    // Calculate weekly bills (monthly expenses + debt payments)
+    double monthlyExpensesTotal = 0;
+    for (var expense in expenses) {
+      monthlyExpensesTotal += expense.amount;
+    }
+    double weeklyBills = monthlyExpensesTotal / 4.33;
 
     for (var liability in liabilities) {
       final monthlyPayment = liability.minPayment;
@@ -2709,7 +3071,7 @@ class DashboardScreen extends ConsumerWidget {
           borderRadius: BorderRadius.circular(32),
           onTap: () => _showNetWorthHistory(context, snapshots),
           child: Container(
-            padding: const EdgeInsets.all(28),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -2774,9 +3136,9 @@ class DashboardScreen extends ConsumerWidget {
                         ],
                       ),
                       child: const Icon(
-                        Icons.account_balance_wallet_rounded,
+                        Icons.trending_up_rounded,
                         color: Colors.white,
-                        size: 32,
+                        size: 28,
                       ),
                     ),
                     const Spacer(),
@@ -2784,7 +3146,7 @@ class DashboardScreen extends ConsumerWidget {
                     _buildIntegratedHealthScore(context),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
                 Text(
                   AppLocalizations.of(context)!.netWorth,
                   style: TextStyle(
@@ -2794,7 +3156,7 @@ class DashboardScreen extends ConsumerWidget {
                     letterSpacing: 0.5,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 8),
                 ShaderMask(
                   shaderCallback: (bounds) => LinearGradient(
                     colors: [
@@ -2808,9 +3170,9 @@ class DashboardScreen extends ConsumerWidget {
                     totalAssets,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 52,
+                      fontSize: 38,
                       fontWeight: FontWeight.w900,
-                      letterSpacing: -2.0,
+                      letterSpacing: -1.5,
                       height: 1.0,
                       shadows: [
                         Shadow(
@@ -2832,7 +3194,7 @@ class DashboardScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 14),
+                const SizedBox(height: 12),
                 if (hasDelta)
                   Container(
                     padding:

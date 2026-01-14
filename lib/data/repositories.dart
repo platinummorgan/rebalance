@@ -16,6 +16,7 @@ class RepositoryService {
   static late Box<Account> _accountsBox;
   static late Box<Liability> _liabilitiesBox;
   static late Box<Income> _incomesBox;
+  static late Box<MonthlyExpense> _expensesBox;
   static late Box<Settings> _settingsBox;
   static late Box<Snapshot> _snapshotsBox;
   static late Box<ActionCard> _actionCardsBox;
@@ -68,6 +69,9 @@ class RepositoryService {
     }
     if (!Hive.isAdapterRegistered(11)) {
       Hive.registerAdapter(IncomeAdapter());
+    }
+    if (!Hive.isAdapterRegistered(12)) {
+      Hive.registerAdapter(MonthlyExpenseAdapter());
     }
 
     // Get or generate encryption key
@@ -122,6 +126,22 @@ class RepositoryService {
           e.toString().contains('BAD_DECRYPT')) {
         encryptionError = true;
         debugPrint('[Repository] Detected encryption error in incomes box');
+      } else if (!encryptionError) {
+        rethrow;
+      }
+    }
+
+    try {
+      _expensesBox = await Hive.openBox<MonthlyExpense>(
+        'expenses',
+        encryptionCipher: HiveAesCipher(encryptionKey),
+      );
+    } catch (e) {
+      debugPrint('[Repository] Failed to open "expenses" box: $e');
+      if (e.toString().contains('BadPaddingException') ||
+          e.toString().contains('BAD_DECRYPT')) {
+        encryptionError = true;
+        debugPrint('[Repository] Detected encryption error in expenses box');
       } else if (!encryptionError) {
         rethrow;
       }
@@ -511,6 +531,25 @@ class RepositoryService {
   static Future<void> deleteIncome(String id) async {
     await initialize();
     await _incomesBox.delete(id);
+  }
+
+  // Monthly Expense Repository
+  static Future<List<MonthlyExpense>> getExpenses() async {
+    await initialize();
+    return _expensesBox.values.toList();
+  }
+
+  static Future<void> saveExpense(MonthlyExpense expense) async {
+    await initialize();
+    debugPrint(
+      '[Repo::saveExpense] Saving expense id=${expense.id} name=${expense.name} amount=${expense.amount}',
+    );
+    await _expensesBox.put(expense.id, expense);
+  }
+
+  static Future<void> deleteExpense(String id) async {
+    await initialize();
+    await _expensesBox.delete(id);
   }
 
   // Settings Repository

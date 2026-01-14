@@ -33,6 +33,10 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
   // bool _notificationsEnabled = true; // Commented out with drift alerts
   bool _hasChanges = false;
 
+  // Expense line items for breakdown
+  final List<Map<String, dynamic>> _expenseItems = [];
+  bool _showExpenseBreakdown = false;
+
   @override
   void initState() {
     super.initState();
@@ -392,9 +396,20 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                               .replaceAll('.', '')
                               .replaceAll(',', '')
                               .trim();
-                      final helperText = settings.currency != 'USD'
-                          ? loc.monthlyEssentialsHelperUSD
-                          : loc.monthlyEssentialsHelper;
+
+                      // Calculate weekly amount for display
+                      final currentMonthly =
+                          double.tryParse(_monthlyEssentialsController.text) ??
+                              0;
+                      final weeklyAmount = currentMonthly / 4.33;
+                      final weeklyFormatted = CurrencyFormatter.format(
+                          weeklyAmount, settings.currency);
+
+                      final helperText = currentMonthly > 0
+                          ? 'Rent, utilities, groceries, insurance, etc. (${weeklyFormatted}/week for Weekly Guardrails)'
+                          : (settings.currency != 'USD'
+                              ? loc.monthlyEssentialsHelperUSD
+                              : loc.monthlyEssentialsHelper);
 
                       return TextFormField(
                         controller: _monthlyEssentialsController,
@@ -409,7 +424,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                           hintText: '5000',
                           prefixText: '$currencySymbol ',
                           helperText: helperText,
-                          helperMaxLines: 2,
+                          helperMaxLines: 3,
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -423,6 +438,11 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                             return loc.amountCannotBeNegative;
                           }
                           return null;
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            // Trigger rebuild to update helper text
+                          });
                         },
                       );
                     },

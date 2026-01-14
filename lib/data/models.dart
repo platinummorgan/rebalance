@@ -933,3 +933,72 @@ class Income extends HiveObject {
         'frequency: $frequency, monthlyNet: $monthlyNet)';
   }
 }
+
+// ============================================================================
+// Monthly Expense Model
+// ============================================================================
+@HiveType(typeId: 12)
+class MonthlyExpense extends HiveObject {
+  @HiveField(0)
+  late String id;
+
+  @HiveField(1)
+  late String name;
+
+  @HiveField(2)
+  late double amount; // Monthly amount
+
+  @HiveField(3)
+  late DateTime updatedAt;
+
+  @HiveField(4)
+  int? dueDay; // Day of month (1-31) when this is due
+
+  @HiveField(5)
+  String? category; // rent, utilities, insurance, subscription, other
+
+  // Original currency tracking (to avoid rounding errors)
+  @HiveField(6)
+  String? originalCurrency;
+
+  @HiveField(7)
+  double? originalAmount;
+
+  MonthlyExpense({
+    required this.id,
+    required this.name,
+    required this.amount,
+    required this.updatedAt,
+    this.dueDay,
+    this.category,
+    this.originalCurrency,
+    this.originalAmount,
+  });
+
+  MonthlyExpense copyWith({
+    String? id,
+    String? name,
+    double? amount,
+    DateTime? updatedAt,
+    int? dueDay,
+    String? category,
+    String? originalCurrency,
+    double? originalAmount,
+  }) {
+    return MonthlyExpense(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      amount: amount ?? this.amount,
+      updatedAt: updatedAt ?? this.updatedAt,
+      dueDay: dueDay ?? this.dueDay,
+      category: category ?? this.category,
+      originalCurrency: originalCurrency ?? this.originalCurrency,
+      originalAmount: originalAmount ?? this.originalAmount,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'MonthlyExpense(id: $id, name: $name, amount: $amount, dueDay: $dueDay, category: $category)';
+  }
+}

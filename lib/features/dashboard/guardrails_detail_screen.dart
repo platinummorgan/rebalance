@@ -41,6 +41,7 @@ class _GuardrailsDetailScreenState
     final incomesAsync = ref.watch(incomesProvider);
     final liabilitiesAsync = ref.watch(liabilitiesProvider);
     final accountsAsync = ref.watch(accountsProvider);
+    final expensesAsync = ref.watch(expensesProvider);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -52,16 +53,22 @@ class _GuardrailsDetailScreenState
         data: (settings) => incomesAsync.when(
           data: (incomes) => liabilitiesAsync.when(
             data: (liabilities) => accountsAsync.when(
-              data: (accounts) {
-                final weeklyData = _calculateWeeklyData(
-                  settings,
-                  incomes,
-                  liabilities,
-                  accounts,
-                );
+              data: (accounts) => expensesAsync.when(
+                data: (expenses) {
+                  final weeklyData = _calculateWeeklyData(
+                    settings,
+                    incomes,
+                    liabilities,
+                    accounts,
+                    expenses,
+                  );
 
-                return _buildContent(context, loc, theme, weeklyData, settings);
-              },
+                  return _buildContent(
+                      context, loc, theme, weeklyData, settings);
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, st) => Center(child: Text('Error: $e')),
+              ),
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (e, st) => Center(child: Text('Error: $e')),
             ),
@@ -87,6 +94,9 @@ class _GuardrailsDetailScreenState
     final safeToSpend = (weeklyData['safeToSpend'] as num).toDouble();
     final weeklyIncome = (weeklyData['weeklyIncome'] as num).toDouble();
     final weeklyBills = (weeklyData['weeklyBills'] as num).toDouble();
+    final weeklyEssentials = (weeklyData['weeklyEssentials'] as num).toDouble();
+    final weeklyDebtPayments =
+        (weeklyData['weeklyDebtPayments'] as num).toDouble();
     final daysOfBuffer = weeklyData['daysOfBuffer'] as int;
     final dailyBurn = (weeklyData['dailyBurn'] as num).toDouble();
 
@@ -133,6 +143,8 @@ class _GuardrailsDetailScreenState
               theme,
               weeklyIncome,
               weeklyBills,
+              weeklyEssentials,
+              weeklyDebtPayments,
               safeToSpend,
               settings,
             ),
@@ -573,6 +585,8 @@ class _GuardrailsDetailScreenState
     ThemeData theme,
     double weeklyIncome,
     double weeklyBills,
+    double weeklyEssentials,
+    double weeklyDebtPayments,
     double buffer,
     Settings settings,
   ) {
@@ -595,6 +609,7 @@ class _GuardrailsDetailScreenState
             Icons.arrow_downward,
             Colors.green,
             settings,
+            null,
           ),
           const Divider(height: 24),
           _buildBreakdownRow(
@@ -606,7 +621,46 @@ class _GuardrailsDetailScreenState
             Icons.arrow_upward,
             Colors.red,
             settings,
+            null,
           ),
+          // Show detailed breakdown of weekly bills
+          if (weeklyEssentials > 0 || weeklyDebtPayments > 0) ...[
+            Padding(
+              padding: const EdgeInsets.only(left: 40, top: 8),
+              child: Column(
+                children: [
+                  if (weeklyEssentials > 0)
+                    _buildBreakdownRow(
+                      context,
+                      loc,
+                      theme,
+                      'Monthly Essentials',
+                      weeklyEssentials,
+                      Icons.home_outlined,
+                      Colors.orange,
+                      settings,
+                      AppRouter.targetsDetail,
+                      isSubItem: true,
+                    ),
+                  if (weeklyEssentials > 0 && weeklyDebtPayments > 0)
+                    const SizedBox(height: 8),
+                  if (weeklyDebtPayments > 0)
+                    _buildBreakdownRow(
+                      context,
+                      loc,
+                      theme,
+                      'Debt Payments',
+                      weeklyDebtPayments,
+                      Icons.credit_card,
+                      Colors.deepOrange,
+                      settings,
+                      AppRouter.liabilities,
+                      isSubItem: true,
+                    ),
+                ],
+              ),
+            ),
+          ],
           const Divider(height: 24),
           _buildBreakdownRow(
             context,
@@ -617,6 +671,7 @@ class _GuardrailsDetailScreenState
             Icons.savings,
             Colors.blue,
             settings,
+            null,
           ),
         ],
       ),
@@ -632,13 +687,14 @@ class _GuardrailsDetailScreenState
     IconData icon,
     Color color,
     Settings settings,
-  ) {
-    // Determine which screen to navigate to based on label
-    String? editRoute;
-    if (label == loc.weeklyIncome) {
-      editRoute = AppRouter.income;
-    } else if (label == loc.weeklyBills) {
-      editRoute = AppRouter.liabilities;
+    String? editRoute, {
+    bool isSubItem = false,
+  }) {
+    // Determine which screen to navigate to based on label if not explicitly provided
+    if (editRoute == null) {
+      if (label == loc.weeklyIncome) {
+        editRoute = AppRouter.income;
+      }
     }
 
     return Row(
@@ -649,7 +705,7 @@ class _GuardrailsDetailScreenState
             color: color.withOpacity(0.1),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, size: 20, color: color),
+          child: Icon(icon, size: isSubItem ? 16 : 20, color: color),
         ),
         const SizedBox(width: 12),
         Expanded(
@@ -658,8 +714,9 @@ class _GuardrailsDetailScreenState
               Text(
                 label,
                 style: TextStyle(
-                  fontSize: 15,
-                  color: theme.textTheme.bodyLarge?.color,
+                  fontSize: isSubItem ? 13 : 15,
+                  color: theme.textTheme.bodyLarge?.color
+                      ?.withOpacity(isSubItem ? 0.8 : 1.0),
                 ),
               ),
               if (editRoute != null) ...[
@@ -671,7 +728,7 @@ class _GuardrailsDetailScreenState
                   child: Text(
                     AppLocalizations.of(context)!.edit,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 12,
                       color: theme.colorScheme.primary,
                       fontWeight: FontWeight.w600,
                     ),
@@ -684,8 +741,8 @@ class _GuardrailsDetailScreenState
         CurrencyText(
           amount,
           style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+            fontSize: isSubItem ? 14 : 16,
+            fontWeight: isSubItem ? FontWeight.w600 : FontWeight.bold,
             color: theme.textTheme.bodyLarge?.color,
           ),
         ),
@@ -813,6 +870,7 @@ class _GuardrailsDetailScreenState
     List<Income> incomes,
     List<Liability> liabilities,
     List<Account> accounts,
+    List<MonthlyExpense> expenses,
   ) {
     // Calculate weekly income (using monthlyNet - after tax)
     double weeklyIncome = 0;
@@ -821,14 +879,20 @@ class _GuardrailsDetailScreenState
       weeklyIncome += netMonthly / 4.33;
     }
 
-    // Calculate weekly bills (monthly essentials + debt payments)
-    final monthlyEssentials = settings.monthlyEssentials;
-    double weeklyBills = monthlyEssentials / 4.33;
+    // Calculate weekly bills (monthly expenses + debt payments)
+    double monthlyExpensesTotal = 0;
+    for (var expense in expenses) {
+      monthlyExpensesTotal += expense.amount;
+    }
+    final weeklyEssentials = monthlyExpensesTotal / 4.33;
+    double weeklyDebtPayments = 0;
 
     for (var liability in liabilities) {
       final monthlyPayment = liability.minPayment;
-      weeklyBills += monthlyPayment / 4.33;
+      weeklyDebtPayments += monthlyPayment / 4.33;
     }
+
+    final weeklyBills = weeklyEssentials + weeklyDebtPayments;
 
     // Calculate total cash across accounts
     double totalCash = 0;
@@ -852,6 +916,8 @@ class _GuardrailsDetailScreenState
       'safeToSpend': safeToSpend,
       'weeklyIncome': weeklyIncome,
       'weeklyBills': weeklyBills,
+      'weeklyEssentials': weeklyEssentials,
+      'weeklyDebtPayments': weeklyDebtPayments,
       'daysOfBuffer': cappedDays,
       'dailyBurn': dailyBurn,
       'isOnTrack': cappedDays >= 3,

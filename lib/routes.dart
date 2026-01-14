@@ -10,6 +10,8 @@ import 'features/accounts/accounts_screen.dart';
 import 'features/accounts/account_detail_screen.dart';
 import 'features/liabilities/liabilities_screen.dart';
 import 'features/liabilities/liability_detail_screen.dart';
+import 'features/expenses/expenses_screen.dart';
+import 'features/expenses/expense_detail_screen.dart';
 import 'features/targets/targets_screen.dart';
 import 'features/targets/targets_detail_screen.dart';
 import 'features/export/export_screen.dart';
@@ -40,6 +42,9 @@ class AppRouter {
   static const String liabilities = '/liabilities';
   static const String liabilityDetail = '/liabilities/:id';
   static const String addLiability = '/liabilities/add';
+  static const String expenses = '/expenses';
+  static const String expenseDetail = '/expenses/:id';
+  static const String addExpense = '/expenses/add';
   static const String debtOptimizer = '/debt-optimizer';
   static const String targets = '/targets';
   static const String targetsDetail = '/targets/detail';
@@ -148,6 +153,28 @@ class AppRouter {
                 builder: (context, state) {
                   final liabilityId = state.pathParameters['id']!;
                   return LiabilityDetailScreen(liabilityId: liabilityId);
+                },
+              ),
+            ],
+          ),
+
+          // Monthly Expenses section
+          GoRoute(
+            path: expenses,
+            name: 'expenses',
+            builder: (context, state) => const ExpensesScreen(),
+            routes: [
+              GoRoute(
+                path: 'add',
+                name: 'add-expense',
+                builder: (context, state) => const ExpenseDetailScreen(),
+              ),
+              GoRoute(
+                path: 'edit/:id',
+                name: 'edit-expense',
+                builder: (context, state) {
+                  final expenseId = state.pathParameters['id']!;
+                  return ExpenseDetailScreen(expenseId: expenseId);
                 },
               ),
             ],
@@ -313,6 +340,11 @@ class MainShell extends StatelessWidget {
             label: loc.debts,
           ),
           NavigationDestination(
+            icon: const Icon(Icons.receipt_long_outlined),
+            selectedIcon: const Icon(Icons.receipt_long),
+            label: 'Expenses', // TODO: localize
+          ),
+          NavigationDestination(
             icon: const Icon(Icons.tune_outlined),
             selectedIcon: const Icon(Icons.tune),
             label: loc.settings,
@@ -328,11 +360,12 @@ class MainShell extends StatelessWidget {
     if (location.startsWith('/income')) return 1;
     if (location.startsWith('/accounts')) return 2;
     if (location.startsWith('/liabilities')) return 3;
+    if (location.startsWith('/expenses')) return 4;
     if (location.startsWith('/targets') ||
         location.startsWith('/export') ||
         location.startsWith('/pro') ||
         location.startsWith('/about')) {
-      return 4;
+      return 5;
     }
 
     return 0; // Dashboard
@@ -353,6 +386,9 @@ class MainShell extends StatelessWidget {
         context.go(AppRouter.liabilities);
         break;
       case 4:
+        context.go(AppRouter.expenses);
+        break;
+      case 5:
         context.go(AppRouter.targets);
         break;
     }

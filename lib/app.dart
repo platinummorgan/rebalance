@@ -267,6 +267,41 @@ class IncomesNotifier extends StateNotifier<AsyncValue<List<Income>>> {
   }
 }
 
+// Provider for monthly expenses
+final expensesProvider =
+    StateNotifierProvider<ExpensesNotifier, AsyncValue<List<MonthlyExpense>>>(
+        (ref) {
+  return ExpensesNotifier();
+});
+
+class ExpensesNotifier extends StateNotifier<AsyncValue<List<MonthlyExpense>>> {
+  ExpensesNotifier() : super(const AsyncValue.loading()) {
+    _loadExpenses();
+  }
+
+  Future<void> _loadExpenses() async {
+    try {
+      final expenses = await RepositoryService.getExpenses();
+      state = AsyncValue.data(expenses);
+    } catch (e, stack) {
+      state = AsyncValue.error(e, stack);
+    }
+  }
+
+  Future<void> addExpense(MonthlyExpense expense) async {
+    try {
+      await RepositoryService.saveExpense(expense);
+      await _loadExpenses(); // Reload the list
+    } catch (e, stack) {
+      state = AsyncValue.error(e, stack);
+    }
+  }
+
+  Future<void> reload() async {
+    await _loadExpenses();
+  }
+}
+
 // Provider for current settings
 final settingsProvider =
     StateNotifierProvider<SettingsNotifier, AsyncValue<Settings>>((ref) {
