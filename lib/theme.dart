@@ -46,18 +46,18 @@ class AppTheme {
     ColorTheme.amber: Color(0xFFFFD54F),
   };
 
-  // Light theme color scheme
+  // Light theme color scheme (Material 3 vibrant)
   static const ColorScheme _lightColorScheme = ColorScheme(
     brightness: Brightness.light,
-    primary: Color(0xFF2E7D32), // Wealth green
+    primary: Color(0xFF1976D2), // Vibrant blue
     onPrimary: Color(0xFFFFFFFF),
-    primaryContainer: Color(0xFFA5D6A7),
-    onPrimaryContainer: Color(0xFF1B5E20),
-    secondary: Color(0xFF546E7A),
+    primaryContainer: Color(0xFFBBDEFB),
+    onPrimaryContainer: Color(0xFF0D47A1),
+    secondary: Color(0xFFFF8F00), // Vibrant orange
     onSecondary: Color(0xFFFFFFFF),
-    secondaryContainer: Color(0xFFCFD8DC),
-    onSecondaryContainer: Color(0xFF263238),
-    tertiary: Color(0xFF7B1FA2),
+    secondaryContainer: Color(0xFFFFE0B2),
+    onSecondaryContainer: Color(0xFF8D6E63),
+    tertiary: Color(0xFF7B1FA2), // Vibrant purple
     onTertiary: Color(0xFFFFFFFF),
     tertiaryContainer: Color(0xFFE1BEE7),
     onTertiaryContainer: Color(0xFF4A148C),
@@ -72,10 +72,10 @@ class AppTheme {
     onSurfaceVariant: Color(0xFF49454F),
     inverseSurface: Color(0xFF313033),
     onInverseSurface: Color(0xFFF4EFF4),
-    inversePrimary: Color(0xFF81C784),
+    inversePrimary: Color(0xFF1976D2),
     shadow: Color(0xFF000000),
     scrim: Color(0xFF000000),
-    surfaceTint: Color(0xFF2E7D32),
+    surfaceTint: Color(0xFF1976D2),
   );
 
   // Dark theme color scheme
@@ -132,7 +132,9 @@ class AppTheme {
 
       // Card theme
       cardTheme: CardThemeData(
-        elevation: 1,
+        elevation: 2,
+        surfaceTintColor: _lightColorScheme.surfaceTint,
+        shadowColor: _lightColorScheme.shadow,
         margin: const EdgeInsets.all(8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -255,7 +257,9 @@ class AppTheme {
 
       // Card theme
       cardTheme: CardThemeData(
-        elevation: 1,
+        elevation: 2,
+        surfaceTintColor: _darkColorScheme.surfaceTint,
+        shadowColor: _darkColorScheme.shadow,
         margin: const EdgeInsets.all(8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -541,10 +545,11 @@ class AppTheme {
 
       // Card theme
       cardTheme: CardThemeData(
-        elevation: 1,
+        elevation: 2,
         margin: const EdgeInsets.all(8),
         color: cardBg,
-        surfaceTintColor: Colors.transparent,
+        surfaceTintColor: adjustedColorScheme.surfaceTint,
+        shadowColor: adjustedColorScheme.shadow,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),

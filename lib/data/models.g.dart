@@ -236,6 +236,7 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       notificationsEnabled: fields[3] as bool,
       usEquityTargetPct: fields[4] as double,
       isPro: fields[5] as bool,
+      proExpiryDate: fields[29] as DateTime?,
       biometricLockEnabled: fields[6] as bool,
       darkModeEnabled: fields[7] as bool,
       colorTheme: fields[8] as ColorTheme,
@@ -259,7 +260,6 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       baseCurrency: fields[26] == null ? 'USD' : fields[26] as String,
       proBannerDismissed: fields[27] as bool?,
       language: fields[28] == null ? 'en' : fields[28] as String?,
-      proExpiryDate: fields[29] as DateTime?,
     );
   }
 

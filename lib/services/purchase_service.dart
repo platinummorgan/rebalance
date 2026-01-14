@@ -252,7 +252,8 @@ class PurchaseService {
     // Lifetime has no expiry (null)
 
     debugPrint(
-        'Setting Pro expiry: ${expiryDate?.toIso8601String() ?? "lifetime"}');
+      'Setting Pro expiry: ${expiryDate?.toIso8601String() ?? "lifetime"}',
+    );
 
     // Create a NEW Settings object with isPro = true so Riverpod detects the change
     final updatedSettings = Settings(
