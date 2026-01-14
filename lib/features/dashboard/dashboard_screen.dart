@@ -205,103 +205,122 @@ class DashboardScreen extends ConsumerWidget {
     final totalAssets =
         accounts.fold<double>(0.0, (sum, account) => sum + account.balance);
 
-    return CustomScrollView(
-      slivers: [
-        // Enhanced Net Worth Card with History
-        SliverToBoxAdapter(
-          child: _buildNetWorthCard(context, ref, accounts),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Theme.of(context).colorScheme.surface,
+            Theme.of(context).colorScheme.primary.withOpacity(0.02),
+            Theme.of(context).colorScheme.secondary.withOpacity(0.03),
+          ],
+          stops: const [0.0, 0.5, 1.0],
         ),
+      ),
+      child: CustomScrollView(
+        slivers: [
+          // Weekly Guardrails / Safe to Spend Card
+          SliverToBoxAdapter(
+            child: _buildWeeklyGuardrailsCard(context, ref),
+          ),
 
-        // Pro Features Banner (dismissible)
-        SliverToBoxAdapter(
-          child: _buildProBanner(context, ref),
-        ),
+          // Enhanced Net Worth Card with History
+          SliverToBoxAdapter(
+            child: _buildNetWorthCard(context, ref, accounts),
+          ),
 
-        // Allocation Analysis Section
-        SliverToBoxAdapter(
-          child: _buildAllocationSection(context, ref, accounts),
-        ),
+          // Pro Features Banner (dismissible)
+          SliverToBoxAdapter(
+            child: _buildProBanner(context, ref),
+          ),
 
-        // Set Targets CTA Banner
-        SliverToBoxAdapter(
-          child: _buildSetTargetsBanner(context, ref),
-        ),
+          // Allocation Analysis Section
+          SliverToBoxAdapter(
+            child: _buildAllocationSection(context, ref, accounts),
+          ),
 
-        // Quick Actions removed (redundant actions relocated / available elsewhere)
+          // Set Targets CTA Banner
+          SliverToBoxAdapter(
+            child: _buildSetTargetsBanner(context, ref),
+          ),
 
-        // Account Summary Section
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  AppLocalizations.of(context)!.recentAccounts,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-                GestureDetector(
-                  onTap: () => context.push(AppRouter.accounts),
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
+          // Quick Actions removed (redundant actions relocated / available elsewhere)
+
+          // Account Summary Section
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.recentAccounts,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  GestureDetector(
+                    onTap: () => context.push(AppRouter.accounts),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                      decoration: BoxDecoration(
                         color: Theme.of(context)
                             .colorScheme
                             .primary
-                            .withValues(alpha: 0.3),
+                            .withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withValues(alpha: 0.3),
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      '${AppLocalizations.of(context)!.viewAll} (${accounts.length})',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
+                      child: Text(
+                        '${AppLocalizations.of(context)!.viewAll} (${accounts.length})',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
 
-        // Account List with loading and empty states
-        accounts.isEmpty
-            ? _buildEmptyAccountsState(context)
-            : SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    if (index >= accounts.take(5).length) return null;
-                    final account = accounts[index];
+          // Account List with loading and empty states
+          accounts.isEmpty
+              ? _buildEmptyAccountsState(context)
+              : SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      if (index >= accounts.take(5).length) return null;
+                      final account = accounts[index];
 
-                    return _buildEnhancedAccountTile(
-                      context,
-                      ref,
-                      account,
-                      index,
-                      accounts.length,
-                      totalAssets,
-                    );
-                  },
-                  childCount: accounts.take(5).length,
+                      return _buildEnhancedAccountTile(
+                        context,
+                        ref,
+                        account,
+                        index,
+                        accounts.length,
+                        totalAssets,
+                      );
+                    },
+                    childCount: accounts.take(5).length,
+                  ),
                 ),
-              ),
 
-        // Bottom padding
-        const SliverToBoxAdapter(
-          child: SizedBox(height: 100),
-        ),
-      ],
+          // Bottom padding
+          const SliverToBoxAdapter(
+            child: SizedBox(height: 100),
+          ),
+        ],
+      ),
     );
   }
 
@@ -483,129 +502,154 @@ class DashboardScreen extends ConsumerWidget {
     return Container(
       margin: const EdgeInsets.symmetric(
         horizontal: 16,
-        vertical: 2,
+        vertical: 6,
       ),
-      child: Card(
-        elevation: 0,
-        surfaceTintColor: Theme.of(context).colorScheme.surfaceTint,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: BorderSide(
-            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.1),
+      child: Material(
+        elevation: 6,
+        shadowColor: accountColor.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Theme.of(context).colorScheme.surface,
+                accountColor.withOpacity(0.03),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: accountColor.withOpacity(0.2),
+              width: 1.5,
+            ),
           ),
-        ),
-        child: Semantics(
-          label:
-              '${_getAccountTypeDisplayName(account.kind)}, ${account.name}, balance ${CurrencyFormatter.format(account.balance, currency)}, ${percentOfPortfolio.toStringAsFixed(1)} percent of portfolio',
-          hint: 'Tap to view details, long press for quick actions',
-          button: true,
-          child: InkWell(
-            onTap: () => context.push(AppRouter.accountDetail, extra: account),
-            onLongPress: () => _showAccountQuickActions(context, account),
-            borderRadius: BorderRadius.circular(16),
-            child: ListTile(
-              visualDensity: const VisualDensity(vertical: -1),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
-              ),
-              leading: Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: accountColor.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: accountColor.withValues(alpha: 0.2),
-                    width: 1,
+          child: Semantics(
+            label:
+                '${_getAccountTypeDisplayName(account.kind)}, ${account.name}, balance ${CurrencyFormatter.format(account.balance, currency)}, ${percentOfPortfolio.toStringAsFixed(1)} percent of portfolio',
+            hint: 'Tap to view details, long press for quick actions',
+            button: true,
+            child: InkWell(
+              onTap: () =>
+                  context.push(AppRouter.accountDetail, extra: account),
+              onLongPress: () => _showAccountQuickActions(context, account),
+              borderRadius: BorderRadius.circular(20),
+              child: ListTile(
+                visualDensity: const VisualDensity(vertical: 0),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
+                leading: Container(
+                  width: 52,
+                  height: 52,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        accountColor.withOpacity(0.2),
+                        accountColor.withOpacity(0.1),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: accountColor.withOpacity(0.3),
+                      width: 1.5,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: accountColor.withOpacity(0.2),
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    _getAccountIcon(account.kind),
+                    color: accountColor,
+                    size: 26,
                   ),
                 ),
-                child: Icon(
-                  _getAccountIcon(account.kind),
-                  color: accountColor,
-                  size: 22,
-                ),
-              ),
-              title: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      _getEnhancedAccountName(
-                        account.name,
-                        account.kind,
-                      ),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Flexible(
-                    child: CurrencyText(
-                      account.balance,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        fontFeatures: [
-                          FontFeature.tabularFigures(),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  Icon(
-                    Icons.chevron_right,
-                    size: 20,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.4),
-                  ),
-                ],
-              ),
-              subtitle: Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Row(
+                title: Row(
                   children: [
-                    Flexible(
+                    Expanded(
                       child: Text(
-                        _getAccountTypeDisplayName(account.kind),
-                        style: TextStyle(
-                          color: accountColor,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                        _getEnhancedAccountName(
+                          account.name,
+                          account.kind,
+                        ),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 17,
+                          letterSpacing: -0.3,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const Text(' • ', style: TextStyle(fontSize: 10)),
+                    const SizedBox(width: 12),
                     Flexible(
-                      child: Text(
-                        '${percentOfPortfolio.toStringAsFixed(1)}% of portfolio',
+                      child: CurrencyText(
+                        account.balance,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 17,
+                          fontFeatures: [
+                            FontFeature.tabularFigures(),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 16,
+                      color: accountColor.withOpacity(0.6),
+                    ),
+                  ],
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          _getAccountTypeDisplayName(account.kind),
+                          style: TextStyle(
+                            color: accountColor,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const Text(' • ', style: TextStyle(fontSize: 10)),
+                      Flexible(
+                        child: Text(
+                          '${percentOfPortfolio.toStringAsFixed(1)}% of portfolio',
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withValues(alpha: 0.6),
+                            fontSize: 12,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const Spacer(),
+                      Text(
+                        lastUpdated,
                         style: TextStyle(
                           color: Theme.of(context)
                               .colorScheme
                               .onSurface
-                              .withValues(alpha: 0.6),
-                          fontSize: 12,
+                              .withValues(alpha: 0.5),
+                          fontSize: 11,
                         ),
-                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                    const Spacer(),
-                    Text(
-                      lastUpdated,
-                      style: TextStyle(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withValues(alpha: 0.5),
-                        fontSize: 11,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -2178,6 +2222,269 @@ class DashboardScreen extends ConsumerWidget {
     return const SizedBox.shrink();
   }
 
+  Widget _buildWeeklyGuardrailsCard(BuildContext context, WidgetRef ref) {
+    final loc = AppLocalizations.of(context)!;
+    final settingsAsync = ref.watch(settingsProvider);
+    final incomesAsync = ref.watch(incomesProvider);
+    final liabilitiesAsync = ref.watch(liabilitiesProvider);
+    final accountsAsync = ref.watch(accountsProvider);
+
+    return settingsAsync.when(
+      data: (settings) => incomesAsync.when(
+        data: (incomes) => liabilitiesAsync.when(
+          data: (liabilities) => accountsAsync.when(
+            data: (accounts) {
+              // Calculate weekly data
+              final weeklyData = _calculateWeeklyGuardrailsData(
+                settings,
+                incomes,
+                liabilities,
+                accounts,
+              );
+
+              final safeToSpend = (weeklyData['safeToSpend'] as num).toDouble();
+              final daysOfBuffer = weeklyData['daysOfBuffer'] as int;
+              final weeklyIncome =
+                  (weeklyData['weeklyIncome'] as num).toDouble();
+              final weeklyBills = (weeklyData['weeklyBills'] as num).toDouble();
+
+              // Determine state colors
+              final Color statusColor;
+              final String statusIcon;
+              final String statusText;
+
+              if (safeToSpend < 0) {
+                statusColor = Colors.red;
+                statusIcon = '🚨';
+                statusText = loc.overBudgetThisWeek;
+              } else if (daysOfBuffer < 3) {
+                statusColor = Colors.orange;
+                statusIcon = '⚠';
+                statusText = loc.onTrack;
+              } else {
+                statusColor = Colors.green;
+                statusIcon = '✓';
+                statusText = loc.onTrack;
+              }
+
+              return Container(
+                margin: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+                child: Material(
+                  elevation: 8,
+                  shadowColor: statusColor.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(24),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(24),
+                    onTap: () => context.push(AppRouter.guardrails),
+                    child: Container(
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            statusColor.withOpacity(0.15),
+                            statusColor.withOpacity(0.08),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(
+                          color: statusColor.withOpacity(0.3),
+                          width: 2,
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                statusIcon,
+                                style: const TextStyle(fontSize: 24),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      loc.weeklyGuardrails,
+                                      style: TextStyle(
+                                        color: statusColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      statusText,
+                                      style: TextStyle(
+                                        color: statusColor,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 16,
+                                color: statusColor.withOpacity(0.7),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            loc.safeToSpendThisWeek,
+                            style: TextStyle(
+                              color: statusColor.withOpacity(0.9),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          CurrencyText(
+                            safeToSpend,
+                            style: TextStyle(
+                              color: statusColor,
+                              fontSize: 42,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: -1.5,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          if (daysOfBuffer >= 0)
+                            Text(
+                              loc.daysOfBuffer(daysOfBuffer),
+                              style: TextStyle(
+                                color: statusColor.withOpacity(0.8),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          const SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      loc.weeklyIncome,
+                                      style: TextStyle(
+                                        color: statusColor.withOpacity(0.7),
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    CurrencyText(
+                                      weeklyIncome,
+                                      style: TextStyle(
+                                        color: statusColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      loc.weeklyBills,
+                                      style: TextStyle(
+                                        color: statusColor.withOpacity(0.7),
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    CurrencyText(
+                                      weeklyBills,
+                                      style: TextStyle(
+                                        color: statusColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+            loading: () => const SizedBox.shrink(),
+            error: (_, __) => const SizedBox.shrink(),
+          ),
+          loading: () => const SizedBox.shrink(),
+          error: (_, __) => const SizedBox.shrink(),
+        ),
+        loading: () => const SizedBox.shrink(),
+        error: (_, __) => const SizedBox.shrink(),
+      ),
+      loading: () => const SizedBox.shrink(),
+      error: (_, __) => const SizedBox.shrink(),
+    );
+  }
+
+  Map<String, dynamic> _calculateWeeklyGuardrailsData(
+    Settings settings,
+    List<Income> incomes,
+    List<Liability> liabilities,
+    List<Account> accounts,
+  ) {
+    // Calculate weekly income (using monthlyNet - after tax)
+    double weeklyIncome = 0;
+    for (var income in incomes) {
+      final netMonthly = income.monthlyNet;
+      weeklyIncome += netMonthly / 4.33;
+    }
+
+    // Calculate weekly bills (monthly essentials + debt payments)
+    final monthlyEssentials = settings.monthlyEssentials;
+    double weeklyBills = monthlyEssentials / 4.33;
+
+    for (var liability in liabilities) {
+      final monthlyPayment = liability.minPayment;
+      weeklyBills += monthlyPayment / 4.33;
+    }
+
+    // Calculate total cash across accounts
+    double totalCash = 0;
+    for (var account in accounts) {
+      if (account.kind == 'cash' || account.kind == 'checking') {
+        totalCash += account.balance;
+      }
+    }
+
+    // Calculate daily burn rate and buffer days
+    final dailyBurn = weeklyBills / 7;
+
+    // Buffer is always: how many days can cash cover the bills?
+    final daysWeCanCover = dailyBurn > 0 ? (totalCash / dailyBurn) : 0;
+    final cappedDays = daysWeCanCover.floor().clamp(0, 7);
+
+    // Safe to spend = weekly income - weekly bills (can be negative)
+    final safeToSpend = weeklyIncome - weeklyBills;
+
+    return {
+      'safeToSpend': safeToSpend,
+      'weeklyIncome': weeklyIncome,
+      'weeklyBills': weeklyBills,
+      'daysOfBuffer': cappedDays,
+      'dailyBurn': dailyBurn,
+    };
+  }
+
   Widget _buildNetWorthCard(
     BuildContext context,
     WidgetRef ref,
@@ -2393,41 +2700,83 @@ class DashboardScreen extends ConsumerWidget {
     final deltaValue = deltaAmount ?? 0.0;
 
     return Container(
-      margin: const EdgeInsets.all(16),
+      margin: const EdgeInsets.fromLTRB(20, 16, 20, 8),
       child: Material(
-        elevation: 2,
-        borderRadius: BorderRadius.circular(20),
+        elevation: 16,
+        shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.6),
+        borderRadius: BorderRadius.circular(32),
         child: InkWell(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(32),
           onTap: () => _showNetWorthHistory(context, snapshots),
           child: Container(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(28),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Theme.of(context).colorScheme.primary,
-                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.8),
+                  const Color(0xFF1B5E20),
+                  const Color(0xFF2E7D32),
+                  const Color(0xFF388E3C),
+                  const Color(0xFF00897B),
+                  const Color(0xFF00796B),
                 ],
+                stops: const [0.0, 0.25, 0.5, 0.75, 1.0],
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(32),
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.4),
+                  blurRadius: 24,
+                  offset: const Offset(0, 8),
+                  spreadRadius: 2,
+                ),
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 16,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.white.withOpacity(0.35),
+                            Colors.white.withOpacity(0.15),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.3),
+                          width: 1.5,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white.withOpacity(0.2),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            blurRadius: 16,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
                       ),
                       child: const Icon(
-                        Icons.account_balance_wallet,
+                        Icons.account_balance_wallet_rounded,
                         color: Colors.white,
-                        size: 24,
+                        size: 32,
                       ),
                     ),
                     const Spacer(),
@@ -2435,100 +2784,165 @@ class DashboardScreen extends ConsumerWidget {
                     _buildIntegratedHealthScore(context),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
                 Text(
                   AppLocalizations.of(context)!.netWorth,
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.9),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+                    color: Colors.white.withOpacity(0.92),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.5,
                   ),
                 ),
-                const SizedBox(height: 4),
-                CurrencyText(
-                  totalAssets,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: -1,
+                const SizedBox(height: 12),
+                ShaderMask(
+                  shaderCallback: (bounds) => LinearGradient(
+                    colors: [
+                      Colors.white,
+                      const Color(0xFFFFFDE7),
+                      Colors.white,
+                    ],
+                    stops: const [0.0, 0.5, 1.0],
+                  ).createShader(bounds),
+                  child: CurrencyText(
+                    totalAssets,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 52,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: -2.0,
+                      height: 1.0,
+                      shadows: [
+                        Shadow(
+                          color: Colors.white.withOpacity(0.6),
+                          blurRadius: 20,
+                          offset: const Offset(0, 0),
+                        ),
+                        Shadow(
+                          color: const Color(0xFF80CBC4).withOpacity(0.5),
+                          blurRadius: 30,
+                          offset: const Offset(0, 2),
+                        ),
+                        Shadow(
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 16,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 14),
                 if (hasDelta)
-                  Row(
-                    children: [
-                      Text(
-                        deltaValue >= 0 ? '▲' : '▼',
-                        style: TextStyle(
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: (deltaValue >= 0 ? Colors.green : Colors.red)
+                          .withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: (deltaValue >= 0 ? Colors.green : Colors.red)
+                            .withOpacity(0.3),
+                        width: 1,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          deltaValue >= 0
+                              ? Icons.trending_up_rounded
+                              : Icons.trending_down_rounded,
                           color: deltaValue >= 0
                               ? Colors.lightGreenAccent
-                              : Colors.red.shade300,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                              : Colors.red.shade200,
+                          size: 20,
                         ),
-                      ),
-                      const SizedBox(width: 6),
-                      CurrencyText(
-                        deltaValue,
-                        showSign: true,
-                        useAbsoluteValue: true,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                        const SizedBox(width: 8),
+                        CurrencyText(
+                          deltaValue,
+                          showSign: true,
+                          useAbsoluteValue: true,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        '(${AppLocalizations.of(context)!.timeframe30d})',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                        const SizedBox(width: 6),
+                        Text(
+                          '(${AppLocalizations.of(context)!.timeframe30d})',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.85),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                      const Spacer(),
-                      // Tiny sparkline to the right
-                      if (snapshots.length > 1)
-                        SizedBox(
-                          width: 60,
-                          height: 20,
-                          child: _buildTinySparkline(context, snapshots),
-                        ),
-                    ],
+                        if (snapshots.length > 1) ...[
+                          const SizedBox(width: 10),
+                          SizedBox(
+                            width: 60,
+                            height: 20,
+                            child: _buildTinySparkline(context, snapshots),
+                          ),
+                        ],
+                      ],
+                    ),
                   ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
                 Row(
                   children: [
                     GestureDetector(
                       onTap: () => context.push(AppRouter.accounts),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
+                          horizontal: 14,
+                          vertical: 7,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.white.withOpacity(0.18),
+                          borderRadius: BorderRadius.circular(14),
                         ),
-                        child: Text(
-                          '$accountCount ${AppLocalizations.of(context)!.accounts.toLowerCase()}',
-                          style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.9),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.account_balance_rounded,
+                              size: 16,
+                              color: Colors.white.withOpacity(0.9),
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              '$accountCount ${AppLocalizations.of(context)!.accounts.toLowerCase()}',
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.95),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                     const Spacer(),
-                    Text(
-                      _getUpdatedDateText(context),
-                      style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.8),
-                        fontSize: 14,
-                      ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.update_rounded,
+                          size: 14,
+                          color: Colors.white.withOpacity(0.75),
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          _getUpdatedDateText(context),
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.82),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
