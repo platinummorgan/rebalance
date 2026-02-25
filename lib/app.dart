@@ -68,6 +68,7 @@ class RebalanceApp extends ConsumerWidget {
         ],
         supportedLocales: const [
           Locale('en'), // English
+          Locale('fr'), // French
           Locale('hi'), // Hindi
           Locale('bn'), // Bengali
           Locale('ar'), // Arabic

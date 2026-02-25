@@ -483,6 +483,7 @@
   "paymentsWillAppearHere": "পেমেন্ট এখানে প্রদর্শিত হবে",
   "percentageMustBeBetween": "শতাংশ 0 এবং 100 এর মধ্যে হতে হবে",
   "persian": "ফার্সি",
+  "french": "ফরাসি",
   "pleaseEnterAPR": "অনুগ্রহ করে APR লিখুন",
   "pleaseEnterCurrentBalance": "অনুগ্রহ করে বর্তমান ব্যালেন্স লিখুন",
   "pleaseEnterLiabilityName": "অনুগ্রহ করে দায়ের নাম লিখুন",
@@ -1014,5 +1015,18 @@
   "adjustIncome": "আয় সামঞ্জস্য করুন",
   "editBills": "বিল সম্পাদনা করুন",
   "neverGuessAgain": "আর কখনও অনুমান করবেন না",
-  "autoAlertsProUpsell": "এই সপ্তাহে আপনার নিরাপদ খরচ অতিক্রম করতে চলেছেন তখন স্বয়ংক্রিয় সতর্কতা পান। ভুল করার আগে জানুন।"
+  "autoAlertsProUpsell": "এই সপ্তাহে আপনার নিরাপদ খরচ অতিক্রম করতে চলেছেন তখন স্বয়ংক্রিয় সতর্কতা পান। ভুল করার আগে জানুন।",
+  "expenses": "খরচ",
+  "monthlyExpenses": "মাসিক খরচ",
+  "noExpensesTracked": "কোনো খরচ ট্র্যাক করা হয়নি",
+  "trackMonthlyBills": "ভাড়া, ইউটিলিটি, বীমা এবং সাবস্ক্রিপশনের মতো নিয়মিত মাসিক বিল ট্র্যাক করুন",
+  "addYourFirstExpense": "আপনার প্রথম খরচ যোগ করুন",
+  "addExpense": "খরচ যোগ করুন",
+  "totalMonthlyExpenses": "মোট মাসিক খরচ",
+  "perWeekFull": "/সপ্তাহ",
+  "perWeekShort": "/সপ্ত",
+  "dueOnDay": "{day} তারিখে পরিশোধ্য",
+  "profileSetup": "প্রোফাইল সেটআপ",
+  "percentComplete": "{percentage}% সম্পন্ন",
+  "completeProfileInsights": "আরও ভালো অন্তর্দৃষ্টির জন্য আপনার প্রোফাইল সম্পন্ন করুন"
 }

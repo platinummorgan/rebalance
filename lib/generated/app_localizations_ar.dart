@@ -1492,6 +1492,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get persian => 'الفارسية';
 
   @override
+  String get french => 'الفرنسية';
+
+  @override
   String get pleaseEnterAPR => 'الرجاء إدخال APR';
 
   @override
@@ -2551,4 +2554,48 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get autoAlertsProUpsell =>
       'احصل على تنبيهات تلقائية عندما تكون على وشك تجاوز مبلغك الآمن للإنفاق هذا الأسبوع. اعرف قبل أن تفشل.';
+
+  @override
+  String get expenses => 'المصروفات';
+
+  @override
+  String get monthlyExpenses => 'المصروفات الشهرية';
+
+  @override
+  String get noExpensesTracked => 'لا توجد مصروفات متتبعة';
+
+  @override
+  String get trackMonthlyBills =>
+      'تتبع فواتيرك الشهرية المنتظمة كالإيجار والمرافق والتأمين والاشتراكات';
+
+  @override
+  String get addYourFirstExpense => 'أضف أول مصروف';
+
+  @override
+  String get addExpense => 'إضافة مصروف';
+
+  @override
+  String get totalMonthlyExpenses => 'إجمالي المصروفات الشهرية';
+
+  @override
+  String get perWeekFull => '/أسبوع';
+
+  @override
+  String get perWeekShort => '/أسبوع';
+
+  @override
+  String dueOnDay(String day) {
+    return 'مستحق في اليوم $day';
+  }
+
+  @override
+  String get profileSetup => 'إعداد الملف الشخصي';
+
+  @override
+  String percentComplete(int percentage) {
+    return '$percentage% مكتمل';
+  }
+
+  @override
+  String get completeProfileInsights => 'أكمل ملفك الشخصي للحصول على رؤى أفضل';
 }

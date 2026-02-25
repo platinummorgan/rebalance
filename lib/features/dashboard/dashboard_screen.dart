@@ -269,7 +269,9 @@ class DashboardScreen extends ConsumerWidget {
                     onTap: () => context.push(AppRouter.accounts),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: Theme.of(context)
                             .colorScheme
@@ -2322,7 +2324,7 @@ class DashboardScreen extends ConsumerWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Profile Setup',
+                                    loc.profileSetup,
                                     style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -2334,7 +2336,7 @@ class DashboardScreen extends ConsumerWidget {
                                   ),
                                   const SizedBox(height: 2),
                                   Text(
-                                    '$percentage% complete',
+                                    loc.percentComplete(percentage),
                                     style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -2374,7 +2376,7 @@ class DashboardScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          'Complete your profile for better insights',
+                          loc.completeProfileInsights,
                           style: TextStyle(
                             color: Theme.of(context)
                                 .colorScheme
@@ -2460,7 +2462,9 @@ class DashboardScreen extends ConsumerWidget {
   }
 
   void _showProfileCompletionDetails(
-      BuildContext context, List<String> missing) {
+    BuildContext context,
+    List<String> missing,
+  ) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -2513,33 +2517,35 @@ class DashboardScreen extends ConsumerWidget {
                   ),
             ),
             const SizedBox(height: 16),
-            ...missing.map((item) => Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 24,
-                        height: 24,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.add,
-                          size: 16,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+            ...missing.map(
+              (item) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        shape: BoxShape.circle,
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          item,
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
+                      child: Icon(
+                        Icons.add,
+                        size: 16,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                    ],
-                  ),
-                )),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        item,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
@@ -3073,17 +3079,17 @@ class DashboardScreen extends ConsumerWidget {
           child: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  const Color(0xFF1B5E20),
-                  const Color(0xFF2E7D32),
-                  const Color(0xFF388E3C),
-                  const Color(0xFF00897B),
-                  const Color(0xFF00796B),
+                  Color(0xFF1B5E20),
+                  Color(0xFF2E7D32),
+                  Color(0xFF388E3C),
+                  Color(0xFF00897B),
+                  Color(0xFF00796B),
                 ],
-                stops: const [0.0, 0.25, 0.5, 0.75, 1.0],
+                stops: [0.0, 0.25, 0.5, 0.75, 1.0],
               ),
               borderRadius: BorderRadius.circular(32),
               boxShadow: [
@@ -3141,9 +3147,16 @@ class DashboardScreen extends ConsumerWidget {
                         size: 28,
                       ),
                     ),
-                    const Spacer(),
-                    // Financial Health Score integrated here
-                    _buildIntegratedHealthScore(context),
+                    // Financial Health Score — Expanded gives the pill bounded
+                    // constraints from the parent Row; Align pushes it right.
+                    // Using Spacer here would split remaining space 50/50 with
+                    // Expanded, making the pill too narrow.
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: _buildIntegratedHealthScore(context),
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -3158,13 +3171,13 @@ class DashboardScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 8),
                 ShaderMask(
-                  shaderCallback: (bounds) => LinearGradient(
+                  shaderCallback: (bounds) => const LinearGradient(
                     colors: [
                       Colors.white,
-                      const Color(0xFFFFFDE7),
+                      Color(0xFFFFFDE7),
                       Colors.white,
                     ],
-                    stops: const [0.0, 0.5, 1.0],
+                    stops: [0.0, 0.5, 1.0],
                   ).createShader(bounds),
                   child: CurrencyText(
                     totalAssets,
@@ -3619,8 +3632,7 @@ class DashboardScreen extends ConsumerWidget {
                     // Main row with hierarchy: D • 68 big, Fair smaller, trend tertiary
                     Row(
                       mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      textBaseline: TextBaseline.alphabetic,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         // Grade (D) + bullet + Score (68) - primary hierarchy
                         Row(
@@ -3668,16 +3680,19 @@ class DashboardScreen extends ConsumerWidget {
                         ),
                         const SizedBox(width: 12),
                         // Status label (Fair) - secondary hierarchy
-                        Text(
-                          _getStatusLabel(context, healthResult.score),
-                          style: TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withValues(alpha: 0.7),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            height: 1.0,
+                        Flexible(
+                          child: Text(
+                            _getStatusLabel(context, healthResult.score),
+                            style: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withValues(alpha: 0.7),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              height: 1.0,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         // Delta trend - tertiary hierarchy with dimmed timeframe
@@ -3728,7 +3743,7 @@ class DashboardScreen extends ConsumerWidget {
                     const SizedBox(height: 8),
                     // Diversification caption + main driver (simplified secondary info)
                     Row(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisSize: MainAxisSize.max,
                       children: [
                         Icon(
                           Icons.show_chart,
@@ -4261,10 +4276,12 @@ class DashboardScreen extends ConsumerWidget {
 
     return SegmentedButton<String>(
       segments: timeframes
-          .map((tf) => ButtonSegment<String>(
-                value: tf,
-                label: Text(_formatTimeframeShort(tf)),
-              ))
+          .map(
+            (tf) => ButtonSegment<String>(
+              value: tf,
+              label: Text(_formatTimeframeShort(tf)),
+            ),
+          )
           .toList(),
       selected: {timeframe},
       onSelectionChanged: (Set<String> selected) {
@@ -4274,7 +4291,7 @@ class DashboardScreen extends ConsumerWidget {
           SnackBar(content: Text('Timeframe selection: ${selected.first}')),
         );
       },
-      style: ButtonStyle(
+      style: const ButtonStyle(
         visualDensity: VisualDensity.compact,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),

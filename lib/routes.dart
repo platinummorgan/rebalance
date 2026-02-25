@@ -342,7 +342,7 @@ class MainShell extends StatelessWidget {
           NavigationDestination(
             icon: const Icon(Icons.receipt_long_outlined),
             selectedIcon: const Icon(Icons.receipt_long),
-            label: 'Expenses', // TODO: localize
+            label: loc.expenses,
           ),
           NavigationDestination(
             icon: const Icon(Icons.tune_outlined),

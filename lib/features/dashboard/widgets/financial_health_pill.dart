@@ -101,7 +101,7 @@ class FinancialHealthPill extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
@@ -143,13 +143,16 @@ class FinancialHealthPill extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(width: 12),
-                    Text(
-                      statusLabel,
-                      style: TextStyle(
-                        color: Colors.black.withValues(alpha: 0.7),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        height: 1.0,
+                    Flexible(
+                      child: Text(
+                        statusLabel,
+                        style: TextStyle(
+                          color: Colors.black.withValues(alpha: 0.7),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          height: 1.0,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     if (scoreDelta != 0) ...[

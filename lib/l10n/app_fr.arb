@@ -1,0 +1,1197 @@
+{
+  "@@locale": "fr",
+  "appTitle": "Rebalance",
+  "@appTitle": {
+    "description": "The application name"
+  },
+  "netWorth": "Valeur nette",
+  "assets": "Actifs",
+  "liabilities": "Passifs",
+  "cashFlow": "Flux de trésorerie",
+  "healthScore": "Score de santé",
+  "proFeatures": "Fonctionnalités Pro",
+  "choosePlan": "Choisissez votre plan",
+  "upgradeToProTitle": "Passer à Pro",
+  "allProFeatures": "Toutes les fonctionnalités Pro",
+  "cancelAnytime": "Annuler à tout moment",
+  "freeTrialDays": "Essai gratuit de 7 jours",
+  "proMonthly": "Pro Mensuel",
+  "perMonth": "par mois",
+  "annual": "Annuel",
+  "perYear": "par an",
+  "founderLifetime": "Fondateur à vie",
+  "oneTime": "une seule fois",
+  "bestValue": "MEILLEURE OFFRE",
+  "limited": "LIMITÉ",
+  "saveMoney": "Économisez {amount}",
+  "@saveMoney": {
+    "description": "Amount saved with annual plan",
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "$24"
+      }
+    }
+  },
+  "everythingForever": "Tout pour toujours",
+  "firstFounders": "1 000 premiers fondateurs",
+  "priceIncreasesAfter": "Le prix augmente après",
+  "retirementCalculator": "Calculateur de retraite",
+  "debtOptimizer": "Optimiseur de dettes",
+  "scenarioEngine": "Moteur de scénarios",
+  "taxSmartAllocation": "Allocation fiscalement intelligente",
+  "customAlerts": "Alertes personnalisées avec contexte",
+  "advancedAnalytics": "Analyse avancée de portefeuille",
+  "unlockWithPro": "Déverrouiller avec Pro",
+  "startFreeTrial": "Commencer l'essai gratuit",
+  "choosePlanButton": "Choisir un plan",
+  "settings": "Réglages",
+  "currency": "Devise",
+  "darkMode": "Mode sombre",
+  "colorTheme": "Thème de couleur",
+  "language": "Langue",
+  "accounts": "Comptes",
+  "addAccount": "Ajouter un compte",
+  "editAccount": "Modifier le compte",
+  "accountName": "Nom du compte",
+  "accountType": "Type de compte",
+  "balance": "Solde",
+  "accountDetails": "Détails du compte",
+  "pleaseEnterAccountName": "Veuillez saisir un nom de compte",
+  "exampleAccountName": "ex. : Compte chèques BNP",
+  "lockedAccount": "Compte verrouillé",
+  "cannotBeRebalanced": "Ne peut pas être rééquilibré (retraite, pension, restreint)",
+  "canBeRebalanced": "Peut être inclus dans les plans de rééquilibrage",
+  "currentBalance": "Solde actuel",
+  "pleaseEnterBalance": "Veuillez saisir un solde",
+  "pleaseEnterValidBalance": "Veuillez saisir un solde valide",
+  "debts": "Dettes",
+  "addDebt": "Ajouter une dette",
+  "minimumPayment": "Paiement minimum",
+  "interestRate": "Taux d'intérêt",
+  "rebalancing": "Rééquilibrage",
+  "createPlan": "Créer un plan de rééquilibrage",
+  "targetAllocation": "Allocation cible",
+  "dashboard": "Accueil",
+  "reports": "Rapports",
+  "targets": "Objectifs",
+  "save": "Enregistrer",
+  "cancel": "Annuler",
+  "delete": "Supprimer",
+  "edit": "Modifier",
+  "add": "Ajouter",
+  "confirm": "Confirmer",
+  "loading": "Chargement...",
+  "error": "Erreur",
+  "errorWithMessage": "Erreur : {message}",
+  "@errorWithMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "success": "Succès",
+  "recentAccounts": "Comptes récents",
+  "viewAll": "Voir tout",
+  "noAccountsYet": "Aucun compte pour l'instant",
+  "getStarted": "Commencez en ajoutant votre premier compte",
+  "totalAssets": "Total des actifs",
+  "totalLiabilities": "Total des passifs",
+  "financialHealth": "Santé financière",
+  "allocation": "Allocation",
+  "liquidity": "Liquidité",
+  "debtLoad": "Charge de la dette",
+  "concentration": "Concentration",
+  "excellent": "Excellent",
+  "good": "Bien",
+  "fair": "Passable",
+  "needsWork": "À améliorer",
+  "critical": "Critique",
+  "poor": "Mauvais",
+  "financialHealthScore": "Score de santé financière",
+  "howBalancedIsYourPortfolio": "quel est l'équilibre de votre portefeuille ?",
+  "wellBalanced": "Bien équilibré",
+  "excellentHealth": "Santé excellente",
+  "goodHealth": "Bonne santé",
+  "fairHealth": "Santé passable",
+  "needsWorkHealth": "À améliorer",
+  "poorHealth": "Mauvaise santé",
+  "weightedBreakdown": "Décomposition pondérée",
+  "fixedIncomeBalance": "Équilibre des revenus fixes",
+  "liquidityBuffer": "Réserve de liquidité",
+  "internationalExposure": "Exposition internationale",
+  "debtManagement": "Gestion de la dette",
+  "whatMoved": "Ce qui a bougé",
+  "sinceLast30d": "Depuis les 30 derniers jours :",
+  "reducedUsEquityPosition": "Position en actions américaines réduite",
+  "addedFixedIncomeAllocation": "Allocation en revenus fixes ajoutée",
+  "noChangeInCashPosition": "Aucun changement de la position de trésorerie",
+  "nextActions": "Prochaines actions",
+  "openMixAndDials": "Ouvrir Mix & Dials",
+  "reviewDetailedAllocationBreakdown": "Examiner la décomposition détaillée de l'allocation",
+  "addToPlan": "Ajouter au plan",
+  "createRebalancingStrategy": "Créer une stratégie de rééquilibrage",
+  "setTargetAllocation": "Définir l'allocation cible",
+  "adjustYourRiskPreferences": "Ajuster vos préférences de risque",
+  "financialHealthTrend": "Tendance de santé financière",
+  "keyInsights": "Informations clés",
+  "runSimulation": "Lancer la simulation",
+  "explainGradeBands": "Expliquer les niveaux de notation",
+  "seeHowAddingBondsAffectsScore": "Voir comment l'ajout de 1 500 $ en obligations affecte votre score",
+  "strongUpwardTrend": "Forte tendance à la hausse sur 6 mois",
+  "consistentImprovementPattern": "Schéma d'amélioration régulière",
+  "approachingExcellentHealth": "Approche d'une santé financière excellente",
+  "gradualImprovementTrend": "Tendance à l'amélioration progressive",
+  "steadyProgressPattern": "Schéma de progrès régulier",
+  "decliningTrendNeedsAttention": "Tendance à la baisse nécessitant attention",
+  "highVolatilityInScores": "Forte volatilité des scores",
+  "considerReviewingStrategy": "Envisager de revoir la stratégie financière",
+  "slightDownwardTrend": "Légère tendance à la baisse",
+  "monitorForContinuedDecline": "Surveiller la poursuite du déclin",
+  "stableFinancialHealthScore": "Score de santé financière stable",
+  "lowVolatilityIndicatesConsistency": "Faible volatilité indiquant une cohérence",
+  "overall": "Global",
+  "weakest": "Le plus faible",
+  "healthCalculatedFromComponents": "Santé calculée à partir de 5 composantes",
+  "open": "Ouvrir",
+  "go": "Aller",
+  "netWorthLabel": "Valeur nette",
+  "assetAllocation": "Allocation d'actifs",
+  "cash": "Liquidités",
+  "bonds": "Obligations",
+  "equities": "Actions",
+  "realEstate": "Immobilier",
+  "commodities": "Matières premières",
+  "crypto": "Crypto",
+  "other": "Autre",
+  "totalEquities": "Total des actions",
+  "vsTarget": "vs Objectif",
+  "viewFullAnalysis": "Voir l'analyse complète",
+  "reduce": "Réduire",
+  "concentrationRisk": "risque de concentration",
+  "highRisk": "Risque élevé",
+  "mediumRisk": "Risque moyen",
+  "lowRisk": "Risque faible",
+  "spotted": "détecté",
+  "ago": "il y a",
+  "updated": "Mis à jour",
+  "addYourFirstAccount": "Ajouter votre premier compte",
+  "checkingAccount": "Compte chèques",
+  "savingsAccount": "Compte épargne",
+  "brokerageAccount": "Compte de courtage",
+  "retirementAccount": "Compte retraite",
+  "reduceConcentrationRisk": "Réduire le risque de concentration",
+  "largestBucket": "Plus grande catégorie",
+  "capPerBucket": "Plafond par catégorie",
+  "targetShift": "Glissement de l'objectif",
+  "createRebalancingPlan": "Créer un plan de rééquilibrage",
+  "shiftPerMonth": "Glissement par mois",
+  "spottedAgo": "détecté il y a",
+  "updatedToday": "Mis à jour aujourd'hui",
+  "updatedYesterday": "Mis à jour hier",
+  "updatedDaysAgo": "Mis à jour il y a {days} jours",
+  "hoursAgo": "il y a {hours}h",
+  "daysAgo": "il y a {days}j",
+  "monthsAgo": "il y a {months} mois",
+  "incomeSourceName": "Nom de la source de revenus",
+  "incomeSourceNameHint": "ex. : Salaire Tech Corp",
+  "pleaseEnterName": "Veuillez saisir un nom",
+  "incomeType": "Type de revenus",
+  "incomeTypeSalary": "Salaire",
+  "incomeTypeHourlyWage": "Salaire horaire",
+  "incomeTypeBonus": "Prime",
+  "incomeTypeCommission": "Commission",
+  "incomeTypeFreelance": "Freelance",
+  "incomeTypeRentalIncome": "Revenus locatifs",
+  "incomeTypeInvestmentIncome": "Revenus d'investissement",
+  "incomeTypePension": "Pension",
+  "incomeTypeSocialSecurity": "Sécurité sociale",
+  "incomeTypeOther": "Autre",
+  "grossAmount": "Montant brut",
+  "pleaseEnterAmount": "Veuillez saisir un montant",
+  "pleaseEnterValidNumber": "Veuillez saisir un nombre valide",
+  "frequency": "Fréquence",
+  "addTaxDeductionBreakdown": "Ajouter le détail des impôts et déductions",
+  "trackFederalTaxStateTax": "Suivre les impôts fédéraux, d'État et les déductions",
+  "deductionsPerPaymentPeriod": "Déductions (par période de paiement)",
+  "federalTax": "Impôt fédéral",
+  "stateTax": "Impôt d'État",
+  "socialSecurityTax": "Cotisation sécurité sociale",
+  "medicareTax": "Cotisation Medicare",
+  "retirement401k": "Retraite (401k, IRA)",
+  "healthInsurancePremium": "Prime d'assurance maladie",
+  "otherDeductions": "Autres déductions",
+  "addIncome": "Ajouter un revenu",
+  "importFromCSV": "Importer depuis CSV",
+  "importDataFromCSV": "Importer des données depuis CSV",
+  "selectCSVFileDescription": "Sélectionner un fichier CSV pour importer des comptes, passifs ou revenus",
+  "selectCSVFile": "Sélectionner un fichier CSV",
+  "csvFormatRequirements": "Exigences de format CSV",
+  "accountsLabel": "Comptes",
+  "accountsCSVFormat": "name,type,balance,locked,cash,bonds,usEq,intlEq,realEstate,alt",
+  "liabilitiesLabel": "Passifs",
+  "liabilitiesCSVFormat": "name,type,balance,interestRate,minPayment",
+  "incomeLabel": "Revenus",
+  "incomeCSVFormat": "name,type,grossAmount,frequency",
+  "readyToImport": "Prêt à importer",
+  "rowsHadErrors": "lignes avaient des erreurs",
+  "importError": "Erreur d'importation",
+  "unknownError": "Erreur inconnue",
+  "tryAgain": "Réessayer",
+  "income": "Revenus",
+  "unlockPro": "Débloquer Pro",
+  "yourProFeatures": "Vos fonctionnalités Pro",
+  "debtPayoffOptimizer": "Optimiseur de remboursement de dettes",
+  "debtPayoffDescription": "Comparez les stratégies avalanche et boule de neige avec des calendriers de paiement mois par mois",
+  "saveThousands": "Économisez des milliers en intérêts",
+  "rebalancingAutopilot": "Pilote automatique de rééquilibrage",
+  "rebalancingDescription": "Obtenez des instructions de transaction précises avec des métriques de risque avant/après",
+  "reduceRisk": "Réduire le risque du portefeuille",
+  "whatIfScenarioEngine": "Moteur de scénarios hypothétiques",
+  "whatIfDescription": "La simulation Monte Carlo montre la probabilité de succès avec des paramètres ajustables",
+  "seeProbability": "Voir la probabilité de succès",
+  "customAlertsWithContext": "Alertes personnalisées avec contexte",
+  "customAlertsDescription": "Définir des seuils personnalisés avec des alertes d'impact financier",
+  "knowImpact": "Connaître l'impact financier",
+  "taxSmartDescription": "Optimiser le placement des comptes et identifier les opportunités de récolte de pertes fiscales",
+  "saveTaxes": "Économiser sur les impôts annuellement",
+  "retirementDescription": "La simulation Monte Carlo projette la probabilité de succès à la retraite",
+  "advancedPortfolioAnalytics": "Analyse avancée de portefeuille",
+  "advancedAnalyticsDescription": "Indice de concentration HHI, exposition aux facteurs, suivi multi-portefeuille",
+  "planDetails": "Détails du plan",
+  "proActive": "Pro Actif",
+  "rebalancePro": "Rebalance Pro",
+  "basedOnYourPortfolio": "En fonction de votre portefeuille :",
+  "saveMoneyReduceRisk": "Économisez de l'argent et réduisez le risque grâce à une planification financière intelligente",
+  "compareStrategies": "Comparez les stratégies avalanche et boule de neige. Obtenez un calendrier de paiement mois par mois et voyez les intérêts économisés.",
+  "getSpecificTrades": "Obtenez des instructions de transaction précises. Consultez les métriques de risque et la réduction de volatilité avant/après.",
+  "monteCarloSimulation": "La simulation Monte Carlo (1 000 exécutions) montre la probabilité de succès. Ajustez les contributions, les rendements et le calendrier pour optimiser votre plan.",
+  "customThresholds": "Définissez des seuils personnalisés pour la concentration, le glissement, le DSCR. Chaque alerte affiche l'impact financier.",
+  "optimizeAccounts": "Optimisez quels comptes détiennent quels actifs. Identifiez les opportunités de récolte de pertes fiscales. Minimisez la charge fiscale annuelle.",
+  "projectRetirement": "La simulation Monte Carlo (1 000 exécutions) projette la probabilité de succès à la retraite. Ajustez l'épargne, le calendrier et les revenus pour optimiser votre plan.",
+  "hhiConcentration": "Indice de concentration HHI, décomposition de l'exposition aux facteurs, suivi multi-portefeuille, pondérations de score personnalisées.",
+  "privacy100": "100 % Confidentialité",
+  "dataOnDevice": "Toutes les données restent sur votre appareil",
+  "encryptedStorage": "Stockage chiffré",
+  "bankGrade": "Sécurité de niveau bancaire",
+  "saveEst": "Économisez env. ",
+  "purchaseCancelled": "Achat annulé",
+  "rebalancingPlan": "Plan de rééquilibrage",
+  "rebalancingGuide": "Guide de rééquilibrage",
+  "addAccountsForRebalancing": "Ajoutez des comptes avec des positions pour construire votre plan de rééquilibrage personnalisé",
+  "rebalancingPlanProDescription": "Obtenez des instructions de transaction précises avec des métriques de risque avant/après. Voyez exactement quoi acheter ou vendre pour atteindre votre allocation cible.",
+  "yourPersonalizedPlan": "Votre plan personnalisé",
+  "customizeTrackExecute": "Personnalisez la stratégie, suivez les progrès, exécutez les transactions",
+  "lockedAccountsDetected": "Comptes verrouillés détectés",
+  "lockedAccountsMessage": "est verrouillé (ex. : 401k, pension). Le plan utilise uniquement",
+  "inUnlockedAccounts": "dans les comptes déverrouillés",
+  "lockedAccountsTip": "Conseil : Pour les comptes 401k/pension, mettez à jour votre allocation de cotisation plutôt que de rééquilibrer les positions existantes.",
+  "rebalancingStrategy": "Stratégie de rééquilibrage",
+  "dollarCostAverageRecommended": "Moyenne du coût en dollars (Recommandé)",
+  "dollarCostDescription": "Répartir les transactions sur plusieurs mois pour réduire le risque de timing",
+  "immediateRebalance": "Rééquilibrage immédiat",
+  "immediateRebalanceDescription": "Exécuter toutes les transactions maintenant si vous avez une forte conviction",
+  "glidePathDuration": "Durée de la trajectoire de glissement",
+  "howManyMonthsToSpread": "Sur combien de mois souhaitez-vous répartir le rééquilibrage ?",
+  "fast": "Rapide",
+  "gradual": "Progressif",
+  "months": "mois",
+  "month": "Mois",
+  "executeNow": "Exécuter maintenant",
+  "totalToRebalanceImmediately": "Total à rééquilibrer immédiatement",
+  "monthlyTransferAmount": "Montant du transfert mensuel",
+  "overMonths": "Sur",
+  "total": "Total",
+  "beforeVsAfter": "Avant vs. Après",
+  "current": "Actuel",
+  "target": "Objectif",
+  "executionChecklist": "Liste de contrôle d'exécution",
+  "trackMonthlyProgress": "Suivez vos progrès mensuels lors de l'exécution des transactions",
+  "transfer": "Transférer",
+  "ofMonthsCompleted": "de",
+  "monthsCompleted": "mois complétés",
+  "exportPDF": "Exporter en PDF",
+  "pdfExportComingSoon": "L'export PDF arrive bientôt !",
+  "whyRebalance": "Pourquoi rééquilibrer ?",
+  "whyRebalanceDescription": "Les mouvements du marché éloignent votre portefeuille de votre allocation cible, augmentant le risque. Le rééquilibrage restaure votre profil risque/rendement souhaité.",
+  "dollarCostAveragingTitle": "Moyenne du coût en dollars",
+  "dollarCostAveragingDescription": "Répartir les transactions dans le temps réduit le risque de timing et l'impact sur le marché. Recommandé pour la plupart des investisseurs.",
+  "immediateRebalancingTitle": "Rééquilibrage immédiat",
+  "immediateRebalancingDescription": "Exécuter toutes les transactions en une fois. Idéal si vous avez une forte conviction de marché ou devez rééquilibrer d'urgence.",
+  "youreWellBalanced": "Vous êtes bien équilibré !",
+  "noRebalancingNeeded": "Votre portefeuille est dans la tolérance de votre allocation cible. Aucun rééquilibrage nécessaire pour l'instant.",
+  "accountType529EducationSavings": "Épargne éducation 529",
+  "accountTypeBrokerage": "Courtage",
+  "accountTypeBrokerageAccount": "Compte de courtage",
+  "accountTypeCash": "Liquidités",
+  "accountTypeCashAccount": "Compte de liquidités",
+  "accountTypeCD": "Dépôt à terme",
+  "accountTypeCertificateOfDeposit": "Certificat de dépôt",
+  "accountTypeChecking": "Chèques",
+  "accountTypeCheckingAccount": "Compte chèques",
+  "accountTypeCrypto": "Crypto",
+  "accountTypeCryptocurrency": "Cryptomonnaie",
+  "accountTypeHealthSavingsAccount": "Compte épargne santé (HSA)",
+  "accountTypeHSA": "HSA",
+  "accountTypeOther": "Autre",
+  "accountTypeRealEstate": "Immobilier",
+  "accountTypeRealEstateEquity": "Capital immobilier",
+  "accountTypeRetirement": "Retraite",
+  "accountTypeSavings": "Épargne",
+  "accountTypeSavingsAccount": "Compte épargne",
+  "liabilityTypeAutoLoan": "Prêt automobile",
+  "liabilityTypeCreditCard": "Carte de crédit",
+  "liabilityTypeLineOfCredit": "Ligne de crédit",
+  "liabilityTypeMortgage": "Hypothèque",
+  "liabilityTypeOther": "Autre",
+  "liabilityTypePersonalLoan": "Prêt personnel",
+  "liabilityTypeStudentLoan": "Prêt étudiant",
+  "about": "À propos",
+  "account": "Compte",
+  "accountDeletedSuccessfully": "Compte supprimé avec succès",
+  "accountsPlural": "Comptes",
+  "addIncomeSource": "Ajouter une source de revenus",
+  "addLiability": "Ajouter un passif",
+  "addNewAccount": "Ajouter un nouveau compte",
+  "addYourFirstIncomeSource": "Ajoutez votre première source de revenus pour suivre les flux de trésorerie",
+  "addYourFirstLiability": "Ajoutez votre premier passif pour suivre les dettes",
+  "allocationTargets": "Objectifs d'allocation",
+  "allocationTargetsDescription": "Définissez vos pourcentages cibles d'allocation d'actifs",
+  "allPayments": "Tous les paiements",
+  "alternatives": "Alternatives",
+  "amountCannotBeNegative": "Le montant ne peut pas être négatif",
+  "annualInterestCost": "Coût annuel des intérêts",
+  "appInfoAndDisclaimers": "Infos sur l'application et avertissements",
+  "apr": "TAP",
+  "arabic": "Arabe",
+  "areYouSureDeleteAccount": "Êtes-vous sûr de vouloir supprimer ce compte ?",
+  "areYouSureDeleteIncome": "Êtes-vous sûr de vouloir supprimer cette source de revenus ?",
+  "areYouSureExit": "Êtes-vous sûr de vouloir quitter ?",
+  "assetAllocationDescription": "Diversifiez entre les classes d'actifs pour gérer le risque",
+  "avgInterestRate": "Taux d'intérêt moyen",
+  "backToDashboard": "Retour au tableau de bord",
+  "backToSnapshot": "Retour à l'instantané",
+  "backupRestoreData": "Sauvegarder et restaurer les données",
+  "balanced": "Équilibré",
+  "bengali": "Bengali",
+  "bondsAndFixedIncome": "Obligations et revenus fixes",
+  "budgetAndPlanning": "Budget et planification",
+  "budgetAndPlanningDescription": "Suivre les dépenses et planifier les objectifs",
+  "cap": "Plafond",
+  "cashAndCashEquivalents": "Liquidités et équivalents",
+  "chooseColorScheme": "Choisir le schéma de couleurs",
+  "chooseLanguage": "Choisir la langue",
+  "closeApplication": "Fermer l'application",
+  "colorAmber": "Ambre",
+  "colorBlue": "Bleu",
+  "colorGreen": "Vert",
+  "colorIndigo": "Indigo",
+  "colorOrange": "Orange",
+  "colorPink": "Rose",
+  "colorPurple": "Violet",
+  "colorRed": "Rouge",
+  "colorTeal": "Sarcelle",
+  "componentConcentration": "Concentration",
+  "componentDebtLoad": "Charge de la dette",
+  "componentFixedIncome": "Revenus fixes",
+  "componentHomeBias": "Biais domestique",
+  "componentLiquidity": "Liquidité",
+  "controlInternationalExposure": "Contrôler l'exposition internationale",
+  "creditLimit": "Limite de crédit",
+  "creditLimitCannotBeLessThanBalance": "La limite de crédit ne peut pas être inférieure au solde actuel",
+  "creditUtilization": "Utilisation du crédit",
+  "dayOfEachMonth": "Jour de chaque mois",
+  "debt": "Dette",
+  "debtsAndLiabilities": "Dettes et passifs",
+  "debtsPlural": "Dettes",
+  "defaultPolicyPenalizeLargeDeviations": "Politique par défaut : pénaliser les grands écarts par rapport aux objectifs",
+  "deleteAccount": "Supprimer le compte",
+  "deletedSuccessfully": "Supprimé avec succès",
+  "deleteIncomeSource": "Supprimer la source de revenus",
+  "discard": "Abandonner",
+  "displayInCurrency": "Afficher en devise",
+  "editIncome": "Modifier les revenus",
+  "editLiability": "Modifier le passif",
+  "english": "Anglais",
+  "enterMinPayment": "Saisir le paiement minimum",
+  "enterMonthlyEssentials": "Saisir les dépenses essentielles mensuelles",
+  "enterTargetPercentage": "Saisir le pourcentage cible",
+  "enterValidAmount": "Saisir un montant valide",
+  "enterValidNumber": "Saisir un nombre valide",
+  "enterValidPayment": "Saisir un paiement valide",
+  "errorDeletingAccount": "Erreur lors de la suppression du compte",
+  "errorLoadingAccounts": "Erreur de chargement des comptes",
+  "errorLoadingLiabilities": "Erreur de chargement des passifs",
+  "excludeInternationalExposure": "Exclure l'exposition internationale",
+  "exit": "Quitter",
+  "exitApp": "Quitter l'application",
+  "filteredFromSnapshot": "Filtré depuis l'instantané",
+  "financialScore": "Score financier",
+  "frequencyAnnual": "Annuel",
+  "frequencyAnnually": "Annuellement",
+  "frequencyBiWeekly": "Bimensuel",
+  "frequencyBiweekly": "Bimensuel",
+  "frequencyDaily": "Quotidien",
+  "frequencyHourly": "Horaire",
+  "frequencyMonthly": "Mensuel",
+  "frequencyQuarterly": "Trimestriel",
+  "frequencySemiMonthly": "Semi-mensuel",
+  "frequencyWeekly": "Hebdomadaire",
+  "goBack": "Retour",
+  "gotIt": "Compris",
+  "help": "Aide",
+  "helpAllocationTargetsText": "Définissez des pourcentages cibles pour chaque classe d'actifs. L'application vous alertera lorsque votre allocation réelle s'éloigne trop de ces objectifs.",
+  "helpAllocationTargetsTitle": "Aide sur les objectifs d'allocation",
+  "helpMonthlyEssentialsText": "Saisissez vos dépenses essentielles mensuelles (loyer, services publics, courses, etc.). Cela aide à calculer votre objectif de fonds d'urgence.",
+  "helpMonthlyEssentialsTitle": "Aide sur les dépenses essentielles mensuelles",
+  "helpRiskProfileText": "Choisissez un profil de risque qui correspond à vos objectifs d'investissement et à votre horizon temporel. Conservateur favorise les obligations et les liquidités, Croissance favorise les actions, Équilibré est entre les deux.",
+  "helpRiskProfileTitle": "Aide sur le profil de risque",
+  "hindi": "Hindi",
+  "howWeProtectData": "Comment nous protégeons vos données",
+  "importAccountsDebtsIncome": "Importer comptes, dettes et revenus",
+  "importAndExport": "Importer et exporter",
+  "importCSV": "Importer CSV",
+  "income1099": "Revenus 1099",
+  "incomeBonus": "Prime",
+  "incomeFreelance": "Freelance",
+  "incomeInvestment": "Investissement",
+  "incomePension": "Pension",
+  "incomeRental": "Locatif",
+  "incomeSalary": "Salaire",
+  "incomeSocialSecurity": "Sécurité sociale",
+  "incomeSourceAdded": "Source de revenus ajoutée",
+  "incomeSourceDeleted": "Source de revenus supprimée",
+  "incomeSourceUpdated": "Source de revenus mise à jour",
+  "incomeW2": "Revenus W-2",
+  "internationalEquity": "Actions internationales",
+  "intlEquity": "Actions intl.",
+  "justNow": "À l'instant",
+  "lastPayment": "Dernier paiement",
+  "legalTermsAndConditions": "Conditions générales d'utilisation",
+  "lessPunitive": "Moins punitif",
+  "liabilityDetails": "Détails du passif",
+  "liabilityName": "Nom du passif",
+  "liabilityNameHint": "ex. : Visa Chase, Prêt étudiant",
+  "liabilitySavedSuccessfully": "Passif enregistré avec succès",
+  "light": "Clair",
+  "minPayment": "Paiement min.",
+  "monthlyEssentialExpenses": "Dépenses essentielles mensuelles",
+  "monthlyEssentialsHelper": "Saisissez vos dépenses essentielles mensuelles",
+  "monthlyEssentialsHelperUSD": "ex. : 3 000 $ pour loyer, services publics, courses",
+  "monthlyInterest": "Intérêts mensuels",
+  "monthlyPaymentDay": "Jour de paiement mensuel",
+  "monthlyPayments": "Paiements mensuels",
+  "net": "Net",
+  "netIncome": "Revenu net",
+  "nextPaymentDueDate": "Date d'échéance du prochain paiement",
+  "noDebtsTracked": "Aucune dette suivie pour l'instant",
+  "noIncomeSourcesYet": "Aucune source de revenus pour l'instant",
+  "noPaymentsRecordedYet": "Aucun paiement enregistré pour l'instant",
+  "offMute": "Désactivé/Silencieux",
+  "optimizePayoffStrategy": "Optimiser la stratégie de remboursement",
+  "paymentHistory": "Historique des paiements",
+  "paymentSchedule": "Calendrier des paiements",
+  "paymentsWillAppearHere": "Les paiements apparaîtront ici",
+  "percentageMustBeBetween": "Le pourcentage doit être compris entre 0 et 100",
+  "persian": "Persan",
+  "french": "Français",
+  "pleaseEnterAPR": "Veuillez saisir le TAP",
+  "pleaseEnterCurrentBalance": "Veuillez saisir le solde actuel",
+  "pleaseEnterLiabilityName": "Veuillez saisir le nom du passif",
+  "pleaseEnterValidAPR": "Veuillez saisir un TAP valide",
+  "pleaseEnterValidCreditLimit": "Veuillez saisir une limite de crédit valide",
+  "privacyPolicy": "Politique de confidentialité",
+  "proFeature": "Fonctionnalité Pro",
+  "proStatus": "Statut Pro",
+  "pts": "pts",
+  "quickStats": "Statistiques rapides",
+  "realEstateREITs": "Immobilier et FPI",
+  "requestLanguage": "Demander une langue",
+  "retry": "Réessayer",
+  "riskBalanced": "Équilibré",
+  "riskBalancedAllocation": "60 % actions, 35 % obligations, 5 % liquidités",
+  "riskBalancedDescription": "Croissance modérée avec une certaine stabilité",
+  "riskConservative": "Conservateur",
+  "riskConservativeAllocation": "30 % actions, 50 % obligations, 20 % liquidités",
+  "riskConservativeDescription": "Privilégier la stabilité et la préservation du capital",
+  "riskGrowth": "Croissance",
+  "riskGrowthAllocation": "80 % actions, 15 % obligations, 5 % liquidités",
+  "riskGrowthDescription": "Maximiser le potentiel de croissance à long terme",
+  "riskProfile": "Profil de risque",
+  "riskProfileDescription": "Sélectionnez votre tolérance au risque d'investissement",
+  "saveChanges": "Enregistrer les modifications",
+  "selectNextPaymentDueDate": "Sélectionner la prochaine date d'échéance",
+  "sendFeedback": "Envoyer un retour",
+  "setTargetsAndThresholds": "Définir les objectifs et les seuils",
+  "settingsSavedSuccessfully": "Paramètres enregistrés avec succès",
+  "shareThoughtsAndSuggestions": "Partagez vos pensées et suggestions",
+  "showAll": "Afficher tout",
+  "source": "Source",
+  "sources": "Sources",
+  "stable": "Stable",
+  "standard": "Standard",
+  "tapToSelectDate": "Appuyer pour sélectionner une date",
+  "targetsAndAlerts": "Objectifs et alertes",
+  "targetsAndAlertsHelp": "Aide sur les objectifs et alertes",
+  "taxRate": "Taux d'imposition",
+  "termsOfService": "Conditions d'utilisation",
+  "testingAsFreeUser": "Test en tant qu'utilisateur gratuit",
+  "testingAsProUser": "Test en tant qu'utilisateur Pro",
+  "timeframe30d": "30j",
+  "totalAllocation": "Allocation totale",
+  "totalDebt": "Dette totale",
+  "totalMonthlyIncome": "Revenu mensuel total",
+  "totalPaid": "Total payé",
+  "totalPayments": "Total des paiements",
+  "trackCreditCardsAndLoans": "Suivre les cartes de crédit et prêts",
+  "trackYourIncomeSources": "Suivre vos sources de revenus",
+  "trackYourNetWorth": "Suivre votre valeur nette",
+  "trend": "Tendance",
+  "unlockAdvancedFeatures": "Débloquer les fonctionnalités avancées",
+  "unsavedChanges": "Modifications non enregistrées",
+  "unsavedChangesMessage": "Vous avez des modifications non enregistrées. Voulez-vous les abandonner ?",
+  "updateAccount": "Mettre à jour le compte",
+  "updateLiability": "Mettre à jour le passif",
+  "used": "Utilisé",
+  "useDarkTheme": "Utiliser le thème sombre",
+  "usEquity": "Actions américaines",
+  "usEquityTarget": "Objectif d'actions américaines",
+  "usEquityTargetHelper": "Pourcentage cible pour les actions américaines",
+  "view": "Voir",
+  "viewAllAccounts": "Voir tous les comptes",
+  "whatTypesOfDebt": "Quels types de dettes pouvez-vous suivre ?",
+  "why": "Pourquoi",
+  "cutConcentration": "Réduire la concentration : {details}",
+  "@cutConcentration": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "errorSavingIncome": "Erreur lors de l'enregistrement des revenus : {error}",
+  "@errorSavingIncome": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteIncomeConfirm": "Êtes-vous sûr de vouloir supprimer {name} ?",
+  "@deleteIncomeConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "errorLoadingSettings": "Erreur de chargement des paramètres : {error}",
+  "@errorLoadingSettings": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToSaveSettings": "Échec de l'enregistrement des paramètres : {error}",
+  "@failedToSaveSettings": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "dayOfMonth": "Jour du mois : {day}",
+  "@dayOfMonth": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "errorLoadingIncome": "Erreur de chargement des revenus : {error}",
+  "@errorLoadingIncome": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorDeletingIncome": "Erreur lors de la suppression des revenus : {error}",
+  "@errorDeletingIncome": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "mixAndDials": "Mix & Dials",
+  "errorLoadingDataWithError": "Erreur de chargement des données : {error}",
+  "@errorLoadingDataWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "errorLoadingDebtData": "Erreur de chargement des données de dette : {error}",
+  "@errorLoadingDebtData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noDataAvailable": "Aucune donnée disponible",
+  "dollarCostAveragingCalculations": "Calculs de moyenne du coût en dollars",
+  "primarySecondaryRebalancingTargets": "Objectifs de rééquilibrage primaires/secondaires",
+  "timelineWithMonitoringAlerts": "Calendrier avec alertes de surveillance",
+  "adjustTargetAllocation": "Ajuster l'allocation cible",
+  "savePlan": "Enregistrer le plan",
+  "previewPdf": "Aperçu PDF",
+  "back": "Retour",
+  "aboutMixAndDials": "À propos de Mix & Dials",
+  "mixAndDialsDescription": "Cet écran fournit une analyse détaillée de votre portefeuille :",
+  "assetAllocationBreakdown": "• Allocation d'actifs - Décomposition visuelle de vos investissements",
+  "diversificationDials": "• Cadrans de diversification - Distribution du risque et géographique",
+  "rebalancingPlansRecommendations": "• Plans de rééquilibrage - Recommandations actionnables",
+  "rebalancingPlanSavedSuccessfully": "Plan de rééquilibrage enregistré avec succès !",
+  "planSaved": "Plan enregistré",
+  "ok": "OK",
+  "pdfPreview": "Aperçu PDF",
+  "close": "Fermer",
+  "pdfExportFeatureComingSoon": "La fonctionnalité d'export PDF arrive bientôt !",
+  "downloadPdf": "Télécharger le PDF",
+  "maybeLater": "Peut-être plus tard",
+  "errorLoadingAccountsWithError": "Erreur de chargement des comptes : {error}",
+  "@errorLoadingAccountsWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "gettingStartedGuide": "Guide de démarrage",
+  "previewWithSampleData": "Aperçu avec des données d'exemple",
+  "archiveAccount": "Archiver le compte",
+  "archived": "archivé",
+  "archive": "Archiver",
+  "loadSampleData": "Charger des données d'exemple",
+  "sampleDataLoaded": "Données d'exemple chargées !",
+  "load": "Charger",
+  "viewAccountsWithUsEquity": "Voir les comptes avec des actions américaines",
+  "learnMore": "En savoir plus",
+  "riskNudgeSnoozed": "Alerte de risque suspendue pendant 30 jours",
+  "riskMarkedAsResolved": "Risque marqué comme résolu",
+  "howWeCalculateThis": "Comment nous calculons cela",
+  "yourFinancialHealthScoreBasedOn": "Votre score de santé financière est basé sur :",
+  "concentrationRiskPercent": "• Risque de concentration (30 %)",
+  "fixedIncomeBalancePercent": "• Équilibre des revenus fixes (25 %)",
+  "liquidityBufferPercent": "• Réserve de liquidité (20 %)",
+  "internationalExposurePercent": "• Exposition internationale (15 %)",
+  "debtManagementPercent": "• Gestion de la dette (10 %)",
+  "addAccounts": "Ajouter des comptes",
+  "addMonthlyEssentials": "Ajouter les dépenses essentielles mensuelles",
+  "noTrendDataAvailable": "Aucune donnée de tendance disponible",
+  "exportPdfReport": "Exporter le rapport PDF",
+  "saveAsSnapshot": "Enregistrer comme instantané",
+  "viewScoreHistory": "Voir l'historique des scores",
+  "compare": "Comparer",
+  "create": "Créer",
+  "saved": "Enregistré",
+  "failedToCreateSnapshot": "Échec de la création de l'instantané : {error}",
+  "@failedToCreateSnapshot": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "snapshotDetail": "Détail de l'instantané",
+  "snapshotNote": "Note de l'instantané",
+  "savedToDownloads": "Enregistré dans Téléchargements/{filename}",
+  "@savedToDownloads": {
+    "placeholders": {
+      "filename": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadFailed": "Téléchargement échoué : {error}",
+  "@downloadFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "isAvailableWithRebalancePro": "{feature} est disponible avec Rebalance Pro.",
+  "@isAvailableWithRebalancePro": {
+    "placeholders": {
+      "feature": {
+        "type": "String"
+      }
+    }
+  },
+  "startCompare": "Commencer la comparaison",
+  "selectThisAsStartingPoint": "Sélectionner ceci comme point de départ pour la comparaison",
+  "deleteSnapshot": "Supprimer l'instantané ?",
+  "failedToDeleteSnapshot": "Échec de la suppression de l'instantané : {error}",
+  "@failedToDeleteSnapshot": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "unlockTaxOptimization": "Débloquer l'optimisation fiscale",
+  "estimatedAnnualTaxSavings": "Économies fiscales annuelles estimées",
+  "potentialSavings": "Économies potentielles : {amount} / an",
+  "@potentialSavings": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "yourAssetsAreAlreadyTaxEfficient": "Vos actifs sont déjà fiscalement optimisés. 👍",
+  "suggestedReallocation": "Réallocation suggérée",
+  "assumptionsAndMethodology": "Hypothèses et méthodologie",
+  "enableNotifications": "Activer les notifications",
+  "getAlertsAboutDrift": "Recevoir des alertes sur le glissement et les opportunités de rééquilibrage",
+  "set": "Définir",
+  "howItWorks": "Comment ça fonctionne",
+  "averageAnnualReturn": "• Rendement annuel moyen : 7 %",
+  "marketVolatility": "• Volatilité du marché : 15 %",
+  "inflationRate": "• Inflation : 3 % par an",
+  "noDebtsToOptimize": "Aucune dette à optimiser !",
+  "addLiabilitiesFromTab": "Ajoutez des passifs depuis l'onglet Passifs pour utiliser cet outil.",
+  "currentDebt": "Dette actuelle",
+  "liabilityCount": "{count} {count, plural, =1{passif} other{passifs}} • minimum {minPayment}/mois",
+  "@liabilityCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "minPayment": {
+        "type": "String"
+      }
+    }
+  },
+  "extraMonthlyPayment": "Paiement mensuel supplémentaire",
+  "totalMonthlyPayment": "Paiement mensuel total : {amount}",
+  "@totalMonthlyPayment": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoffStrategies": "Stratégies de remboursement",
+  "strategyRecommendation": "Nous recommandons l'option avec le moins d'intérêts totaux. Vous pouvez toujours choisir l'autre pour des victoires de motivation.",
+  "avalanche": "Avalanche",
+  "avalancheRecommended": "Avalanche (Recommandé)",
+  "avalancheDescription": "Taux APR le plus élevé en premier – minimise les intérêts totaux",
+  "snowball": "Boule de neige",
+  "snowballRecommended": "Boule de neige (Recommandé)",
+  "snowballDescription": "Solde le plus faible en premier – victoires psychologiques plus rapides",
+  "unlockDetailedPayoffSchedule": "Débloquer le calendrier détaillé de remboursement",
+  "monthByMonthBreakdown": "Obtenez la répartition mois par mois montrant :",
+  "exactPayoffDate": "Date exacte de remboursement pour chaque dette",
+  "principalVsInterest": "Répartition principal vs intérêts",
+  "remainingBalanceTracking": "Suivi du solde restant",
+  "totalInterestSaved": "Total des intérêts économisés : {amount}",
+  "@totalInterestSaved": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "debtPayoffOrder": "Ordre de remboursement des dettes",
+  "debtsWillBePaidInOrder": "Les dettes seront remboursées dans cet ordre (stratégie {strategy}) :",
+  "@debtsWillBePaidInOrder": {
+    "placeholders": {
+      "strategy": {
+        "type": "String"
+      }
+    }
+  },
+  "paidOff": "Remboursé",
+  "payoffTime": "Durée de remboursement",
+  "monthsCount": "{count} mois",
+  "@monthsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalInterest": "Intérêts totaux",
+  "saveVsMinimum": "Économisez {amount} par rapport aux paiements minimums",
+  "@saveVsMinimum": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "detailedPaymentSchedule": "Calendrier de paiement détaillé",
+  "monthByMonthStrategy": "Répartition mois par mois (stratégie {strategy}) :",
+  "@monthByMonthStrategy": {
+    "placeholders": {
+      "strategy": {
+        "type": "String"
+      }
+    }
+  },
+  "monthNumber": "Mois {number}",
+  "@monthNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "principalAndInterest": "{principal} principal • {interest} intérêts",
+  "@principalAndInterest": {
+    "placeholders": {
+      "principal": {
+        "type": "String"
+      },
+      "interest": {
+        "type": "String"
+      }
+    }
+  },
+  "remaining": "Restant : {amount}",
+  "@remaining": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "moreMonths": "... {count} mois de plus",
+  "@moreMonths": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "strategyComparison": "Comparaison des stratégies",
+  "strategySavingsComparison": "{strategy} économise {interestDiff} d'intérêts supplémentaires{monthsInfo} par rapport à l'autre approche.",
+  "@strategySavingsComparison": {
+    "placeholders": {
+      "strategy": {
+        "type": "String"
+      },
+      "interestDiff": {
+        "type": "String"
+      },
+      "monthsInfo": {
+        "type": "String"
+      }
+    }
+  },
+  "andFinishesEarlier": " et se termine {months} mois{plural} plus tôt",
+  "@andFinishesEarlier": {
+    "placeholders": {
+      "months": {
+        "type": "int"
+      },
+      "plural": {
+        "type": "String"
+      }
+    }
+  },
+  "unlockDebtPayoffOptimizer": "Débloquer l'optimiseur de remboursement de dettes",
+  "fastestPathToDebtFreedom": "Trouvez le chemin le plus rapide vers la liberté financière",
+  "compareAvalancheSnowball": "Comparer les stratégies avalanche et boule de neige",
+  "seeExactPayoffDates": "Voir les dates exactes de remboursement pour chaque dette",
+  "calculateInterestSavings": "Calculer les économies totales d'intérêts",
+  "getMonthlySchedule": "Obtenir le calendrier de paiement mois par mois",
+  "best": "MEILLEUR",
+  "selected": "SÉLECTIONNÉ",
+  "selectStrategy": "Sélectionner une stratégie",
+  "typesOfDebtYouCanTrack": "Types de dettes que vous pouvez suivre",
+  "creditCardsDescription": "• Cartes de crédit - Suivre les soldes et l'utilisation du crédit",
+  "mortgagesDescription": "• Hypothèques - Prêts immobiliers et renégociations",
+  "autoLoansDescription": "• Prêts automobiles - Financement de voitures et véhicules",
+  "studentLoansDescription": "• Prêts étudiants - Dette d'études",
+  "personalLoansDescription": "• Prêts personnels - Dette non garantie",
+  "helocDescription": "• HELOC - Lignes de crédit hypothécaires",
+  "businessLoansDescription": "• Prêts professionnels - Dette commerciale",
+  "upgradeForProFeatures": "Passez à Pro pour des plans illimités, des exports PDF et des analyses avancées.",
+  "upgradeForPdfExports": "Passez à Pro pour des exports PDF, des plans illimités et des analyses avancées.",
+  "pdfExportAvailable": "L'export PDF est disponible avec Rebalance Pro.",
+  "pdfExportProMessage": "L'export PDF est disponible avec Rebalance Pro.\n\nPassez à Pro pour des exports PDF, des plans illimités et des analyses avancées.",
+  "taxOptimizationDescription": "Consultez la charge fiscale annuelle estimée et comment la réduire avec un meilleur placement d'actifs.",
+  "potentialSavingsPerYear": "Économies potentielles : {amount} / an",
+  "@potentialSavingsPerYear": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "assetsAlreadyTaxEfficient": "Vos actifs sont déjà fiscalement optimisés. 👍",
+  "estimatedYearlyImpact": "Impact annuel estimé : {amount}",
+  "@estimatedYearlyImpact": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "unlockCustomAlerts": "Débloquer les alertes personnalisées",
+  "alertSettingsSaved": "Paramètres d'alerte enregistrés",
+  "failedToSave": "Échec de l'enregistrement : {error}",
+  "@failedToSave": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "thresholds": "Seuils",
+  "driftThreshold": "Seuil de glissement",
+  "concentrationCap": "Plafond de concentration",
+  "employerStockCap": "Plafond d'actions employeur",
+  "notifications": "Notifications",
+  "enableAlertNotifications": "Activer les notifications d'alerte",
+  "receiveAlertNotificationsDescription": "Recevoir des alertes in-app de type push lorsque les seuils sont dépassés",
+  "dollarImpactPreview": "Aperçu de l'impact financier",
+  "exampleImpact": "Impact exemple",
+  "exampleImpactDescription": "Lorsqu'un seuil est dépassé, les alertes affichent un montant estimé lié à l'exposition excessive pour que les utilisateurs connaissent l'impact financier réel.",
+  "scenarioA": "Scénario A",
+  "scenarioB": "Scénario B",
+  "monthlyContribution": "Contribution mensuelle",
+  "expectedReturn": "Rendement attendu",
+  "volatility": "Volatilité",
+  "years": "Années",
+  "goalAmount": "Montant de l'objectif",
+  "resultsA": "Résultats A",
+  "resultsB": "Résultats B",
+  "successProbability": "Probabilité de succès",
+  "medianEnding": "Fin médiane",
+  "tenthPercentile": "10e percentile",
+  "ninetiethPercentile": "90e percentile",
+  "retirementSimulationDescription": "Ce calculateur exécute 1 000 simulations pour estimer votre probabilité de succès à la retraite.",
+  "yourRetirementPlan": "Votre plan de retraite",
+  "currentSavings": "Épargne actuelle",
+  "yearsUntilRetirement": "Années jusqu'à la retraite",
+  "desiredMonthlyIncome": "Revenu mensuel souhaité",
+  "yearsInRetirement": "Années à la retraite",
+  "outcomeDistribution": "Distribution des résultats",
+  "outcomeLikelihood": "Probabilité des différents résultats",
+  "fail": "Échec",
+  "low": "Faible",
+  "med": "Moyen",
+  "high": "Élevé",
+  "recommendations": "Recommandations",
+  "moveToTaxAdvantaged": "Déplacer {amount} de {asset} vers un compte fiscalement avantageux",
+  "@moveToTaxAdvantaged": {
+    "placeholders": {
+      "amount": {},
+      "asset": {}
+    }
+  },
+  "estimatedAnnualImpact": "Impact annuel estimé",
+  "considerIncreasingContributions": "Envisagez d'augmenter vos contributions mensuelles à {amount} pour améliorer vos chances.",
+  "@considerIncreasingContributions": {
+    "placeholders": {
+      "amount": {}
+    }
+  },
+  "excellentOnTrack": "Excellent ! Votre plan de retraite est sur la bonne voie.",
+  "incomeExceedsSafeWithdrawal": "Votre revenu souhaité ({desired}) dépasse le montant de retrait sûr selon la « règle des 4 % » ({safe}).",
+  "@incomeExceedsSafeWithdrawal": {
+    "placeholders": {
+      "desired": {},
+      "safe": {}
+    }
+  },
+  "timeIsAdvantage": "Avec {years} années jusqu'à la retraite, le temps est votre plus grand avantage. Restez régulier dans vos contributions.",
+  "@timeIsAdvantage": {
+    "placeholders": {
+      "years": {}
+    }
+  },
+  "planReasonable": "Votre plan est raisonnable. Révisez annuellement et ajustez selon l'évolution de votre situation.",
+  "successProbabilityLabel": "Probabilité de succès",
+  "grade": "Note {grade}",
+  "@grade": {
+    "placeholders": {
+      "grade": {}
+    }
+  },
+  "atRetirement": "À la retraite",
+  "medianAfterRetirement": "Médiane après retraite",
+  "bestCase90th": "Meilleur cas (90e)",
+  "simulationsYears": "Simulations : {simulations}\\nAnnées : {years}",
+  "@simulationsYears": {
+    "placeholders": {
+      "simulations": {},
+      "years": {}
+    }
+  },
+  "distributionSortedOutcomes": "Distribution (résultats triés)",
+  "thisWeeksSafeToSpend": "Sécurisé à dépenser cette semaine",
+  "onTrack": "Sur la bonne voie",
+  "daysOfBuffer": "{days} jours de réserve restants",
+  "@daysOfBuffer": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "youllBeShort": "⚠ Vous serez à court de {amount} d'ici le {day} à ce rythme",
+  "@youllBeShort": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "incomeAmount": "Revenus {amount}",
+  "@incomeAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "billsAmount": "Factures {amount}",
+  "@billsAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "tapToSeeGuardrails": "Appuyer pour voir les garde-fous",
+  "moneyHealthScore": "Score de santé financière",
+  "weakestArea": "{area} est votre point le plus faible en ce moment",
+  "@weakestArea": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "neverBrokeWeek": "Ne plus jamais vivre une semaine sans argent.",
+  "answerQuestionsGuardrails": "Répondez à 3 questions rapides et nous vous dirons combien vous pouvez dépenser en toute sécurité cette semaine.",
+  "setupGuardrails": "Configurer mes garde-fous (30 secondes)",
+  "updatedNow": "Mis à jour maintenant",
+  "weeklyGuardrails": "Garde-fous hebdomadaires",
+  "safeToSpendThisWeek": "Sécurisé à dépenser cette semaine",
+  "overBudgetThisWeek": "Hors budget cette semaine",
+  "alreadyOverThisWeek": "Vous êtes déjà {amount} au-dessus cette semaine",
+  "@alreadyOverThisWeek": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "goingNegativeByDay": "Vous êtes en passe de passer en négatif d'ici {day}",
+  "@goingNegativeByDay": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "willBeShortByFriday": "Vous serez à court de {amount} d'ici vendredi",
+  "@willBeShortByFriday": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "bufferUntilNext": "Réserve jusqu'au prochain {day}",
+  "@bufferUntilNext": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "bufferUntil": "Réserve jusqu'au {day}",
+  "@bufferUntil": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "warningZoneToast": "Vous êtes dans la zone d'avertissement cette semaine. Appuyez sur la carte pour voir ce qui se passe si vous dépensez davantage.",
+  "monday": "Lundi",
+  "tuesday": "Mardi",
+  "wednesday": "Mercredi",
+  "thursday": "Jeudi",
+  "friday": "Vendredi",
+  "saturday": "Samedi",
+  "sunday": "Dimanche",
+  "buffer": "réserve",
+  "bufferUntilDay": "Si vous continuez à dépenser comme la semaine dernière, vous avez une réserve jusqu'au {day}",
+  "@bufferUntilDay": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "whatIfYouSpendMore": "Et si vous dépensez plus ?",
+  "additionalSpending": "Dépenses supplémentaires",
+  "ifYouSpendMore": "Si vous dépensez +{amount} de plus cette semaine → vous serez à court de {shortage} le {date}",
+  "@ifYouSpendMore": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "shortage": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "stillOnTrack": "Toujours sur la bonne voie avec {buffer} de réserve",
+  "@stillOnTrack": {
+    "placeholders": {
+      "buffer": {
+        "type": "String"
+      }
+    }
+  },
+  "weeklyIncome": "Revenu hebdomadaire",
+  "weeklyBills": "Factures hebdomadaires",
+  "bufferDiscretionary": "Réserve / Discrétionnaire",
+  "adjustIncome": "Ajuster les revenus",
+  "editBills": "Modifier les factures",
+  "neverGuessAgain": "Ne jamais deviner à nouveau",
+  "autoAlertsProUpsell": "Recevez des alertes automatiques lorsque vous êtes sur le point de dépasser votre sécurité de dépense pour la semaine. Sachez-le avant de le dépasser.",
+  "expenses": "Dépenses",
+  "monthlyExpenses": "Dépenses mensuelles",
+  "noExpensesTracked": "Aucune dépense suivie",
+  "trackMonthlyBills": "Suivez vos factures mensuelles régulières comme le loyer, les services publics, les assurances et les abonnements",
+  "addYourFirstExpense": "Ajouter votre première dépense",
+  "addExpense": "Ajouter une dépense",
+  "totalMonthlyExpenses": "Total des dépenses mensuelles",
+  "perWeekFull": "/semaine",
+  "perWeekShort": "/sem.",
+  "dueOnDay": "Échéance le jour {day}",
+  "profileSetup": "Configuration du profil",
+  "percentComplete": "{percentage}% complété",
+  "completeProfileInsights": "Complétez votre profil pour de meilleures informations"
+}

@@ -1501,6 +1501,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get persian => 'Persian';
 
   @override
+  String get french => 'French';
+
+  @override
   String get pleaseEnterAPR => 'Please enter APR';
 
   @override
@@ -2563,4 +2566,49 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get autoAlertsProUpsell =>
       'Get automatic alerts when you\'re about to go over your safe-to-spend for the week. Know before you blow it.';
+
+  @override
+  String get expenses => 'Expenses';
+
+  @override
+  String get monthlyExpenses => 'Monthly Expenses';
+
+  @override
+  String get noExpensesTracked => 'No Expenses Tracked';
+
+  @override
+  String get trackMonthlyBills =>
+      'Track your regular monthly bills like rent, utilities, insurance, and subscriptions';
+
+  @override
+  String get addYourFirstExpense => 'Add Your First Expense';
+
+  @override
+  String get addExpense => 'Add Expense';
+
+  @override
+  String get totalMonthlyExpenses => 'Total Monthly Expenses';
+
+  @override
+  String get perWeekFull => '/week';
+
+  @override
+  String get perWeekShort => '/wk';
+
+  @override
+  String dueOnDay(String day) {
+    return 'Due on day $day';
+  }
+
+  @override
+  String get profileSetup => 'Profile Setup';
+
+  @override
+  String percentComplete(int percentage) {
+    return '$percentage% complete';
+  }
+
+  @override
+  String get completeProfileInsights =>
+      'Complete your profile for better insights';
 }

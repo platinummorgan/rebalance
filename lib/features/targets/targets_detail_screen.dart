@@ -35,7 +35,7 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
 
   // Expense line items for breakdown
   final List<Map<String, dynamic>> _expenseItems = [];
-  bool _showExpenseBreakdown = false;
+  final bool _showExpenseBreakdown = false;
 
   @override
   void initState() {
@@ -403,10 +403,12 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
                               0;
                       final weeklyAmount = currentMonthly / 4.33;
                       final weeklyFormatted = CurrencyFormatter.format(
-                          weeklyAmount, settings.currency);
+                        weeklyAmount,
+                        settings.currency,
+                      );
 
                       final helperText = currentMonthly > 0
-                          ? 'Rent, utilities, groceries, insurance, etc. (${weeklyFormatted}/week for Weekly Guardrails)'
+                          ? 'Rent, utilities, groceries, insurance, etc. ($weeklyFormatted/week for Weekly Guardrails)'
                           : (settings.currency != 'USD'
                               ? loc.monthlyEssentialsHelperUSD
                               : loc.monthlyEssentialsHelper);

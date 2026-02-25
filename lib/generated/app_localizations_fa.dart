@@ -1501,6 +1501,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get persian => 'فارسی';
 
   @override
+  String get french => 'فرانسوی';
+
+  @override
   String get pleaseEnterAPR => 'لطفاً APR را وارد کنید';
 
   @override
@@ -2565,4 +2568,49 @@ class AppLocalizationsFa extends AppLocalizations {
   @override
   String get autoAlertsProUpsell =>
       'هشدارهای خودکار دریافت کنید وقتی در آستانه تجاوز از مبلغ امن خرج هفتگی خود هستید. قبل از اشتباه بدانید.';
+
+  @override
+  String get expenses => 'هزینه‌ها';
+
+  @override
+  String get monthlyExpenses => 'هزینه‌های ماهانه';
+
+  @override
+  String get noExpensesTracked => 'هیچ هزینه‌ای ثبت نشده';
+
+  @override
+  String get trackMonthlyBills =>
+      'قبض‌های ماهانه منظم خود مانند اجاره، آب و برق، بیمه و اشتراک‌ها را پیگیری کنید';
+
+  @override
+  String get addYourFirstExpense => 'اولین هزینه خود را اضافه کنید';
+
+  @override
+  String get addExpense => 'افزودن هزینه';
+
+  @override
+  String get totalMonthlyExpenses => 'جمع هزینه‌های ماهانه';
+
+  @override
+  String get perWeekFull => '/هفته';
+
+  @override
+  String get perWeekShort => '/هفته';
+
+  @override
+  String dueOnDay(String day) {
+    return 'سررسید روز $day';
+  }
+
+  @override
+  String get profileSetup => 'تنظیم پروفایل';
+
+  @override
+  String percentComplete(int percentage) {
+    return '$percentage% کامل';
+  }
+
+  @override
+  String get completeProfileInsights =>
+      'پروفایل خود را برای بینش‌های بهتر تکمیل کنید';
 }

@@ -1503,6 +1503,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get persian => 'फ़ारसी';
 
   @override
+  String get french => 'फ्रेंच';
+
+  @override
   String get pleaseEnterAPR => 'कृपया APR दर्ज करें';
 
   @override
@@ -2564,4 +2567,49 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get autoAlertsProUpsell =>
       'जब आप इस सप्ताह के लिए अपनी सुरक्षित खर्च सीमा पार करने वाले हों तो स्वचालित अलर्ट प्राप्त करें। गलती करने से पहले जानें।';
+
+  @override
+  String get expenses => 'खर्च';
+
+  @override
+  String get monthlyExpenses => 'मासिक खर्च';
+
+  @override
+  String get noExpensesTracked => 'कोई खर्च ट्रैक नहीं किया गया';
+
+  @override
+  String get trackMonthlyBills =>
+      'किराया, सेवाएं, बीमा और सदस्यता जैसे नियमित मासिक बिल ट्रैक करें';
+
+  @override
+  String get addYourFirstExpense => 'अपना पहला खर्च जोड़ें';
+
+  @override
+  String get addExpense => 'खर्च जोड़ें';
+
+  @override
+  String get totalMonthlyExpenses => 'कुल मासिक खर्च';
+
+  @override
+  String get perWeekFull => '/सप्ताह';
+
+  @override
+  String get perWeekShort => '/सप्त';
+
+  @override
+  String dueOnDay(String day) {
+    return 'दिन $day को देय';
+  }
+
+  @override
+  String get profileSetup => 'प्रोफ़ाइल सेटअप';
+
+  @override
+  String percentComplete(int percentage) {
+    return '$percentage% पूर्ण';
+  }
+
+  @override
+  String get completeProfileInsights =>
+      'बेहतर जानकारी के लिए अपना प्रोफ़ाइल पूरा करें';
 }

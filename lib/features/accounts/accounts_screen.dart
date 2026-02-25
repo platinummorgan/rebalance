@@ -355,45 +355,43 @@ class AccountsScreen extends ConsumerWidget {
                         ),
                         subtitle: Padding(
                           padding: const EdgeInsets.only(top: 8),
-                          child: Row(
+                          child: Wrap(
+                            spacing: 8,
+                            runSpacing: 4,
                             children: [
-                              Flexible(
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 4,
-                                  ),
-                                  decoration: BoxDecoration(
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: _getAccountKindColor(
+                                    context,
+                                    account.kind,
+                                  ).withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
                                     color: _getAccountKindColor(
                                       context,
                                       account.kind,
-                                    ).withValues(alpha: 0.1),
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                      color: _getAccountKindColor(
-                                        context,
-                                        account.kind,
-                                      ).withValues(alpha: 0.3),
-                                    ),
+                                    ).withValues(alpha: 0.3),
                                   ),
-                                  child: Text(
-                                    _getAccountTypeDisplayName(
+                                ),
+                                child: Text(
+                                  _getAccountTypeDisplayName(
+                                    context,
+                                    account.kind,
+                                  ),
+                                  style: TextStyle(
+                                    color: _getAccountKindColor(
                                       context,
                                       account.kind,
                                     ),
-                                    style: TextStyle(
-                                      color: _getAccountKindColor(
-                                        context,
-                                        account.kind,
-                                      ),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
                               Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 8,

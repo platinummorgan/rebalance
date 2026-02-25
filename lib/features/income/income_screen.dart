@@ -305,42 +305,40 @@ class IncomeScreen extends ConsumerWidget {
               ),
               subtitle: Padding(
                 padding: const EdgeInsets.only(top: 8),
-                child: Row(
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
                   children: [
-                    Flexible(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: _getIncomeKindColor(
+                          context,
+                          income.kind,
+                        ).withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
                           color: _getIncomeKindColor(
                             context,
                             income.kind,
-                          ).withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: _getIncomeKindColor(
-                              context,
-                              income.kind,
-                            ).withValues(alpha: 0.3),
-                          ),
+                          ).withValues(alpha: 0.3),
                         ),
-                        child: Text(
-                          _getIncomeTypeDisplayName(context, income.kind),
-                          style: TextStyle(
-                            color: _getIncomeKindColor(
-                              context,
-                              income.kind,
-                            ),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
+                      ),
+                      child: Text(
+                        _getIncomeTypeDisplayName(context, income.kind),
+                        style: TextStyle(
+                          color: _getIncomeKindColor(
+                            context,
+                            income.kind,
                           ),
-                          overflow: TextOverflow.ellipsis,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 8,

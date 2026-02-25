@@ -18,7 +18,7 @@ class ExpensesScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Monthly Expenses'), // TODO: localize
+        title: Text(loc.monthlyExpenses),
       ),
       body: expensesAsync.when(
         loading: () => const Center(
@@ -52,13 +52,14 @@ class ExpensesScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/expenses/add'),
-        tooltip: 'Add Expense', // TODO: localize
+        tooltip: loc.addExpense,
         child: const Icon(Icons.add),
       ),
     );
   }
 
   Widget _buildEmptyState(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(32),
       child: Column(
@@ -78,7 +79,7 @@ class ExpensesScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 32),
           Text(
-            'No Expenses Tracked', // TODO: localize
+            loc.noExpensesTracked,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -86,7 +87,7 @@ class ExpensesScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Track your regular monthly bills like rent, utilities, insurance, and subscriptions', // TODO: localize
+            loc.trackMonthlyBills,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
@@ -96,7 +97,7 @@ class ExpensesScreen extends ConsumerWidget {
           FilledButton.icon(
             onPressed: () => context.push('/expenses/add'),
             icon: const Icon(Icons.add_circle_outline),
-            label: const Text('Add Your First Expense'), // TODO: localize
+            label: Text(loc.addYourFirstExpense),
             style: FilledButton.styleFrom(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
             ),
@@ -112,6 +113,7 @@ class ExpensesScreen extends ConsumerWidget {
     List<MonthlyExpense> expenses,
     Settings settings,
   ) {
+    final loc = AppLocalizations.of(context)!;
     final totalMonthly = expenses.fold<double>(
       0.0,
       (sum, expense) => sum + expense.amount,
@@ -138,7 +140,7 @@ class ExpensesScreen extends ConsumerWidget {
           child: Column(
             children: [
               Text(
-                'Total Monthly Expenses', // TODO: localize
+                loc.totalMonthlyExpenses,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onPrimaryContainer,
                   fontSize: 14,
@@ -156,7 +158,7 @@ class ExpensesScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                '${CurrencyFormatter.format(weeklyTotal, settings.currency)}/week', // TODO: localize
+                '${CurrencyFormatter.format(weeklyTotal, settings.currency)}${loc.perWeekFull}',
                 style: TextStyle(
                   color: Theme.of(context)
                       .colorScheme
@@ -189,6 +191,7 @@ class ExpensesScreen extends ConsumerWidget {
     MonthlyExpense expense,
     Settings settings,
   ) {
+    final loc = AppLocalizations.of(context)!;
     final iconData = _getIconForCategory(expense.category);
     final weeklyAmount = expense.amount / 4.33;
 
@@ -211,7 +214,7 @@ class ExpensesScreen extends ConsumerWidget {
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         subtitle: expense.dueDay != null
-            ? Text('Due on day ${expense.dueDay}') // TODO: localize
+            ? Text(loc.dueOnDay(expense.dueDay.toString()))
             : null,
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -226,7 +229,7 @@ class ExpensesScreen extends ConsumerWidget {
               ),
             ),
             Text(
-              '${CurrencyFormatter.format(weeklyAmount, settings.currency)}/wk', // TODO: localize
+              '${CurrencyFormatter.format(weeklyAmount, settings.currency)}${loc.perWeekShort}',
               style: TextStyle(
                 fontSize: 11,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,

@@ -483,6 +483,7 @@
   "paymentsWillAppearHere": "پرداخت‌ها اینجا نمایش داده می‌شوند",
   "percentageMustBeBetween": "درصد باید بین 0 و 100 باشد",
   "persian": "فارسی",
+  "french": "فرانسوی",
   "pleaseEnterAPR": "لطفاً APR را وارد کنید",
   "pleaseEnterCurrentBalance": "لطفاً موجودی فعلی را وارد کنید",
   "pleaseEnterLiabilityName": "لطفاً نام بدهی را وارد کنید",
@@ -1014,5 +1015,18 @@
   "adjustIncome": "تنظیم درآمد",
   "editBills": "ویرایش قبوض",
   "neverGuessAgain": "دیگر حدس نزنید",
-  "autoAlertsProUpsell": "هشدارهای خودکار دریافت کنید وقتی در آستانه تجاوز از مبلغ امن خرج هفتگی خود هستید. قبل از اشتباه بدانید."
+  "autoAlertsProUpsell": "هشدارهای خودکار دریافت کنید وقتی در آستانه تجاوز از مبلغ امن خرج هفتگی خود هستید. قبل از اشتباه بدانید.",
+  "expenses": "هزینه‌ها",
+  "monthlyExpenses": "هزینه‌های ماهانه",
+  "noExpensesTracked": "هیچ هزینه‌ای ثبت نشده",
+  "trackMonthlyBills": "قبض‌های ماهانه منظم خود مانند اجاره، آب و برق، بیمه و اشتراک‌ها را پیگیری کنید",
+  "addYourFirstExpense": "اولین هزینه خود را اضافه کنید",
+  "addExpense": "افزودن هزینه",
+  "totalMonthlyExpenses": "جمع هزینه‌های ماهانه",
+  "perWeekFull": "/هفته",
+  "perWeekShort": "/هفته",
+  "dueOnDay": "سررسید روز {day}",
+  "profileSetup": "تنظیم پروفایل",
+  "percentComplete": "{percentage}% کامل",
+  "completeProfileInsights": "پروفایل خود را برای بینش‌های بهتر تکمیل کنید"
 }

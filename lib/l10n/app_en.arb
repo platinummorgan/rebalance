@@ -495,6 +495,7 @@
   "paymentsWillAppearHere": "Payments will appear here",
   "percentageMustBeBetween": "Percentage must be between 0 and 100",
   "persian": "Persian",
+  "french": "French",
   "pleaseEnterAPR": "Please enter APR",
   "pleaseEnterCurrentBalance": "Please enter current balance",
   "pleaseEnterLiabilityName": "Please enter liability name",
@@ -1181,5 +1182,32 @@
   "adjustIncome": "Adjust income",
   "editBills": "Edit bills",
   "neverGuessAgain": "Never guess again",
-  "autoAlertsProUpsell": "Get automatic alerts when you're about to go over your safe-to-spend for the week. Know before you blow it."
+  "autoAlertsProUpsell": "Get automatic alerts when you're about to go over your safe-to-spend for the week. Know before you blow it.",
+  "expenses": "Expenses",
+  "monthlyExpenses": "Monthly Expenses",
+  "noExpensesTracked": "No Expenses Tracked",
+  "trackMonthlyBills": "Track your regular monthly bills like rent, utilities, insurance, and subscriptions",
+  "addYourFirstExpense": "Add Your First Expense",
+  "addExpense": "Add Expense",
+  "totalMonthlyExpenses": "Total Monthly Expenses",
+  "perWeekFull": "/week",
+  "perWeekShort": "/wk",
+  "dueOnDay": "Due on day {day}",
+  "@dueOnDay": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "profileSetup": "Profile Setup",
+  "percentComplete": "{percentage}% complete",
+  "@percentComplete": {
+    "placeholders": {
+      "percentage": {
+        "type": "int"
+      }
+    }
+  },
+  "completeProfileInsights": "Complete your profile for better insights"
 }

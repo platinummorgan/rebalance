@@ -323,6 +323,19 @@ class TargetsScreen extends ConsumerWidget {
                           ),
                         ),
                         DropdownMenuItem(
+                          value: 'fr',
+                          child: Row(
+                            children: [
+                              const Text(
+                                '🇫🇷',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              const SizedBox(width: 12),
+                              Text(AppLocalizations.of(context)!.french),
+                            ],
+                          ),
+                        ),
+                        DropdownMenuItem(
                           value: 'request',
                           child: Row(
                             children: [

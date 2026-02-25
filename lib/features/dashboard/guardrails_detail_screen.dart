@@ -64,7 +64,12 @@ class _GuardrailsDetailScreenState
                   );
 
                   return _buildContent(
-                      context, loc, theme, weeklyData, settings);
+                    context,
+                    loc,
+                    theme,
+                    weeklyData,
+                    settings,
+                  );
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (e, st) => Center(child: Text('Error: $e')),

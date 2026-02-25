@@ -38,7 +38,7 @@ class _ExpenseDetailScreenState extends ConsumerState<ExpenseDetailScreen> {
     {
       'value': 'subscription',
       'label': 'Subscriptions',
-      'icon': Icons.subscriptions
+      'icon': Icons.subscriptions,
     },
     {'value': 'other', 'label': 'Other', 'icon': Icons.receipt_long},
   ];
@@ -126,10 +126,10 @@ class _ExpenseDetailScreenState extends ConsumerState<ExpenseDetailScreen> {
             // Name field
             TextFormField(
               controller: _nameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Expense Name', // TODO: localize
                 hintText: 'e.g., Electric Bill, Internet', // TODO: localize
-                prefixIcon: const Icon(Icons.label),
+                prefixIcon: Icon(Icons.label),
               ),
               textCapitalization: TextCapitalization.words,
               validator: (value) {
@@ -145,10 +145,10 @@ class _ExpenseDetailScreenState extends ConsumerState<ExpenseDetailScreen> {
             // Amount field
             TextFormField(
               controller: _amountController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Monthly Amount', // TODO: localize
                 hintText: '150', // TODO: localize
-                prefixIcon: const Icon(Icons.attach_money),
+                prefixIcon: Icon(Icons.attach_money),
               ),
               keyboardType: TextInputType.number,
               inputFormatters: [
@@ -171,7 +171,7 @@ class _ExpenseDetailScreenState extends ConsumerState<ExpenseDetailScreen> {
 
             // Category selector
             DropdownButtonFormField<String>(
-              value: _selectedCategory,
+              initialValue: _selectedCategory,
               decoration: const InputDecoration(
                 labelText: 'Category', // TODO: localize
                 prefixIcon: Icon(Icons.category),
@@ -200,10 +200,10 @@ class _ExpenseDetailScreenState extends ConsumerState<ExpenseDetailScreen> {
             // Due day (optional)
             TextFormField(
               controller: _dueDayController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Due Day (Optional)', // TODO: localize
                 hintText: 'e.g., 15 for 15th of month', // TODO: localize
-                prefixIcon: const Icon(Icons.calendar_today),
+                prefixIcon: Icon(Icons.calendar_today),
               ),
               keyboardType: TextInputType.number,
               inputFormatters: [
@@ -232,9 +232,9 @@ class _ExpenseDetailScreenState extends ConsumerState<ExpenseDetailScreen> {
                       width: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : Text(isEditing
-                      ? loc.saveChanges
-                      : 'Add Expense'), // TODO: localize
+                  : Text(
+                      isEditing ? loc.saveChanges : 'Add Expense',
+                    ), // TODO: localize
             ),
           ],
         ),
@@ -316,9 +316,10 @@ class _ExpenseDetailScreenState extends ConsumerState<ExpenseDetailScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Delete Expense?'), // TODO: localize
-        content: Text(
-            'Are you sure you want to delete this expense?'), // TODO: localize
+        title: const Text('Delete Expense?'), // TODO: localize
+        content: const Text(
+          'Are you sure you want to delete this expense?',
+        ), // TODO: localize
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
@@ -343,7 +344,7 @@ class _ExpenseDetailScreenState extends ConsumerState<ExpenseDetailScreen> {
         if (mounted) {
           context.pop();
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Expense deleted')), // TODO: localize
+            const SnackBar(content: Text('Expense deleted')), // TODO: localize
           );
         }
       } catch (e) {

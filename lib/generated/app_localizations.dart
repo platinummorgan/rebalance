@@ -9,6 +9,7 @@ import 'app_localizations_ar.dart';
 import 'app_localizations_bn.dart';
 import 'app_localizations_en.dart';
 import 'app_localizations_fa.dart';
+import 'app_localizations_fr.dart';
 import 'app_localizations_hi.dart';
 
 // ignore_for_file: type=lint
@@ -101,6 +102,7 @@ abstract class AppLocalizations {
     Locale('bn'),
     Locale('en'),
     Locale('fa'),
+    Locale('fr'),
     Locale('hi')
   ];
 
@@ -2960,6 +2962,12 @@ abstract class AppLocalizations {
   /// **'Persian'**
   String get persian;
 
+  /// No description provided for @french.
+  ///
+  /// In en, this message translates to:
+  /// **'French'**
+  String get french;
+
   /// No description provided for @pleaseEnterAPR.
   ///
   /// In en, this message translates to:
@@ -4796,6 +4804,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Get automatic alerts when you\'re about to go over your safe-to-spend for the week. Know before you blow it.'**
   String get autoAlertsProUpsell;
+
+  /// No description provided for @expenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get expenses;
+
+  /// No description provided for @monthlyExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Expenses'**
+  String get monthlyExpenses;
+
+  /// No description provided for @noExpensesTracked.
+  ///
+  /// In en, this message translates to:
+  /// **'No Expenses Tracked'**
+  String get noExpensesTracked;
+
+  /// No description provided for @trackMonthlyBills.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your regular monthly bills like rent, utilities, insurance, and subscriptions'**
+  String get trackMonthlyBills;
+
+  /// No description provided for @addYourFirstExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Your First Expense'**
+  String get addYourFirstExpense;
+
+  /// No description provided for @addExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Expense'**
+  String get addExpense;
+
+  /// No description provided for @totalMonthlyExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Monthly Expenses'**
+  String get totalMonthlyExpenses;
+
+  /// No description provided for @perWeekFull.
+  ///
+  /// In en, this message translates to:
+  /// **'/week'**
+  String get perWeekFull;
+
+  /// No description provided for @perWeekShort.
+  ///
+  /// In en, this message translates to:
+  /// **'/wk'**
+  String get perWeekShort;
+
+  /// No description provided for @dueOnDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Due on day {day}'**
+  String dueOnDay(String day);
+
+  /// No description provided for @profileSetup.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Setup'**
+  String get profileSetup;
+
+  /// No description provided for @percentComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'{percentage}% complete'**
+  String percentComplete(int percentage);
+
+  /// No description provided for @completeProfileInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile for better insights'**
+  String get completeProfileInsights;
 }
 
 class _AppLocalizationsDelegate
@@ -4808,8 +4894,14 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['ar', 'bn', 'en', 'fa', 'hi'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>[
+        'ar',
+        'bn',
+        'en',
+        'fa',
+        'fr',
+        'hi'
+      ].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -4826,6 +4918,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsEn();
     case 'fa':
       return AppLocalizationsFa();
+    case 'fr':
+      return AppLocalizationsFr();
     case 'hi':
       return AppLocalizationsHi();
   }

@@ -483,6 +483,7 @@
   "paymentsWillAppearHere": "ستظهر المدفوعات هنا",
   "percentageMustBeBetween": "يجب أن تكون النسبة بين 0 و 100",
   "persian": "الفارسية",
+  "french": "الفرنسية",
   "pleaseEnterAPR": "الرجاء إدخال APR",
   "pleaseEnterCurrentBalance": "الرجاء إدخال الرصيد الحالي",
   "pleaseEnterLiabilityName": "الرجاء إدخال اسم الالتزام",
@@ -1014,5 +1015,18 @@
   "adjustIncome": "تعديل الدخل",
   "editBills": "تعديل الفواتير",
   "neverGuessAgain": "لا مزيد من التخمين",
-  "autoAlertsProUpsell": "احصل على تنبيهات تلقائية عندما تكون على وشك تجاوز مبلغك الآمن للإنفاق هذا الأسبوع. اعرف قبل أن تفشل."
+  "autoAlertsProUpsell": "احصل على تنبيهات تلقائية عندما تكون على وشك تجاوز مبلغك الآمن للإنفاق هذا الأسبوع. اعرف قبل أن تفشل.",
+  "expenses": "المصروفات",
+  "monthlyExpenses": "المصروفات الشهرية",
+  "noExpensesTracked": "لا توجد مصروفات متتبعة",
+  "trackMonthlyBills": "تتبع فواتيرك الشهرية المنتظمة كالإيجار والمرافق والتأمين والاشتراكات",
+  "addYourFirstExpense": "أضف أول مصروف",
+  "addExpense": "إضافة مصروف",
+  "totalMonthlyExpenses": "إجمالي المصروفات الشهرية",
+  "perWeekFull": "/أسبوع",
+  "perWeekShort": "/أسبوع",
+  "dueOnDay": "مستحق في اليوم {day}",
+  "profileSetup": "إعداد الملف الشخصي",
+  "percentComplete": "{percentage}% مكتمل",
+  "completeProfileInsights": "أكمل ملفك الشخصي للحصول على رؤى أفضل"
 }
