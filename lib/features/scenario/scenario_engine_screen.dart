@@ -178,11 +178,106 @@ final scenarioComparisonDeltasProvider = Provider<_ComparisonDeltas?>((ref) {
   );
 });
 
-class ScenarioEngineScreen extends ConsumerWidget {
-  const ScenarioEngineScreen({super.key});
+class ScenarioEngineScreen extends ConsumerStatefulWidget {
+  final String? preset;
+  final double? presetExpectedReturn;
+  final double? presetVolatility;
+  final int? presetYears;
+  final double? presetGoalAmount;
+  final double? presetMonthlyContribution;
+  final String? presetSource;
+
+  const ScenarioEngineScreen({
+    super.key,
+    this.preset,
+    this.presetExpectedReturn,
+    this.presetVolatility,
+    this.presetYears,
+    this.presetGoalAmount,
+    this.presetMonthlyContribution,
+    this.presetSource,
+  });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ScenarioEngineScreen> createState() =>
+      _ScenarioEngineScreenState();
+}
+
+class _ScenarioEngineScreenState extends ConsumerState<ScenarioEngineScreen> {
+  bool _appliedPreset = false;
+  String? _presetBanner;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _applyRoutePresetIfNeeded();
+    });
+  }
+
+  void _applyRoutePresetIfNeeded() {
+    if (_appliedPreset) return;
+    final hasExplicitPreset = widget.preset != null ||
+        widget.presetExpectedReturn != null ||
+        widget.presetVolatility != null ||
+        widget.presetYears != null ||
+        widget.presetGoalAmount != null ||
+        widget.presetMonthlyContribution != null;
+    if (!hasExplicitPreset) return;
+
+    final defaults = ref.read(_defaultScenarioInputsProvider);
+    var updated = defaults;
+
+    if (widget.preset == 'shock20') {
+      updated = updated.copyWith(
+        expectedReturn: -0.20,
+        volatility: 0.30,
+        years: 1,
+      );
+      _presetBanner = 'Shock preset loaded: -20% month stress profile';
+    }
+
+    final expectedReturn = widget.presetExpectedReturn;
+    if (expectedReturn != null &&
+        expectedReturn.isFinite &&
+        expectedReturn > -1.0 &&
+        expectedReturn <= 1.0) {
+      updated = updated.copyWith(expectedReturn: expectedReturn);
+    }
+
+    final volatility = widget.presetVolatility;
+    if (volatility != null && volatility.isFinite && volatility >= 0) {
+      updated = updated.copyWith(volatility: volatility.clamp(0.01, 1.0));
+    }
+
+    final years = widget.presetYears;
+    if (years != null && years > 0) {
+      updated = updated.copyWith(years: years.clamp(1, 50));
+    }
+
+    final goalAmount = widget.presetGoalAmount;
+    if (goalAmount != null && goalAmount.isFinite && goalAmount > 0) {
+      updated = updated.copyWith(goalAmount: goalAmount);
+    }
+
+    final monthlyContribution = widget.presetMonthlyContribution;
+    if (monthlyContribution != null &&
+        monthlyContribution.isFinite &&
+        monthlyContribution >= 0) {
+      updated = updated.copyWith(
+        monthlyContribution: monthlyContribution.roundToDouble(),
+      );
+    }
+
+    ref.read(_scenarioInputsProvider.notifier).state = updated;
+
+    _presetBanner ??= 'Scenario preset loaded from Command Center';
+    _appliedPreset = true;
+    if (mounted) setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final settingsAsync = ref.watch(settingsProvider);
 
     return settingsAsync.when(
@@ -208,7 +303,10 @@ class ScenarioEngineScreen extends ConsumerWidget {
               ),
             ],
           ),
-          body: const _ScenarioBody(),
+          body: _ScenarioBody(
+            presetBanner:
+                widget.presetSource == 'command_center' ? _presetBanner : null,
+          ),
         );
       },
     );
@@ -248,7 +346,11 @@ class ScenarioEngineScreen extends ConsumerWidget {
 }
 
 class _ScenarioBody extends ConsumerWidget {
-  const _ScenarioBody();
+  final String? presetBanner;
+
+  const _ScenarioBody({
+    this.presetBanner,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -266,6 +368,46 @@ class _ScenarioBody extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if (presetBanner != null && presetBanner!.isNotEmpty) ...[
+                Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primaryContainer
+                        .withValues(alpha: 0.45),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withValues(alpha: 0.35),
+                    ),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.auto_graph_rounded,
+                        color: Theme.of(context).colorScheme.primary,
+                        size: 18,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          presetBanner!,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
               Wrap(
                 spacing: 16,
                 runSpacing: 16,

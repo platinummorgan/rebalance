@@ -5,12 +5,24 @@ import 'package:intl/intl.dart';
 import '../../data/models.dart';
 import '../../app.dart';
 import '../../widgets/currency_text.dart';
+import '../../utils/currency_formatter.dart';
 import '../pro/pro_screen.dart';
 import '../../generated/app_localizations.dart';
 
 /// Interactive Pro-only rebalancing plan builder with customization and tracking
 class RebalancingPlanScreen extends ConsumerStatefulWidget {
-  const RebalancingPlanScreen({super.key});
+  final String? initialStrategy;
+  final int? initialGlideMonths;
+  final double? suggestedMoveAmount;
+  final String? presetSource;
+
+  const RebalancingPlanScreen({
+    super.key,
+    this.initialStrategy,
+    this.initialGlideMonths,
+    this.suggestedMoveAmount,
+    this.presetSource,
+  });
 
   @override
   ConsumerState<RebalancingPlanScreen> createState() =>
@@ -24,6 +36,20 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
 
   // Execution tracking
   final Map<int, bool> _monthlyChecklist = {};
+
+  @override
+  void initState() {
+    super.initState();
+    final strategy = widget.initialStrategy;
+    if (strategy == 'dollar-cost' || strategy == 'immediate') {
+      _strategy = strategy!;
+    }
+
+    final glide = widget.initialGlideMonths;
+    if (glide != null && (glide == 3 || glide == 6 || glide == 12)) {
+      _glideLengthMonths = glide;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,6 +264,44 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (widget.presetSource == 'command_center' &&
+              widget.suggestedMoveAmount != null)
+            Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Theme.of(context)
+                    .colorScheme
+                    .primaryContainer
+                    .withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color:
+                      Theme.of(context).colorScheme.primary.withValues(alpha: 0.35),
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.tune_rounded,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 18,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Command Center context: move about ${CurrencyFormatter.format(widget.suggestedMoveAmount!, settings.currency)} toward target allocation.',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           // Header Card
           Card(
             child: Padding(
@@ -436,121 +500,123 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
             ),
             const SizedBox(height: 16),
 
-            // Dollar-Cost Averaging Option
-            InkWell(
-              onTap: () => setState(() => _strategy = 'dollar-cost'),
-              borderRadius: BorderRadius.circular(12),
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: _strategy == 'dollar-cost'
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.outline,
-                    width: _strategy == 'dollar-cost' ? 2 : 1,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                  color: _strategy == 'dollar-cost'
-                      ? Theme.of(context)
-                          .colorScheme
-                          .primaryContainer
-                          .withValues(alpha: 0.3)
-                      : null,
-                ),
-                child: Row(
-                  children: [
-                    Radio<String>(
-                      value: 'dollar-cost',
-                      groupValue: _strategy,
-                      onChanged: (value) => setState(() => _strategy = value!),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+            RadioGroup<String>(
+              groupValue: _strategy,
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() => _strategy = value);
+                }
+              },
+              child: Column(
+                children: [
+                  // Dollar-Cost Averaging Option
+                  InkWell(
+                    onTap: () => setState(() => _strategy = 'dollar-cost'),
+                    borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: _strategy == 'dollar-cost'
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.outline,
+                          width: _strategy == 'dollar-cost' ? 2 : 1,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                        color: _strategy == 'dollar-cost'
+                            ? Theme.of(context)
+                                .colorScheme
+                                .primaryContainer
+                                .withValues(alpha: 0.3)
+                            : null,
+                      ),
+                      child: Row(
                         children: [
-                          Text(
-                            loc.dollarCostAverageRecommended,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            loc.dollarCostDescription,
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                              fontSize: 14,
+                          const Radio<String>(value: 'dollar-cost'),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  loc.dollarCostAverageRecommended,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  loc.dollarCostDescription,
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 12),
-
-            // Immediate Rebalance Option
-            InkWell(
-              onTap: () => setState(() => _strategy = 'immediate'),
-              borderRadius: BorderRadius.circular(12),
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: _strategy == 'immediate'
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.outline,
-                    width: _strategy == 'immediate' ? 2 : 1,
                   ),
-                  borderRadius: BorderRadius.circular(12),
-                  color: _strategy == 'immediate'
-                      ? Theme.of(context)
-                          .colorScheme
-                          .primaryContainer
-                          .withValues(alpha: 0.3)
-                      : null,
-                ),
-                child: Row(
-                  children: [
-                    Radio<String>(
-                      value: 'immediate',
-                      groupValue: _strategy,
-                      onChanged: (value) => setState(() => _strategy = value!),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  const SizedBox(height: 12),
+                  // Immediate Rebalance Option
+                  InkWell(
+                    onTap: () => setState(() => _strategy = 'immediate'),
+                    borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: _strategy == 'immediate'
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.outline,
+                          width: _strategy == 'immediate' ? 2 : 1,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                        color: _strategy == 'immediate'
+                            ? Theme.of(context)
+                                .colorScheme
+                                .primaryContainer
+                                .withValues(alpha: 0.3)
+                            : null,
+                      ),
+                      child: Row(
                         children: [
-                          Text(
-                            loc.immediateRebalance,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            loc.immediateRebalanceDescription,
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                              fontSize: 14,
+                          const Radio<String>(value: 'immediate'),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  loc.immediateRebalance,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  loc.immediateRebalanceDescription,
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],

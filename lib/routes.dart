@@ -62,6 +62,18 @@ class AppRouter {
   static const String purchaseTest = '/purchase-test';
   static const String about = '/about';
 
+  static double? _queryDouble(GoRouterState state, String key) {
+    final raw = state.uri.queryParameters[key];
+    if (raw == null || raw.isEmpty) return null;
+    return double.tryParse(raw);
+  }
+
+  static int? _queryInt(GoRouterState state, String key) {
+    final raw = state.uri.queryParameters[key];
+    if (raw == null || raw.isEmpty) return null;
+    return int.tryParse(raw);
+  }
+
   static final GoRouter router = GoRouter(
     initialLocation: dashboard,
     debugLogDiagnostics: true,
@@ -186,7 +198,11 @@ class AppRouter {
           GoRoute(
             path: debtOptimizer,
             name: 'debt-optimizer',
-            builder: (context, state) => const DebtOptimizerScreen(),
+            builder: (context, state) => DebtOptimizerScreen(
+              initialExtraPayment: _queryDouble(state, 'extraPayment'),
+              initialStrategy: state.uri.queryParameters['strategy'],
+              presetSource: state.uri.queryParameters['source'],
+            ),
           ),
 
           // Settings & Targets
@@ -214,14 +230,28 @@ class AppRouter {
           GoRoute(
             path: rebalancing,
             name: 'rebalancing',
-            builder: (context, state) => const RebalancingPlanScreen(),
+            builder: (context, state) => RebalancingPlanScreen(
+              initialStrategy: state.uri.queryParameters['strategy'],
+              initialGlideMonths: _queryInt(state, 'glideMonths'),
+              suggestedMoveAmount: _queryDouble(state, 'suggestedMove'),
+              presetSource: state.uri.queryParameters['source'],
+            ),
           ),
 
           // Scenario Engine (Pro Feature)
           GoRoute(
             path: scenario,
             name: 'scenario',
-            builder: (context, state) => const ScenarioEngineScreen(),
+            builder: (context, state) => ScenarioEngineScreen(
+              preset: state.uri.queryParameters['preset'],
+              presetExpectedReturn: _queryDouble(state, 'expectedReturn'),
+              presetVolatility: _queryDouble(state, 'volatility'),
+              presetYears: _queryInt(state, 'years'),
+              presetGoalAmount: _queryDouble(state, 'goalAmount'),
+              presetMonthlyContribution:
+                  _queryDouble(state, 'monthlyContribution'),
+              presetSource: state.uri.queryParameters['source'],
+            ),
           ),
 
           // Custom Alerts (Pro Feature)

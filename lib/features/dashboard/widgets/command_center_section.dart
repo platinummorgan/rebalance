@@ -321,6 +321,7 @@ class CommandCenterSection extends ConsumerWidget {
     final highAprDebt = liabilities
         .where((l) => l.apr >= 0.18)
         .fold<double>(0, (sum, l) => sum + l.balance);
+    final suggestedDebtExtra = monthlySurplus > 0 ? monthlySurplus : 0.0;
     final blitzMonths = monthlySurplus > 0 && highAprDebt > 0
         ? (highAprDebt / monthlySurplus).ceil()
         : null;
@@ -340,13 +341,45 @@ class CommandCenterSection extends ConsumerWidget {
     final shiftToThirty =
         max(0, ((largestPct - 30) / 100) * totalAssets).toDouble();
 
+    final shockScenarioRoute = Uri(
+      path: AppRouter.scenario,
+      queryParameters: {
+        'preset': 'shock20',
+        'source': 'command_center',
+        'years': '1',
+        'expectedReturn': '-0.20',
+        'volatility': '0.30',
+        'goalAmount': max(1000, shockNetWorth).toStringAsFixed(2),
+        'monthlyContribution': max(monthlySurplus, 0).toStringAsFixed(2),
+      },
+    ).toString();
+
+    final debtBlitzRoute = Uri(
+      path: AppRouter.debtOptimizer,
+      queryParameters: {
+        'source': 'command_center',
+        'strategy': 'avalanche',
+        'extraPayment': suggestedDebtExtra.toStringAsFixed(2),
+      },
+    ).toString();
+
+    final rebalanceLiftRoute = Uri(
+      path: AppRouter.rebalancing,
+      queryParameters: {
+        'source': 'command_center',
+        'strategy': 'immediate',
+        'suggestedMove': shiftToThirty.toStringAsFixed(2),
+        'glideMonths': '6',
+      },
+    ).toString();
+
     return [
       _ScenarioCardModel(
         title: 'Shock Test',
         subtitle: '-20% risk-asset month',
         metric: CurrencyFormatter.format(drawdownImpact * -1, currency),
         detail: 'Projected net worth: ${CurrencyFormatter.format(shockNetWorth, currency)}',
-        route: AppRouter.scenario,
+        route: shockScenarioRoute,
         icon: Icons.show_chart_rounded,
       ),
       _ScenarioCardModel(
@@ -356,7 +389,7 @@ class CommandCenterSection extends ConsumerWidget {
         detail: highAprDebt > 0
             ? 'High APR debt: ${CurrencyFormatter.format(highAprDebt, currency)}'
             : 'No high APR balance detected',
-        route: AppRouter.debtOptimizer,
+        route: debtBlitzRoute,
         icon: Icons.bolt_rounded,
       ),
       _ScenarioCardModel(
@@ -365,7 +398,7 @@ class CommandCenterSection extends ConsumerWidget {
         metric: CurrencyFormatter.format(shiftToThirty, currency),
         detail:
             '${_bucketName(largestBucket)} at ${largestPct.toStringAsFixed(1)}% now',
-        route: AppRouter.rebalancing,
+        route: rebalanceLiftRoute,
         icon: Icons.tune_rounded,
       ),
       _ScenarioCardModel(

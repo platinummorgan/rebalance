@@ -12,7 +12,16 @@ import '../../generated/app_localizations.dart';
 /// Debt payoff optimizer - calculates avalanche/snowball strategies
 /// and shows potential interest savings with Pro upgrade.
 class DebtOptimizerScreen extends ConsumerStatefulWidget {
-  const DebtOptimizerScreen({super.key});
+  final double? initialExtraPayment;
+  final String? initialStrategy;
+  final String? presetSource;
+
+  const DebtOptimizerScreen({
+    super.key,
+    this.initialExtraPayment,
+    this.initialStrategy,
+    this.presetSource,
+  });
 
   @override
   ConsumerState<DebtOptimizerScreen> createState() =>
@@ -23,6 +32,19 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
   double _extraPayment = 0.0;
   String? _activeStrategy; // user-selected strategy; defaults to recommended
   String _currency = 'USD'; // Currency code, updated from settings
+
+  @override
+  void initState() {
+    super.initState();
+    final presetPayment = widget.initialExtraPayment;
+    if (presetPayment != null && presetPayment.isFinite && presetPayment >= 0) {
+      _extraPayment = presetPayment.clamp(0.0, 2000.0).toDouble();
+    }
+    final strategy = widget.initialStrategy;
+    if (strategy == 'avalanche' || strategy == 'snowball') {
+      _activeStrategy = strategy;
+    }
+  }
 
   // Helper to format currency with user's selected currency
   String _formatCurrency(double amount) {
@@ -226,6 +248,43 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (widget.presetSource == 'command_center')
+              Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .primaryContainer
+                      .withValues(alpha: 0.5),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color:
+                        Theme.of(context).colorScheme.primary.withValues(alpha: 0.35),
+                  ),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.bolt_rounded,
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 18,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Command Center preset applied: extra payment ${CurrencyFormatter.format(_extraPayment, _currency)} / mo',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             // Current debt overview
             Card(
               color: Theme.of(context).colorScheme.errorContainer,

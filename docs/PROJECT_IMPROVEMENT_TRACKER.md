@@ -547,6 +547,20 @@ We will update this file every session so progress is not lost.
     - `flutter analyze lib/features/dashboard/widgets/command_center_section.dart lib/features/dashboard/dashboard_screen.dart` -> no issues.
     - `flutter analyze lib` -> no issues.
     - `flutter test test/services/goal_planner_service_test.dart test/services/backup_crypto_service_test.dart` -> passed.
+- Experience uplift (command center executable workflows slice):
+  - Routed command-center scenario cards to launch execution-ready screens with prefilled context via route query params.
+  - Added router query parsing and preset handoff in:
+    - `lib/routes.dart`
+  - Added preset application UX in destination screens:
+    - `lib/features/debt/debt_optimizer_screen.dart` (prefilled extra payment + strategy from command center)
+    - `lib/features/rebalancing/rebalancing_plan_screen.dart` (suggested move context + strategy/glide preselect)
+    - `lib/features/scenario/scenario_engine_screen.dart` (supports `shock20` preset and applies route-provided scenario inputs)
+  - Updated command-center scenario deck to open executable routes:
+    - `lib/features/dashboard/widgets/command_center_section.dart`
+  - Verification:
+    - `flutter analyze lib/features/dashboard/widgets/command_center_section.dart lib/routes.dart lib/features/debt/debt_optimizer_screen.dart lib/features/rebalancing/rebalancing_plan_screen.dart lib/features/scenario/scenario_engine_screen.dart` -> no issues.
+    - `flutter analyze lib` -> no issues.
+    - `flutter test test/services/goal_planner_service_test.dart test/services/backup_crypto_service_test.dart` -> passed.
 
 ## Working Agreement For Updates
 1. At session start: update `Last updated` and set one item to `In Progress`.
