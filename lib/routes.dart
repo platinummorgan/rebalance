@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -312,44 +314,108 @@ class MainShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final location = GoRouterState.of(context).matchedLocation;
+    final selectedIndex = _getSelectedIndex(context);
+    final scheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      body: child,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _getSelectedIndex(context),
-        onDestinationSelected: (index) =>
-            _onDestinationSelected(context, index),
-        destinations: [
-          NavigationDestination(
-            icon: const Icon(Icons.dashboard_outlined),
-            selectedIcon: const Icon(Icons.dashboard),
-            label: loc.dashboard,
+      body: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: const Alignment(0.9, -1.15),
+            radius: 1.55,
+            colors: [
+              scheme.primary.withValues(alpha: 0.12),
+              scheme.secondary.withValues(alpha: 0.08),
+              scheme.surface,
+            ],
+            stops: const [0.0, 0.38, 1.0],
           ),
-          NavigationDestination(
-            icon: const Icon(Icons.attach_money),
-            selectedIcon: const Icon(Icons.attach_money),
-            label: loc.income,
+        ),
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 340),
+          switchInCurve: Curves.easeOutCubic,
+          switchOutCurve: Curves.easeInCubic,
+          child: KeyedSubtree(
+            key: ValueKey(location),
+            child: child,
           ),
-          NavigationDestination(
-            icon: const Icon(Icons.account_balance_wallet_outlined),
-            selectedIcon: const Icon(Icons.account_balance_wallet),
-            label: loc.accounts,
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(28),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    scheme.surface.withValues(alpha: 0.92),
+                    scheme.surfaceContainerHighest.withValues(alpha: 0.84),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(28),
+                border: Border.all(
+                  color: scheme.outline.withValues(alpha: 0.2),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.12),
+                    blurRadius: 24,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
+              ),
+              child: NavigationBar(
+                height: 74,
+                backgroundColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+                indicatorColor: scheme.primary.withValues(alpha: 0.2),
+                selectedIndex: selectedIndex,
+                onDestinationSelected: (index) =>
+                    _onDestinationSelected(context, index),
+                labelBehavior:
+                    NavigationDestinationLabelBehavior.onlyShowSelected,
+                destinations: [
+                  NavigationDestination(
+                    icon: const Icon(Icons.dashboard_outlined),
+                    selectedIcon: const Icon(Icons.dashboard),
+                    label: loc.dashboard,
+                  ),
+                  NavigationDestination(
+                    icon: const Icon(Icons.attach_money),
+                    selectedIcon: const Icon(Icons.attach_money),
+                    label: loc.income,
+                  ),
+                  NavigationDestination(
+                    icon: const Icon(Icons.account_balance_wallet_outlined),
+                    selectedIcon: const Icon(Icons.account_balance_wallet),
+                    label: loc.accounts,
+                  ),
+                  NavigationDestination(
+                    icon: const Icon(Icons.credit_card_outlined),
+                    selectedIcon: const Icon(Icons.credit_card),
+                    label: loc.debts,
+                  ),
+                  NavigationDestination(
+                    icon: const Icon(Icons.receipt_long_outlined),
+                    selectedIcon: const Icon(Icons.receipt_long),
+                    label: loc.expenses,
+                  ),
+                  NavigationDestination(
+                    icon: const Icon(Icons.tune_outlined),
+                    selectedIcon: const Icon(Icons.tune),
+                    label: loc.settings,
+                  ),
+                ],
+              ),
+            ),
           ),
-          NavigationDestination(
-            icon: const Icon(Icons.credit_card_outlined),
-            selectedIcon: const Icon(Icons.credit_card),
-            label: loc.debts,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.receipt_long_outlined),
-            selectedIcon: const Icon(Icons.receipt_long),
-            label: loc.expenses,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.tune_outlined),
-            selectedIcon: const Icon(Icons.tune),
-            label: loc.settings,
-          ),
-        ],
+        ),
       ),
     );
   }

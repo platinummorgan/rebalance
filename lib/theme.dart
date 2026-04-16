@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'data/models.dart';
 import 'generated/app_localizations.dart';
 
@@ -521,13 +522,18 @@ class AppTheme {
         isDark ? const Color(0xFF121214) : adjustedColorScheme.surface;
     final cardBg = isDark ? const Color(0xFF1E1E22) : Colors.white;
     final dialogBg = isDark ? const Color(0xFF1E1E22) : Colors.white;
+    final textTheme = _buildPremiumTextTheme(
+      colorScheme: adjustedColorScheme,
+      isDark: isDark,
+    );
 
     return ThemeData(
       useMaterial3: true,
       colorScheme: adjustedColorScheme,
       scaffoldBackgroundColor: scaffoldBg,
       canvasColor: scaffoldBg,
-      fontFamily: 'Roboto',
+      textTheme: textTheme,
+      primaryTextTheme: textTheme,
 
       // AppBar theme
       appBarTheme: AppBarTheme(
@@ -536,31 +542,38 @@ class AppTheme {
         foregroundColor: adjustedColorScheme.onSurface,
         elevation: 0,
         scrolledUnderElevation: 1,
-        titleTextStyle: TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.w500,
+        centerTitle: false,
+        titleTextStyle: textTheme.titleLarge?.copyWith(
+          fontWeight: FontWeight.w700,
+          letterSpacing: -0.25,
           color: adjustedColorScheme.onSurface,
         ),
       ),
 
       // Card theme
       cardTheme: CardThemeData(
-        elevation: 2,
-        margin: const EdgeInsets.all(8),
+        elevation: 0,
+        margin: const EdgeInsets.all(10),
         color: cardBg,
-        surfaceTintColor: adjustedColorScheme.surfaceTint,
-        shadowColor: adjustedColorScheme.shadow,
+        surfaceTintColor: Colors.transparent,
+        shadowColor: adjustedColorScheme.shadow.withValues(alpha: 0.08),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(18),
+          side: BorderSide(
+            color: adjustedColorScheme.outline.withValues(alpha: 0.18),
+          ),
         ),
       ),
 
       // Elevated button theme
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          minimumSize: const Size(120, 48),
+          elevation: 0,
+          minimumSize: const Size(128, 50),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          textStyle: textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w700),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(14),
           ),
         ),
       ),
@@ -568,9 +581,12 @@ class AppTheme {
       // Filled button theme
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          minimumSize: const Size(120, 48),
+          minimumSize: const Size(128, 50),
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          textStyle: textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w700),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(14),
           ),
         ),
       ),
@@ -580,19 +596,19 @@ class AppTheme {
         filled: true,
         fillColor: isDark ? const Color(0xFF2B2930) : const Color(0xFFF7F2FA),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide(color: adjustedColorScheme.outline),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide(color: primaryColor, width: 2),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide(color: adjustedColorScheme.error),
         ),
         contentPadding: const EdgeInsets.all(16),
@@ -617,11 +633,20 @@ class AppTheme {
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: scaffoldBg,
         indicatorColor: adjustedColorScheme.primaryContainer,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        height: 76,
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return const TextStyle(fontSize: 12, fontWeight: FontWeight.w500);
+            return textTheme.labelSmall?.copyWith(
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.1,
+            );
           }
-          return const TextStyle(fontSize: 12, fontWeight: FontWeight.normal);
+          return textTheme.labelSmall?.copyWith(
+            fontWeight: FontWeight.w500,
+            letterSpacing: 0.1,
+          );
         }),
       ),
 
@@ -653,8 +678,83 @@ class AppTheme {
         backgroundColor: dialogBg,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(22),
         ),
+      ),
+    );
+  }
+
+  static TextTheme _buildPremiumTextTheme({
+    required ColorScheme colorScheme,
+    required bool isDark,
+  }) {
+    final base = GoogleFonts.manropeTextTheme().apply(
+      bodyColor: colorScheme.onSurface,
+      displayColor: colorScheme.onSurface,
+    );
+    final headingColor = isDark ? Colors.white : const Color(0xFF10131A);
+
+    return base.copyWith(
+      displayLarge: GoogleFonts.sora(
+        fontSize: 46,
+        fontWeight: FontWeight.w700,
+        height: 1.08,
+        letterSpacing: -0.9,
+        color: headingColor,
+      ),
+      displayMedium: GoogleFonts.sora(
+        fontSize: 38,
+        fontWeight: FontWeight.w700,
+        height: 1.1,
+        letterSpacing: -0.7,
+        color: headingColor,
+      ),
+      displaySmall: GoogleFonts.sora(
+        fontSize: 32,
+        fontWeight: FontWeight.w700,
+        height: 1.14,
+        letterSpacing: -0.5,
+        color: headingColor,
+      ),
+      headlineMedium: GoogleFonts.sora(
+        fontSize: 26,
+        fontWeight: FontWeight.w700,
+        height: 1.18,
+        letterSpacing: -0.35,
+        color: headingColor,
+      ),
+      titleLarge: GoogleFonts.sora(
+        fontSize: 22,
+        fontWeight: FontWeight.w700,
+        height: 1.2,
+        letterSpacing: -0.2,
+        color: headingColor,
+      ),
+      titleMedium: GoogleFonts.manrope(
+        fontSize: 16,
+        fontWeight: FontWeight.w700,
+        height: 1.3,
+      ),
+      bodyLarge: GoogleFonts.manrope(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        height: 1.45,
+      ),
+      bodyMedium: GoogleFonts.manrope(
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        height: 1.4,
+      ),
+      labelLarge: GoogleFonts.manrope(
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+        height: 1.2,
+      ),
+      labelMedium: GoogleFonts.manrope(
+        fontSize: 12,
+        fontWeight: FontWeight.w700,
+        height: 1.1,
+        letterSpacing: 0.12,
       ),
     );
   }
