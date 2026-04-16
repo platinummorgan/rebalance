@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import '../../../data/calculators/allocation.dart';
 import '../../../data/calculators/financial_health.dart';
 import '../../../data/models.dart';
 import '../../../routes.dart' show AppRouter;
+import '../../../services/workflow_impact_service.dart';
 import '../../../utils/currency_formatter.dart';
 
 class CommandCenterSection extends ConsumerWidget {
@@ -59,7 +61,8 @@ class CommandCenterSection extends ConsumerWidget {
     final cashBuffer = accounts
         .where((a) => a.kind == 'cash' || a.kind == 'savings')
         .fold<double>(0, (sum, a) => sum + a.balance);
-    final double runwayMonths = monthlyBurn > 0 ? cashBuffer / monthlyBurn : 0.0;
+    final double runwayMonths =
+        monthlyBurn > 0 ? cashBuffer / monthlyBurn : 0.0;
 
     final healthResult = settings == null
         ? null
@@ -87,6 +90,7 @@ class CommandCenterSection extends ConsumerWidget {
       accounts: accounts,
       currency: currency,
     );
+    final impactLogsAsync = ref.watch(workflowImpactLogsProvider);
 
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 20, 20, 10),
@@ -137,7 +141,8 @@ class CommandCenterSection extends ConsumerWidget {
                     const SizedBox(width: 10),
                     Text(
                       'Command Center',
-                      style: text.titleLarge?.copyWith(fontWeight: FontWeight.w800),
+                      style: text.titleLarge
+                          ?.copyWith(fontWeight: FontWeight.w800),
                     ),
                     const Spacer(),
                     if (healthResult != null)
@@ -165,7 +170,9 @@ class CommandCenterSection extends ConsumerWidget {
                       value: CurrencyFormatter.format(netWorth, currency),
                     ),
                     _MetricChip(
-                      label: monthlySurplus >= 0 ? 'Monthly Surplus' : 'Monthly Gap',
+                      label: monthlySurplus >= 0
+                          ? 'Monthly Surplus'
+                          : 'Monthly Gap',
                       value: CurrencyFormatter.format(monthlySurplus, currency),
                       color: monthlySurplus >= 0 ? Colors.green : Colors.red,
                     ),
@@ -192,10 +199,63 @@ class CommandCenterSection extends ConsumerWidget {
           const SizedBox(height: 14),
           _ScenarioDeck(
             cards: scenarioCards,
-            onTap: (route) => context.push(route),
+            onTap: (card) {
+              _startWorkflowImpact(
+                ref: ref,
+                card: card,
+                accounts: accounts,
+                liabilities: liabilities,
+                incomes: incomes,
+                expenses: expenses,
+                settings: settings,
+              );
+              context.push(card.route);
+            },
+          ),
+          const SizedBox(height: 14),
+          impactLogsAsync.when(
+            data: (logs) => _ImpactLoopCard(
+              logs: logs.where((log) => log.isCompleted).take(3).toList(),
+              currency: currency,
+            ),
+            loading: () => const _ImpactLoopLoadingCard(),
+            error: (_, __) => _ImpactLoopCard(
+              logs: const [],
+              currency: currency,
+              fallbackMessage: 'Impact loop is temporarily unavailable.',
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  void _startWorkflowImpact({
+    required WidgetRef ref,
+    required _ScenarioCardModel card,
+    required List<Account> accounts,
+    required List<Liability> liabilities,
+    required List<Income> incomes,
+    required List<MonthlyExpense> expenses,
+    required Settings? settings,
+  }) {
+    final baseline = WorkflowImpactService.buildMetricsSnapshot(
+      accounts: accounts,
+      liabilities: liabilities,
+      incomes: incomes,
+      expenses: expenses,
+      settings: settings,
+    );
+    unawaited(
+      WorkflowImpactService.startWorkflow(
+        workflowId: card.workflowId,
+        workflowTitle: card.title,
+        source: WorkflowImpactService.sourceCommandCenter,
+        baselineMetrics: baseline,
+        expectedMetrics: card.expectedMetrics,
+      )
+          .then((_) => ref.invalidate(workflowImpactLogsProvider))
+          .catchError((_) {}),
     );
   }
 
@@ -209,7 +269,9 @@ class CommandCenterSection extends ConsumerWidget {
     final dueSoon = liabilities
         .where((l) => l.daysUntilDue != null && l.daysUntilDue! <= 14)
         .toList()
-      ..sort((a, b) => (a.daysUntilDue ?? 999).compareTo(b.daysUntilDue ?? 999));
+      ..sort(
+        (a, b) => (a.daysUntilDue ?? 999).compareTo(b.daysUntilDue ?? 999),
+      );
 
     final items = <_UrgencyItem>[];
 
@@ -251,8 +313,9 @@ class CommandCenterSection extends ConsumerWidget {
             title: 'Concentration: ${_bucketName(largestBucket)}',
             subtitle: '${largestPct.toStringAsFixed(1)}% in one bucket',
             icon: Icons.balance_rounded,
-            severity:
-                largestPct >= 45 ? _UrgencySeverity.high : _UrgencySeverity.medium,
+            severity: largestPct >= 45
+                ? _UrgencySeverity.high
+                : _UrgencySeverity.medium,
             route: AppRouter.rebalancing,
           ),
         );
@@ -262,7 +325,9 @@ class CommandCenterSection extends ConsumerWidget {
     if (runwayMonths < 4) {
       items.add(
         _UrgencyItem(
-          title: runwayMonths < 2 ? 'Cash buffer is thin' : 'Cash buffer needs work',
+          title: runwayMonths < 2
+              ? 'Cash buffer is thin'
+              : 'Cash buffer needs work',
           subtitle:
               'Runway ${runwayMonths.toStringAsFixed(1)} months • target 4.0+ months',
           icon: Icons.health_and_safety_rounded,
@@ -337,7 +402,8 @@ class CommandCenterSection extends ConsumerWidget {
         largestBucket = bucket;
       }
     });
-    final largestPct = totalAssets > 0 ? (largestAmount / totalAssets) * 100 : 0;
+    final double largestPct =
+        totalAssets > 0 ? (largestAmount / totalAssets) * 100 : 0.0;
     final shiftToThirty =
         max(0, ((largestPct - 30) / 100) * totalAssets).toDouble();
 
@@ -375,14 +441,20 @@ class CommandCenterSection extends ConsumerWidget {
 
     return [
       _ScenarioCardModel(
+        workflowId: WorkflowImpactService.workflowShockTest,
         title: 'Shock Test',
         subtitle: '-20% risk-asset month',
         metric: CurrencyFormatter.format(drawdownImpact * -1, currency),
-        detail: 'Projected net worth: ${CurrencyFormatter.format(shockNetWorth, currency)}',
+        detail:
+            'Projected net worth: ${CurrencyFormatter.format(shockNetWorth, currency)}',
         route: shockScenarioRoute,
         icon: Icons.show_chart_rounded,
+        expectedMetrics: {
+          WorkflowImpactService.metricNetWorth: shockNetWorth,
+        },
       ),
       _ScenarioCardModel(
+        workflowId: WorkflowImpactService.workflowDebtBlitz,
         title: 'Debt Blitz',
         subtitle: 'Apply surplus to high APR first',
         metric: blitzMonths == null ? 'Not Ready' : '$blitzMonths months',
@@ -391,8 +463,14 @@ class CommandCenterSection extends ConsumerWidget {
             : 'No high APR balance detected',
         route: debtBlitzRoute,
         icon: Icons.bolt_rounded,
+        expectedMetrics: {
+          'highAprDebt': highAprDebt,
+          'estimatedPayoffMonths': (blitzMonths ?? 0).toDouble(),
+          'extraPayment': suggestedDebtExtra,
+        },
       ),
       _ScenarioCardModel(
+        workflowId: WorkflowImpactService.workflowRebalanceLift,
         title: 'Rebalance Lift',
         subtitle: 'Move toward 30% max bucket',
         metric: CurrencyFormatter.format(shiftToThirty, currency),
@@ -400,14 +478,22 @@ class CommandCenterSection extends ConsumerWidget {
             '${_bucketName(largestBucket)} at ${largestPct.toStringAsFixed(1)}% now',
         route: rebalanceLiftRoute,
         icon: Icons.tune_rounded,
+        expectedMetrics: {
+          'largestBucketPct': largestPct,
+          'suggestedMove': shiftToThirty,
+        },
       ),
       _ScenarioCardModel(
+        workflowId: WorkflowImpactService.workflowTaxLens,
         title: 'Tax Lens',
         subtitle: 'Locate drag and optimize placement',
         metric: CurrencyFormatter.format(totalLiabilities * 0.01, currency),
         detail: 'Potential annual drag reduction estimate',
         route: AppRouter.taxSmart,
         icon: Icons.account_tree_rounded,
+        expectedMetrics: {
+          'estimatedAnnualDragReduction': totalLiabilities * 0.01,
+        },
       ),
     ];
   }
@@ -443,9 +529,8 @@ class _HealthBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scoreColor = score >= 80
-        ? Colors.green
-        : (score >= 65 ? Colors.orange : Colors.red);
+    final scoreColor =
+        score >= 80 ? Colors.green : (score >= 65 ? Colors.orange : Colors.red);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
       decoration: BoxDecoration(
@@ -650,7 +735,7 @@ class _UrgencyRow extends StatelessWidget {
 
 class _ScenarioDeck extends StatelessWidget {
   final List<_ScenarioCardModel> cards;
-  final ValueChanged<String> onTap;
+  final ValueChanged<_ScenarioCardModel> onTap;
 
   const _ScenarioDeck({
     required this.cards,
@@ -678,7 +763,7 @@ class _ScenarioDeck extends StatelessWidget {
               final card = cards[index];
               return _ScenarioCard(
                 card: card,
-                onTap: () => onTap(card.route),
+                onTap: () => onTap(card),
               );
             },
           ),
@@ -782,6 +867,187 @@ class _ScenarioCard extends StatelessWidget {
   }
 }
 
+class _ImpactLoopLoadingCard extends StatelessWidget {
+  const _ImpactLoopLoadingCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Card(
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 18,
+              height: 18,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+            SizedBox(width: 10),
+            Text(
+              'Loading impact loop...',
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ImpactLoopCard extends StatelessWidget {
+  final List<WorkflowImpactLogEntry> logs;
+  final String currency;
+  final String? fallbackMessage;
+
+  const _ImpactLoopCard({
+    required this.logs,
+    required this.currency,
+    this.fallbackMessage,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final text = Theme.of(context).textTheme;
+
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+      decoration: BoxDecoration(
+        color: scheme.surfaceContainerHighest.withValues(alpha: 0.7),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: scheme.outline.withValues(alpha: 0.22)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.insights_rounded, size: 18, color: scheme.primary),
+              const SizedBox(width: 8),
+              Text(
+                'Impact Loop',
+                style: text.titleMedium?.copyWith(fontWeight: FontWeight.w800),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          if (logs.isEmpty)
+            Text(
+              fallbackMessage ??
+                  'Run a Command Center workflow, then log completion to see measurable delta here.',
+              style: TextStyle(
+                fontSize: 12,
+                color: scheme.onSurface.withValues(alpha: 0.74),
+                fontWeight: FontWeight.w600,
+              ),
+            )
+          else
+            ...logs.map((log) {
+              final netWorthDelta =
+                  log.delta(WorkflowImpactService.metricNetWorth);
+              final surplusDelta =
+                  log.delta(WorkflowImpactService.metricMonthlySurplus);
+              final liabilitiesDelta =
+                  log.delta(WorkflowImpactService.metricTotalLiabilities);
+              return Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.75),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: scheme.primary.withValues(alpha: 0.18),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      log.workflowTitle,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 6,
+                      children: [
+                        _ImpactDeltaChip(
+                          label: 'Net worth',
+                          value: _formatSignedCurrency(netWorthDelta, currency),
+                          positive: (netWorthDelta ?? 0) >= 0,
+                        ),
+                        _ImpactDeltaChip(
+                          label: 'Monthly surplus',
+                          value: _formatSignedCurrency(surplusDelta, currency),
+                          positive: (surplusDelta ?? 0) >= 0,
+                        ),
+                        _ImpactDeltaChip(
+                          label: 'Liabilities',
+                          value:
+                              _formatSignedCurrency(liabilitiesDelta, currency),
+                          positive: (liabilitiesDelta ?? 0) <= 0,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            }),
+        ],
+      ),
+    );
+  }
+
+  String _formatSignedCurrency(double? amount, String currency) {
+    if (amount == null) return '--';
+    if (amount == 0) return CurrencyFormatter.format(0, currency);
+    final absFormatted = CurrencyFormatter.format(amount.abs(), currency);
+    return amount > 0 ? '+$absFormatted' : '-$absFormatted';
+  }
+}
+
+class _ImpactDeltaChip extends StatelessWidget {
+  final String label;
+  final String value;
+  final bool positive;
+
+  const _ImpactDeltaChip({
+    required this.label,
+    required this.value,
+    required this.positive,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final color = positive ? Colors.green : Colors.red;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          '$label: ',
+          style: TextStyle(
+            fontSize: 11,
+            color:
+                Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.72),
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 11,
+            color: color,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _UrgencyItem {
   final String title;
   final String subtitle;
@@ -799,20 +1065,24 @@ class _UrgencyItem {
 }
 
 class _ScenarioCardModel {
+  final String workflowId;
   final String title;
   final String subtitle;
   final String metric;
   final String detail;
   final String route;
   final IconData icon;
+  final Map<String, double>? expectedMetrics;
 
   const _ScenarioCardModel({
+    required this.workflowId,
     required this.title,
     required this.subtitle,
     required this.metric,
     required this.detail,
     required this.route,
     required this.icon,
+    this.expectedMetrics,
   });
 }
 

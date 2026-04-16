@@ -6,6 +6,7 @@ import '../../data/models.dart';
 import '../../app.dart';
 import '../../widgets/currency_text.dart';
 import '../../utils/currency_formatter.dart';
+import '../../services/workflow_impact_service.dart';
 import '../pro/pro_screen.dart';
 import '../../generated/app_localizations.dart';
 
@@ -276,8 +277,10 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                     .withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color:
-                      Theme.of(context).colorScheme.primary.withValues(alpha: 0.35),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .primary
+                      .withValues(alpha: 0.35),
                 ),
               ),
               child: Row(
@@ -290,13 +293,31 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: Text(
-                      'Command Center context: move about ${CurrencyFormatter.format(widget.suggestedMoveAmount!, settings.currency)} toward target allocation.',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Command Center context: move about ${CurrencyFormatter.format(widget.suggestedMoveAmount!, settings.currency)} toward target allocation.',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        OutlinedButton.icon(
+                          onPressed: () => _logCommandCenterImpact(
+                            data: data,
+                          ),
+                          icon: const Icon(Icons.insights_rounded, size: 16),
+                          label: const Text('Log impact snapshot'),
+                          style: OutlinedButton.styleFrom(
+                            minimumSize: const Size(0, 32),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            visualDensity: VisualDensity.compact,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -499,7 +520,6 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
                   ),
             ),
             const SizedBox(height: 16),
-
             RadioGroup<String>(
               groupValue: _strategy,
               onChanged: (value) {
@@ -1222,6 +1242,55 @@ class _RebalancingPlanScreenState extends ConsumerState<RebalancingPlanScreen> {
         duration: const Duration(seconds: 2),
       ),
     );
+  }
+
+  Future<void> _logCommandCenterImpact({
+    required Map<String, dynamic> data,
+  }) async {
+    final outcomeMetrics = await WorkflowImpactService.captureCurrentMetrics();
+    final completed = await WorkflowImpactService.completeLatestPendingWorkflow(
+      workflowId: WorkflowImpactService.workflowRebalanceLift,
+      outcomeMetrics: outcomeMetrics,
+      expectedMetrics: {
+        'strategy': _strategy == 'immediate' ? 1.0 : 2.0, // 1 immediate, 2 DCA
+        'glideMonths': _glideLengthMonths.toDouble(),
+        'totalToMove': (data['totalToMove'] as num?)?.toDouble() ?? 0.0,
+        'maxAllocationDriftPct': _maxAllocationDrift(data),
+      },
+      note:
+          'Rebalance Lift plan logged with ${_strategy == 'immediate' ? 'immediate' : 'dollar-cost'} strategy.',
+    );
+    if (!mounted) return;
+
+    ref.invalidate(workflowImpactLogsProvider);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          completed
+              ? 'Impact loop updated for Rebalance Lift.'
+              : 'No pending Rebalance Lift run found. Run from Command Center first.',
+        ),
+      ),
+    );
+  }
+
+  double _maxAllocationDrift(Map<String, dynamic> data) {
+    final before = data['before'];
+    final after = data['after'];
+    if (before is! Map || after is! Map) return 0.0;
+
+    var maxDrift = 0.0;
+    for (final entry in before.entries) {
+      final key = entry.key;
+      final beforeValue = (entry.value as num?)?.toDouble();
+      final afterValue = (after[key] as num?)?.toDouble();
+      if (beforeValue == null || afterValue == null) continue;
+      final drift = (beforeValue - afterValue).abs();
+      if (drift > maxDrift) {
+        maxDrift = drift;
+      }
+    }
+    return maxDrift;
   }
 
   void _showRebalancingGuide(BuildContext context) {

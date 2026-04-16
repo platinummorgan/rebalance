@@ -7,6 +7,7 @@ import '../../app.dart';
 import '../../routes.dart' show AppRouter;
 import '../../utils/currency_formatter.dart';
 import '../../services/exchange_rate_service.dart';
+import '../../services/workflow_impact_service.dart';
 import '../../generated/app_localizations.dart';
 
 /// Debt payoff optimizer - calculates avalanche/snowball strategies
@@ -259,8 +260,10 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                       .withValues(alpha: 0.5),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color:
-                        Theme.of(context).colorScheme.primary.withValues(alpha: 0.35),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primary
+                        .withValues(alpha: 0.35),
                   ),
                 ),
                 child: Row(
@@ -273,13 +276,32 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                     ),
                     const SizedBox(width: 8),
                     Expanded(
-                      child: Text(
-                        'Command Center preset applied: extra payment ${CurrencyFormatter.format(_extraPayment, _currency)} / mo',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Theme.of(context).colorScheme.onSurface,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Command Center preset applied: extra payment ${CurrencyFormatter.format(_extraPayment, _currency)} / mo',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          OutlinedButton.icon(
+                            onPressed: () => _logCommandCenterImpact(
+                              selectedResult: selectedResult,
+                            ),
+                            icon: const Icon(Icons.insights_rounded, size: 16),
+                            label: const Text('Log impact snapshot'),
+                            style: OutlinedButton.styleFrom(
+                              minimumSize: const Size(0, 32),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              visualDensity: VisualDensity.compact,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -579,6 +601,38 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
               _buildPayoffSchedule(context, selectedResult),
             ],
           ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _logCommandCenterImpact({
+    required PayoffResult selectedResult,
+  }) async {
+    final outcomeMetrics = await WorkflowImpactService.captureCurrentMetrics();
+    final completed = await WorkflowImpactService.completeLatestPendingWorkflow(
+      workflowId: WorkflowImpactService.workflowDebtBlitz,
+      outcomeMetrics: outcomeMetrics,
+      expectedMetrics: {
+        'strategy': (_activeStrategy == 'snowball'
+            ? 2.0
+            : 1.0), // 1 avalanche, 2 snowball
+        'extraPayment': _extraPayment,
+        'monthsToPayoff': selectedResult.monthsToPayoff.toDouble(),
+        'interestSavingsVsMinimum': selectedResult.interestSavingsVsMinimum,
+      },
+      note:
+          'Debt Blitz strategy ${_activeStrategy ?? 'avalanche'} with extra payment ${_formatCurrency(_extraPayment)}',
+    );
+    if (!mounted) return;
+
+    ref.invalidate(workflowImpactLogsProvider);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          completed
+              ? 'Impact loop updated for Debt Blitz.'
+              : 'No pending Debt Blitz run found. Run from Command Center first.',
         ),
       ),
     );

@@ -561,6 +561,21 @@ We will update this file every session so progress is not lost.
     - `flutter analyze lib/features/dashboard/widgets/command_center_section.dart lib/routes.dart lib/features/debt/debt_optimizer_screen.dart lib/features/rebalancing/rebalancing_plan_screen.dart lib/features/scenario/scenario_engine_screen.dart` -> no issues.
     - `flutter analyze lib` -> no issues.
     - `flutter test test/services/goal_planner_service_test.dart test/services/backup_crypto_service_test.dart` -> passed.
+- Experience uplift (command center impact loop instrumentation slice):
+  - Added durable workflow-impact logging pipeline in:
+    - `lib/services/workflow_impact_service.dart` (Hive-backed `workflowImpactLogs` persistence, start/complete lifecycle, metrics snapshot helpers, typed log parsing, and provider)
+  - Updated command center to start logs at workflow launch and surface a new `Impact Loop` panel with latest measured deltas:
+    - `lib/features/dashboard/widgets/command_center_section.dart`
+  - Added completion hooks in executable destinations so users can explicitly log outcomes after taking action:
+    - `lib/features/debt/debt_optimizer_screen.dart`
+    - `lib/features/rebalancing/rebalancing_plan_screen.dart`
+    - `lib/features/scenario/scenario_engine_screen.dart`
+  - Added unit tests:
+    - `test/services/workflow_impact_service_test.dart`
+  - Verification:
+    - `flutter analyze lib/features/dashboard/widgets/command_center_section.dart lib/features/debt/debt_optimizer_screen.dart lib/features/rebalancing/rebalancing_plan_screen.dart lib/features/scenario/scenario_engine_screen.dart lib/services/workflow_impact_service.dart test/services/workflow_impact_service_test.dart` -> no issues.
+    - `flutter analyze lib` -> no issues.
+    - `flutter test test/services/workflow_impact_service_test.dart test/services/goal_planner_service_test.dart test/services/backup_crypto_service_test.dart` -> passed.
 
 ## Working Agreement For Updates
 1. At session start: update `Last updated` and set one item to `In Progress`.

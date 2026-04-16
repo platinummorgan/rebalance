@@ -8,6 +8,7 @@ import '../../routes.dart' show AppRouter;
 import '../../app.dart';
 import '../../utils/currency_formatter.dart';
 import '../../services/exchange_rate_service.dart';
+import '../../services/workflow_impact_service.dart';
 import '../../generated/app_localizations.dart';
 
 // --- Providers ---
@@ -476,10 +477,65 @@ class _ScenarioBody extends ConsumerWidget {
                 loading: () => const SizedBox(),
                 error: (_, __) => const SizedBox(),
               ),
+              if (presetBanner != null) ...[
+                const SizedBox(height: 16),
+                resultAsync.when(
+                  data: (result) {
+                    if (result == null) return const SizedBox();
+                    return OutlinedButton.icon(
+                      onPressed: () => _logCommandCenterImpact(
+                        context: context,
+                        ref: ref,
+                        inputs: inputs,
+                        result: result,
+                      ),
+                      icon: const Icon(Icons.insights_rounded, size: 18),
+                      label: const Text('Log impact snapshot'),
+                    );
+                  },
+                  loading: () => const SizedBox(),
+                  error: (_, __) => const SizedBox(),
+                ),
+              ],
             ],
           ),
         );
       },
+    );
+  }
+
+  Future<void> _logCommandCenterImpact({
+    required BuildContext context,
+    required WidgetRef ref,
+    required ScenarioInputs inputs,
+    required MonteCarloResult result,
+  }) async {
+    final outcomeMetrics = await WorkflowImpactService.captureCurrentMetrics();
+    final completed = await WorkflowImpactService.completeLatestPendingWorkflow(
+      workflowId: WorkflowImpactService.workflowShockTest,
+      outcomeMetrics: outcomeMetrics,
+      expectedMetrics: {
+        'successProbability': result.successProbability,
+        'medianEnding': result.medianEnding,
+        'p10Ending': result.p10Ending,
+        'p90Ending': result.p90Ending,
+        'expectedReturn': inputs.expectedReturn,
+        'volatility': inputs.volatility,
+        'years': inputs.years.toDouble(),
+      },
+      note: 'Shock Test scenario logged from command center preset.',
+    );
+
+    if (!context.mounted) return;
+    ref.invalidate(workflowImpactLogsProvider);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          completed
+              ? 'Impact loop updated for Shock Test.'
+              : 'No pending Shock Test run found. Run from Command Center first.',
+        ),
+      ),
     );
   }
 }
