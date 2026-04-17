@@ -13,7 +13,7 @@ import '../../../routes.dart' show AppRouter;
 import '../../../services/workflow_impact_service.dart';
 import '../../../utils/currency_formatter.dart';
 
-class CommandCenterSection extends ConsumerWidget {
+class CommandCenterSection extends ConsumerStatefulWidget {
   final List<Account> accounts;
 
   const CommandCenterSection({
@@ -22,7 +22,18 @@ class CommandCenterSection extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CommandCenterSection> createState() =>
+      _CommandCenterSectionState();
+}
+
+class _CommandCenterSectionState extends ConsumerState<CommandCenterSection> {
+  _CommandCenterView _activeView = _CommandCenterView.today;
+  bool _urgencyExpanded = false;
+  bool _scenarioExpanded = false;
+  bool _impactExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
 
@@ -44,7 +55,8 @@ class CommandCenterSection extends ConsumerWidget {
         );
 
     final currency = settings?.currency ?? 'USD';
-    final totalAssets = accounts.fold<double>(0, (sum, a) => sum + a.balance);
+    final totalAssets =
+        widget.accounts.fold<double>(0, (sum, a) => sum + a.balance);
     final totalLiabilities =
         liabilities.fold<double>(0, (sum, l) => sum + l.balance);
     final netWorth = totalAssets - totalLiabilities;
@@ -58,7 +70,7 @@ class CommandCenterSection extends ConsumerWidget {
         max(monthlyTrackedExpenses, monthlyEssentials).toDouble();
     final double monthlySurplus = monthlyIncome - monthlyBurn;
 
-    final cashBuffer = accounts
+    final cashBuffer = widget.accounts
         .where((a) => a.kind == 'cash' || a.kind == 'savings')
         .fold<double>(0, (sum, a) => sum + a.balance);
     final double runwayMonths =
@@ -67,7 +79,7 @@ class CommandCenterSection extends ConsumerWidget {
     final healthResult = settings == null
         ? null
         : FinancialHealthCalculator.calculateOverallHealth(
-            accounts,
+            widget.accounts,
             liabilities,
             settings,
           );
@@ -87,10 +99,15 @@ class CommandCenterSection extends ConsumerWidget {
       netWorth: netWorth,
       liabilities: liabilities,
       monthlySurplus: monthlySurplus,
-      accounts: accounts,
+      accounts: widget.accounts,
       currency: currency,
     );
     final impactLogsAsync = ref.watch(workflowImpactLogsProvider);
+    final completedImpactLogs = impactLogsAsync.valueOrNull
+            ?.where((log) => log.isCompleted)
+            .take(3)
+            .toList() ??
+        const <WorkflowImpactLogEntry>[];
 
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 20, 20, 10),
@@ -126,25 +143,16 @@ class CommandCenterSection extends ConsumerWidget {
               children: [
                 Row(
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: scheme.primary.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Icon(
-                        Icons.space_dashboard_rounded,
-                        color: scheme.primary,
-                        size: 18,
+                    Expanded(
+                      child: Text(
+                        'Command Center',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: text.titleLarge
+                            ?.copyWith(fontWeight: FontWeight.w800),
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    Text(
-                      'Command Center',
-                      style: text.titleLarge
-                          ?.copyWith(fontWeight: FontWeight.w800),
-                    ),
-                    const Spacer(),
+                    if (healthResult != null) const SizedBox(width: 8),
                     if (healthResult != null)
                       _HealthBadge(
                         score: healthResult.score,
@@ -195,36 +203,81 @@ class CommandCenterSection extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 14),
-          _UrgencyTimelineCard(items: urgencyItems),
-          const SizedBox(height: 14),
-          _ScenarioDeck(
-            cards: scenarioCards,
-            onTap: (card) {
-              _startWorkflowImpact(
-                ref: ref,
-                card: card,
-                accounts: accounts,
-                liabilities: liabilities,
-                incomes: incomes,
-                expenses: expenses,
-                settings: settings,
-              );
-              context.push(card.route);
-            },
+          _CommandCenterViewTabs(
+            activeView: _activeView,
+            onChanged: (view) => setState(() => _activeView = view),
           ),
-          const SizedBox(height: 14),
-          impactLogsAsync.when(
-            data: (logs) => _ImpactLoopCard(
-              logs: logs.where((log) => log.isCompleted).take(3).toList(),
-              currency: currency,
+          const SizedBox(height: 12),
+          if (_activeView == _CommandCenterView.today)
+            _CollapsibleCommandSection(
+              title: 'Urgency Timeline',
+              subtitle:
+                  '${urgencyItems.length} priorities • ${urgencyItems.where((item) => item.severity == _UrgencySeverity.critical).length} critical',
+              icon: Icons.timelapse_rounded,
+              expanded: _urgencyExpanded,
+              onToggle: () =>
+                  setState(() => _urgencyExpanded = !_urgencyExpanded),
+              collapsedChild: _UrgencyCollapsedPreview(items: urgencyItems),
+              expandedChild: _UrgencyTimelineCard(
+                items: urgencyItems,
+                showHeader: false,
+              ),
             ),
-            loading: () => const _ImpactLoopLoadingCard(),
-            error: (_, __) => _ImpactLoopCard(
-              logs: const [],
-              currency: currency,
-              fallbackMessage: 'Impact loop is temporarily unavailable.',
+          if (_activeView == _CommandCenterView.plan)
+            _CollapsibleCommandSection(
+              title: 'Scenario Playbook',
+              subtitle: '${scenarioCards.length} executable workflows',
+              icon: Icons.route_rounded,
+              expanded: _scenarioExpanded,
+              onToggle: () =>
+                  setState(() => _scenarioExpanded = !_scenarioExpanded),
+              collapsedChild: _ScenarioCollapsedPreview(cards: scenarioCards),
+              expandedChild: _ScenarioDeck(
+                cards: scenarioCards,
+                showHeader: false,
+                onTap: (card) {
+                  _startWorkflowImpact(
+                    ref: ref,
+                    card: card,
+                    accounts: widget.accounts,
+                    liabilities: liabilities,
+                    incomes: incomes,
+                    expenses: expenses,
+                    settings: settings,
+                  );
+                  context.push(card.route);
+                },
+              ),
             ),
-          ),
+          if (_activeView == _CommandCenterView.insights)
+            _CollapsibleCommandSection(
+              title: 'Impact Loop',
+              subtitle: completedImpactLogs.isEmpty
+                  ? 'No completed runs yet'
+                  : '${completedImpactLogs.length} recent completed runs',
+              icon: Icons.insights_rounded,
+              expanded: _impactExpanded,
+              onToggle: () =>
+                  setState(() => _impactExpanded = !_impactExpanded),
+              collapsedChild: _ImpactCollapsedPreview(
+                logs: completedImpactLogs,
+                currency: currency,
+              ),
+              expandedChild: impactLogsAsync.when(
+                data: (logs) => _ImpactLoopCard(
+                  logs: logs.where((log) => log.isCompleted).take(3).toList(),
+                  currency: currency,
+                  showHeader: false,
+                ),
+                loading: () => const _ImpactLoopLoadingCard(),
+                error: (_, __) => _ImpactLoopCard(
+                  logs: const [],
+                  currency: currency,
+                  fallbackMessage: 'Impact loop is temporarily unavailable.',
+                  showHeader: false,
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -297,7 +350,7 @@ class CommandCenterSection extends ConsumerWidget {
     }
 
     if (totalAssets > 0) {
-      final totals = AllocationCalculator.calculateTotals(accounts);
+      final totals = AllocationCalculator.calculateTotals(widget.accounts);
       String largestBucket = 'usEq';
       double largestAmount = 0;
       totals.forEach((bucket, amount) {
@@ -518,6 +571,304 @@ class CommandCenterSection extends ConsumerWidget {
   }
 }
 
+enum _CommandCenterView {
+  today,
+  plan,
+  insights,
+}
+
+class _CommandCenterViewTabs extends StatelessWidget {
+  final _CommandCenterView activeView;
+  final ValueChanged<_CommandCenterView> onChanged;
+
+  const _CommandCenterViewTabs({
+    required this.activeView,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        _viewChip(
+          label: 'Today',
+          selected: activeView == _CommandCenterView.today,
+          onTap: () => onChanged(_CommandCenterView.today),
+          scheme: scheme,
+        ),
+        _viewChip(
+          label: 'Plan',
+          selected: activeView == _CommandCenterView.plan,
+          onTap: () => onChanged(_CommandCenterView.plan),
+          scheme: scheme,
+        ),
+        _viewChip(
+          label: 'Insights',
+          selected: activeView == _CommandCenterView.insights,
+          onTap: () => onChanged(_CommandCenterView.insights),
+          scheme: scheme,
+        ),
+      ],
+    );
+  }
+
+  Widget _viewChip({
+    required String label,
+    required bool selected,
+    required VoidCallback onTap,
+    required ColorScheme scheme,
+  }) {
+    return ChoiceChip(
+      label: Text(label),
+      selected: selected,
+      onSelected: (_) => onTap(),
+      selectedColor: scheme.primary.withValues(alpha: 0.24),
+      side: BorderSide(
+        color: selected
+            ? scheme.primary.withValues(alpha: 0.45)
+            : scheme.outline.withValues(alpha: 0.3),
+      ),
+      labelStyle: TextStyle(
+        fontWeight: FontWeight.w700,
+        color: selected
+            ? scheme.primary
+            : scheme.onSurface.withValues(alpha: 0.82),
+      ),
+    );
+  }
+}
+
+class _CollapsibleCommandSection extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final bool expanded;
+  final VoidCallback onToggle;
+  final Widget collapsedChild;
+  final Widget expandedChild;
+
+  const _CollapsibleCommandSection({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.expanded,
+    required this.onToggle,
+    required this.collapsedChild,
+    required this.expandedChild,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      margin: const EdgeInsets.only(top: 12),
+      padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
+      decoration: BoxDecoration(
+        color: scheme.surfaceContainerHighest.withValues(alpha: 0.74),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: scheme.outline.withValues(alpha: 0.22)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          InkWell(
+            borderRadius: BorderRadius.circular(12),
+            onTap: onToggle,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+              child: Row(
+                children: [
+                  Icon(icon, size: 18, color: scheme.primary),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w800,
+                            color: scheme.onSurface,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          subtitle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: scheme.onSurface.withValues(alpha: 0.7),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(
+                    expanded
+                        ? Icons.expand_less_rounded
+                        : Icons.expand_more_rounded,
+                    color: scheme.onSurface.withValues(alpha: 0.74),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          AnimatedCrossFade(
+            duration: const Duration(milliseconds: 220),
+            crossFadeState:
+                expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            firstChild: collapsedChild,
+            secondChild: expandedChild,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _UrgencyCollapsedPreview extends StatelessWidget {
+  final List<_UrgencyItem> items;
+
+  const _UrgencyCollapsedPreview({
+    required this.items,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    if (items.isEmpty) {
+      return Text(
+        'No immediate priority items.',
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+          color: scheme.onSurface.withValues(alpha: 0.72),
+        ),
+      );
+    }
+
+    final preview = items.take(2).toList();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: preview
+          .map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Row(
+                children: [
+                  Icon(item.icon, size: 15, color: scheme.primary),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      item.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: scheme.onSurface,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+          .toList(),
+    );
+  }
+}
+
+class _ScenarioCollapsedPreview extends StatelessWidget {
+  final List<_ScenarioCardModel> cards;
+
+  const _ScenarioCollapsedPreview({
+    required this.cards,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    if (cards.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    final top = cards.first;
+    return Row(
+      children: [
+        Icon(top.icon, size: 16, color: scheme.primary),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            '${top.title} • ${top.metric}',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: scheme.onSurface,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ImpactCollapsedPreview extends StatelessWidget {
+  final List<WorkflowImpactLogEntry> logs;
+  final String currency;
+
+  const _ImpactCollapsedPreview({
+    required this.logs,
+    required this.currency,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    if (logs.isEmpty) {
+      return Text(
+        'No completed impact logs yet. Run and log a workflow to populate insights.',
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+          color: scheme.onSurface.withValues(alpha: 0.72),
+        ),
+      );
+    }
+    final latest = logs.first;
+    final delta = latest.delta(WorkflowImpactService.metricNetWorth);
+    final deltaText = delta == null
+        ? '--'
+        : '${delta >= 0 ? '+' : '-'}${CurrencyFormatter.format(delta.abs(), currency)}';
+    return Row(
+      children: [
+        Icon(Icons.monitor_heart_rounded, size: 16, color: scheme.primary),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            '${latest.workflowTitle} • Net worth $deltaText',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: scheme.onSurface,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _HealthBadge extends StatelessWidget {
   final int score;
   final String grade;
@@ -571,13 +922,26 @@ class _MetricChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final accent = color ?? scheme.primary;
+    final backgroundColor = isDark
+        ? scheme.surfaceContainerHighest.withValues(alpha: 0.9)
+        : Colors.white.withValues(alpha: 0.75);
+    final labelColor = isDark
+        ? scheme.onSurface.withValues(alpha: 0.9)
+        : scheme.onSurface.withValues(alpha: 0.72);
+    final valueColor = isDark
+        ? Color.alphaBlend(Colors.white.withValues(alpha: 0.2), accent)
+        : accent;
     return Container(
+      constraints: const BoxConstraints(minWidth: 96, maxWidth: 168),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.7),
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: accent.withValues(alpha: 0.28)),
+        border: Border.all(
+          color: accent.withValues(alpha: isDark ? 0.45 : 0.28),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -585,8 +949,10 @@ class _MetricChip extends StatelessWidget {
         children: [
           Text(
             label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              color: scheme.onSurface.withValues(alpha: 0.72),
+              color: labelColor,
               fontSize: 11,
               fontWeight: FontWeight.w600,
             ),
@@ -594,8 +960,10 @@ class _MetricChip extends StatelessWidget {
           const SizedBox(height: 3),
           Text(
             value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              color: accent,
+              color: valueColor,
               fontSize: 12,
               fontWeight: FontWeight.w800,
             ),
@@ -608,9 +976,11 @@ class _MetricChip extends StatelessWidget {
 
 class _UrgencyTimelineCard extends StatelessWidget {
   final List<_UrgencyItem> items;
+  final bool showHeader;
 
   const _UrgencyTimelineCard({
     required this.items,
+    this.showHeader = true,
   });
 
   @override
@@ -627,17 +997,20 @@ class _UrgencyTimelineCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(Icons.timelapse_rounded, size: 18, color: scheme.primary),
-              const SizedBox(width: 8),
-              Text(
-                'Urgency Timeline',
-                style: text.titleMedium?.copyWith(fontWeight: FontWeight.w800),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
+          if (showHeader) ...[
+            Row(
+              children: [
+                Icon(Icons.timelapse_rounded, size: 18, color: scheme.primary),
+                const SizedBox(width: 8),
+                Text(
+                  'Urgency Timeline',
+                  style:
+                      text.titleMedium?.copyWith(fontWeight: FontWeight.w800),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+          ],
           ...items.asMap().entries.map((entry) {
             final idx = entry.key;
             final item = entry.value;
@@ -736,10 +1109,12 @@ class _UrgencyRow extends StatelessWidget {
 class _ScenarioDeck extends StatelessWidget {
   final List<_ScenarioCardModel> cards;
   final ValueChanged<_ScenarioCardModel> onTap;
+  final bool showHeader;
 
   const _ScenarioDeck({
     required this.cards,
     required this.onTap,
+    this.showHeader = true,
   });
 
   @override
@@ -748,13 +1123,15 @@ class _ScenarioDeck extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Scenario Playbook',
-          style: text.titleMedium?.copyWith(fontWeight: FontWeight.w800),
-        ),
-        const SizedBox(height: 10),
+        if (showHeader) ...[
+          Text(
+            'Scenario Playbook',
+            style: text.titleMedium?.copyWith(fontWeight: FontWeight.w800),
+          ),
+          const SizedBox(height: 10),
+        ],
         SizedBox(
-          height: 162,
+          height: 190,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: cards.length,
@@ -787,7 +1164,7 @@ class _ScenarioCard extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     return Container(
       width: 224,
-      padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -831,6 +1208,8 @@ class _ScenarioCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             card.metric,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 20,
               color: scheme.primary,
@@ -898,17 +1277,20 @@ class _ImpactLoopCard extends StatelessWidget {
   final List<WorkflowImpactLogEntry> logs;
   final String currency;
   final String? fallbackMessage;
+  final bool showHeader;
 
   const _ImpactLoopCard({
     required this.logs,
     required this.currency,
     this.fallbackMessage,
+    this.showHeader = true,
   });
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
@@ -920,17 +1302,20 @@ class _ImpactLoopCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(Icons.insights_rounded, size: 18, color: scheme.primary),
-              const SizedBox(width: 8),
-              Text(
-                'Impact Loop',
-                style: text.titleMedium?.copyWith(fontWeight: FontWeight.w800),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
+          if (showHeader) ...[
+            Row(
+              children: [
+                Icon(Icons.insights_rounded, size: 18, color: scheme.primary),
+                const SizedBox(width: 8),
+                Text(
+                  'Impact Loop',
+                  style:
+                      text.titleMedium?.copyWith(fontWeight: FontWeight.w800),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+          ],
           if (logs.isEmpty)
             Text(
               fallbackMessage ??
@@ -953,7 +1338,9 @@ class _ImpactLoopCard extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: 8),
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.75),
+                  color: isDark
+                      ? scheme.surfaceContainerHigh.withValues(alpha: 0.95)
+                      : Colors.white.withValues(alpha: 0.75),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
                     color: scheme.primary.withValues(alpha: 0.18),
@@ -964,9 +1351,10 @@ class _ImpactLoopCard extends StatelessWidget {
                   children: [
                     Text(
                       log.workflowTitle,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w800,
+                        color: scheme.onSurface,
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -1023,27 +1411,44 @@ class _ImpactDeltaChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = positive ? Colors.green : Colors.red;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          '$label: ',
-          style: TextStyle(
-            fontSize: 11,
-            color:
-                Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.72),
-            fontWeight: FontWeight.w600,
+    final scheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Container(
+      constraints: const BoxConstraints(minWidth: 108, maxWidth: 170),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      decoration: BoxDecoration(
+        color: isDark
+            ? scheme.surfaceContainer.withValues(alpha: 0.94)
+            : Colors.white.withValues(alpha: 0.6),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 10,
+              color: scheme.onSurface.withValues(alpha: 0.7),
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 11,
-            color: color,
-            fontWeight: FontWeight.w800,
+          const SizedBox(height: 2),
+          Text(
+            value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 11,
+              color: color,
+              fontWeight: FontWeight.w800,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

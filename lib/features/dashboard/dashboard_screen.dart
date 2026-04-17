@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../routes.dart' show AppRouter;
 import '../../data/repositories.dart';
 import 'mini_trend_chart_painter.dart';
@@ -150,8 +153,187 @@ class DesignTokens {
   static const double elevation2 = 4; // Alert cards
 }
 
-class DashboardScreen extends ConsumerWidget {
+enum _DashboardFocusSection {
+  weekly,
+  profile,
+  netWorth,
+  allocation,
+  accounts,
+}
+
+class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
+
+  @override
+  ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends ConsumerState<DashboardScreen> {
+  static const String _prefWeeklyExpanded = 'dashboard.weekly_expanded';
+  static const String _prefProfileExpanded = 'dashboard.profile_expanded';
+  static const String _prefNetWorthExpanded = 'dashboard.net_worth_expanded';
+  static const String _prefAllocationExpanded = 'dashboard.allocation_expanded';
+  static const String _prefAccountsExpanded = 'dashboard.accounts_expanded';
+  static const String _prefFocusModeEnabled = 'dashboard.focus_mode_enabled';
+  static const String _prefFocusSection = 'dashboard.focus_section';
+
+  bool _weeklyGuardrailsExpanded = false;
+  bool _profileCompletionExpanded = false;
+  bool _netWorthExpanded = false;
+  bool _allocationExpanded = false;
+  bool _recentAccountsExpanded = false;
+  bool _focusModeEnabled = false;
+  _DashboardFocusSection _focusSection = _DashboardFocusSection.netWorth;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadDashboardState());
+  }
+
+  Future<void> _loadDashboardState() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
+
+    setState(() {
+      _weeklyGuardrailsExpanded = prefs.getBool(_prefWeeklyExpanded) ?? false;
+      _profileCompletionExpanded = prefs.getBool(_prefProfileExpanded) ?? false;
+      _netWorthExpanded = prefs.getBool(_prefNetWorthExpanded) ?? false;
+      _allocationExpanded = prefs.getBool(_prefAllocationExpanded) ?? false;
+      _recentAccountsExpanded = prefs.getBool(_prefAccountsExpanded) ?? false;
+      _focusModeEnabled = prefs.getBool(_prefFocusModeEnabled) ?? false;
+
+      final sectionName = prefs.getString(_prefFocusSection);
+      _focusSection = _DashboardFocusSection.values.firstWhere(
+        (section) => section.name == sectionName,
+        orElse: () => _DashboardFocusSection.netWorth,
+      );
+
+      if (_focusModeEnabled) {
+        _setOnlySectionExpanded(_focusSection);
+      }
+    });
+  }
+
+  Future<void> _saveDashboardState() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_prefWeeklyExpanded, _weeklyGuardrailsExpanded);
+    await prefs.setBool(_prefProfileExpanded, _profileCompletionExpanded);
+    await prefs.setBool(_prefNetWorthExpanded, _netWorthExpanded);
+    await prefs.setBool(_prefAllocationExpanded, _allocationExpanded);
+    await prefs.setBool(_prefAccountsExpanded, _recentAccountsExpanded);
+    await prefs.setBool(_prefFocusModeEnabled, _focusModeEnabled);
+    await prefs.setString(_prefFocusSection, _focusSection.name);
+  }
+
+  void _setOnlySectionExpanded(_DashboardFocusSection section) {
+    _weeklyGuardrailsExpanded = section == _DashboardFocusSection.weekly;
+    _profileCompletionExpanded = section == _DashboardFocusSection.profile;
+    _netWorthExpanded = section == _DashboardFocusSection.netWorth;
+    _allocationExpanded = section == _DashboardFocusSection.allocation;
+    _recentAccountsExpanded = section == _DashboardFocusSection.accounts;
+  }
+
+  void _toggleSection(_DashboardFocusSection section) {
+    setState(() {
+      switch (section) {
+        case _DashboardFocusSection.weekly:
+          _weeklyGuardrailsExpanded = !_weeklyGuardrailsExpanded;
+          break;
+        case _DashboardFocusSection.profile:
+          _profileCompletionExpanded = !_profileCompletionExpanded;
+          break;
+        case _DashboardFocusSection.netWorth:
+          _netWorthExpanded = !_netWorthExpanded;
+          break;
+        case _DashboardFocusSection.allocation:
+          _allocationExpanded = !_allocationExpanded;
+          break;
+        case _DashboardFocusSection.accounts:
+          _recentAccountsExpanded = !_recentAccountsExpanded;
+          break;
+      }
+    });
+    unawaited(_saveDashboardState());
+  }
+
+  _DashboardFocusSection _effectiveFocusSection({
+    required bool showProfileCompletionSection,
+  }) {
+    if (_focusSection == _DashboardFocusSection.profile &&
+        !showProfileCompletionSection) {
+      return _DashboardFocusSection.netWorth;
+    }
+    return _focusSection;
+  }
+
+  void _setFocusMode(
+    bool enabled, {
+    required bool showProfileCompletionSection,
+  }) {
+    setState(() {
+      _focusModeEnabled = enabled;
+      if (enabled) {
+        final effective = _effectiveFocusSection(
+          showProfileCompletionSection: showProfileCompletionSection,
+        );
+        _focusSection = effective;
+        _setOnlySectionExpanded(effective);
+      }
+    });
+    unawaited(_saveDashboardState());
+  }
+
+  void _setFocusSection(
+    _DashboardFocusSection section, {
+    required bool showProfileCompletionSection,
+  }) {
+    setState(() {
+      _focusSection = section;
+      if (_focusModeEnabled) {
+        final effective = _effectiveFocusSection(
+          showProfileCompletionSection: showProfileCompletionSection,
+        );
+        _focusSection = effective;
+        _setOnlySectionExpanded(effective);
+      }
+    });
+    unawaited(_saveDashboardState());
+  }
+
+  String _focusSectionLabel(
+    BuildContext context,
+    _DashboardFocusSection section,
+  ) {
+    final loc = AppLocalizations.of(context)!;
+    switch (section) {
+      case _DashboardFocusSection.weekly:
+        return loc.weeklyGuardrails;
+      case _DashboardFocusSection.profile:
+        return loc.profileSetup;
+      case _DashboardFocusSection.netWorth:
+        return loc.netWorth;
+      case _DashboardFocusSection.allocation:
+        return loc.assetAllocation;
+      case _DashboardFocusSection.accounts:
+        return loc.recentAccounts;
+    }
+  }
+
+  List<_DashboardFocusSection> _focusSections({
+    required bool showProfileCompletionSection,
+  }) {
+    final sections = <_DashboardFocusSection>[
+      _DashboardFocusSection.weekly,
+      _DashboardFocusSection.netWorth,
+      _DashboardFocusSection.allocation,
+      _DashboardFocusSection.accounts,
+    ];
+    if (showProfileCompletionSection) {
+      sections.insert(1, _DashboardFocusSection.profile);
+    }
+    return sections;
+  }
 
   // Helper method to get currency code from settings
   String _getCurrency(WidgetRef ref) {
@@ -159,40 +341,65 @@ class DashboardScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+    final accountsAsync = ref.watch(accountsProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.appTitle),
-      ),
-      body: Consumer(
-        builder: (context, ref, child) {
-          final accountsAsync = ref.watch(accountsProvider);
-
-          return accountsAsync.when(
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stack) => Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.error, size: 64, color: Colors.red),
-                  const SizedBox(height: 16),
-                  Text('Error loading accounts: $error'),
-                  const SizedBox(height: 16),
-                  FilledButton(
-                    onPressed: () =>
-                        ref.read(accountsProvider.notifier).reload(),
-                    child: const Text('Retry'),
-                  ),
-                ],
-              ),
+        actions: [
+          IconButton(
+            tooltip: 'Focus Mode',
+            icon: Icon(
+              _focusModeEnabled ? Icons.filter_alt : Icons.filter_alt_outlined,
             ),
-            data: (accounts) {
-              if (accounts.isEmpty) {
-                return _buildEmptyState(context);
-              }
-              return _buildDashboard(context, ref, accounts);
+            onPressed: () {
+              final settings = ref.read(settingsProvider).value;
+              final incomes = ref.read(incomesProvider).value;
+              final liabilities = ref.read(liabilitiesProvider).value;
+              final accounts = ref.read(accountsProvider).value;
+              final showProfileCompletionSection = settings != null &&
+                      incomes != null &&
+                      liabilities != null &&
+                      accounts != null
+                  ? (_calculateProfileCompletion(
+                        settings,
+                        accounts,
+                        incomes,
+                        liabilities,
+                      )['percentage'] as int) <
+                      100
+                  : true;
+              _setFocusMode(
+                !_focusModeEnabled,
+                showProfileCompletionSection: showProfileCompletionSection,
+              );
             },
-          );
+          ),
+        ],
+      ),
+      body: accountsAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stack) => Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error, size: 64, color: Colors.red),
+              const SizedBox(height: 16),
+              Text('Error loading accounts: $error'),
+              const SizedBox(height: 16),
+              FilledButton(
+                onPressed: () => ref.read(accountsProvider.notifier).reload(),
+                child: const Text('Retry'),
+              ),
+            ],
+          ),
+        ),
+        data: (accounts) {
+          if (accounts.isEmpty) {
+            return _buildEmptyState(context);
+          }
+          return _buildDashboard(context, ref, accounts);
         },
       ),
     );
@@ -203,8 +410,49 @@ class DashboardScreen extends ConsumerWidget {
     WidgetRef ref,
     List<Account> accounts,
   ) {
+    final loc = AppLocalizations.of(context)!;
     final totalAssets =
         accounts.fold<double>(0.0, (sum, account) => sum + account.balance);
+    final currency = _getCurrency(ref);
+    final settings = ref.watch(settingsProvider).value;
+    final incomes = ref.watch(incomesProvider).value;
+    final liabilities = ref.watch(liabilitiesProvider).value;
+    final expenses = ref.watch(expensesProvider).value;
+
+    int? profileCompletionPercentage;
+    int? profileMissingCount;
+    if (settings != null && incomes != null && liabilities != null) {
+      final completion = _calculateProfileCompletion(
+        settings,
+        accounts,
+        incomes,
+        liabilities,
+      );
+      profileCompletionPercentage = completion['percentage'] as int;
+      profileMissingCount = (completion['missing'] as List<String>).length;
+    }
+    final showProfileCompletionSection = profileCompletionPercentage == null ||
+        profileCompletionPercentage < 100;
+
+    double? safeToSpend;
+    int? bufferDays;
+    if (settings != null &&
+        incomes != null &&
+        liabilities != null &&
+        expenses != null) {
+      final weeklyData = _calculateWeeklyGuardrailsData(
+        settings,
+        incomes,
+        liabilities,
+        accounts,
+        expenses,
+      );
+      safeToSpend = (weeklyData['safeToSpend'] as num).toDouble();
+      bufferDays = weeklyData['daysOfBuffer'] as int;
+    }
+    final effectiveFocusSection = _effectiveFocusSection(
+      showProfileCompletionSection: showProfileCompletionSection,
+    );
 
     return Container(
       decoration: BoxDecoration(
@@ -224,112 +472,620 @@ class DashboardScreen extends ConsumerWidget {
           SliverToBoxAdapter(
             child: CommandCenterSection(accounts: accounts),
           ),
-
-          // Weekly Guardrails / Safe to Spend Card
           SliverToBoxAdapter(
-            child: _buildWeeklyGuardrailsCard(context, ref),
-          ),
-
-          // Profile Completion Indicator
-          SliverToBoxAdapter(
-            child: _buildProfileCompletionCard(context, ref, accounts),
-          ),
-
-          // Enhanced Net Worth Card with History
-          SliverToBoxAdapter(
-            child: _buildNetWorthCard(context, ref, accounts),
-          ),
-
-          // Pro Features Banner (dismissible)
-          SliverToBoxAdapter(
-            child: _buildProBanner(context, ref),
-          ),
-
-          // Allocation Analysis Section
-          SliverToBoxAdapter(
-            child: _buildAllocationSection(context, ref, accounts),
-          ),
-
-          // Set Targets CTA Banner
-          SliverToBoxAdapter(
-            child: _buildSetTargetsBanner(context, ref),
-          ),
-
-          // Quick Actions removed (redundant actions relocated / available elsewhere)
-
-          // Account Summary Section
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.recentAccounts,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                  GestureDetector(
-                    onTap: () => context.push(AppRouter.accounts),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withValues(alpha: 0.3),
-                        ),
-                      ),
-                      child: Text(
-                        '${AppLocalizations.of(context)!.viewAll} (${accounts.length})',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            child: _buildFocusModeCard(
+              context,
+              showProfileCompletionSection: showProfileCompletionSection,
+              effectiveFocusSection: effectiveFocusSection,
             ),
           ),
 
-          // Account List with loading and empty states
-          accounts.isEmpty
-              ? _buildEmptyAccountsState(context)
-              : SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      if (index >= accounts.take(5).length) return null;
-                      final account = accounts[index];
-
-                      return _buildEnhancedAccountTile(
-                        context,
-                        ref,
-                        account,
-                        index,
-                        accounts.length,
-                        totalAssets,
-                      );
-                    },
-                    childCount: accounts.take(5).length,
-                  ),
+          if (_focusModeEnabled)
+            ..._buildFocusedDashboardSlivers(
+              context: context,
+              ref: ref,
+              accounts: accounts,
+              totalAssets: totalAssets,
+              currency: currency,
+              loc: loc,
+              showProfileCompletionSection: showProfileCompletionSection,
+              profileCompletionPercentage: profileCompletionPercentage,
+              profileMissingCount: profileMissingCount,
+              safeToSpend: safeToSpend,
+              bufferDays: bufferDays,
+              focusSection: effectiveFocusSection,
+            ),
+          if (!_focusModeEnabled) ...[
+            ..._buildCollapsibleSectionSlivers(
+              context: context,
+              title: loc.weeklyGuardrails,
+              subtitle: 'Track spending capacity and cash buffer.',
+              icon: Icons.shield_moon_outlined,
+              expanded: _weeklyGuardrailsExpanded,
+              onToggle: () => _toggleSection(_DashboardFocusSection.weekly),
+              collapsedPreview: _buildWeeklyCollapsedPreview(
+                context,
+                safeToSpend: safeToSpend,
+                bufferDays: bufferDays,
+                currency: currency,
+              ),
+              expandedChild: _buildWeeklyGuardrailsCard(context, ref),
+              accentColor: Colors.green,
+            ),
+            if (showProfileCompletionSection)
+              ..._buildCollapsibleSectionSlivers(
+                context: context,
+                title: loc.profileSetup,
+                subtitle: 'Finish setup to unlock better recommendations.',
+                icon: Icons.psychology_outlined,
+                expanded: _profileCompletionExpanded,
+                onToggle: () => _toggleSection(_DashboardFocusSection.profile),
+                collapsedPreview: _buildProfileCollapsedPreview(
+                  context,
+                  completionPercentage: profileCompletionPercentage,
+                  missingItems: profileMissingCount,
                 ),
+                expandedChild:
+                    _buildProfileCompletionCard(context, ref, accounts),
+                accentColor: Theme.of(context).colorScheme.primary,
+              ),
+            ..._buildCollapsibleSectionSlivers(
+              context: context,
+              title: loc.netWorth,
+              subtitle: 'See trend, health score, and momentum.',
+              icon: Icons.account_balance_wallet_outlined,
+              expanded: _netWorthExpanded,
+              onToggle: () => _toggleSection(_DashboardFocusSection.netWorth),
+              collapsedPreview: _buildNetWorthCollapsedPreview(
+                context,
+                currency: currency,
+                accounts: accounts,
+              ),
+              expandedChild: _buildNetWorthCard(context, ref, accounts),
+              accentColor: Theme.of(context).colorScheme.primary,
+            ),
+            SliverToBoxAdapter(
+              child: _buildProBanner(context, ref),
+            ),
+            ..._buildCollapsibleSectionSlivers(
+              context: context,
+              title: loc.assetAllocation,
+              subtitle: 'Open full allocation analytics and actions.',
+              icon: Icons.pie_chart_outline,
+              expanded: _allocationExpanded,
+              onToggle: () => _toggleSection(_DashboardFocusSection.allocation),
+              collapsedPreview: _buildAllocationCollapsedPreview(
+                context,
+                currency: currency,
+                accounts: accounts,
+              ),
+              expandedChild: _buildAllocationSection(context, ref, accounts),
+              accentColor: Theme.of(context).colorScheme.secondary,
+            ),
+            SliverToBoxAdapter(
+              child: _buildSetTargetsBanner(context, ref),
+            ),
+            ..._buildRecentAccountsSectionSlivers(
+              context,
+              ref,
+              accounts,
+              totalAssets,
+              currency,
+            ),
+          ],
 
           // Bottom padding
           const SliverToBoxAdapter(
             child: SizedBox(height: 100),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _buildCollapsibleSectionSlivers({
+    required BuildContext context,
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required bool expanded,
+    required VoidCallback onToggle,
+    required Widget collapsedPreview,
+    required Widget expandedChild,
+    Color? accentColor,
+  }) {
+    return [
+      SliverToBoxAdapter(
+        child: _DashboardSectionToggleCard(
+          title: title,
+          subtitle: subtitle,
+          icon: icon,
+          expanded: expanded,
+          onTap: onToggle,
+          preview: collapsedPreview,
+          accentColor: accentColor ?? Theme.of(context).colorScheme.primary,
+        ),
+      ),
+      if (expanded) SliverToBoxAdapter(child: expandedChild),
+    ];
+  }
+
+  Widget _buildFocusModeCard(
+    BuildContext context, {
+    required bool showProfileCompletionSection,
+    required _DashboardFocusSection effectiveFocusSection,
+  }) {
+    final availableSections = _focusSections(
+      showProfileCompletionSection: showProfileCompletionSection,
+    );
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 6, 16, 8),
+      child: Material(
+        color: Theme.of(context)
+            .colorScheme
+            .surfaceContainerHighest
+            .withValues(alpha: 0.55),
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color:
+                  Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    Icons.filter_alt_outlined,
+                    size: 18,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Focus Mode',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
+                    ),
+                  ),
+                  Switch.adaptive(
+                    value: _focusModeEnabled,
+                    onChanged: (value) => _setFocusMode(
+                      value,
+                      showProfileCompletionSection:
+                          showProfileCompletionSection,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 2),
+              Text(
+                _focusModeEnabled
+                    ? 'Showing Command Center + ${_focusSectionLabel(context, effectiveFocusSection)}.'
+                    : 'Condense the dashboard to one section while you work.',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+              ),
+              if (_focusModeEnabled) ...[
+                const SizedBox(height: 10),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: availableSections
+                      .map(
+                        (section) => ChoiceChip(
+                          selected: effectiveFocusSection == section,
+                          label: Text(_focusSectionLabel(context, section)),
+                          onSelected: (_) => _setFocusSection(
+                            section,
+                            showProfileCompletionSection:
+                                showProfileCompletionSection,
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _buildFocusedDashboardSlivers({
+    required BuildContext context,
+    required WidgetRef ref,
+    required List<Account> accounts,
+    required double totalAssets,
+    required String currency,
+    required AppLocalizations loc,
+    required bool showProfileCompletionSection,
+    required int? profileCompletionPercentage,
+    required int? profileMissingCount,
+    required double? safeToSpend,
+    required int? bufferDays,
+    required _DashboardFocusSection focusSection,
+  }) {
+    switch (focusSection) {
+      case _DashboardFocusSection.weekly:
+        return [
+          ..._buildCollapsibleSectionSlivers(
+            context: context,
+            title: loc.weeklyGuardrails,
+            subtitle: 'Track spending capacity and cash buffer.',
+            icon: Icons.shield_moon_outlined,
+            expanded: true,
+            onToggle: () {},
+            collapsedPreview: _buildWeeklyCollapsedPreview(
+              context,
+              safeToSpend: safeToSpend,
+              bufferDays: bufferDays,
+              currency: currency,
+            ),
+            expandedChild: _buildWeeklyGuardrailsCard(context, ref),
+            accentColor: Colors.green,
+          ),
+        ];
+      case _DashboardFocusSection.profile:
+        if (!showProfileCompletionSection) return [];
+        return [
+          ..._buildCollapsibleSectionSlivers(
+            context: context,
+            title: loc.profileSetup,
+            subtitle: 'Finish setup to unlock better recommendations.',
+            icon: Icons.psychology_outlined,
+            expanded: true,
+            onToggle: () {},
+            collapsedPreview: _buildProfileCollapsedPreview(
+              context,
+              completionPercentage: profileCompletionPercentage,
+              missingItems: profileMissingCount,
+            ),
+            expandedChild: _buildProfileCompletionCard(context, ref, accounts),
+            accentColor: Theme.of(context).colorScheme.primary,
+          ),
+        ];
+      case _DashboardFocusSection.netWorth:
+        return [
+          ..._buildCollapsibleSectionSlivers(
+            context: context,
+            title: loc.netWorth,
+            subtitle: 'See trend, health score, and momentum.',
+            icon: Icons.account_balance_wallet_outlined,
+            expanded: true,
+            onToggle: () {},
+            collapsedPreview: _buildNetWorthCollapsedPreview(
+              context,
+              currency: currency,
+              accounts: accounts,
+            ),
+            expandedChild: _buildNetWorthCard(context, ref, accounts),
+            accentColor: Theme.of(context).colorScheme.primary,
+          ),
+        ];
+      case _DashboardFocusSection.allocation:
+        return [
+          ..._buildCollapsibleSectionSlivers(
+            context: context,
+            title: loc.assetAllocation,
+            subtitle: 'Open full allocation analytics and actions.',
+            icon: Icons.pie_chart_outline,
+            expanded: true,
+            onToggle: () {},
+            collapsedPreview: _buildAllocationCollapsedPreview(
+              context,
+              currency: currency,
+              accounts: accounts,
+            ),
+            expandedChild: _buildAllocationSection(context, ref, accounts),
+            accentColor: Theme.of(context).colorScheme.secondary,
+          ),
+        ];
+      case _DashboardFocusSection.accounts:
+        return _buildRecentAccountsSectionSlivers(
+          context,
+          ref,
+          accounts,
+          totalAssets,
+          currency,
+          forceExpanded: true,
+          hideToggleCard: true,
+        );
+    }
+  }
+
+  List<Widget> _buildRecentAccountsSectionSlivers(
+    BuildContext context,
+    WidgetRef ref,
+    List<Account> accounts,
+    double totalAssets,
+    String currency, {
+    bool forceExpanded = false,
+    bool hideToggleCard = false,
+  }) {
+    final topAccount = accounts.reduce(
+      (left, right) => left.balance >= right.balance ? left : right,
+    );
+    final isExpanded = forceExpanded || _recentAccountsExpanded;
+
+    return [
+      if (!hideToggleCard)
+        SliverToBoxAdapter(
+          child: _DashboardSectionToggleCard(
+            title: AppLocalizations.of(context)!.recentAccounts,
+            subtitle: 'Quick access to your highest-impact holdings.',
+            icon: Icons.account_balance_outlined,
+            expanded: isExpanded,
+            onTap: () => _toggleSection(_DashboardFocusSection.accounts),
+            preview: Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _buildPreviewChip(
+                  context,
+                  label: 'Accounts',
+                  value: '${accounts.length}',
+                ),
+                _buildPreviewChip(
+                  context,
+                  label: 'Largest',
+                  value: CurrencyFormatter.formatCompact(
+                    topAccount.balance,
+                    currency,
+                  ),
+                ),
+              ],
+            ),
+            accentColor: Theme.of(context).colorScheme.tertiary,
+          ),
+        ),
+      if (isExpanded)
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: GestureDetector(
+                onTap: () => context.push(AppRouter.accounts),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primary
+                        .withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: Text(
+                    '${AppLocalizations.of(context)!.viewAll} (${accounts.length})',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      if (isExpanded)
+        accounts.isEmpty
+            ? _buildEmptyAccountsState(context)
+            : SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    if (index >= accounts.take(5).length) return null;
+                    final account = accounts[index];
+
+                    return _buildEnhancedAccountTile(
+                      context,
+                      ref,
+                      account,
+                      index,
+                      accounts.length,
+                      totalAssets,
+                    );
+                  },
+                  childCount: accounts.take(5).length,
+                ),
+              ),
+    ];
+  }
+
+  Widget _buildWeeklyCollapsedPreview(
+    BuildContext context, {
+    required double? safeToSpend,
+    required int? bufferDays,
+    required String currency,
+  }) {
+    if (safeToSpend == null || bufferDays == null) {
+      return _buildPreviewHint(
+        context,
+        'Tap to open weekly spending and liquidity guardrails.',
+      );
+    }
+
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        _buildPreviewChip(
+          context,
+          label: 'Safe to spend',
+          value: CurrencyFormatter.formatCompact(safeToSpend, currency),
+          valueColor: safeToSpend < 0 ? Colors.red.shade400 : Colors.green,
+        ),
+        _buildPreviewChip(
+          context,
+          label: 'Buffer',
+          value: '$bufferDays days',
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProfileCollapsedPreview(
+    BuildContext context, {
+    required int? completionPercentage,
+    required int? missingItems,
+  }) {
+    if (completionPercentage == null || missingItems == null) {
+      return _buildPreviewHint(
+        context,
+        'Tap to review onboarding progress and missing data.',
+      );
+    }
+
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        _buildPreviewChip(
+          context,
+          label: 'Complete',
+          value: '$completionPercentage%',
+          valueColor: completionPercentage >= 80
+              ? Colors.green
+              : Theme.of(context).colorScheme.primary,
+        ),
+        _buildPreviewChip(
+          context,
+          label: 'Missing',
+          value: '$missingItems items',
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNetWorthCollapsedPreview(
+    BuildContext context, {
+    required String currency,
+    required List<Account> accounts,
+  }) {
+    final totalAssets =
+        accounts.fold<double>(0.0, (sum, account) => sum + account.balance);
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        _buildPreviewChip(
+          context,
+          label: 'Net worth',
+          value: CurrencyFormatter.formatCompact(totalAssets, currency),
+        ),
+        _buildPreviewChip(
+          context,
+          label: 'Accounts',
+          value: '${accounts.length}',
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAllocationCollapsedPreview(
+    BuildContext context, {
+    required String currency,
+    required List<Account> accounts,
+  }) {
+    final totalAssets =
+        accounts.fold<double>(0.0, (sum, account) => sum + account.balance);
+    if (totalAssets <= 0) {
+      return _buildPreviewHint(
+        context,
+        'Add assets to unlock allocation diagnostics.',
+      );
+    }
+
+    final allocation = _calculateAllocation(accounts);
+    final topBucket = allocation.entries.reduce(
+      (left, right) => left.value >= right.value ? left : right,
+    );
+    final topPct = (topBucket.value / totalAssets) * 100;
+
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        _buildPreviewChip(
+          context,
+          label: 'Top bucket',
+          value: '${topBucket.key} ${topPct.toStringAsFixed(1)}%',
+        ),
+        _buildPreviewChip(
+          context,
+          label: 'Assets',
+          value: CurrencyFormatter.formatCompact(totalAssets, currency),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPreviewHint(BuildContext context, String text) {
+    return Text(
+      text,
+      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
+    );
+  }
+
+  Widget _buildPreviewChip(
+    BuildContext context, {
+    required String label,
+    required String value,
+    Color? valueColor,
+  }) {
+    return Container(
+      constraints: const BoxConstraints(minWidth: 112),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        color: Theme.of(context)
+            .colorScheme
+            .surfaceContainerHigh
+            .withValues(alpha: 0.7),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.25),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            label,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: valueColor ?? Theme.of(context).colorScheme.onSurface,
+                ),
           ),
         ],
       ),
@@ -4533,6 +5289,107 @@ class DashboardScreen extends ConsumerWidget {
         expand: false,
         builder: (context, scrollController) => NetWorthHistorySheet(
           scrollController: scrollController,
+        ),
+      ),
+    );
+  }
+}
+
+class _DashboardSectionToggleCard extends StatelessWidget {
+  const _DashboardSectionToggleCard({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.expanded,
+    required this.onTap,
+    required this.preview,
+    required this.accentColor,
+  });
+
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final bool expanded;
+  final VoidCallback onTap;
+  final Widget preview;
+  final Color accentColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 6),
+      child: Material(
+        color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.88),
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: accentColor.withValues(alpha: 0.28),
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 34,
+                      height: 34,
+                      decoration: BoxDecoration(
+                        color: accentColor.withValues(alpha: 0.14),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        icon,
+                        size: 18,
+                        color: accentColor,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(fontWeight: FontWeight.w700),
+                          ),
+                          const SizedBox(height: 1),
+                          Text(
+                            subtitle,
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant,
+                                    ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Icon(
+                      expanded
+                          ? Icons.keyboard_arrow_up_rounded
+                          : Icons.keyboard_arrow_down_rounded,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ],
+                ),
+                if (!expanded) ...[
+                  const SizedBox(height: 10),
+                  preview,
+                ],
+              ],
+            ),
+          ),
         ),
       ),
     );
