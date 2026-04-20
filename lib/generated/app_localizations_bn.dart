@@ -2591,6 +2591,58 @@ class AppLocalizationsBn extends AppLocalizations {
   String get addExpense => 'খরচ যোগ করুন';
 
   @override
+  String get editExpense => 'ব্যয় সম্পাদনা করুন';
+
+  @override
+  String get expenseName => 'ব্যয়ের নাম';
+
+  @override
+  String get expenseNameHint => 'যেমন, বৈদ্যুতিক বিল, ইন্টারনেট';
+
+  @override
+  String get monthlyAmount => 'মাসিক পরিমাণ';
+
+  @override
+  String get category => 'শ্রেণী';
+
+  @override
+  String get dueDayOptional => 'নির্ধারিত দিন (ঐচ্ছিক)';
+
+  @override
+  String get dueDayHint => 'যেমন, মাসের 15 তারিখের জন্য 15';
+
+  @override
+  String get mustBeBetween1And31 => '1 থেকে 31 এর মধ্যে হতে হবে';
+
+  @override
+  String get expenseUpdated => 'খরচ আপডেট করা হয়েছে';
+
+  @override
+  String get expenseAdded => 'খরচ যোগ করা হয়েছে';
+
+  @override
+  String get deleteExpenseTitle => 'খরচ মুছে ফেলবেন?';
+
+  @override
+  String get deleteExpenseConfirmation =>
+      'আপনি কি নিশ্চিত আপনি এই খরচ মুছে ফেলতে চান?';
+
+  @override
+  String get expenseDeleted => 'খরচ মুছে ফেলা হয়েছে';
+
+  @override
+  String get expenseCategoryRentMortgage => 'ভাড়া/বন্ধক';
+
+  @override
+  String get expenseCategoryUtilities => 'ইউটিলিটিস';
+
+  @override
+  String get expenseCategoryInsurance => 'বীমা';
+
+  @override
+  String get expenseCategorySubscriptions => 'সদস্যতা';
+
+  @override
   String get totalMonthlyExpenses => 'মোট মাসিক খরচ';
 
   @override
@@ -2615,4 +2667,405 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String get completeProfileInsights =>
       'আরও ভালো অন্তর্দৃষ্টির জন্য আপনার প্রোফাইল সম্পন্ন করুন';
+
+  @override
+  String get importExportTitle => 'আমদানি ও রপ্তানি';
+
+  @override
+  String get backupRestoreSectionTitle => 'ব্যাকআপ এবং পুনরুদ্ধার করুন';
+
+  @override
+  String get exportToCsvTitle => 'CSV-এ রপ্তানি করুন';
+
+  @override
+  String get exportToCsvSubtitle =>
+      'বিনামূল্যে • স্প্রেডশীট বিশ্লেষণের জন্য অ্যাকাউন্ট ব্যালেন্স রপ্তানি করুন';
+
+  @override
+  String get createCompleteBackupTitle => 'সম্পূর্ণ ব্যাকআপ তৈরি করুন';
+
+  @override
+  String get createCompleteBackupSubtitle =>
+      'একটি ফাইলে সমস্ত ডেটা (অ্যাকাউন্ট, ঋণ, আয়, সেটিংস) রপ্তানি করুন';
+
+  @override
+  String get createEncryptedBackupTitle => 'এনক্রিপ্টেড ব্যাকআপ তৈরি করুন';
+
+  @override
+  String get createEncryptedBackupSubtitle =>
+      'প্রস্তাবিত • সংরক্ষণ করার আগে একটি পাসফ্রেজ সহ ব্যাকআপ এনক্রিপ্ট করুন';
+
+  @override
+  String get restoreFromBackupTitle => 'ব্যাকআপ থেকে পুনরুদ্ধার করুন';
+
+  @override
+  String get restoreFromBackupSubtitle =>
+      'একটি ব্যাকআপ ফাইল থেকে সমস্ত ডেটা পুনরুদ্ধার করুন';
+
+  @override
+  String get exportCsvDialogTitle => 'CSV রপ্তানি করুন';
+
+  @override
+  String get exportCsvDialogDescription =>
+      'আপনার CSV ফাইল সরাসরি আপনার ডাউনলোড ফোল্ডারে সংরক্ষিত হবে।';
+
+  @override
+  String get exportButtonLabel => 'রপ্তানি';
+
+  @override
+  String csvSavedToDownloads(String filename) {
+    return 'ডাউনলোডে সংরক্ষিত:\\n$filename';
+  }
+
+  @override
+  String exportFailedWithError(String error) {
+    return 'রপ্তানি ব্যর্থ হয়েছে: $error';
+  }
+
+  @override
+  String get encryptedBackupDialogTitle => 'এনক্রিপ্টেড ব্যাকআপ তৈরি করুন';
+
+  @override
+  String get backupPassphraseDialogTitle => 'ব্যাকআপ পাসফ্রেজ';
+
+  @override
+  String get newBackupPassphraseDescription =>
+      'একটি শক্তিশালী পাসফ্রেজ ব্যবহার করুন (উর্ধ্ব/নিম্ন/অঙ্ক/চিহ্ন সহ 12+ অক্ষর)। হারিয়ে গেলে, এই ব্যাকআপ পুনরুদ্ধার করা যাবে না।';
+
+  @override
+  String get existingBackupPassphraseDescription =>
+      'এই এনক্রিপ্ট করা ব্যাকআপ তৈরি করার সময় ব্যবহৃত পাসফ্রেজটি লিখুন।';
+
+  @override
+  String get passphraseLabel => 'পাসফ্রেজ';
+
+  @override
+  String get confirmPassphraseLabel => 'পাসফ্রেজ নিশ্চিত করুন';
+
+  @override
+  String get passphraseRequiredError => 'পাসফ্রেজ প্রয়োজন।';
+
+  @override
+  String get passphrasesDoNotMatchError => 'পাসফ্রেজ মেলে না।';
+
+  @override
+  String get continueLabel => 'চালিয়ে যান';
+
+  @override
+  String get passphraseMinLengthError => 'পাসফ্রেজ কমপক্ষে 12 অক্ষরের হতে হবে।';
+
+  @override
+  String get passphraseComplexityError =>
+      'অন্তত একটি বড় হাতের, ছোট হাতের, সংখ্যা এবং প্রতীক ব্যবহার করুন।';
+
+  @override
+  String get createBackupFailed => 'ব্যাকআপ তৈরি করতে ব্যর্থ হয়েছে৷';
+
+  @override
+  String backupSavedToDownloads(String filePath) {
+    return 'ডাউনলোডগুলিতে ব্যাকআপ সংরক্ষিত হয়েছে:\\n$filePath';
+  }
+
+  @override
+  String backupFailedWithError(String error) {
+    return 'ব্যাকআপ ব্যর্থ হয়েছে: $error';
+  }
+
+  @override
+  String get createEncryptedBackupFailed =>
+      'এনক্রিপ্ট করা ব্যাকআপ তৈরি করতে ব্যর্থ হয়েছে৷';
+
+  @override
+  String encryptedBackupSavedToDownloads(String filePath) {
+    return 'এনক্রিপ্ট করা ব্যাকআপ ডাউনলোডগুলিতে সংরক্ষিত হয়েছে:\\n$filePath';
+  }
+
+  @override
+  String encryptedBackupFailedWithError(String error) {
+    return 'এনক্রিপ্ট করা ব্যাকআপ ব্যর্থ হয়েছে: $error';
+  }
+
+  @override
+  String get restoreConfirmTitle => 'ব্যাকআপ থেকে পুনরুদ্ধার করবেন?';
+
+  @override
+  String get restoreConfirmWarning =>
+      'সতর্কতা: এটি ব্যাকআপ ফাইলের ডেটার সাথে আপনার সমস্ত বর্তমান ডেটা প্রতিস্থাপন করবে৷\\n\\nআপনার বর্তমান ডেটা স্থায়ীভাবে মুছে ফেলা হবে৷\\n\\nএগিয়ে যাওয়ার আগে নিশ্চিত করুন যে আপনার বর্তমান ডেটার একটি ব্যাকআপ আছে৷';
+
+  @override
+  String get restoreButtonLabel => 'পুনরুদ্ধার করুন';
+
+  @override
+  String get restoreTooManyPassphraseAttempts =>
+      'অনেক বেশি ভুল পাসফ্রেজ প্রয়াস। পুনরুদ্ধার বাতিল করা হয়েছে।';
+
+  @override
+  String get restoreSuccessfulTitle => 'পুনরুদ্ধার সফল!';
+
+  @override
+  String restoreFailedWithError(String error) {
+    return 'পুনরুদ্ধার ব্যর্থ হয়েছে: $error';
+  }
+
+  @override
+  String get householdProfilesBetaTitle => 'পরিবারের প্রোফাইল (বিটা)';
+
+  @override
+  String get householdProfilesDescription =>
+      'প্রোফাইল তৈরি করুন এবং পরিবর্তন করুন। মূল আর্থিক ডেটা এখন প্রতি সক্রিয় পরিবারের প্রোফাইলে লোড হয়।';
+
+  @override
+  String get householdActiveProfileLabel => 'সক্রিয় প্রোফাইল';
+
+  @override
+  String get householdNoProfilesAvailable => 'কোন প্রোফাইল উপলব্ধ নেই';
+
+  @override
+  String get householdAddProfileTitle => 'পরিবারের প্রোফাইল যোগ করুন';
+
+  @override
+  String get householdRenameProfileTitle => 'প্রোফাইল পুনঃনামকরণ করুন';
+
+  @override
+  String get householdDeleteProfileTitle => 'প্রোফাইল মুছবেন?';
+
+  @override
+  String get householdProfileNameLabel => 'প্রোফাইল নাম';
+
+  @override
+  String householdDeleteProfileDescription(String name) {
+    return '\"$name\" প্রোফাইল মুছবেন? প্রোফাইলে কোনো আর্থিক রেকর্ড বরাদ্দ না থাকলেই এটি অনুমোদিত।';
+  }
+
+  @override
+  String get householdCreateAtLeastTwoProfiles =>
+      'ডেটা সরানোর আগে কমপক্ষে দুটি প্রোফাইল তৈরি করুন।';
+
+  @override
+  String get householdMoveDataTitle => 'প্রোফাইলের মধ্যে ডেটা সরান';
+
+  @override
+  String get householdMoveDataDescription =>
+      'এটি একটি প্রোফাইল থেকে অন্য প্রোফাইলে নির্বাচিত অ্যাকাউন্ট, দায়, আয়, ব্যয় এবং লক্ষ্যগুলি পুনরায় বরাদ্দ করবে।';
+
+  @override
+  String get householdMoveFromProfileLabel => 'প্রোফাইল থেকে';
+
+  @override
+  String get householdMoveToProfileLabel => 'প্রোফাইল করতে';
+
+  @override
+  String get householdMoveDataTypesLabel => 'সরানোর জন্য ডেটা প্রকার';
+
+  @override
+  String get householdDataTypeGoals => 'গোল';
+
+  @override
+  String get householdMoveProfilesMustDiffer =>
+      'উৎস এবং লক্ষ্য প্রোফাইল ভিন্ন হতে হবে.';
+
+  @override
+  String get householdMoveSelectAtLeastOneType =>
+      'সরানোর জন্য কমপক্ষে একটি ডেটা টাইপ নির্বাচন করুন৷';
+
+  @override
+  String get householdGoalsSectionTitle => 'পরিবারের লক্ষ্য';
+
+  @override
+  String get householdGoalNoGoalsForActive =>
+      'সক্রিয় প্রোফাইলের জন্য এখনো কোনো লক্ষ্য নেই।';
+
+  @override
+  String get householdAddGoalTitle => 'পারিবারিক লক্ষ্য যোগ করুন';
+
+  @override
+  String get householdEditGoalTitle => 'পারিবারিক লক্ষ্য সম্পাদনা করুন';
+
+  @override
+  String get householdGoalNameLabel => 'গোলের নাম';
+
+  @override
+  String get householdGoalTargetAmountLabel => 'লক্ষ্য পরিমাণ';
+
+  @override
+  String get householdGoalCurrentAmountLabel => 'বর্তমান সংরক্ষিত পরিমাণ';
+
+  @override
+  String get householdGoalSharedToggle =>
+      'ভাগ করা লক্ষ্য (সমস্ত প্রোফাইলে দৃশ্যমান)';
+
+  @override
+  String get householdGoalOwnerProfileLabel => 'মালিকের প্রোফাইল';
+
+  @override
+  String get householdGoalNameRequired => 'একটি লক্ষ্যের নাম লিখুন।';
+
+  @override
+  String get householdGoalTargetInvalid => 'একটি বৈধ লক্ষ্য পরিমাণ লিখুন।';
+
+  @override
+  String get householdGoalCurrentInvalid => 'একটি বৈধ বর্তমান পরিমাণ লিখুন।';
+
+  @override
+  String get householdGoalOwnerRequired => 'একটি মালিক প্রোফাইল নির্বাচন করুন.';
+
+  @override
+  String get householdGoalScopeShared => 'শেয়ার করা হয়েছে';
+
+  @override
+  String get householdGoalScopeProfileUnknown => 'প্রোফাইল';
+
+  @override
+  String householdGoalScopeProfile(String name) {
+    return 'প্রোফাইল: $name';
+  }
+
+  @override
+  String get householdGoalDeleteTitle => 'লক্ষ্য মুছবেন?';
+
+  @override
+  String householdGoalDeleteMessage(String name) {
+    return 'লক্ষ্য \"$name\" মুছবেন?';
+  }
+
+  @override
+  String householdGoalFailedToAdd(String error) {
+    return 'লক্ষ্য যোগ করতে ব্যর্থ হয়েছে: $error';
+  }
+
+  @override
+  String householdGoalFailedToDelete(String error) {
+    return 'লক্ষ্য মুছে ফেলতে ব্যর্থ হয়েছে: $error';
+  }
+
+  @override
+  String householdGoalFailedToUpdate(String error) {
+    return 'লক্ষ্য আপডেট করতে ব্যর্থ হয়েছে: $error';
+  }
+
+  @override
+  String get householdGoalEditSplitsTitle => 'অবদান বিভাজন সম্পাদনা করুন';
+
+  @override
+  String get householdGoalEditSplitsTooltip => 'অবদান বিভাজন সম্পাদনা করুন';
+
+  @override
+  String get householdGoalSplitNeedPositive =>
+      'শূন্যের উপরে বিভক্ত শতাংশ লিখুন।';
+
+  @override
+  String householdGoalFailedToUpdateSplits(String error) {
+    return 'বিভাজন আপডেট করতে ব্যর্থ হয়েছে: $error';
+  }
+
+  @override
+  String householdGoalProgressSummary(
+      String current, String target, String percent) {
+    return 'অগ্রগতি: $current / $target ($percent%)';
+  }
+
+  @override
+  String householdGoalSplitPreview(String splits) {
+    return 'বিভাজন: $splits';
+  }
+
+  @override
+  String get householdActiveProfileUpdated =>
+      'সক্রিয় প্রোফাইল আপডেট করা হয়েছে';
+
+  @override
+  String householdFailedToUpdateProfile(String error) {
+    return 'প্রোফাইল আপডেট করতে ব্যর্থ হয়েছে: $error';
+  }
+
+  @override
+  String householdFailedToAddProfile(String error) {
+    return 'প্রোফাইল যোগ করতে ব্যর্থ হয়েছে: $error';
+  }
+
+  @override
+  String householdFailedToRenameProfile(String error) {
+    return 'প্রোফাইলের নাম পরিবর্তন করতে ব্যর্থ হয়েছে: $error';
+  }
+
+  @override
+  String householdFailedToDeleteProfile(String error) {
+    return 'প্রোফাইল মুছে ফেলতে ব্যর্থ হয়েছে: $error';
+  }
+
+  @override
+  String householdFailedToMoveData(String error) {
+    return 'ডেটা সরাতে ব্যর্থ হয়েছে: $error';
+  }
+
+  @override
+  String householdMovedRecordsSummary(int total, int accounts, int liabilities,
+      int incomes, int expenses, int goals) {
+    return '$total রেকর্ড সরানো হয়েছে (A:$accounts, L:$liabilities, I:$incomes, E:$expenses, G:$goals)।';
+  }
+
+  @override
+  String get householdStatusActive => 'সক্রিয়';
+
+  @override
+  String get householdStatusInactive => 'নিষ্ক্রিয়';
+
+  @override
+  String get householdDeleteTooltipAtLeastOne => 'অন্তত একটি প্রোফাইল প্রয়োজন';
+
+  @override
+  String get householdDeleteTooltipMoveDataFirst =>
+      'এই প্রোফাইল মুছে ফেলার আগে ডেটা সরান';
+
+  @override
+  String get householdDeleteTooltipDelete => 'মুছে দিন';
+
+  @override
+  String householdCountsCompact(
+      int accounts, int liabilities, int incomes, int expenses, int goals) {
+    return 'A:$accounts L:$liabilities I:$incomes E:$expenses G:$goals';
+  }
+
+  @override
+  String householdProfileOptionLabel(String name, String counts) {
+    return '$name ($counts)';
+  }
+
+  @override
+  String get householdMoveAllToActiveButton =>
+      'সমস্ত ডেটা সক্রিয় প্রোফাইলে সরান';
+
+  @override
+  String get householdMoveAllConfirmTitle =>
+      'সমস্ত ডেটা সক্রিয় প্রোফাইলে সরাতে চান?';
+
+  @override
+  String householdMoveAllConfirmMessage(int totalMovable, String activeName) {
+    return 'এটি অন্য সমস্ত প্রোফাইল থেকে $totalMovable রেকর্ডগুলিকে \"$activeName\" এ স্থানান্তরিত করবে।';
+  }
+
+  @override
+  String get householdMoveAllNoData =>
+      'অন্য প্রোফাইল থেকে সরানোর জন্য কোন ডেটা নেই।';
+
+  @override
+  String householdMovableFromOtherProfiles(int count) {
+    return 'অন্যান্য প্রোফাইল থেকে স্থানান্তরযোগ্য: $count';
+  }
+
+  @override
+  String householdFailedToMoveAllData(String error) {
+    return 'সমস্ত ডেটা সরাতে ব্যর্থ হয়েছে: $error';
+  }
+
+  @override
+  String get householdGoalSplitsFeatureTitle => 'ভাগ করা পারিবারিক লক্ষ্য';
+
+  @override
+  String get householdGoalSplitsFeatureOutcome =>
+      'প্রোফাইল দ্বারা অবদান বিভক্ত করুন এবং অগ্রগতি ট্র্যাক করুন।';
+
+  @override
+  String get householdGoalSplitsFeatureDescription =>
+      'ভাগ করা লক্ষ্য সেট করুন, অবদান শতাংশ নির্ধারণ করুন এবং সবাইকে সারিবদ্ধ রাখুন।';
 }

@@ -981,7 +981,6 @@
   "billsAmount": "قبوض {amount}",
   "tapToSeeGuardrails": "برای مشاهده محدودیت‌ها ضربه بزنید",
   "moneyHealthScore": "امتیاز سلامت مالی",
-  "fair": "متوسط",
   "weakestArea": "{area} ضعیف‌ترین نقطه شما در حال حاضر است",
   "neverBrokeWeek": "دیگر هرگز 'هفته بی‌پولی' نداشته باشید.",
   "answerQuestionsGuardrails": "به 3 سؤال سریع پاسخ دهید و ما به شما می‌گوییم این هفته چقدر می‌توانید با اطمینان خرج کنید.",
@@ -1028,5 +1027,356 @@
   "dueOnDay": "سررسید روز {day}",
   "profileSetup": "تنظیم پروفایل",
   "percentComplete": "{percentage}% کامل",
-  "completeProfileInsights": "پروفایل خود را برای بینش‌های بهتر تکمیل کنید"
+  "completeProfileInsights": "پروفایل خود را برای بینش‌های بهتر تکمیل کنید",
+  "editExpense": "ویرایش هزینه",
+  "expenseName": "نام هزینه",
+  "expenseNameHint": "به عنوان مثال، قبض برق، اینترنت",
+  "monthlyAmount": "مبلغ ماهانه",
+  "category": "دسته بندی",
+  "dueDayOptional": "روز سررسید (اختیاری)",
+  "dueDayHint": "به عنوان مثال، 15 برای 15 ماه",
+  "mustBeBetween1And31": "باید بین 1 تا 31 باشد",
+  "expenseUpdated": "هزینه به روز شد",
+  "expenseAdded": "هزینه اضافه شد",
+  "deleteExpenseTitle": "هزینه حذف شود؟",
+  "deleteExpenseConfirmation": "آیا مطمئنید که می خواهید این هزینه را حذف کنید؟",
+  "expenseDeleted": "هزینه حذف شد",
+  "expenseCategoryRentMortgage": "اجاره / رهن",
+  "expenseCategoryUtilities": "آب و برق",
+  "expenseCategoryInsurance": "بیمه",
+  "expenseCategorySubscriptions": "اشتراک ها",
+  "importExportTitle": "واردات و صادرات",
+  "backupRestoreSectionTitle": "پشتیبان گیری و بازیابی",
+  "exportToCsvTitle": "صادرات به CSV",
+  "exportToCsvSubtitle": "رایگان • صادرات مانده حساب برای تجزیه و تحلیل صفحه گسترده",
+  "createCompleteBackupTitle": "پشتیبان گیری کامل ایجاد کنید",
+  "createCompleteBackupSubtitle": "تمام داده ها (حساب ها، بدهی ها، درآمد، تنظیمات) را به یک فایل صادر کنید",
+  "createEncryptedBackupTitle": "ایجاد پشتیبان رمزگذاری شده",
+  "createEncryptedBackupSubtitle": "توصیه می شود • قبل از ذخیره، پشتیبان را با یک عبارت عبور رمزگذاری کنید",
+  "restoreFromBackupTitle": "بازیابی از پشتیبان",
+  "restoreFromBackupSubtitle": "تمام داده ها را از یک فایل پشتیبان بازیابی کنید",
+  "exportCsvDialogTitle": "صادرات CSV",
+  "exportCsvDialogDescription": "فایل CSV شما مستقیماً در پوشه دانلودها ذخیره می شود.",
+  "exportButtonLabel": "صادرات",
+  "csvSavedToDownloads": "ذخیره شده در دانلودها:\\n{filename}",
+  "@csvSavedToDownloads": {
+    "placeholders": {
+      "filename": {
+        "type": "String"
+      }
+    }
+  },
+  "exportFailedWithError": "صادر نشد: {error}",
+  "@exportFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "encryptedBackupDialogTitle": "ایجاد پشتیبان رمزگذاری شده",
+  "backupPassphraseDialogTitle": "رمز عبور پشتیبان",
+  "newBackupPassphraseDescription": "از یک عبارت عبور قوی (12+ نویسه با بالا/پایین/رقم/نماد) استفاده کنید. در صورت گم شدن، این نسخه پشتیبان قابل بازیابی نیست.",
+  "existingBackupPassphraseDescription": "عبارت عبور مورد استفاده در هنگام ایجاد این پشتیبان رمزگذاری شده را وارد کنید.",
+  "passphraseLabel": "عبارت عبور",
+  "confirmPassphraseLabel": "رمز عبور را تایید کنید",
+  "passphraseRequiredError": "عبارت عبور مورد نیاز است.",
+  "passphrasesDoNotMatchError": "عبارات عبور مطابقت ندارند.",
+  "continueLabel": "ادامه دهید",
+  "passphraseMinLengthError": "عبارت عبور باید حداقل 12 کاراکتر باشد.",
+  "passphraseComplexityError": "حداقل از یک حروف بزرگ، کوچک، عدد و نماد استفاده کنید.",
+  "createBackupFailed": "پشتیبان‌گیری ایجاد نشد",
+  "backupSavedToDownloads": "پشتیبان‌گیری در دانلودها ذخیره شد:\\n{filePath}",
+  "@backupSavedToDownloads": {
+    "placeholders": {
+      "filePath": {
+        "type": "String"
+      }
+    }
+  },
+  "backupFailedWithError": "پشتیبان‌گیری انجام نشد: {error}",
+  "@backupFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "createEncryptedBackupFailed": "پشتیبان رمزگذاری شده ایجاد نشد",
+  "encryptedBackupSavedToDownloads": "پشتیبان رمزگذاری شده ذخیره شده در دانلودها:\\n{filePath}",
+  "@encryptedBackupSavedToDownloads": {
+    "placeholders": {
+      "filePath": {
+        "type": "String"
+      }
+    }
+  },
+  "encryptedBackupFailedWithError": "پشتیبان‌گیری رمزگذاری شده انجام نشد: {error}",
+  "@encryptedBackupFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "restoreConfirmTitle": "بازیابی از پشتیبان گیری؟",
+  "restoreConfirmWarning": "اخطار: این کار همه داده‌های فعلی شما را با داده‌های فایل پشتیبان جایگزین می‌کند.\\n\\nداده‌های فعلی شما برای همیشه حذف می‌شوند.\\n\\nقبل از ادامه، مطمئن شوید که یک نسخه پشتیبان از داده‌های فعلی خود دارید.",
+  "restoreButtonLabel": "بازیابی کنید",
+  "restoreTooManyPassphraseAttempts": "تعداد زیادی تلاش برای عبارت عبور نادرست. بازیابی لغو شد.",
+  "restoreSuccessfulTitle": "بازیابی موفقیت آمیز!",
+  "restoreFailedWithError": "بازیابی انجام نشد: {error}",
+  "@restoreFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdProfilesBetaTitle": "نمایه‌های خانگی (بتا)",
+  "householdProfilesDescription": "ایجاد و جابجایی بین پروفایل ها داده های مالی اصلی اکنون در هر نمایه خانوار فعال بارگیری می شود.",
+  "householdActiveProfileLabel": "پروفایل فعال",
+  "householdNoProfilesAvailable": "هیچ نمایه ای در دسترس نیست",
+  "householdAddProfileTitle": "افزودن نمایه خانوار",
+  "householdRenameProfileTitle": "تغییر نام نمایه",
+  "householdDeleteProfileTitle": "نمایه حذف شود؟",
+  "householdProfileNameLabel": "نام پروفایل",
+  "householdDeleteProfileDescription": "نمایه \"{name}\" حذف شود؟ این تنها زمانی مجاز است که نمایه هیچ گونه سوابق مالی اختصاص داده نشده باشد.",
+  "@householdDeleteProfileDescription": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "householdCreateAtLeastTwoProfiles": "قبل از انتقال داده حداقل دو نمایه ایجاد کنید.",
+  "householdMoveDataTitle": "انتقال داده ها بین پروفایل ها",
+  "householdMoveDataDescription": "با این کار حساب‌ها، بدهی‌ها، درآمدها، هزینه‌ها و اهداف انتخاب شده از یک نمایه به نمایه دیگر اختصاص داده می‌شود.",
+  "householdMoveFromProfileLabel": "از نمایه",
+  "householdMoveToProfileLabel": "برای پروفایل",
+  "householdMoveDataTypesLabel": "انواع داده برای جابجایی",
+  "householdDataTypeGoals": "اهداف",
+  "householdMoveProfilesMustDiffer": "نمایه منبع و هدف باید متفاوت باشد.",
+  "householdMoveSelectAtLeastOneType": "حداقل یک نوع داده را برای انتقال انتخاب کنید.",
+  "householdGoalsSectionTitle": "اهداف خانگی",
+  "householdGoalNoGoalsForActive": "هنوز هدفی برای نمایه فعال وجود ندارد.",
+  "householdAddGoalTitle": "افزودن هدف خانگی",
+  "householdEditGoalTitle": "ویرایش هدف خانگی",
+  "householdGoalNameLabel": "نام هدف",
+  "householdGoalTargetAmountLabel": "مقدار هدف",
+  "householdGoalCurrentAmountLabel": "مقدار ذخیره شده فعلی",
+  "householdGoalSharedToggle": "هدف مشترک (قابل مشاهده برای همه نمایه ها)",
+  "householdGoalOwnerProfileLabel": "مشخصات مالک",
+  "householdGoalNameRequired": "نام هدف را وارد کنید",
+  "householdGoalTargetInvalid": "یک مقدار هدف معتبر وارد کنید.",
+  "householdGoalCurrentInvalid": "مقدار جاری معتبر وارد کنید.",
+  "householdGoalOwnerRequired": "نمایه مالک را انتخاب کنید.",
+  "householdGoalScopeShared": "به اشتراک گذاشته شده است",
+  "householdGoalScopeProfileUnknown": "نمایه",
+  "householdGoalScopeProfile": "نمایه: {name}",
+  "@householdGoalScopeProfile": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalDeleteTitle": "هدف حذف شود؟",
+  "householdGoalDeleteMessage": "هدف \"{name}\" حذف شود؟",
+  "@householdGoalDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalFailedToAdd": "هدف اضافه نشد: {error}",
+  "@householdGoalFailedToAdd": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalFailedToDelete": "هدف حذف نشد: {error}",
+  "@householdGoalFailedToDelete": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalFailedToUpdate": "هدف به‌روزرسانی نشد: {error}",
+  "@householdGoalFailedToUpdate": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalEditSplitsTitle": "ویرایش تقسیم های مشارکت",
+  "householdGoalEditSplitsTooltip": "ویرایش تقسیم مشارکت",
+  "householdGoalSplitNeedPositive": "درصد تقسیم بالای صفر را وارد کنید.",
+  "householdGoalFailedToUpdateSplits": "تقسیم‌بندی‌ها به‌روزرسانی نشد: {error}",
+  "@householdGoalFailedToUpdateSplits": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalProgressSummary": "پیشرفت: {current} / {target} ({percent}%)",
+  "@householdGoalProgressSummary": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalSplitPreview": "تقسیمات: {splits}",
+  "@householdGoalSplitPreview": {
+    "placeholders": {
+      "splits": {
+        "type": "String"
+      }
+    }
+  },
+  "householdActiveProfileUpdated": "نمایه فعال به روز شد",
+  "householdFailedToUpdateProfile": "نمایه به‌روزرسانی نشد: {error}",
+  "@householdFailedToUpdateProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToAddProfile": "نمایه اضافه نشد: {error}",
+  "@householdFailedToAddProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToRenameProfile": "تغییر نام نمایه ناموفق بود: {error}",
+  "@householdFailedToRenameProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToDeleteProfile": "نمایه حذف نشد: {error}",
+  "@householdFailedToDeleteProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToMoveData": "انتقال داده انجام نشد: {error}",
+  "@householdFailedToMoveData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdMovedRecordsSummary": "رکوردهای {total} منتقل شد (A:{accounts}، L:{liabilities}، I:{incomes}، E:{expenses}، G:{goals}).",
+  "@householdMovedRecordsSummary": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      },
+      "accounts": {
+        "type": "int"
+      },
+      "liabilities": {
+        "type": "int"
+      },
+      "incomes": {
+        "type": "int"
+      },
+      "expenses": {
+        "type": "int"
+      },
+      "goals": {
+        "type": "int"
+      }
+    }
+  },
+  "householdStatusActive": "فعال",
+  "householdStatusInactive": "غیر فعال",
+  "householdDeleteTooltipAtLeastOne": "حداقل یک نمایه مورد نیاز است",
+  "householdDeleteTooltipMoveDataFirst": "قبل از حذف این نمایه داده ها را جابه جا کنید",
+  "householdDeleteTooltipDelete": "حذف کنید",
+  "householdCountsCompact": "A:{accounts} L:{liabilities} I:{incomes} E:{expenses} G:{goals}",
+  "@householdCountsCompact": {
+    "placeholders": {
+      "accounts": {
+        "type": "int"
+      },
+      "liabilities": {
+        "type": "int"
+      },
+      "incomes": {
+        "type": "int"
+      },
+      "expenses": {
+        "type": "int"
+      },
+      "goals": {
+        "type": "int"
+      }
+    }
+  },
+  "householdProfileOptionLabel": "{name} ({counts})",
+  "@householdProfileOptionLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "counts": {
+        "type": "String"
+      }
+    }
+  },
+  "householdMoveAllToActiveButton": "همه داده ها را به نمایه فعال منتقل کنید",
+  "householdMoveAllConfirmTitle": "همه داده ها به نمایه فعال منتقل شوند؟",
+  "householdMoveAllConfirmMessage": "با این کار رکوردهای {totalMovable} از تمام نمایه های دیگر به \"{activeName}\" منتقل می شود.",
+  "@householdMoveAllConfirmMessage": {
+    "placeholders": {
+      "totalMovable": {
+        "type": "int"
+      },
+      "activeName": {
+        "type": "String"
+      }
+    }
+  },
+  "householdMoveAllNoData": "هیچ داده ای برای انتقال از نمایه های دیگر وجود ندارد.",
+  "householdMovableFromOtherProfiles": "قابل جابجایی از پروفایل های دیگر: {count}",
+  "@householdMovableFromOtherProfiles": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "householdFailedToMoveAllData": "انتقال همه داده ها انجام نشد: {error}",
+  "@householdFailedToMoveAllData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalSplitsFeatureTitle": "اهداف مشترک خانگی",
+  "householdGoalSplitsFeatureOutcome": "تقسیم مشارکت ها بر اساس نمایه و پیگیری پیشرفت.",
+  "householdGoalSplitsFeatureDescription": "اهداف مشترک تعیین کنید، درصد مشارکت را تعیین کنید و همه را در یک راستا نگه دارید."
 }

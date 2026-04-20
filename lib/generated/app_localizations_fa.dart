@@ -2589,6 +2589,58 @@ class AppLocalizationsFa extends AppLocalizations {
   String get addExpense => 'افزودن هزینه';
 
   @override
+  String get editExpense => 'ویرایش هزینه';
+
+  @override
+  String get expenseName => 'نام هزینه';
+
+  @override
+  String get expenseNameHint => 'به عنوان مثال، قبض برق، اینترنت';
+
+  @override
+  String get monthlyAmount => 'مبلغ ماهانه';
+
+  @override
+  String get category => 'دسته بندی';
+
+  @override
+  String get dueDayOptional => 'روز سررسید (اختیاری)';
+
+  @override
+  String get dueDayHint => 'به عنوان مثال، 15 برای 15 ماه';
+
+  @override
+  String get mustBeBetween1And31 => 'باید بین 1 تا 31 باشد';
+
+  @override
+  String get expenseUpdated => 'هزینه به روز شد';
+
+  @override
+  String get expenseAdded => 'هزینه اضافه شد';
+
+  @override
+  String get deleteExpenseTitle => 'هزینه حذف شود؟';
+
+  @override
+  String get deleteExpenseConfirmation =>
+      'آیا مطمئنید که می خواهید این هزینه را حذف کنید؟';
+
+  @override
+  String get expenseDeleted => 'هزینه حذف شد';
+
+  @override
+  String get expenseCategoryRentMortgage => 'اجاره / رهن';
+
+  @override
+  String get expenseCategoryUtilities => 'آب و برق';
+
+  @override
+  String get expenseCategoryInsurance => 'بیمه';
+
+  @override
+  String get expenseCategorySubscriptions => 'اشتراک ها';
+
+  @override
   String get totalMonthlyExpenses => 'جمع هزینه‌های ماهانه';
 
   @override
@@ -2613,4 +2665,404 @@ class AppLocalizationsFa extends AppLocalizations {
   @override
   String get completeProfileInsights =>
       'پروفایل خود را برای بینش‌های بهتر تکمیل کنید';
+
+  @override
+  String get importExportTitle => 'واردات و صادرات';
+
+  @override
+  String get backupRestoreSectionTitle => 'پشتیبان گیری و بازیابی';
+
+  @override
+  String get exportToCsvTitle => 'صادرات به CSV';
+
+  @override
+  String get exportToCsvSubtitle =>
+      'رایگان • صادرات مانده حساب برای تجزیه و تحلیل صفحه گسترده';
+
+  @override
+  String get createCompleteBackupTitle => 'پشتیبان گیری کامل ایجاد کنید';
+
+  @override
+  String get createCompleteBackupSubtitle =>
+      'تمام داده ها (حساب ها، بدهی ها، درآمد، تنظیمات) را به یک فایل صادر کنید';
+
+  @override
+  String get createEncryptedBackupTitle => 'ایجاد پشتیبان رمزگذاری شده';
+
+  @override
+  String get createEncryptedBackupSubtitle =>
+      'توصیه می شود • قبل از ذخیره، پشتیبان را با یک عبارت عبور رمزگذاری کنید';
+
+  @override
+  String get restoreFromBackupTitle => 'بازیابی از پشتیبان';
+
+  @override
+  String get restoreFromBackupSubtitle =>
+      'تمام داده ها را از یک فایل پشتیبان بازیابی کنید';
+
+  @override
+  String get exportCsvDialogTitle => 'صادرات CSV';
+
+  @override
+  String get exportCsvDialogDescription =>
+      'فایل CSV شما مستقیماً در پوشه دانلودها ذخیره می شود.';
+
+  @override
+  String get exportButtonLabel => 'صادرات';
+
+  @override
+  String csvSavedToDownloads(String filename) {
+    return 'ذخیره شده در دانلودها:\\n$filename';
+  }
+
+  @override
+  String exportFailedWithError(String error) {
+    return 'صادر نشد: $error';
+  }
+
+  @override
+  String get encryptedBackupDialogTitle => 'ایجاد پشتیبان رمزگذاری شده';
+
+  @override
+  String get backupPassphraseDialogTitle => 'رمز عبور پشتیبان';
+
+  @override
+  String get newBackupPassphraseDescription =>
+      'از یک عبارت عبور قوی (12+ نویسه با بالا/پایین/رقم/نماد) استفاده کنید. در صورت گم شدن، این نسخه پشتیبان قابل بازیابی نیست.';
+
+  @override
+  String get existingBackupPassphraseDescription =>
+      'عبارت عبور مورد استفاده در هنگام ایجاد این پشتیبان رمزگذاری شده را وارد کنید.';
+
+  @override
+  String get passphraseLabel => 'عبارت عبور';
+
+  @override
+  String get confirmPassphraseLabel => 'رمز عبور را تایید کنید';
+
+  @override
+  String get passphraseRequiredError => 'عبارت عبور مورد نیاز است.';
+
+  @override
+  String get passphrasesDoNotMatchError => 'عبارات عبور مطابقت ندارند.';
+
+  @override
+  String get continueLabel => 'ادامه دهید';
+
+  @override
+  String get passphraseMinLengthError =>
+      'عبارت عبور باید حداقل 12 کاراکتر باشد.';
+
+  @override
+  String get passphraseComplexityError =>
+      'حداقل از یک حروف بزرگ، کوچک، عدد و نماد استفاده کنید.';
+
+  @override
+  String get createBackupFailed => 'پشتیبان‌گیری ایجاد نشد';
+
+  @override
+  String backupSavedToDownloads(String filePath) {
+    return 'پشتیبان‌گیری در دانلودها ذخیره شد:\\n$filePath';
+  }
+
+  @override
+  String backupFailedWithError(String error) {
+    return 'پشتیبان‌گیری انجام نشد: $error';
+  }
+
+  @override
+  String get createEncryptedBackupFailed => 'پشتیبان رمزگذاری شده ایجاد نشد';
+
+  @override
+  String encryptedBackupSavedToDownloads(String filePath) {
+    return 'پشتیبان رمزگذاری شده ذخیره شده در دانلودها:\\n$filePath';
+  }
+
+  @override
+  String encryptedBackupFailedWithError(String error) {
+    return 'پشتیبان‌گیری رمزگذاری شده انجام نشد: $error';
+  }
+
+  @override
+  String get restoreConfirmTitle => 'بازیابی از پشتیبان گیری؟';
+
+  @override
+  String get restoreConfirmWarning =>
+      'اخطار: این کار همه داده‌های فعلی شما را با داده‌های فایل پشتیبان جایگزین می‌کند.\\n\\nداده‌های فعلی شما برای همیشه حذف می‌شوند.\\n\\nقبل از ادامه، مطمئن شوید که یک نسخه پشتیبان از داده‌های فعلی خود دارید.';
+
+  @override
+  String get restoreButtonLabel => 'بازیابی کنید';
+
+  @override
+  String get restoreTooManyPassphraseAttempts =>
+      'تعداد زیادی تلاش برای عبارت عبور نادرست. بازیابی لغو شد.';
+
+  @override
+  String get restoreSuccessfulTitle => 'بازیابی موفقیت آمیز!';
+
+  @override
+  String restoreFailedWithError(String error) {
+    return 'بازیابی انجام نشد: $error';
+  }
+
+  @override
+  String get householdProfilesBetaTitle => 'نمایه‌های خانگی (بتا)';
+
+  @override
+  String get householdProfilesDescription =>
+      'ایجاد و جابجایی بین پروفایل ها داده های مالی اصلی اکنون در هر نمایه خانوار فعال بارگیری می شود.';
+
+  @override
+  String get householdActiveProfileLabel => 'پروفایل فعال';
+
+  @override
+  String get householdNoProfilesAvailable => 'هیچ نمایه ای در دسترس نیست';
+
+  @override
+  String get householdAddProfileTitle => 'افزودن نمایه خانوار';
+
+  @override
+  String get householdRenameProfileTitle => 'تغییر نام نمایه';
+
+  @override
+  String get householdDeleteProfileTitle => 'نمایه حذف شود؟';
+
+  @override
+  String get householdProfileNameLabel => 'نام پروفایل';
+
+  @override
+  String householdDeleteProfileDescription(String name) {
+    return 'نمایه \"$name\" حذف شود؟ این تنها زمانی مجاز است که نمایه هیچ گونه سوابق مالی اختصاص داده نشده باشد.';
+  }
+
+  @override
+  String get householdCreateAtLeastTwoProfiles =>
+      'قبل از انتقال داده حداقل دو نمایه ایجاد کنید.';
+
+  @override
+  String get householdMoveDataTitle => 'انتقال داده ها بین پروفایل ها';
+
+  @override
+  String get householdMoveDataDescription =>
+      'با این کار حساب‌ها، بدهی‌ها، درآمدها، هزینه‌ها و اهداف انتخاب شده از یک نمایه به نمایه دیگر اختصاص داده می‌شود.';
+
+  @override
+  String get householdMoveFromProfileLabel => 'از نمایه';
+
+  @override
+  String get householdMoveToProfileLabel => 'برای پروفایل';
+
+  @override
+  String get householdMoveDataTypesLabel => 'انواع داده برای جابجایی';
+
+  @override
+  String get householdDataTypeGoals => 'اهداف';
+
+  @override
+  String get householdMoveProfilesMustDiffer =>
+      'نمایه منبع و هدف باید متفاوت باشد.';
+
+  @override
+  String get householdMoveSelectAtLeastOneType =>
+      'حداقل یک نوع داده را برای انتقال انتخاب کنید.';
+
+  @override
+  String get householdGoalsSectionTitle => 'اهداف خانگی';
+
+  @override
+  String get householdGoalNoGoalsForActive =>
+      'هنوز هدفی برای نمایه فعال وجود ندارد.';
+
+  @override
+  String get householdAddGoalTitle => 'افزودن هدف خانگی';
+
+  @override
+  String get householdEditGoalTitle => 'ویرایش هدف خانگی';
+
+  @override
+  String get householdGoalNameLabel => 'نام هدف';
+
+  @override
+  String get householdGoalTargetAmountLabel => 'مقدار هدف';
+
+  @override
+  String get householdGoalCurrentAmountLabel => 'مقدار ذخیره شده فعلی';
+
+  @override
+  String get householdGoalSharedToggle =>
+      'هدف مشترک (قابل مشاهده برای همه نمایه ها)';
+
+  @override
+  String get householdGoalOwnerProfileLabel => 'مشخصات مالک';
+
+  @override
+  String get householdGoalNameRequired => 'نام هدف را وارد کنید';
+
+  @override
+  String get householdGoalTargetInvalid => 'یک مقدار هدف معتبر وارد کنید.';
+
+  @override
+  String get householdGoalCurrentInvalid => 'مقدار جاری معتبر وارد کنید.';
+
+  @override
+  String get householdGoalOwnerRequired => 'نمایه مالک را انتخاب کنید.';
+
+  @override
+  String get householdGoalScopeShared => 'به اشتراک گذاشته شده است';
+
+  @override
+  String get householdGoalScopeProfileUnknown => 'نمایه';
+
+  @override
+  String householdGoalScopeProfile(String name) {
+    return 'نمایه: $name';
+  }
+
+  @override
+  String get householdGoalDeleteTitle => 'هدف حذف شود؟';
+
+  @override
+  String householdGoalDeleteMessage(String name) {
+    return 'هدف \"$name\" حذف شود؟';
+  }
+
+  @override
+  String householdGoalFailedToAdd(String error) {
+    return 'هدف اضافه نشد: $error';
+  }
+
+  @override
+  String householdGoalFailedToDelete(String error) {
+    return 'هدف حذف نشد: $error';
+  }
+
+  @override
+  String householdGoalFailedToUpdate(String error) {
+    return 'هدف به‌روزرسانی نشد: $error';
+  }
+
+  @override
+  String get householdGoalEditSplitsTitle => 'ویرایش تقسیم های مشارکت';
+
+  @override
+  String get householdGoalEditSplitsTooltip => 'ویرایش تقسیم مشارکت';
+
+  @override
+  String get householdGoalSplitNeedPositive =>
+      'درصد تقسیم بالای صفر را وارد کنید.';
+
+  @override
+  String householdGoalFailedToUpdateSplits(String error) {
+    return 'تقسیم‌بندی‌ها به‌روزرسانی نشد: $error';
+  }
+
+  @override
+  String householdGoalProgressSummary(
+      String current, String target, String percent) {
+    return 'پیشرفت: $current / $target ($percent%)';
+  }
+
+  @override
+  String householdGoalSplitPreview(String splits) {
+    return 'تقسیمات: $splits';
+  }
+
+  @override
+  String get householdActiveProfileUpdated => 'نمایه فعال به روز شد';
+
+  @override
+  String householdFailedToUpdateProfile(String error) {
+    return 'نمایه به‌روزرسانی نشد: $error';
+  }
+
+  @override
+  String householdFailedToAddProfile(String error) {
+    return 'نمایه اضافه نشد: $error';
+  }
+
+  @override
+  String householdFailedToRenameProfile(String error) {
+    return 'تغییر نام نمایه ناموفق بود: $error';
+  }
+
+  @override
+  String householdFailedToDeleteProfile(String error) {
+    return 'نمایه حذف نشد: $error';
+  }
+
+  @override
+  String householdFailedToMoveData(String error) {
+    return 'انتقال داده انجام نشد: $error';
+  }
+
+  @override
+  String householdMovedRecordsSummary(int total, int accounts, int liabilities,
+      int incomes, int expenses, int goals) {
+    return 'رکوردهای $total منتقل شد (A:$accounts، L:$liabilities، I:$incomes، E:$expenses، G:$goals).';
+  }
+
+  @override
+  String get householdStatusActive => 'فعال';
+
+  @override
+  String get householdStatusInactive => 'غیر فعال';
+
+  @override
+  String get householdDeleteTooltipAtLeastOne => 'حداقل یک نمایه مورد نیاز است';
+
+  @override
+  String get householdDeleteTooltipMoveDataFirst =>
+      'قبل از حذف این نمایه داده ها را جابه جا کنید';
+
+  @override
+  String get householdDeleteTooltipDelete => 'حذف کنید';
+
+  @override
+  String householdCountsCompact(
+      int accounts, int liabilities, int incomes, int expenses, int goals) {
+    return 'A:$accounts L:$liabilities I:$incomes E:$expenses G:$goals';
+  }
+
+  @override
+  String householdProfileOptionLabel(String name, String counts) {
+    return '$name ($counts)';
+  }
+
+  @override
+  String get householdMoveAllToActiveButton =>
+      'همه داده ها را به نمایه فعال منتقل کنید';
+
+  @override
+  String get householdMoveAllConfirmTitle =>
+      'همه داده ها به نمایه فعال منتقل شوند؟';
+
+  @override
+  String householdMoveAllConfirmMessage(int totalMovable, String activeName) {
+    return 'با این کار رکوردهای $totalMovable از تمام نمایه های دیگر به \"$activeName\" منتقل می شود.';
+  }
+
+  @override
+  String get householdMoveAllNoData =>
+      'هیچ داده ای برای انتقال از نمایه های دیگر وجود ندارد.';
+
+  @override
+  String householdMovableFromOtherProfiles(int count) {
+    return 'قابل جابجایی از پروفایل های دیگر: $count';
+  }
+
+  @override
+  String householdFailedToMoveAllData(String error) {
+    return 'انتقال همه داده ها انجام نشد: $error';
+  }
+
+  @override
+  String get householdGoalSplitsFeatureTitle => 'اهداف مشترک خانگی';
+
+  @override
+  String get householdGoalSplitsFeatureOutcome =>
+      'تقسیم مشارکت ها بر اساس نمایه و پیگیری پیشرفت.';
+
+  @override
+  String get householdGoalSplitsFeatureDescription =>
+      'اهداف مشترک تعیین کنید، درصد مشارکت را تعیین کنید و همه را در یک راستا نگه دارید.';
 }

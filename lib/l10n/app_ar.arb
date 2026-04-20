@@ -981,7 +981,6 @@
   "billsAmount": "الفواتير {amount}",
   "tapToSeeGuardrails": "اضغط لرؤية الحدود",
   "moneyHealthScore": "نقاط الصحة المالية",
-  "fair": "مقبول",
   "weakestArea": "{area} هو أضعف مجال لديك الآن",
   "neverBrokeWeek": "لن تعاني من 'أسبوع مفلس' مرة أخرى.",
   "answerQuestionsGuardrails": "أجب على 3 أسئلة سريعة وسنخبرك بالمبلغ الآمن للإنفاق هذا الأسبوع.",
@@ -1028,5 +1027,356 @@
   "dueOnDay": "مستحق في اليوم {day}",
   "profileSetup": "إعداد الملف الشخصي",
   "percentComplete": "{percentage}% مكتمل",
-  "completeProfileInsights": "أكمل ملفك الشخصي للحصول على رؤى أفضل"
+  "completeProfileInsights": "أكمل ملفك الشخصي للحصول على رؤى أفضل",
+  "editExpense": "تحرير النفقات",
+  "expenseName": "اسم المصاريف",
+  "expenseNameHint": "على سبيل المثال، فاتورة الكهرباء والإنترنت",
+  "monthlyAmount": "المبلغ الشهري",
+  "category": "فئة",
+  "dueDayOptional": "يوم الاستحقاق (اختياري)",
+  "dueDayHint": "على سبيل المثال، 15 للخامس عشر من الشهر",
+  "mustBeBetween1And31": "يجب أن يكون بين 1 و31",
+  "expenseUpdated": "تم تحديث النفقات",
+  "expenseAdded": "تمت إضافة النفقات",
+  "deleteExpenseTitle": "هل تريد حذف النفقات؟",
+  "deleteExpenseConfirmation": "هل أنت متأكد أنك تريد حذف هذه النفقات؟",
+  "expenseDeleted": "تم حذف النفقة",
+  "expenseCategoryRentMortgage": "الإيجار/الرهن العقاري",
+  "expenseCategoryUtilities": "المرافق",
+  "expenseCategoryInsurance": "تأمين",
+  "expenseCategorySubscriptions": "الاشتراكات",
+  "importExportTitle": "استيراد وتصدير",
+  "backupRestoreSectionTitle": "النسخ الاحتياطي والاستعادة",
+  "exportToCsvTitle": "تصدير إلى CSV",
+  "exportToCsvSubtitle": "• تصدير أرصدة الحسابات لتحليل جداول البيانات",
+  "createCompleteBackupTitle": "إنشاء نسخة احتياطية كاملة",
+  "createCompleteBackupSubtitle": "تصدير جميع البيانات (الحسابات والديون والدخل والإعدادات) إلى ملف واحد",
+  "createEncryptedBackupTitle": "إنشاء نسخة احتياطية مشفرة",
+  "createEncryptedBackupSubtitle": "موصى به • تشفير النسخة الاحتياطية باستخدام عبارة مرور قبل الحفظ",
+  "restoreFromBackupTitle": "استعادة من النسخة الاحتياطية",
+  "restoreFromBackupSubtitle": "استعادة كافة البيانات من ملف النسخ الاحتياطي",
+  "exportCsvDialogTitle": "تصدير CSV",
+  "exportCsvDialogDescription": "سيتم حفظ ملف CSV الخاص بك مباشرة في مجلد التنزيلات الخاص بك.",
+  "exportButtonLabel": "يصدّر",
+  "csvSavedToDownloads": "تم الحفظ في التنزيلات:\\n{filename}",
+  "@csvSavedToDownloads": {
+    "placeholders": {
+      "filename": {
+        "type": "String"
+      }
+    }
+  },
+  "exportFailedWithError": "فشل التصدير: {error}",
+  "@exportFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "encryptedBackupDialogTitle": "إنشاء نسخة احتياطية مشفرة",
+  "backupPassphraseDialogTitle": "عبارة المرور الاحتياطية",
+  "newBackupPassphraseDescription": "استخدم عبارة مرور قوية (أكثر من 12 حرفًا تحتوي على رمز علوي/سفلي/رقم/رمز). في حالة فقدان هذه النسخة الاحتياطية، لا يمكن استعادتها.",
+  "existingBackupPassphraseDescription": "أدخل عبارة المرور المستخدمة عند إنشاء هذه النسخة الاحتياطية المشفرة.",
+  "passphraseLabel": "عبارة المرور",
+  "confirmPassphraseLabel": "تأكيد عبارة المرور",
+  "passphraseRequiredError": "عبارة المرور مطلوبة.",
+  "passphrasesDoNotMatchError": "عبارات المرور غير متطابقة.",
+  "continueLabel": "يكمل",
+  "passphraseMinLengthError": "يجب أن تتكون عبارة المرور من 12 حرفًا على الأقل.",
+  "passphraseComplexityError": "استخدم حرفًا كبيرًا وصغيرًا ورقمًا ورمزًا واحدًا على الأقل.",
+  "createBackupFailed": "فشل في إنشاء نسخة احتياطية",
+  "backupSavedToDownloads": "تم حفظ النسخة الاحتياطية في التنزيلات:\\n{filePath}",
+  "@backupSavedToDownloads": {
+    "placeholders": {
+      "filePath": {
+        "type": "String"
+      }
+    }
+  },
+  "backupFailedWithError": "فشل النسخ الاحتياطي: {error}",
+  "@backupFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "createEncryptedBackupFailed": "فشل في إنشاء نسخة احتياطية مشفرة",
+  "encryptedBackupSavedToDownloads": "تم حفظ النسخة الاحتياطية المشفرة في التنزيلات:\\n{filePath}",
+  "@encryptedBackupSavedToDownloads": {
+    "placeholders": {
+      "filePath": {
+        "type": "String"
+      }
+    }
+  },
+  "encryptedBackupFailedWithError": "فشل النسخ الاحتياطي المشفر: {error}",
+  "@encryptedBackupFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "restoreConfirmTitle": "استعادة من النسخة الاحتياطية؟",
+  "restoreConfirmWarning": "تحذير: سيؤدي هذا إلى استبدال كافة بياناتك الحالية بالبيانات الموجودة في ملف النسخة الاحتياطية.\\n\\nسيتم حذف بياناتك الحالية نهائيًا.\\n\\nتأكد من أن لديك نسخة احتياطية من بياناتك الحالية قبل المتابعة.",
+  "restoreButtonLabel": "يعيد",
+  "restoreTooManyPassphraseAttempts": "عدد كبير جدًا من المحاولات غير الصحيحة لعبارة المرور. تم إلغاء الاستعادة.",
+  "restoreSuccessfulTitle": "تمت الاستعادة بنجاح!",
+  "restoreFailedWithError": "فشلت الاستعادة: {error}",
+  "@restoreFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdProfilesBetaTitle": "الملفات الشخصية للأسرة (تجريبية)",
+  "householdProfilesDescription": "إنشاء والتبديل بين الملفات الشخصية. يتم الآن تحميل البيانات المالية الأساسية حسب ملف تعريف الأسرة النشط.",
+  "householdActiveProfileLabel": "الملف الشخصي نشط",
+  "householdNoProfilesAvailable": "لا توجد ملفات شخصية متاحة",
+  "householdAddProfileTitle": "أضف ملف تعريف الأسرة",
+  "householdRenameProfileTitle": "إعادة تسمية الملف الشخصي",
+  "householdDeleteProfileTitle": "هل تريد حذف الملف الشخصي؟",
+  "householdProfileNameLabel": "اسم الملف الشخصي",
+  "householdDeleteProfileDescription": "هل تريد حذف الملف الشخصي \"{name}\"؟ يُسمح بهذا فقط عندما لا يحتوي ملف التعريف على سجلات مالية معينة.",
+  "@householdDeleteProfileDescription": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "householdCreateAtLeastTwoProfiles": "قم بإنشاء ملفين شخصيين على الأقل قبل نقل البيانات.",
+  "householdMoveDataTitle": "نقل البيانات بين الملفات الشخصية",
+  "householdMoveDataDescription": "سيؤدي هذا إلى إعادة تعيين الحسابات والالتزامات والدخل والنفقات والأهداف المحددة من ملف تعريف إلى آخر.",
+  "householdMoveFromProfileLabel": "من الملف الشخصي",
+  "householdMoveToProfileLabel": "إلى الملف الشخصي",
+  "householdMoveDataTypesLabel": "أنواع البيانات المراد نقلها",
+  "householdDataTypeGoals": "الأهداف",
+  "householdMoveProfilesMustDiffer": "يجب أن تكون ملفات تعريف المصدر والهدف مختلفة.",
+  "householdMoveSelectAtLeastOneType": "حدد نوع بيانات واحدًا على الأقل لنقله.",
+  "householdGoalsSectionTitle": "أهداف الأسرة",
+  "householdGoalNoGoalsForActive": "لا توجد أهداف للملف الشخصي النشط حتى الآن.",
+  "householdAddGoalTitle": "أضف هدف الأسرة",
+  "householdEditGoalTitle": "تعديل هدف الأسرة",
+  "householdGoalNameLabel": "اسم الهدف",
+  "householdGoalTargetAmountLabel": "المبلغ المستهدف",
+  "householdGoalCurrentAmountLabel": "المبلغ المدخر الحالي",
+  "householdGoalSharedToggle": "الهدف المشترك (مرئي لجميع الملفات الشخصية)",
+  "householdGoalOwnerProfileLabel": "الملف الشخصي للمالك",
+  "householdGoalNameRequired": "أدخل اسم الهدف.",
+  "householdGoalTargetInvalid": "أدخل مبلغًا مستهدفًا صالحًا.",
+  "householdGoalCurrentInvalid": "أدخل مبلغًا حاليًا صالحًا.",
+  "householdGoalOwnerRequired": "حدد الملف الشخصي للمالك.",
+  "householdGoalScopeShared": "مشترك",
+  "householdGoalScopeProfileUnknown": "حساب تعريفي",
+  "householdGoalScopeProfile": "الملف الشخصي: {name}",
+  "@householdGoalScopeProfile": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalDeleteTitle": "هل تريد حذف الهدف؟",
+  "householdGoalDeleteMessage": "هل تريد حذف الهدف \"{name}\"؟",
+  "@householdGoalDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalFailedToAdd": "فشلت إضافة الهدف: {error}",
+  "@householdGoalFailedToAdd": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalFailedToDelete": "فشل حذف الهدف: {error}",
+  "@householdGoalFailedToDelete": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalFailedToUpdate": "فشل تحديث الهدف: {error}",
+  "@householdGoalFailedToUpdate": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalEditSplitsTitle": "تحرير تقسيمات المساهمة",
+  "householdGoalEditSplitsTooltip": "تحرير تقسيمات المساهمة",
+  "householdGoalSplitNeedPositive": "أدخل النسب المئوية المقسمة فوق الصفر.",
+  "householdGoalFailedToUpdateSplits": "فشل تحديث الانقسامات: {error}",
+  "@householdGoalFailedToUpdateSplits": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalProgressSummary": "التقدم: {current} / {target} ({percent}%)",
+  "@householdGoalProgressSummary": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalSplitPreview": "الانقسامات: {splits}",
+  "@householdGoalSplitPreview": {
+    "placeholders": {
+      "splits": {
+        "type": "String"
+      }
+    }
+  },
+  "householdActiveProfileUpdated": "تم تحديث الملف الشخصي النشط",
+  "householdFailedToUpdateProfile": "فشل تحديث الملف الشخصي: {error}",
+  "@householdFailedToUpdateProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToAddProfile": "فشلت إضافة الملف الشخصي: {error}",
+  "@householdFailedToAddProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToRenameProfile": "فشلت إعادة تسمية الملف الشخصي: {error}",
+  "@householdFailedToRenameProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToDeleteProfile": "فشل حذف الملف الشخصي: {error}",
+  "@householdFailedToDeleteProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToMoveData": "فشل في نقل البيانات: {error}",
+  "@householdFailedToMoveData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdMovedRecordsSummary": "تم نقل سجلات {total} (A:{accounts}، L:{liabilities}، I:{incomes}، E:{expenses}، G:{goals}).",
+  "@householdMovedRecordsSummary": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      },
+      "accounts": {
+        "type": "int"
+      },
+      "liabilities": {
+        "type": "int"
+      },
+      "incomes": {
+        "type": "int"
+      },
+      "expenses": {
+        "type": "int"
+      },
+      "goals": {
+        "type": "int"
+      }
+    }
+  },
+  "householdStatusActive": "نشيط",
+  "householdStatusInactive": "غير نشط",
+  "householdDeleteTooltipAtLeastOne": "مطلوب ملف تعريف واحد على الأقل",
+  "householdDeleteTooltipMoveDataFirst": "انقل البيانات قبل حذف ملف التعريف هذا",
+  "householdDeleteTooltipDelete": "يمسح",
+  "householdCountsCompact": "أ:{accounts} L:{liabilities} أنا:{incomes} E:{expenses} G:{goals}",
+  "@householdCountsCompact": {
+    "placeholders": {
+      "accounts": {
+        "type": "int"
+      },
+      "liabilities": {
+        "type": "int"
+      },
+      "incomes": {
+        "type": "int"
+      },
+      "expenses": {
+        "type": "int"
+      },
+      "goals": {
+        "type": "int"
+      }
+    }
+  },
+  "householdProfileOptionLabel": "{name} ({counts})",
+  "@householdProfileOptionLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "counts": {
+        "type": "String"
+      }
+    }
+  },
+  "householdMoveAllToActiveButton": "نقل كافة البيانات إلى الملف الشخصي النشط",
+  "householdMoveAllConfirmTitle": "هل تريد نقل جميع البيانات إلى الملف الشخصي النشط؟",
+  "householdMoveAllConfirmMessage": "سيؤدي هذا إلى نقل سجلات {totalMovable} من كافة الملفات الشخصية الأخرى إلى \"{activeName}\".",
+  "@householdMoveAllConfirmMessage": {
+    "placeholders": {
+      "totalMovable": {
+        "type": "int"
+      },
+      "activeName": {
+        "type": "String"
+      }
+    }
+  },
+  "householdMoveAllNoData": "لا توجد بيانات للانتقال من الملفات الشخصية الأخرى.",
+  "householdMovableFromOtherProfiles": "المنقولة من ملفات التعريف الأخرى: {count}",
+  "@householdMovableFromOtherProfiles": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "householdFailedToMoveAllData": "فشل في نقل كافة البيانات: {error}",
+  "@householdFailedToMoveAllData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalSplitsFeatureTitle": "الأهداف المنزلية المشتركة",
+  "householdGoalSplitsFeatureOutcome": "تقسيم المساهمات حسب الملف الشخصي وتتبع التقدم.",
+  "householdGoalSplitsFeatureDescription": "حدد الأهداف المشتركة، وحدد النسب المئوية للمساهمة، وحافظ على توافق الجميع."
 }

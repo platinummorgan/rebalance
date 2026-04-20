@@ -2575,6 +2575,58 @@ class AppLocalizationsAr extends AppLocalizations {
   String get addExpense => 'إضافة مصروف';
 
   @override
+  String get editExpense => 'تحرير النفقات';
+
+  @override
+  String get expenseName => 'اسم المصاريف';
+
+  @override
+  String get expenseNameHint => 'على سبيل المثال، فاتورة الكهرباء والإنترنت';
+
+  @override
+  String get monthlyAmount => 'المبلغ الشهري';
+
+  @override
+  String get category => 'فئة';
+
+  @override
+  String get dueDayOptional => 'يوم الاستحقاق (اختياري)';
+
+  @override
+  String get dueDayHint => 'على سبيل المثال، 15 للخامس عشر من الشهر';
+
+  @override
+  String get mustBeBetween1And31 => 'يجب أن يكون بين 1 و31';
+
+  @override
+  String get expenseUpdated => 'تم تحديث النفقات';
+
+  @override
+  String get expenseAdded => 'تمت إضافة النفقات';
+
+  @override
+  String get deleteExpenseTitle => 'هل تريد حذف النفقات؟';
+
+  @override
+  String get deleteExpenseConfirmation =>
+      'هل أنت متأكد أنك تريد حذف هذه النفقات؟';
+
+  @override
+  String get expenseDeleted => 'تم حذف النفقة';
+
+  @override
+  String get expenseCategoryRentMortgage => 'الإيجار/الرهن العقاري';
+
+  @override
+  String get expenseCategoryUtilities => 'المرافق';
+
+  @override
+  String get expenseCategoryInsurance => 'تأمين';
+
+  @override
+  String get expenseCategorySubscriptions => 'الاشتراكات';
+
+  @override
   String get totalMonthlyExpenses => 'إجمالي المصروفات الشهرية';
 
   @override
@@ -2598,4 +2650,405 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get completeProfileInsights => 'أكمل ملفك الشخصي للحصول على رؤى أفضل';
+
+  @override
+  String get importExportTitle => 'استيراد وتصدير';
+
+  @override
+  String get backupRestoreSectionTitle => 'النسخ الاحتياطي والاستعادة';
+
+  @override
+  String get exportToCsvTitle => 'تصدير إلى CSV';
+
+  @override
+  String get exportToCsvSubtitle =>
+      '• تصدير أرصدة الحسابات لتحليل جداول البيانات';
+
+  @override
+  String get createCompleteBackupTitle => 'إنشاء نسخة احتياطية كاملة';
+
+  @override
+  String get createCompleteBackupSubtitle =>
+      'تصدير جميع البيانات (الحسابات والديون والدخل والإعدادات) إلى ملف واحد';
+
+  @override
+  String get createEncryptedBackupTitle => 'إنشاء نسخة احتياطية مشفرة';
+
+  @override
+  String get createEncryptedBackupSubtitle =>
+      'موصى به • تشفير النسخة الاحتياطية باستخدام عبارة مرور قبل الحفظ';
+
+  @override
+  String get restoreFromBackupTitle => 'استعادة من النسخة الاحتياطية';
+
+  @override
+  String get restoreFromBackupSubtitle =>
+      'استعادة كافة البيانات من ملف النسخ الاحتياطي';
+
+  @override
+  String get exportCsvDialogTitle => 'تصدير CSV';
+
+  @override
+  String get exportCsvDialogDescription =>
+      'سيتم حفظ ملف CSV الخاص بك مباشرة في مجلد التنزيلات الخاص بك.';
+
+  @override
+  String get exportButtonLabel => 'يصدّر';
+
+  @override
+  String csvSavedToDownloads(String filename) {
+    return 'تم الحفظ في التنزيلات:\\n$filename';
+  }
+
+  @override
+  String exportFailedWithError(String error) {
+    return 'فشل التصدير: $error';
+  }
+
+  @override
+  String get encryptedBackupDialogTitle => 'إنشاء نسخة احتياطية مشفرة';
+
+  @override
+  String get backupPassphraseDialogTitle => 'عبارة المرور الاحتياطية';
+
+  @override
+  String get newBackupPassphraseDescription =>
+      'استخدم عبارة مرور قوية (أكثر من 12 حرفًا تحتوي على رمز علوي/سفلي/رقم/رمز). في حالة فقدان هذه النسخة الاحتياطية، لا يمكن استعادتها.';
+
+  @override
+  String get existingBackupPassphraseDescription =>
+      'أدخل عبارة المرور المستخدمة عند إنشاء هذه النسخة الاحتياطية المشفرة.';
+
+  @override
+  String get passphraseLabel => 'عبارة المرور';
+
+  @override
+  String get confirmPassphraseLabel => 'تأكيد عبارة المرور';
+
+  @override
+  String get passphraseRequiredError => 'عبارة المرور مطلوبة.';
+
+  @override
+  String get passphrasesDoNotMatchError => 'عبارات المرور غير متطابقة.';
+
+  @override
+  String get continueLabel => 'يكمل';
+
+  @override
+  String get passphraseMinLengthError =>
+      'يجب أن تتكون عبارة المرور من 12 حرفًا على الأقل.';
+
+  @override
+  String get passphraseComplexityError =>
+      'استخدم حرفًا كبيرًا وصغيرًا ورقمًا ورمزًا واحدًا على الأقل.';
+
+  @override
+  String get createBackupFailed => 'فشل في إنشاء نسخة احتياطية';
+
+  @override
+  String backupSavedToDownloads(String filePath) {
+    return 'تم حفظ النسخة الاحتياطية في التنزيلات:\\n$filePath';
+  }
+
+  @override
+  String backupFailedWithError(String error) {
+    return 'فشل النسخ الاحتياطي: $error';
+  }
+
+  @override
+  String get createEncryptedBackupFailed => 'فشل في إنشاء نسخة احتياطية مشفرة';
+
+  @override
+  String encryptedBackupSavedToDownloads(String filePath) {
+    return 'تم حفظ النسخة الاحتياطية المشفرة في التنزيلات:\\n$filePath';
+  }
+
+  @override
+  String encryptedBackupFailedWithError(String error) {
+    return 'فشل النسخ الاحتياطي المشفر: $error';
+  }
+
+  @override
+  String get restoreConfirmTitle => 'استعادة من النسخة الاحتياطية؟';
+
+  @override
+  String get restoreConfirmWarning =>
+      'تحذير: سيؤدي هذا إلى استبدال كافة بياناتك الحالية بالبيانات الموجودة في ملف النسخة الاحتياطية.\\n\\nسيتم حذف بياناتك الحالية نهائيًا.\\n\\nتأكد من أن لديك نسخة احتياطية من بياناتك الحالية قبل المتابعة.';
+
+  @override
+  String get restoreButtonLabel => 'يعيد';
+
+  @override
+  String get restoreTooManyPassphraseAttempts =>
+      'عدد كبير جدًا من المحاولات غير الصحيحة لعبارة المرور. تم إلغاء الاستعادة.';
+
+  @override
+  String get restoreSuccessfulTitle => 'تمت الاستعادة بنجاح!';
+
+  @override
+  String restoreFailedWithError(String error) {
+    return 'فشلت الاستعادة: $error';
+  }
+
+  @override
+  String get householdProfilesBetaTitle => 'الملفات الشخصية للأسرة (تجريبية)';
+
+  @override
+  String get householdProfilesDescription =>
+      'إنشاء والتبديل بين الملفات الشخصية. يتم الآن تحميل البيانات المالية الأساسية حسب ملف تعريف الأسرة النشط.';
+
+  @override
+  String get householdActiveProfileLabel => 'الملف الشخصي نشط';
+
+  @override
+  String get householdNoProfilesAvailable => 'لا توجد ملفات شخصية متاحة';
+
+  @override
+  String get householdAddProfileTitle => 'أضف ملف تعريف الأسرة';
+
+  @override
+  String get householdRenameProfileTitle => 'إعادة تسمية الملف الشخصي';
+
+  @override
+  String get householdDeleteProfileTitle => 'هل تريد حذف الملف الشخصي؟';
+
+  @override
+  String get householdProfileNameLabel => 'اسم الملف الشخصي';
+
+  @override
+  String householdDeleteProfileDescription(String name) {
+    return 'هل تريد حذف الملف الشخصي \"$name\"؟ يُسمح بهذا فقط عندما لا يحتوي ملف التعريف على سجلات مالية معينة.';
+  }
+
+  @override
+  String get householdCreateAtLeastTwoProfiles =>
+      'قم بإنشاء ملفين شخصيين على الأقل قبل نقل البيانات.';
+
+  @override
+  String get householdMoveDataTitle => 'نقل البيانات بين الملفات الشخصية';
+
+  @override
+  String get householdMoveDataDescription =>
+      'سيؤدي هذا إلى إعادة تعيين الحسابات والالتزامات والدخل والنفقات والأهداف المحددة من ملف تعريف إلى آخر.';
+
+  @override
+  String get householdMoveFromProfileLabel => 'من الملف الشخصي';
+
+  @override
+  String get householdMoveToProfileLabel => 'إلى الملف الشخصي';
+
+  @override
+  String get householdMoveDataTypesLabel => 'أنواع البيانات المراد نقلها';
+
+  @override
+  String get householdDataTypeGoals => 'الأهداف';
+
+  @override
+  String get householdMoveProfilesMustDiffer =>
+      'يجب أن تكون ملفات تعريف المصدر والهدف مختلفة.';
+
+  @override
+  String get householdMoveSelectAtLeastOneType =>
+      'حدد نوع بيانات واحدًا على الأقل لنقله.';
+
+  @override
+  String get householdGoalsSectionTitle => 'أهداف الأسرة';
+
+  @override
+  String get householdGoalNoGoalsForActive =>
+      'لا توجد أهداف للملف الشخصي النشط حتى الآن.';
+
+  @override
+  String get householdAddGoalTitle => 'أضف هدف الأسرة';
+
+  @override
+  String get householdEditGoalTitle => 'تعديل هدف الأسرة';
+
+  @override
+  String get householdGoalNameLabel => 'اسم الهدف';
+
+  @override
+  String get householdGoalTargetAmountLabel => 'المبلغ المستهدف';
+
+  @override
+  String get householdGoalCurrentAmountLabel => 'المبلغ المدخر الحالي';
+
+  @override
+  String get householdGoalSharedToggle =>
+      'الهدف المشترك (مرئي لجميع الملفات الشخصية)';
+
+  @override
+  String get householdGoalOwnerProfileLabel => 'الملف الشخصي للمالك';
+
+  @override
+  String get householdGoalNameRequired => 'أدخل اسم الهدف.';
+
+  @override
+  String get householdGoalTargetInvalid => 'أدخل مبلغًا مستهدفًا صالحًا.';
+
+  @override
+  String get householdGoalCurrentInvalid => 'أدخل مبلغًا حاليًا صالحًا.';
+
+  @override
+  String get householdGoalOwnerRequired => 'حدد الملف الشخصي للمالك.';
+
+  @override
+  String get householdGoalScopeShared => 'مشترك';
+
+  @override
+  String get householdGoalScopeProfileUnknown => 'حساب تعريفي';
+
+  @override
+  String householdGoalScopeProfile(String name) {
+    return 'الملف الشخصي: $name';
+  }
+
+  @override
+  String get householdGoalDeleteTitle => 'هل تريد حذف الهدف؟';
+
+  @override
+  String householdGoalDeleteMessage(String name) {
+    return 'هل تريد حذف الهدف \"$name\"؟';
+  }
+
+  @override
+  String householdGoalFailedToAdd(String error) {
+    return 'فشلت إضافة الهدف: $error';
+  }
+
+  @override
+  String householdGoalFailedToDelete(String error) {
+    return 'فشل حذف الهدف: $error';
+  }
+
+  @override
+  String householdGoalFailedToUpdate(String error) {
+    return 'فشل تحديث الهدف: $error';
+  }
+
+  @override
+  String get householdGoalEditSplitsTitle => 'تحرير تقسيمات المساهمة';
+
+  @override
+  String get householdGoalEditSplitsTooltip => 'تحرير تقسيمات المساهمة';
+
+  @override
+  String get householdGoalSplitNeedPositive =>
+      'أدخل النسب المئوية المقسمة فوق الصفر.';
+
+  @override
+  String householdGoalFailedToUpdateSplits(String error) {
+    return 'فشل تحديث الانقسامات: $error';
+  }
+
+  @override
+  String householdGoalProgressSummary(
+      String current, String target, String percent) {
+    return 'التقدم: $current / $target ($percent%)';
+  }
+
+  @override
+  String householdGoalSplitPreview(String splits) {
+    return 'الانقسامات: $splits';
+  }
+
+  @override
+  String get householdActiveProfileUpdated => 'تم تحديث الملف الشخصي النشط';
+
+  @override
+  String householdFailedToUpdateProfile(String error) {
+    return 'فشل تحديث الملف الشخصي: $error';
+  }
+
+  @override
+  String householdFailedToAddProfile(String error) {
+    return 'فشلت إضافة الملف الشخصي: $error';
+  }
+
+  @override
+  String householdFailedToRenameProfile(String error) {
+    return 'فشلت إعادة تسمية الملف الشخصي: $error';
+  }
+
+  @override
+  String householdFailedToDeleteProfile(String error) {
+    return 'فشل حذف الملف الشخصي: $error';
+  }
+
+  @override
+  String householdFailedToMoveData(String error) {
+    return 'فشل في نقل البيانات: $error';
+  }
+
+  @override
+  String householdMovedRecordsSummary(int total, int accounts, int liabilities,
+      int incomes, int expenses, int goals) {
+    return 'تم نقل سجلات $total (A:$accounts، L:$liabilities، I:$incomes، E:$expenses، G:$goals).';
+  }
+
+  @override
+  String get householdStatusActive => 'نشيط';
+
+  @override
+  String get householdStatusInactive => 'غير نشط';
+
+  @override
+  String get householdDeleteTooltipAtLeastOne =>
+      'مطلوب ملف تعريف واحد على الأقل';
+
+  @override
+  String get householdDeleteTooltipMoveDataFirst =>
+      'انقل البيانات قبل حذف ملف التعريف هذا';
+
+  @override
+  String get householdDeleteTooltipDelete => 'يمسح';
+
+  @override
+  String householdCountsCompact(
+      int accounts, int liabilities, int incomes, int expenses, int goals) {
+    return 'أ:$accounts L:$liabilities أنا:$incomes E:$expenses G:$goals';
+  }
+
+  @override
+  String householdProfileOptionLabel(String name, String counts) {
+    return '$name ($counts)';
+  }
+
+  @override
+  String get householdMoveAllToActiveButton =>
+      'نقل كافة البيانات إلى الملف الشخصي النشط';
+
+  @override
+  String get householdMoveAllConfirmTitle =>
+      'هل تريد نقل جميع البيانات إلى الملف الشخصي النشط؟';
+
+  @override
+  String householdMoveAllConfirmMessage(int totalMovable, String activeName) {
+    return 'سيؤدي هذا إلى نقل سجلات $totalMovable من كافة الملفات الشخصية الأخرى إلى \"$activeName\".';
+  }
+
+  @override
+  String get householdMoveAllNoData =>
+      'لا توجد بيانات للانتقال من الملفات الشخصية الأخرى.';
+
+  @override
+  String householdMovableFromOtherProfiles(int count) {
+    return 'المنقولة من ملفات التعريف الأخرى: $count';
+  }
+
+  @override
+  String householdFailedToMoveAllData(String error) {
+    return 'فشل في نقل كافة البيانات: $error';
+  }
+
+  @override
+  String get householdGoalSplitsFeatureTitle => 'الأهداف المنزلية المشتركة';
+
+  @override
+  String get householdGoalSplitsFeatureOutcome =>
+      'تقسيم المساهمات حسب الملف الشخصي وتتبع التقدم.';
+
+  @override
+  String get householdGoalSplitsFeatureDescription =>
+      'حدد الأهداف المشتركة، وحدد النسب المئوية للمساهمة، وحافظ على توافق الجميع.';
 }

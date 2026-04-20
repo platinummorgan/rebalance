@@ -93,7 +93,7 @@
   "concentration": "एकाग्रता",
   "excellent": "उत्कृष्ट",
   "good": "अच्छा",
-  "fair": "ठीक है",
+  "fair": "ठीक",
   "needsWork": "सुधार की जरूरत",
   "critical": "गंभीर",
   "poor": "खराब",
@@ -981,7 +981,6 @@
   "billsAmount": "बिल {amount}",
   "tapToSeeGuardrails": "सीमाएं देखने के लिए टैप करें",
   "moneyHealthScore": "धन स्वास्थ्य स्कोर",
-  "fair": "ठीक",
   "weakestArea": "{area} अभी आपका सबसे कमजोर क्षेत्र है",
   "neverBrokeWeek": "फिर कभी 'खाली जेब वाला सप्ताह' नहीं होगा।",
   "answerQuestionsGuardrails": "3 तेज सवालों के जवाब दें और हम आपको बताएंगे कि आप इस सप्ताह कितना सुरक्षित रूप से खर्च कर सकते हैं।",
@@ -1028,5 +1027,356 @@
   "dueOnDay": "दिन {day} को देय",
   "profileSetup": "प्रोफ़ाइल सेटअप",
   "percentComplete": "{percentage}% पूर्ण",
-  "completeProfileInsights": "बेहतर जानकारी के लिए अपना प्रोफ़ाइल पूरा करें"
+  "completeProfileInsights": "बेहतर जानकारी के लिए अपना प्रोफ़ाइल पूरा करें",
+  "editExpense": "व्यय संपादित करें",
+  "expenseName": "व्यय नाम",
+  "expenseNameHint": "जैसे, बिजली बिल, इंटरनेट",
+  "monthlyAmount": "मासिक राशि",
+  "category": "वर्ग",
+  "dueDayOptional": "नियत दिन (वैकल्पिक)",
+  "dueDayHint": "उदाहरण के लिए, महीने की 15वीं तारीख के लिए 15",
+  "mustBeBetween1And31": "1 से 31 के बीच होना चाहिए",
+  "expenseUpdated": "व्यय अद्यतन किया गया",
+  "expenseAdded": "व्यय जोड़ा गया",
+  "deleteExpenseTitle": "व्यय हटाएँ?",
+  "deleteExpenseConfirmation": "क्या आप वाकई यह व्यय हटाना चाहते हैं?",
+  "expenseDeleted": "व्यय हटा दिया गया",
+  "expenseCategoryRentMortgage": "किराया/बंधक",
+  "expenseCategoryUtilities": "उपयोगिताओं",
+  "expenseCategoryInsurance": "बीमा",
+  "expenseCategorySubscriptions": "सदस्यता",
+  "importExportTitle": "आयात एवं निर्यात",
+  "backupRestoreSectionTitle": "बैकअप और पुनर्स्थापना",
+  "exportToCsvTitle": "सीएसवी को निर्यात करें",
+  "exportToCsvSubtitle": "निःशुल्क • स्प्रेडशीट विश्लेषण के लिए निर्यात खाता शेष",
+  "createCompleteBackupTitle": "पूर्ण बैकअप बनाएं",
+  "createCompleteBackupSubtitle": "सभी डेटा (खाते, ऋण, आय, सेटिंग्स) को एक ही फ़ाइल में निर्यात करें",
+  "createEncryptedBackupTitle": "एन्क्रिप्टेड बैकअप बनाएं",
+  "createEncryptedBackupSubtitle": "अनुशंसित • सहेजने से पहले पासफ़्रेज़ के साथ बैकअप एन्क्रिप्ट करें",
+  "restoreFromBackupTitle": "बैकअप से पुनर्स्थापित करें",
+  "restoreFromBackupSubtitle": "बैकअप फ़ाइल से सभी डेटा पुनर्स्थापित करें",
+  "exportCsvDialogTitle": "सीएसवी निर्यात करें",
+  "exportCsvDialogDescription": "आपकी CSV फ़ाइल सीधे आपके डाउनलोड फ़ोल्डर में सहेजी जाएगी।",
+  "exportButtonLabel": "निर्यात",
+  "csvSavedToDownloads": "डाउनलोड में सहेजा गया:\\n{filename}",
+  "@csvSavedToDownloads": {
+    "placeholders": {
+      "filename": {
+        "type": "String"
+      }
+    }
+  },
+  "exportFailedWithError": "निर्यात विफल: {error}",
+  "@exportFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "encryptedBackupDialogTitle": "एन्क्रिप्टेड बैकअप बनाएं",
+  "backupPassphraseDialogTitle": "बैकअप पासफ़्रेज़",
+  "newBackupPassphraseDescription": "एक मजबूत पासफ़्रेज़ (ऊपरी/निचले/अंक/प्रतीक के साथ 12+ वर्ण) का उपयोग करें। खो जाने पर, यह बैकअप पुनर्स्थापित नहीं किया जा सकता.",
+  "existingBackupPassphraseDescription": "यह एन्क्रिप्टेड बैकअप बनाते समय उपयोग किया गया पासफ़्रेज़ दर्ज करें।",
+  "passphraseLabel": "पदबंध",
+  "confirmPassphraseLabel": "पासफ़्रेज़ की पुष्टि करें",
+  "passphraseRequiredError": "पासफ़्रेज़ आवश्यक है.",
+  "passphrasesDoNotMatchError": "पासफ़्रेज़ मेल नहीं खाते.",
+  "continueLabel": "जारी रखना",
+  "passphraseMinLengthError": "पासफ़्रेज़ कम से कम 12 अक्षर का होना चाहिए.",
+  "passphraseComplexityError": "कम से कम एक अपरकेस, लोअरकेस, संख्या और प्रतीक का प्रयोग करें।",
+  "createBackupFailed": "बैकअप बनाने में विफल",
+  "backupSavedToDownloads": "बैकअप डाउनलोड में सहेजा गया:\\n{filePath}",
+  "@backupSavedToDownloads": {
+    "placeholders": {
+      "filePath": {
+        "type": "String"
+      }
+    }
+  },
+  "backupFailedWithError": "बैकअप विफल: {error}",
+  "@backupFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "createEncryptedBackupFailed": "एन्क्रिप्टेड बैकअप बनाने में विफल",
+  "encryptedBackupSavedToDownloads": "एन्क्रिप्टेड बैकअप डाउनलोड में सहेजा गया:\\n{filePath}",
+  "@encryptedBackupSavedToDownloads": {
+    "placeholders": {
+      "filePath": {
+        "type": "String"
+      }
+    }
+  },
+  "encryptedBackupFailedWithError": "एन्क्रिप्टेड बैकअप विफल: {error}",
+  "@encryptedBackupFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "restoreConfirmTitle": "बैकअप से पुनर्स्थापित करें?",
+  "restoreConfirmWarning": "चेतावनी: यह आपके सभी वर्तमान डेटा को बैकअप फ़ाइल के डेटा से बदल देगा।\\n\\nआपका वर्तमान डेटा स्थायी रूप से हटा दिया जाएगा।\\n\\nआगे बढ़ने से पहले सुनिश्चित करें कि आपके पास अपने वर्तमान डेटा का बैकअप है।",
+  "restoreButtonLabel": "पुनर्स्थापित करना",
+  "restoreTooManyPassphraseAttempts": "बहुत सारे ग़लत पासफ़्रेज़ प्रयास. पुनर्स्थापना रद्द कर दी गई.",
+  "restoreSuccessfulTitle": "पुनर्स्थापना सफल!",
+  "restoreFailedWithError": "पुनर्स्थापना विफल: {error}",
+  "@restoreFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdProfilesBetaTitle": "घरेलू प्रोफ़ाइल (बीटा)",
+  "householdProfilesDescription": "प्रोफ़ाइल बनाएं और उनके बीच स्विच करें. मुख्य वित्तीय डेटा अब प्रति सक्रिय घरेलू प्रोफ़ाइल पर लोड होता है।",
+  "householdActiveProfileLabel": "सक्रिय प्रोफ़ाइल",
+  "householdNoProfilesAvailable": "कोई प्रोफ़ाइल उपलब्ध नहीं है",
+  "householdAddProfileTitle": "घरेलू प्रोफ़ाइल जोड़ें",
+  "householdRenameProfileTitle": "प्रोफ़ाइल का नाम बदलें",
+  "householdDeleteProfileTitle": "प्रोफ़ाइल हटाएं?",
+  "householdProfileNameLabel": "प्रोफ़ाइल नाम",
+  "householdDeleteProfileDescription": "\"{name}\" प्रोफ़ाइल हटाएं? इसकी अनुमति केवल तभी दी जाती है जब प्रोफ़ाइल में कोई वित्तीय रिकॉर्ड निर्दिष्ट न हो।",
+  "@householdDeleteProfileDescription": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "householdCreateAtLeastTwoProfiles": "डेटा स्थानांतरित करने से पहले कम से कम दो प्रोफ़ाइल बनाएं.",
+  "householdMoveDataTitle": "प्रोफाइल के बीच डेटा ले जाएँ",
+  "householdMoveDataDescription": "यह चयनित खातों, देनदारियों, आय, व्यय और लक्ष्यों को एक प्रोफ़ाइल से दूसरे प्रोफ़ाइल में पुन: निर्दिष्ट करेगा।",
+  "householdMoveFromProfileLabel": "प्रोफ़ाइल से",
+  "householdMoveToProfileLabel": "प्रालेख के लिए",
+  "householdMoveDataTypesLabel": "स्थानांतरित करने के लिए डेटा प्रकार",
+  "householdDataTypeGoals": "लक्ष्य",
+  "householdMoveProfilesMustDiffer": "स्रोत और लक्ष्य प्रोफ़ाइल भिन्न होनी चाहिए.",
+  "householdMoveSelectAtLeastOneType": "स्थानांतरित करने के लिए कम से कम एक डेटा प्रकार चुनें.",
+  "householdGoalsSectionTitle": "घरेलू लक्ष्य",
+  "householdGoalNoGoalsForActive": "सक्रिय प्रोफ़ाइल के लिए अभी तक कोई लक्ष्य नहीं.",
+  "householdAddGoalTitle": "घरेलू लक्ष्य जोड़ें",
+  "householdEditGoalTitle": "घरेलू लक्ष्य संपादित करें",
+  "householdGoalNameLabel": "लक्ष्य का नाम",
+  "householdGoalTargetAmountLabel": "लक्ष्य राशि",
+  "householdGoalCurrentAmountLabel": "वर्तमान में बचाई गई राशि",
+  "householdGoalSharedToggle": "साझा लक्ष्य (सभी प्रोफ़ाइलों के लिए दृश्यमान)",
+  "householdGoalOwnerProfileLabel": "स्वामी प्रोफ़ाइल",
+  "householdGoalNameRequired": "एक लक्ष्य नाम दर्ज करें.",
+  "householdGoalTargetInvalid": "एक वैध लक्ष्य राशि दर्ज करें.",
+  "householdGoalCurrentInvalid": "वैध वर्तमान राशि दर्ज करें.",
+  "householdGoalOwnerRequired": "एक स्वामी प्रोफ़ाइल चुनें.",
+  "householdGoalScopeShared": "साझा",
+  "householdGoalScopeProfileUnknown": "प्रोफ़ाइल",
+  "householdGoalScopeProfile": "प्रोफ़ाइल: {name}",
+  "@householdGoalScopeProfile": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalDeleteTitle": "लक्ष्य हटाएँ?",
+  "householdGoalDeleteMessage": "लक्ष्य \"{name}\" हटाएं?",
+  "@householdGoalDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalFailedToAdd": "लक्ष्य जोड़ने में विफल: {error}",
+  "@householdGoalFailedToAdd": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalFailedToDelete": "लक्ष्य हटाने में विफल: {error}",
+  "@householdGoalFailedToDelete": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalFailedToUpdate": "लक्ष्य अद्यतन करने में विफल: {error}",
+  "@householdGoalFailedToUpdate": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalEditSplitsTitle": "अंशदान विभाजन संपादित करें",
+  "householdGoalEditSplitsTooltip": "योगदान विभाजन संपादित करें",
+  "householdGoalSplitNeedPositive": "शून्य से ऊपर विभाजन प्रतिशत दर्ज करें.",
+  "householdGoalFailedToUpdateSplits": "विभाजन अद्यतन करने में विफल: {error}",
+  "@householdGoalFailedToUpdateSplits": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalProgressSummary": "प्रगति: {current} / {target} ({percent}%)",
+  "@householdGoalProgressSummary": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalSplitPreview": "विभाजन: {splits}",
+  "@householdGoalSplitPreview": {
+    "placeholders": {
+      "splits": {
+        "type": "String"
+      }
+    }
+  },
+  "householdActiveProfileUpdated": "सक्रिय प्रोफ़ाइल अपडेट की गई",
+  "householdFailedToUpdateProfile": "प्रोफ़ाइल अपडेट करने में विफल: {error}",
+  "@householdFailedToUpdateProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToAddProfile": "प्रोफ़ाइल जोड़ने में विफल: {error}",
+  "@householdFailedToAddProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToRenameProfile": "प्रोफ़ाइल का नाम बदलने में विफल: {error}",
+  "@householdFailedToRenameProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToDeleteProfile": "प्रोफ़ाइल हटाने में विफल: {error}",
+  "@householdFailedToDeleteProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToMoveData": "डेटा स्थानांतरित करने में विफल: {error}",
+  "@householdFailedToMoveData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdMovedRecordsSummary": "{total} रिकॉर्ड ले जाया गया (A:{accounts}, L:{liabilities}, I:{incomes}, E:{expenses}, G:{goals})।",
+  "@householdMovedRecordsSummary": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      },
+      "accounts": {
+        "type": "int"
+      },
+      "liabilities": {
+        "type": "int"
+      },
+      "incomes": {
+        "type": "int"
+      },
+      "expenses": {
+        "type": "int"
+      },
+      "goals": {
+        "type": "int"
+      }
+    }
+  },
+  "householdStatusActive": "सक्रिय",
+  "householdStatusInactive": "निष्क्रिय",
+  "householdDeleteTooltipAtLeastOne": "कम से कम एक प्रोफ़ाइल आवश्यक है",
+  "householdDeleteTooltipMoveDataFirst": "इस प्रोफ़ाइल को हटाने से पहले डेटा ले जाएँ",
+  "householdDeleteTooltipDelete": "मिटाना",
+  "householdCountsCompact": "A:{accounts} L:{liabilities} I:{incomes} E:{expenses} G:{goals}",
+  "@householdCountsCompact": {
+    "placeholders": {
+      "accounts": {
+        "type": "int"
+      },
+      "liabilities": {
+        "type": "int"
+      },
+      "incomes": {
+        "type": "int"
+      },
+      "expenses": {
+        "type": "int"
+      },
+      "goals": {
+        "type": "int"
+      }
+    }
+  },
+  "householdProfileOptionLabel": "{name} ({counts})",
+  "@householdProfileOptionLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "counts": {
+        "type": "String"
+      }
+    }
+  },
+  "householdMoveAllToActiveButton": "सभी डेटा को सक्रिय प्रोफ़ाइल में ले जाएं",
+  "householdMoveAllConfirmTitle": "सभी डेटा को सक्रिय प्रोफ़ाइल में ले जाएं?",
+  "householdMoveAllConfirmMessage": "यह {totalMovable} रिकॉर्ड को अन्य सभी प्रोफाइल से \"{activeName}\" में ले जाएगा।",
+  "@householdMoveAllConfirmMessage": {
+    "placeholders": {
+      "totalMovable": {
+        "type": "int"
+      },
+      "activeName": {
+        "type": "String"
+      }
+    }
+  },
+  "householdMoveAllNoData": "अन्य प्रोफ़ाइल से स्थानांतरित करने के लिए कोई डेटा नहीं.",
+  "householdMovableFromOtherProfiles": "अन्य प्रोफ़ाइल से स्थानांतरित करने योग्य: {count}",
+  "@householdMovableFromOtherProfiles": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "householdFailedToMoveAllData": "सभी डेटा स्थानांतरित करने में विफल: {error}",
+  "@householdFailedToMoveAllData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalSplitsFeatureTitle": "साझा घरेलू लक्ष्य",
+  "householdGoalSplitsFeatureOutcome": "प्रोफ़ाइल के आधार पर योगदान को विभाजित करें और प्रगति को ट्रैक करें।",
+  "householdGoalSplitsFeatureDescription": "साझा लक्ष्य निर्धारित करें, योगदान प्रतिशत निर्धारित करें और सभी को एकजुट रखें।"
 }
