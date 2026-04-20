@@ -192,28 +192,7 @@ class DebtLoadCalculator {
     return mortgageBalance / netWorth;
   }
 
-  static double _calculateDebtScore(
-    double totalDebt,
-    double assets,
-    double income,
-    double monthlyEssentials,
-    double debtService,
-    bool hasHighAprDebt,
-    double creditUtilization,
-  ) {
-    // Legacy path now delegates to new unified scoring
-    return _computeNewDebtScore(
-      totalDebt: totalDebt,
-      assets: assets,
-      income: income,
-      essentials: monthlyEssentials,
-      monthlyDebtService: debtService,
-      creditUtilization: creditUtilization,
-      hasHighAprDebt: hasHighAprDebt,
-    );
-  }
-
-  // ===== New scoring model helpers (v1.1) =====
+// ===== New scoring model helpers (v1.1) =====
   static double _clamp01(double x) => x < 0 ? 0 : (x > 1 ? 1 : x);
 
   static double _newLeverageScore(double totalDebt, double assets) {
@@ -285,48 +264,6 @@ class DebtLoadCalculator {
     }());
 
     return score.clamp(0, 100);
-  }
-
-  static double _scoreLeverage(double debt, double assets) {
-    if (assets <= 0) return 0;
-    final Lraw = debt / assets; // leverage multiple
-    // Normal sensitivity region
-    if (Lraw <= ScoringConstants.leverageWorst) {
-      final L = Lraw.clamp(
-        ScoringConstants.leverageBest,
-        ScoringConstants.leverageWorst,
-      );
-      final t = ((ScoringConstants.leverageWorst - L) /
-              (ScoringConstants.leverageWorst - ScoringConstants.leverageBest))
-          .clamp(0.0, 1.0);
-      return 100 * t;
-    }
-    // Distress tail provides gradual improvement
-    final Lt = Lraw.clamp(
-      ScoringConstants.leverageWorst,
-      ScoringConstants.leverageTailMax,
-    );
-    final tTail = ((ScoringConstants.leverageTailMax - Lt) /
-            (ScoringConstants.leverageTailMax - ScoringConstants.leverageWorst))
-        .clamp(0.0, 1.0);
-    return ScoringConstants.leverageTailCeiling * tTail;
-  }
-
-  static double _scoreDSCR(
-    double income,
-    double monthlyEssentials,
-    double debtService,
-  ) {
-    final discretionaryIncome = income - monthlyEssentials;
-    if (discretionaryIncome <= 0 || debtService <= 0) return 0;
-
-    final dscr = discretionaryIncome / debtService;
-    // Map DSCR linearly inside configured bounds
-    if (dscr <= ScoringConstants.dscrWorst) return 0;
-    if (dscr >= ScoringConstants.dscrBest) return 100;
-    return 100 *
-        (dscr - ScoringConstants.dscrWorst) /
-        (ScoringConstants.dscrBest - ScoringConstants.dscrWorst);
   }
 
   static double _calculateMortgageBalance(List<Liability> liabilities) {

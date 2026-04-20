@@ -1187,11 +1187,362 @@
   "trackMonthlyBills": "Suivez vos factures mensuelles régulières comme le loyer, les services publics, les assurances et les abonnements",
   "addYourFirstExpense": "Ajouter votre première dépense",
   "addExpense": "Ajouter une dépense",
+  "editExpense": "Modifier la dépense",
+  "expenseName": "Nom de la dépense",
+  "expenseNameHint": "ex. : facture d'électricité, internet",
+  "monthlyAmount": "Montant mensuel",
+  "category": "Catégorie",
+  "dueDayOptional": "Jour d'échéance (optionnel)",
+  "dueDayHint": "ex. : 15 pour le 15 du mois",
+  "mustBeBetween1And31": "Doit être entre 1 et 31",
+  "expenseUpdated": "Dépense mise à jour",
+  "expenseAdded": "Dépense ajoutée",
+  "deleteExpenseTitle": "Supprimer la dépense ?",
+  "deleteExpenseConfirmation": "Voulez-vous vraiment supprimer cette dépense ?",
+  "expenseDeleted": "Dépense supprimée",
+  "expenseCategoryRentMortgage": "Loyer/Crédit immobilier",
+  "expenseCategoryUtilities": "Services publics",
+  "expenseCategoryInsurance": "Assurance",
+  "expenseCategorySubscriptions": "Abonnements",
   "totalMonthlyExpenses": "Total des dépenses mensuelles",
   "perWeekFull": "/semaine",
   "perWeekShort": "/sem.",
   "dueOnDay": "Échéance le jour {day}",
   "profileSetup": "Configuration du profil",
   "percentComplete": "{percentage}% complété",
-  "completeProfileInsights": "Complétez votre profil pour de meilleures informations"
+  "completeProfileInsights": "Complétez votre profil pour de meilleures informations",
+  "importExportTitle": "Importation et exportation",
+  "backupRestoreSectionTitle": "Sauvegarde et restauration",
+  "exportToCsvTitle": "Exporter en CSV",
+  "exportToCsvSubtitle": "Gratuit • Exportez les soldes de comptes pour analyse dans un tableur",
+  "createCompleteBackupTitle": "Créer une sauvegarde complète",
+  "createCompleteBackupSubtitle": "Exportez toutes les données (comptes, dettes, revenus, paramètres) dans un seul fichier",
+  "createEncryptedBackupTitle": "Créer une sauvegarde chiffrée",
+  "createEncryptedBackupSubtitle": "Recommandé • Chiffrez la sauvegarde avec une phrase secrète avant l’enregistrement",
+  "restoreFromBackupTitle": "Restaurer depuis une sauvegarde",
+  "restoreFromBackupSubtitle": "Restaurez toutes les données depuis un fichier de sauvegarde",
+  "exportCsvDialogTitle": "Exporter le CSV",
+  "exportCsvDialogDescription": "Votre fichier CSV sera enregistré directement dans votre dossier Téléchargements.",
+  "exportButtonLabel": "Exporter",
+  "csvSavedToDownloads": "Enregistré dans Téléchargements :\\n{filename}",
+  "@csvSavedToDownloads": {
+    "placeholders": {
+      "filename": {
+        "type": "String"
+      }
+    }
+  },
+  "exportFailedWithError": "Échec de l’export : {error}",
+  "@exportFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "encryptedBackupDialogTitle": "Créer une sauvegarde chiffrée",
+  "backupPassphraseDialogTitle": "Phrase secrète de sauvegarde",
+  "newBackupPassphraseDescription": "Utilisez une phrase secrète forte (12+ caractères avec majuscule/minuscule/chiffre/symbole). Si vous la perdez, cette sauvegarde ne pourra pas être restaurée.",
+  "existingBackupPassphraseDescription": "Entrez la phrase secrète utilisée lors de la création de cette sauvegarde chiffrée.",
+  "passphraseLabel": "Phrase secrète",
+  "confirmPassphraseLabel": "Confirmer la phrase secrète",
+  "passphraseRequiredError": "La phrase secrète est requise.",
+  "passphrasesDoNotMatchError": "Les phrases secrètes ne correspondent pas.",
+  "continueLabel": "Continuer",
+  "passphraseMinLengthError": "La phrase secrète doit contenir au moins 12 caractères.",
+  "passphraseComplexityError": "Utilisez au moins une majuscule, une minuscule, un chiffre et un symbole.",
+  "createBackupFailed": "Échec de la création de la sauvegarde",
+  "backupSavedToDownloads": "Sauvegarde enregistrée dans Téléchargements :\\n{filePath}",
+  "@backupSavedToDownloads": {
+    "placeholders": {
+      "filePath": {
+        "type": "String"
+      }
+    }
+  },
+  "backupFailedWithError": "Échec de la sauvegarde : {error}",
+  "@backupFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "createEncryptedBackupFailed": "Échec de la création de la sauvegarde chiffrée",
+  "encryptedBackupSavedToDownloads": "Sauvegarde chiffrée enregistrée dans Téléchargements :\\n{filePath}",
+  "@encryptedBackupSavedToDownloads": {
+    "placeholders": {
+      "filePath": {
+        "type": "String"
+      }
+    }
+  },
+  "encryptedBackupFailedWithError": "Échec de la sauvegarde chiffrée : {error}",
+  "@encryptedBackupFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "restoreConfirmTitle": "Restaurer depuis une sauvegarde ?",
+  "restoreConfirmWarning": "ATTENTION : cela remplacera TOUTES vos données actuelles par celles du fichier de sauvegarde.\\n\\nVos données actuelles seront supprimées définitivement.\\n\\nAssurez-vous d’avoir une sauvegarde de vos données actuelles avant de continuer.",
+  "restoreButtonLabel": "Restaurer",
+  "restoreTooManyPassphraseAttempts": "Trop de tentatives incorrectes de phrase secrète. La restauration a été annulée.",
+  "restoreSuccessfulTitle": "Restauration réussie !",
+  "restoreFailedWithError": "Échec de la restauration : {error}",
+  "@restoreFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdProfilesBetaTitle": "Profils du foyer (Bêta)",
+  "householdProfilesDescription": "Créez et basculez entre les profils. Les données financières principales se chargent désormais selon le profil actif.",
+  "householdActiveProfileLabel": "Profil actif",
+  "householdNoProfilesAvailable": "Aucun profil disponible",
+  "householdAddProfileTitle": "Ajouter un profil du foyer",
+  "householdRenameProfileTitle": "Renommer le profil",
+  "householdDeleteProfileTitle": "Supprimer le profil ?",
+  "householdProfileNameLabel": "Nom du profil",
+  "householdDeleteProfileDescription": "Supprimer le profil « {name} » ? Ceci est autorisé uniquement si le profil n’a aucun enregistrement financier assigné.",
+  "@householdDeleteProfileDescription": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "householdCreateAtLeastTwoProfiles": "Créez au moins deux profils avant de déplacer des données.",
+  "householdMoveDataTitle": "Déplacer les données entre profils",
+  "householdMoveDataDescription": "Cela réaffectera les comptes, passifs, revenus, dépenses et objectifs sélectionnés d’un profil à un autre.",
+  "householdMoveFromProfileLabel": "Profil source",
+  "householdMoveToProfileLabel": "Profil cible",
+  "householdMoveDataTypesLabel": "Types de données à déplacer",
+  "householdDataTypeGoals": "Objectifs",
+  "householdMoveProfilesMustDiffer": "Les profils source et cible doivent être différents.",
+  "householdMoveSelectAtLeastOneType": "Sélectionnez au moins un type de données à déplacer.",
+  "householdGoalsSectionTitle": "Objectifs du foyer",
+  "householdGoalNoGoalsForActive": "Aucun objectif pour le profil actif pour le moment.",
+  "householdAddGoalTitle": "Ajouter un objectif du foyer",
+  "householdEditGoalTitle": "Modifier l’objectif du foyer",
+  "householdGoalNameLabel": "Nom de l’objectif",
+  "householdGoalTargetAmountLabel": "Montant cible",
+  "householdGoalCurrentAmountLabel": "Montant déjà épargné",
+  "householdGoalSharedToggle": "Objectif partagé (visible par tous les profils)",
+  "householdGoalOwnerProfileLabel": "Profil propriétaire",
+  "householdGoalNameRequired": "Saisissez un nom d’objectif.",
+  "householdGoalTargetInvalid": "Saisissez un montant cible valide.",
+  "householdGoalCurrentInvalid": "Saisissez un montant actuel valide.",
+  "householdGoalOwnerRequired": "Sélectionnez un profil propriétaire.",
+  "householdGoalScopeShared": "Partagé",
+  "householdGoalScopeProfileUnknown": "Profil",
+  "householdGoalScopeProfile": "Profil : {name}",
+  "@householdGoalScopeProfile": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalDeleteTitle": "Supprimer l’objectif ?",
+  "householdGoalDeleteMessage": "Supprimer l’objectif « {name} » ?",
+  "@householdGoalDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalFailedToAdd": "Échec de l’ajout de l’objectif : {error}",
+  "@householdGoalFailedToAdd": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalFailedToDelete": "Échec de la suppression de l’objectif : {error}",
+  "@householdGoalFailedToDelete": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalFailedToUpdate": "Échec de la mise à jour de l’objectif : {error}",
+  "@householdGoalFailedToUpdate": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalEditSplitsTitle": "Modifier la répartition des contributions",
+  "householdGoalEditSplitsTooltip": "Modifier la répartition des contributions",
+  "householdGoalSplitNeedPositive": "Saisissez des pourcentages de répartition supérieurs à zéro.",
+  "householdGoalFailedToUpdateSplits": "Échec de la mise à jour des répartitions : {error}",
+  "@householdGoalFailedToUpdateSplits": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalProgressSummary": "Progression : {current} / {target} ({percent}%)",
+  "@householdGoalProgressSummary": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalSplitPreview": "Répartition : {splits}",
+  "@householdGoalSplitPreview": {
+    "placeholders": {
+      "splits": {
+        "type": "String"
+      }
+    }
+  },
+  "householdActiveProfileUpdated": "Profil actif mis à jour",
+  "householdFailedToUpdateProfile": "Échec de la mise à jour du profil : {error}",
+  "@householdFailedToUpdateProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToAddProfile": "Échec de l’ajout du profil : {error}",
+  "@householdFailedToAddProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToRenameProfile": "Échec du renommage du profil : {error}",
+  "@householdFailedToRenameProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToDeleteProfile": "Échec de la suppression du profil : {error}",
+  "@householdFailedToDeleteProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToMoveData": "Échec du déplacement des données : {error}",
+  "@householdFailedToMoveData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdMovedRecordsSummary": "{total} enregistrements déplacés (C:{accounts}, P:{liabilities}, R:{incomes}, D:{expenses}, O:{goals}).",
+  "@householdMovedRecordsSummary": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      },
+      "accounts": {
+        "type": "int"
+      },
+      "liabilities": {
+        "type": "int"
+      },
+      "incomes": {
+        "type": "int"
+      },
+      "expenses": {
+        "type": "int"
+      },
+      "goals": {
+        "type": "int"
+      }
+    }
+  },
+  "householdStatusActive": "Actif",
+  "householdStatusInactive": "Inactif",
+  "householdDeleteTooltipAtLeastOne": "Au moins un profil est requis",
+  "householdDeleteTooltipMoveDataFirst": "Déplacez les données avant de supprimer ce profil",
+  "householdDeleteTooltipDelete": "Supprimer",
+  "householdCountsCompact": "C:{accounts} P:{liabilities} R:{incomes} D:{expenses} O:{goals}",
+  "@householdCountsCompact": {
+    "placeholders": {
+      "accounts": {
+        "type": "int"
+      },
+      "liabilities": {
+        "type": "int"
+      },
+      "incomes": {
+        "type": "int"
+      },
+      "expenses": {
+        "type": "int"
+      },
+      "goals": {
+        "type": "int"
+      }
+    }
+  },
+  "householdProfileOptionLabel": "{name} ({counts})",
+  "@householdProfileOptionLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "counts": {
+        "type": "String"
+      }
+    }
+  },
+  "householdMoveAllToActiveButton": "Tout déplacer vers le profil actif",
+  "householdMoveAllConfirmTitle": "Tout déplacer vers le profil actif ?",
+  "householdMoveAllConfirmMessage": "Cela déplacera {totalMovable} enregistrements de tous les autres profils vers « {activeName} ».",
+  "@householdMoveAllConfirmMessage": {
+    "placeholders": {
+      "totalMovable": {
+        "type": "int"
+      },
+      "activeName": {
+        "type": "String"
+      }
+    }
+  },
+  "householdMoveAllNoData": "Aucune donnée à déplacer depuis les autres profils.",
+  "householdMovableFromOtherProfiles": "Déplaçable depuis les autres profils : {count}",
+  "@householdMovableFromOtherProfiles": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "householdFailedToMoveAllData": "Échec du déplacement de toutes les données : {error}",
+  "@householdFailedToMoveAllData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalSplitsFeatureTitle": "Objectifs du foyer partagés",
+  "householdGoalSplitsFeatureOutcome": "Répartissez les contributions par profil et suivez la progression.",
+  "householdGoalSplitsFeatureDescription": "Créez des objectifs partagés, attribuez des pourcentages de contribution et alignez tout le foyer."
 }

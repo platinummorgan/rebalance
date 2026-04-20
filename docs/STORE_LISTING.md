@@ -35,8 +35,8 @@ Never wonder what to do next. Get specific guidance:
 **🔒 Privacy by Design**
 • No sign-up or personal information required
 • All data encrypted and stored locally on your device
-• No ads, tracking, or data collection
-• Works completely offline
+• No ads or behavioral analytics tracking
+• Core features work offline (optional network for FX rates and purchase verification)
 
 **💎 Pro Features (Optional)**
 • Local notifications and rebalancing alerts
@@ -100,7 +100,7 @@ net worth calculator, asset allocation, portfolio diversification, financial pla
 **Target Audience**: 25-55 years old, college-educated, household income $50k+, interested in personal finance and investing
 
 **Competitive Advantages**:
-1. Privacy-first (no data collection)
+1. Privacy-first (no financial data collection or cloud sync)
 2. Specific action guidance (not just analytics)
 3. Comprehensive diversification analysis
 4. Works offline

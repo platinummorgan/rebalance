@@ -12,26 +12,27 @@ class ExportScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Import & Export'),
+        title: Text(l10n.importExportTitle),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Backup & Restore',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Text(
+              l10n.backupRestoreSectionTitle,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             Card(
               child: ListTile(
                 leading: const Icon(Icons.download),
-                title: const Text('Export to CSV'),
-                subtitle: const Text(
-                  'Free • Export account balances for spreadsheet analysis',
+                title: Text(l10n.exportToCsvTitle),
+                subtitle: Text(
+                  l10n.exportToCsvSubtitle,
                 ),
                 onTap: () => _showExportOptions(context, ref),
               ),
@@ -39,19 +40,29 @@ class ExportScreen extends ConsumerWidget {
             Card(
               child: ListTile(
                 leading: const Icon(Icons.backup),
-                title: const Text('Create Complete Backup'),
-                subtitle: const Text(
-                  'Export all data (accounts, debts, income, settings) to a single file',
+                title: Text(l10n.createCompleteBackupTitle),
+                subtitle: Text(
+                  l10n.createCompleteBackupSubtitle,
                 ),
                 onTap: () => _createBackup(context, ref),
               ),
             ),
             Card(
               child: ListTile(
+                leading: const Icon(Icons.enhanced_encryption),
+                title: Text(l10n.createEncryptedBackupTitle),
+                subtitle: Text(
+                  l10n.createEncryptedBackupSubtitle,
+                ),
+                onTap: () => _createEncryptedBackup(context, ref),
+              ),
+            ),
+            Card(
+              child: ListTile(
                 leading: const Icon(Icons.restore),
-                title: const Text('Restore from Backup'),
-                subtitle: const Text(
-                  'Restore all data from a backup file',
+                title: Text(l10n.restoreFromBackupTitle),
+                subtitle: Text(
+                  l10n.restoreFromBackupSubtitle,
                 ),
                 onTap: () => _restoreBackup(context, ref),
               ),
@@ -63,21 +74,22 @@ class ExportScreen extends ConsumerWidget {
   }
 
   Future<void> _showExportOptions(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context)!;
     final result = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Export CSV'),
-        content: const Text(
-          'Your CSV file will be saved directly to your Downloads folder.',
+        title: Text(l10n.exportCsvDialogTitle),
+        content: Text(
+          l10n.exportCsvDialogDescription,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, 'cancel'),
-            child: Text(AppLocalizations.of(context)!.cancel),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, 'export'),
-            child: const Text('Export'),
+            child: Text(l10n.exportButtonLabel),
           ),
         ],
       ),
@@ -153,6 +165,7 @@ class ExportScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) async {
+    final l10n = AppLocalizations.of(context)!;
     NavigatorState? rootNavigator;
     var dialogVisible = false;
 
@@ -194,11 +207,13 @@ class ExportScreen extends ConsumerWidget {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Saved to Downloads:\n$fileBaseName.csv'),
+          content: Text(
+            l10n.csvSavedToDownloads('$fileBaseName.csv'),
+          ),
           backgroundColor: Colors.green,
           duration: const Duration(seconds: 4),
           action: SnackBarAction(
-            label: 'OK',
+            label: l10n.ok,
             textColor: Colors.white,
             onPressed: () {},
           ),
@@ -214,7 +229,7 @@ class ExportScreen extends ConsumerWidget {
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Export failed: $e'),
+          content: Text(l10n.exportFailedWithError(e.toString())),
           backgroundColor: Colors.red,
           duration: const Duration(seconds: 5),
         ),
@@ -224,7 +239,155 @@ class ExportScreen extends ConsumerWidget {
     }
   }
 
+  Future<String?> _promptBackupPassphrase(
+    BuildContext context, {
+    required bool confirm,
+    String? initialError,
+  }) async {
+    final l10n = AppLocalizations.of(context)!;
+    final passController = TextEditingController();
+    final confirmController = TextEditingController();
+    String? errorText = initialError;
+    var obscurePassphrase = true;
+    var obscureConfirm = true;
+
+    final passphrase = await showDialog<String>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) => AlertDialog(
+            title:
+                Text(
+                  confirm
+                      ? l10n.encryptedBackupDialogTitle
+                      : l10n.backupPassphraseDialogTitle,
+                ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  confirm
+                      ? l10n.newBackupPassphraseDescription
+                      : l10n.existingBackupPassphraseDescription,
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: passController,
+                  obscureText: obscurePassphrase,
+                  decoration: InputDecoration(
+                    labelText: l10n.passphraseLabel,
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setDialogState(() {
+                          obscurePassphrase = !obscurePassphrase;
+                        });
+                      },
+                      icon: Icon(
+                        obscurePassphrase
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                    ),
+                  ),
+                ),
+                if (confirm) ...[
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: confirmController,
+                    obscureText: obscureConfirm,
+                    decoration: InputDecoration(
+                      labelText: l10n.confirmPassphraseLabel,
+                      border: const OutlineInputBorder(),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setDialogState(() {
+                            obscureConfirm = !obscureConfirm;
+                          });
+                        },
+                        icon: Icon(
+                          obscureConfirm
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+                if (errorText != null) ...[
+                  const SizedBox(height: 10),
+                  Text(
+                    errorText!,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext),
+                child: Text(l10n.cancel),
+              ),
+              FilledButton(
+                onPressed: () {
+                  final pass = passController.text.trim();
+                  final confirmPass = confirmController.text.trim();
+                  if (pass.isEmpty) {
+                    setDialogState(() {
+                      errorText = l10n.passphraseRequiredError;
+                    });
+                    return;
+                  }
+                  if (confirm) {
+                    final validationError = _validateNewPassphrase(pass, l10n);
+                    if (validationError != null) {
+                      setDialogState(() {
+                        errorText = validationError;
+                      });
+                      return;
+                    }
+                  }
+                  if (confirm && pass != confirmPass) {
+                    setDialogState(() {
+                      errorText = l10n.passphrasesDoNotMatchError;
+                    });
+                    return;
+                  }
+                  Navigator.pop(dialogContext, pass);
+                },
+                child: Text(l10n.continueLabel),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    passController.dispose();
+    confirmController.dispose();
+    return passphrase;
+  }
+
+  String? _validateNewPassphrase(String passphrase, AppLocalizations l10n) {
+    if (passphrase.length < 12) {
+      return l10n.passphraseMinLengthError;
+    }
+    final hasUpper = passphrase.contains(RegExp(r'[A-Z]'));
+    final hasLower = passphrase.contains(RegExp(r'[a-z]'));
+    final hasDigit = passphrase.contains(RegExp(r'[0-9]'));
+    final hasSymbol = passphrase.contains(RegExp(r'[^A-Za-z0-9]'));
+    if (!hasUpper || !hasLower || !hasDigit || !hasSymbol) {
+      return l10n.passphraseComplexityError;
+    }
+    return null;
+  }
+
   Future<void> _createBackup(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context)!;
     bool dialogShowing = false;
     try {
       debugPrint('[Backup] Starting backup creation...');
@@ -251,8 +414,8 @@ class ExportScreen extends ConsumerWidget {
 
       if (filePath == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Failed to create backup'),
+          SnackBar(
+            content: Text(l10n.createBackupFailed),
             backgroundColor: Colors.red,
           ),
         );
@@ -262,11 +425,11 @@ class ExportScreen extends ConsumerWidget {
       // Show success with file location
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Backup saved to Downloads:\n$filePath'),
+          content: Text(l10n.backupSavedToDownloads(filePath)),
           backgroundColor: Colors.green,
           duration: const Duration(seconds: 5),
           action: SnackBarAction(
-            label: 'OK',
+            label: l10n.ok,
             textColor: Colors.white,
             onPressed: () {},
           ),
@@ -285,7 +448,63 @@ class ExportScreen extends ConsumerWidget {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Backup failed: $e'),
+          content: Text(l10n.backupFailedWithError(e.toString())),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<void> _createEncryptedBackup(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final l10n = AppLocalizations.of(context)!;
+    final passphrase = await _promptBackupPassphrase(context, confirm: true);
+    if (passphrase == null || !context.mounted) return;
+
+    bool dialogShowing = false;
+    try {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(child: CircularProgressIndicator()),
+      );
+      dialogShowing = true;
+
+      final filePath = await BackupService.createBackup(passphrase: passphrase);
+
+      if (context.mounted && dialogShowing) {
+        Navigator.of(context, rootNavigator: true).pop();
+        dialogShowing = false;
+      }
+      if (!context.mounted) return;
+
+      if (filePath == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.createEncryptedBackupFailed),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.encryptedBackupSavedToDownloads(filePath)),
+          backgroundColor: Colors.green,
+          duration: const Duration(seconds: 5),
+        ),
+      );
+    } catch (e) {
+      if (context.mounted && dialogShowing) {
+        Navigator.of(context, rootNavigator: true).pop();
+      }
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.encryptedBackupFailedWithError(e.toString())),
           backgroundColor: Colors.red,
         ),
       );
@@ -293,27 +512,28 @@ class ExportScreen extends ConsumerWidget {
   }
 
   Future<void> _restoreBackup(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context)!;
+    const maxPassphraseAttempts = 5;
+
     // Show confirmation dialog first
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Restore from Backup?'),
-        content: const Text(
-          'WARNING: This will replace ALL your current data with the data from the backup file.\n\n'
-          'Your current data will be permanently deleted.\n\n'
-          'Make sure you have a backup of your current data before proceeding.',
+        title: Text(l10n.restoreConfirmTitle),
+        content: Text(
+          l10n.restoreConfirmWarning,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, true),
             style: FilledButton.styleFrom(
               backgroundColor: Colors.red,
             ),
-            child: const Text('Restore'),
+            child: Text(l10n.restoreButtonLabel),
           ),
         ],
       ),
@@ -321,26 +541,64 @@ class ExportScreen extends ConsumerWidget {
 
     if (confirmed != true || !context.mounted) return;
 
-    try {
-      debugPrint('[Backup] Starting restore...');
-
-      if (!context.mounted) return;
+    var loadingVisible = false;
+    void showLoading() {
+      if (!context.mounted || loadingVisible) return;
       showDialog(
         context: context,
         barrierDismissible: false,
         builder: (_) => const Center(child: CircularProgressIndicator()),
       );
+      loadingVisible = true;
+    }
 
-      final result = await BackupService.restoreFromFile();
+    void dismissLoading() {
+      if (!loadingVisible || !context.mounted) return;
+      Navigator.of(context, rootNavigator: true).pop();
+      loadingVisible = false;
+    }
+
+    try {
+      debugPrint('[Backup] Starting restore...');
 
       if (!context.mounted) return;
-      Navigator.of(context).pop(); // Dismiss loading dialog
+      showLoading();
+
+      var result = await BackupService.restoreFromFile();
+      dismissLoading();
+
+      var attemptCount = 0;
+      while (result.needsPassphrase && result.selectedFilePath != null) {
+        if (attemptCount >= maxPassphraseAttempts) {
+          result = RestoreResult(
+            success: false,
+            error: l10n.restoreTooManyPassphraseAttempts,
+          );
+          break;
+        }
+        if (!context.mounted) return;
+        final passphrase = await _promptBackupPassphrase(
+          context,
+          confirm: false,
+          initialError: result.error,
+        );
+        if (passphrase == null || !context.mounted) return;
+        attemptCount++;
+        showLoading();
+        result = await BackupService.restoreFromFilePath(
+          result.selectedFilePath!,
+          passphrase: passphrase,
+        );
+        dismissLoading();
+      }
+
+      if (!context.mounted) return;
 
       if (result.success) {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Restore Successful!'),
+            title: Text(l10n.restoreSuccessfulTitle),
             content: Text(result.summary),
             actions: [
               FilledButton(
@@ -348,7 +606,7 @@ class ExportScreen extends ConsumerWidget {
                   Navigator.of(context).pop();
                   Navigator.of(context).pop(); // Go back to settings
                 },
-                child: const Text('OK'),
+                child: Text(l10n.ok),
               ),
             ],
           ),
@@ -356,7 +614,9 @@ class ExportScreen extends ConsumerWidget {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Restore failed: ${result.error}'),
+            content: Text(
+              l10n.restoreFailedWithError(result.error ?? l10n.unknownError),
+            ),
             backgroundColor: Colors.red,
           ),
         );
@@ -365,12 +625,12 @@ class ExportScreen extends ConsumerWidget {
       debugPrint('[Backup] Error restoring backup: $e');
       debugPrint('[Backup] Stack trace: $stack');
 
+      dismissLoading();
       if (!context.mounted) return;
-      Navigator.of(context).pop(); // Dismiss loading dialog if still showing
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Restore failed: $e'),
+          content: Text(l10n.restoreFailedWithError(e.toString())),
           backgroundColor: Colors.red,
         ),
       );

@@ -293,7 +293,7 @@ class _DebtOptimizerScreenState extends ConsumerState<DebtOptimizerScreen> {
                               selectedResult: selectedResult,
                             ),
                             icon: const Icon(Icons.insights_rounded, size: 16),
-                            label: const Text('Log impact snapshot'),
+                            label: const Text('Log impact'),
                             style: OutlinedButton.styleFrom(
                               minimumSize: const Size(0, 32),
                               padding:

@@ -1,6 +1,6 @@
 # Wealth Dial Privacy Policy
 
-*Last updated: September 29, 2025*
+*Last updated: March 24, 2026*
 
 ## Introduction
 
@@ -8,14 +8,13 @@ Wealth Dial is committed to protecting your privacy. This privacy policy explain
 
 ## Data Collection
 
-**We collect NO personal data.**
+**We do not collect your personal financial records.**
 
 Wealth Dial is designed with privacy as the foundation:
 
 - No user accounts or sign-up required
-- No data transmitted to external servers
-- No analytics, tracking, or telemetry
-- No advertisements or third-party integrations
+- No behavioral analytics, tracking, or telemetry
+- No advertisements
 - No access to contacts, location, or other device data
 
 ## Data Storage
@@ -29,13 +28,23 @@ All your financial data is stored locally on your device using encrypted storage
 
 This data never leaves your device unless you explicitly choose to export it.
 
+## Network Use (Limited)
+
+Wealth Dial is offline-first, but some optional features require network access:
+
+- **Currency conversion rates**: Exchange-rate lookups to convert between currencies.
+- **Purchase verification**: Pro purchase validation with our entitlement backend and app-store billing services.
+- **External links**: Opening support/legal links in your browser.
+
+For purchase verification, only minimal metadata is sent (for example: anonymous app user ID, product ID, purchase token, package name). We do **not** send your accounts, liabilities, income, expenses, or portfolio details.
+
 ## Data Security
 
 Your data is protected by:
 
 - **Encryption**: All sensitive data is encrypted using industry-standard AES encryption
 - **Local Storage**: Data is stored only on your device in secure, sandboxed storage
-- **No Network Access**: The app does not transmit any personal or financial data over the internet
+- **No Financial Data Upload**: Your account/debt/income/expense records are not uploaded to our servers
 - **Optional Biometric Lock**: Pro users can enable fingerprint/face unlock for additional security
 
 ## Data Sharing
@@ -56,7 +65,13 @@ Both exports are generated locally and shared only if you choose to do so.
 
 ## Third-Party Services
 
-The app may open external links (such as financial education resources) in your device's browser. These external websites have their own privacy policies.
+Wealth Dial may interact with:
+
+- App store billing systems (Google Play / Apple App Store) for purchases
+- Exchange-rate API providers for currency conversion
+- External websites opened by user action
+
+These services are governed by their own privacy policies.
 
 ## Children's Privacy
 
@@ -70,7 +85,7 @@ We may update this privacy policy from time to time. Any changes will be posted 
 
 If you have questions about this privacy policy, please contact us at:
 
-- Email: privacy@wealthdial.app
+- Email: admin@ripstuff.net
 - Website: https://wealthdial.app/privacy
 
 ---

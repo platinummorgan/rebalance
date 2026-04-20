@@ -156,10 +156,6 @@ int _contribScore(
     settings.monthlyEssentials,
     settings,
   );
-  final concentrationResult =
-      ConcentrationCalculator.calculateConcentration(accounts, settings);
-  final homeBiasResult =
-      HomeBiasCalculator.calculateHomeBias(accounts, settings);
   final fixedIncomeResult =
       FixedIncomeCalculator.calculateFixedIncomeAllocation(accounts, settings);
   final debtLoadResult = DebtLoadCalculator.calculateDebtLoad(

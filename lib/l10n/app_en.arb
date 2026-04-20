@@ -1189,6 +1189,23 @@
   "trackMonthlyBills": "Track your regular monthly bills like rent, utilities, insurance, and subscriptions",
   "addYourFirstExpense": "Add Your First Expense",
   "addExpense": "Add Expense",
+  "editExpense": "Edit Expense",
+  "expenseName": "Expense Name",
+  "expenseNameHint": "e.g., Electric Bill, Internet",
+  "monthlyAmount": "Monthly Amount",
+  "category": "Category",
+  "dueDayOptional": "Due Day (Optional)",
+  "dueDayHint": "e.g., 15 for 15th of month",
+  "mustBeBetween1And31": "Must be between 1 and 31",
+  "expenseUpdated": "Expense updated",
+  "expenseAdded": "Expense added",
+  "deleteExpenseTitle": "Delete Expense?",
+  "deleteExpenseConfirmation": "Are you sure you want to delete this expense?",
+  "expenseDeleted": "Expense deleted",
+  "expenseCategoryRentMortgage": "Rent/Mortgage",
+  "expenseCategoryUtilities": "Utilities",
+  "expenseCategoryInsurance": "Insurance",
+  "expenseCategorySubscriptions": "Subscriptions",
   "totalMonthlyExpenses": "Total Monthly Expenses",
   "perWeekFull": "/week",
   "perWeekShort": "/wk",
@@ -1209,5 +1226,339 @@
       }
     }
   },
-  "completeProfileInsights": "Complete your profile for better insights"
+  "completeProfileInsights": "Complete your profile for better insights",
+  "importExportTitle": "Import & Export",
+  "backupRestoreSectionTitle": "Backup & Restore",
+  "exportToCsvTitle": "Export to CSV",
+  "exportToCsvSubtitle": "Free • Export account balances for spreadsheet analysis",
+  "createCompleteBackupTitle": "Create Complete Backup",
+  "createCompleteBackupSubtitle": "Export all data (accounts, debts, income, settings) to a single file",
+  "createEncryptedBackupTitle": "Create Encrypted Backup",
+  "createEncryptedBackupSubtitle": "Recommended • Encrypt backup with a passphrase before saving",
+  "restoreFromBackupTitle": "Restore from Backup",
+  "restoreFromBackupSubtitle": "Restore all data from a backup file",
+  "exportCsvDialogTitle": "Export CSV",
+  "exportCsvDialogDescription": "Your CSV file will be saved directly to your Downloads folder.",
+  "exportButtonLabel": "Export",
+  "csvSavedToDownloads": "Saved to Downloads:\\n{filename}",
+  "@csvSavedToDownloads": {
+    "placeholders": {
+      "filename": {
+        "type": "String"
+      }
+    }
+  },
+  "exportFailedWithError": "Export failed: {error}",
+  "@exportFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "encryptedBackupDialogTitle": "Create Encrypted Backup",
+  "backupPassphraseDialogTitle": "Backup Passphrase",
+  "newBackupPassphraseDescription": "Use a strong passphrase (12+ chars with upper/lower/digit/symbol). If lost, this backup cannot be restored.",
+  "existingBackupPassphraseDescription": "Enter the passphrase used when this encrypted backup was created.",
+  "passphraseLabel": "Passphrase",
+  "confirmPassphraseLabel": "Confirm passphrase",
+  "passphraseRequiredError": "Passphrase is required.",
+  "passphrasesDoNotMatchError": "Passphrases do not match.",
+  "continueLabel": "Continue",
+  "passphraseMinLengthError": "Passphrase must be at least 12 characters.",
+  "passphraseComplexityError": "Use at least one uppercase, lowercase, number, and symbol.",
+  "createBackupFailed": "Failed to create backup",
+  "backupSavedToDownloads": "Backup saved to Downloads:\\n{filePath}",
+  "@backupSavedToDownloads": {
+    "placeholders": {
+      "filePath": {
+        "type": "String"
+      }
+    }
+  },
+  "backupFailedWithError": "Backup failed: {error}",
+  "@backupFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "createEncryptedBackupFailed": "Failed to create encrypted backup",
+  "encryptedBackupSavedToDownloads": "Encrypted backup saved to Downloads:\\n{filePath}",
+  "@encryptedBackupSavedToDownloads": {
+    "placeholders": {
+      "filePath": {
+        "type": "String"
+      }
+    }
+  },
+  "encryptedBackupFailedWithError": "Encrypted backup failed: {error}",
+  "@encryptedBackupFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "restoreConfirmTitle": "Restore from Backup?",
+  "restoreConfirmWarning": "WARNING: This will replace ALL your current data with the data from the backup file.\\n\\nYour current data will be permanently deleted.\\n\\nMake sure you have a backup of your current data before proceeding.",
+  "restoreButtonLabel": "Restore",
+  "restoreTooManyPassphraseAttempts": "Too many incorrect passphrase attempts. Restore was canceled.",
+  "restoreSuccessfulTitle": "Restore Successful!",
+  "restoreFailedWithError": "Restore failed: {error}",
+  "@restoreFailedWithError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdProfilesBetaTitle": "Household Profiles (Beta)",
+  "householdProfilesDescription": "Create and switch between profiles. Core financial data now loads per active household profile.",
+  "householdActiveProfileLabel": "Active profile",
+  "householdNoProfilesAvailable": "No profiles available",
+  "householdAddProfileTitle": "Add Household Profile",
+  "householdRenameProfileTitle": "Rename Profile",
+  "householdDeleteProfileTitle": "Delete Profile?",
+  "householdProfileNameLabel": "Profile name",
+  "householdDeleteProfileDescription": "Delete \"{name}\" profile? This is allowed only when the profile has no financial records assigned.",
+  "@householdDeleteProfileDescription": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "householdCreateAtLeastTwoProfiles": "Create at least two profiles before moving data.",
+  "householdMoveDataTitle": "Move Data Between Profiles",
+  "householdMoveDataDescription": "This will reassign selected accounts, liabilities, incomes, expenses, and goals from one profile to another.",
+  "householdMoveFromProfileLabel": "From profile",
+  "householdMoveToProfileLabel": "To profile",
+  "householdMoveDataTypesLabel": "Data types to move",
+  "householdDataTypeGoals": "Goals",
+  "householdMoveProfilesMustDiffer": "Source and target profiles must be different.",
+  "householdMoveSelectAtLeastOneType": "Select at least one data type to move.",
+  "householdGoalsSectionTitle": "Household Goals",
+  "householdGoalNoGoalsForActive": "No goals for the active profile yet.",
+  "householdAddGoalTitle": "Add Household Goal",
+  "householdEditGoalTitle": "Edit Household Goal",
+  "householdGoalNameLabel": "Goal name",
+  "householdGoalTargetAmountLabel": "Target amount",
+  "householdGoalCurrentAmountLabel": "Current saved amount",
+  "householdGoalSharedToggle": "Shared goal (visible to all profiles)",
+  "householdGoalOwnerProfileLabel": "Owner profile",
+  "householdGoalNameRequired": "Enter a goal name.",
+  "householdGoalTargetInvalid": "Enter a valid target amount.",
+  "householdGoalCurrentInvalid": "Enter a valid current amount.",
+  "householdGoalOwnerRequired": "Select an owner profile.",
+  "householdGoalScopeShared": "Shared",
+  "householdGoalScopeProfileUnknown": "Profile",
+  "householdGoalScopeProfile": "Profile: {name}",
+  "@householdGoalScopeProfile": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalDeleteTitle": "Delete goal?",
+  "householdGoalDeleteMessage": "Delete goal \"{name}\"?",
+  "@householdGoalDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalFailedToAdd": "Failed to add goal: {error}",
+  "@householdGoalFailedToAdd": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalFailedToDelete": "Failed to delete goal: {error}",
+  "@householdGoalFailedToDelete": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalFailedToUpdate": "Failed to update goal: {error}",
+  "@householdGoalFailedToUpdate": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalEditSplitsTitle": "Edit Contribution Splits",
+  "householdGoalEditSplitsTooltip": "Edit contribution splits",
+  "householdGoalSplitNeedPositive": "Enter split percentages above zero.",
+  "householdGoalFailedToUpdateSplits": "Failed to update splits: {error}",
+  "@householdGoalFailedToUpdateSplits": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalProgressSummary": "Progress: {current} / {target} ({percent}%)",
+  "@householdGoalProgressSummary": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalSplitPreview": "Splits: {splits}",
+  "@householdGoalSplitPreview": {
+    "placeholders": {
+      "splits": {
+        "type": "String"
+      }
+    }
+  },
+  "householdActiveProfileUpdated": "Active profile updated",
+  "householdFailedToUpdateProfile": "Failed to update profile: {error}",
+  "@householdFailedToUpdateProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToAddProfile": "Failed to add profile: {error}",
+  "@householdFailedToAddProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToRenameProfile": "Failed to rename profile: {error}",
+  "@householdFailedToRenameProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToDeleteProfile": "Failed to delete profile: {error}",
+  "@householdFailedToDeleteProfile": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdFailedToMoveData": "Failed to move data: {error}",
+  "@householdFailedToMoveData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdMovedRecordsSummary": "Moved {total} records (A:{accounts}, L:{liabilities}, I:{incomes}, E:{expenses}, G:{goals}).",
+  "@householdMovedRecordsSummary": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      },
+      "accounts": {
+        "type": "int"
+      },
+      "liabilities": {
+        "type": "int"
+      },
+      "incomes": {
+        "type": "int"
+      },
+      "expenses": {
+        "type": "int"
+      },
+      "goals": {
+        "type": "int"
+      }
+    }
+  },
+  "householdStatusActive": "Active",
+  "householdStatusInactive": "Inactive",
+  "householdDeleteTooltipAtLeastOne": "At least one profile is required",
+  "householdDeleteTooltipMoveDataFirst": "Move data before deleting this profile",
+  "householdDeleteTooltipDelete": "Delete",
+  "householdCountsCompact": "A:{accounts} L:{liabilities} I:{incomes} E:{expenses} G:{goals}",
+  "@householdCountsCompact": {
+    "placeholders": {
+      "accounts": {
+        "type": "int"
+      },
+      "liabilities": {
+        "type": "int"
+      },
+      "incomes": {
+        "type": "int"
+      },
+      "expenses": {
+        "type": "int"
+      },
+      "goals": {
+        "type": "int"
+      }
+    }
+  },
+  "householdProfileOptionLabel": "{name} ({counts})",
+  "@householdProfileOptionLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "counts": {
+        "type": "String"
+      }
+    }
+  },
+  "householdMoveAllToActiveButton": "Move All Data To Active Profile",
+  "householdMoveAllConfirmTitle": "Move All Data To Active Profile?",
+  "householdMoveAllConfirmMessage": "This will move {totalMovable} records from all other profiles into \"{activeName}\".",
+  "@householdMoveAllConfirmMessage": {
+    "placeholders": {
+      "totalMovable": {
+        "type": "int"
+      },
+      "activeName": {
+        "type": "String"
+      }
+    }
+  },
+  "householdMoveAllNoData": "No data to move from other profiles.",
+  "householdMovableFromOtherProfiles": "Movable from other profiles: {count}",
+  "@householdMovableFromOtherProfiles": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "householdFailedToMoveAllData": "Failed to move all data: {error}",
+  "@householdFailedToMoveAllData": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "householdGoalSplitsFeatureTitle": "Shared Household Goals",
+  "householdGoalSplitsFeatureOutcome": "Split contributions by profile and track progress.",
+  "householdGoalSplitsFeatureDescription": "Set shared goals, assign contribution percentages, and keep everyone aligned."
 }

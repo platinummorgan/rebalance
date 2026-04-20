@@ -50,6 +50,7 @@
 - [ ] Generate release keystore (keep secure!)
 - [ ] Configure `android/key.properties`
 - [ ] Update `android/app/build.gradle` with signing config
+- [ ] Configure `config/dart_defines.production.json` from template with production entitlement values
 - [ ] Test signed release build locally
 
 ### ✅ App Bundle Generation
@@ -58,7 +59,10 @@
 flutter clean
 flutter pub get
 flutter pub run build_runner build --delete-conflicting-outputs
-flutter build appbundle --release
+flutter build appbundle --release \
+  --dart-define-from-file=config/dart_defines.production.json \
+  --obfuscate \
+  --split-debug-info=build/symbols/
 
 # Verify bundle
 bundletool build-apks --bundle=build/app/outputs/bundle/release/app-release.aab --output=app.apks
@@ -130,11 +134,19 @@ flutter pub get
 # Generate type adapters
 flutter pub run build_runner build --delete-conflicting-outputs
 
-# Build release
-flutter build appbundle --release --obfuscate --split-debug-info=build/app/outputs/symbols/
+# Build release (with production entitlement defines)
+flutter build appbundle --release \
+  --dart-define-from-file=config/dart_defines.production.json \
+  --obfuscate \
+  --split-debug-info=build/symbols/
 
 # Output location
 # build/app/outputs/bundle/release/app-release.aab
+```
+
+PowerShell helper:
+```powershell
+.\tools\build_release_appbundle.ps1
 ```
 
 ### Testing Commands

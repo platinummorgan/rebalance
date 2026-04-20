@@ -29,19 +29,28 @@ class CurrencyFormatter {
       return format(amount, displayCurrency);
     }
 
-    // Convert the amount
-    final convertedAmount = await exchangeRateService.convert(
-      amount,
+    final rateInfo = await exchangeRateService.getRateInfo(
       baseCurrency,
       displayCurrency,
     );
+
+    // Avoid misleading "converted" values when no rate exists.
+    if (rateInfo.isFallback) {
+      return '${format(amount, baseCurrency)} (FX unavailable)';
+    }
+
+    final convertedAmount = amount * rateInfo.rate;
 
     // Format with appropriate symbol and decimals
     final formatter = NumberFormat.currency(
       symbol: _getSymbol(displayCurrency),
       decimalDigits: _getDecimalDigits(displayCurrency),
     );
-    return formatter.format(convertedAmount);
+    final formatted = formatter.format(convertedAmount);
+    if (rateInfo.isStale) {
+      return '$formatted (stale)';
+    }
+    return formatted;
   }
 
   /// Format compact with currency conversion (e.g., $1.2M → €1.1M)
@@ -60,23 +69,29 @@ class CurrencyFormatter {
       return formatCompact(amount, displayCurrency);
     }
 
-    // Convert the amount
-    final convertedAmount = await exchangeRateService.convert(
-      amount,
+    final rateInfo = await exchangeRateService.getRateInfo(
       baseCurrency,
       displayCurrency,
     );
 
+    if (rateInfo.isFallback) {
+      return '${formatCompact(amount, baseCurrency)} (FX unavailable)';
+    }
+
+    final convertedAmount = amount * rateInfo.rate;
+
     // Format compact with appropriate symbol
     final symbol = _getSymbol(displayCurrency);
+    final formatted = convertedAmount.abs() >= 1000000
+        ? '$symbol${(convertedAmount / 1000000).toStringAsFixed(1)}M'
+        : convertedAmount.abs() >= 1000
+            ? '$symbol${(convertedAmount / 1000).toStringAsFixed(1)}K'
+            : format(convertedAmount, displayCurrency);
 
-    if (convertedAmount.abs() >= 1000000) {
-      return '$symbol${(convertedAmount / 1000000).toStringAsFixed(1)}M';
-    } else if (convertedAmount.abs() >= 1000) {
-      return '$symbol${(convertedAmount / 1000).toStringAsFixed(1)}K';
-    } else {
-      return format(convertedAmount, displayCurrency);
+    if (rateInfo.isStale) {
+      return '$formatted (stale)';
     }
+    return formatted;
   }
 
   /// Format using Currency object from currency_picker

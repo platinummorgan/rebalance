@@ -340,6 +340,109 @@ class SettingsAdapter extends TypeAdapter<Settings> {
           typeId == other.typeId;
 }
 
+class HouseholdProfileAdapter extends TypeAdapter<HouseholdProfile> {
+  @override
+  final int typeId = 13;
+
+  @override
+  HouseholdProfile read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return HouseholdProfile(
+      id: fields[0] as String,
+      name: fields[1] as String,
+      createdAt: fields[2] as DateTime,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, HouseholdProfile obj) {
+    writer
+      ..writeByte(3)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.createdAt);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is HouseholdProfileAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class HouseholdGoalAdapter extends TypeAdapter<HouseholdGoal> {
+  @override
+  final int typeId = 14;
+
+  @override
+  HouseholdGoal read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return HouseholdGoal(
+      id: fields[0] as String,
+      name: fields[1] as String,
+      targetAmount: (fields[2] as num).toDouble(),
+      createdAt: fields[3] as DateTime,
+      updatedAt: fields[4] as DateTime,
+      isShared: fields[5] as bool,
+      ownerProfileId: fields[6] as String?,
+      notes: fields[7] as String?,
+      currentAmount: (fields[8] as num?)?.toDouble() ?? 0,
+      contributionSplits: (fields[9] as Map?)?.map(
+        (key, value) => MapEntry(key.toString(), (value as num).toDouble()),
+      ),
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, HouseholdGoal obj) {
+    writer
+      ..writeByte(10)
+      ..writeByte(0)
+      ..write(obj.id)
+      ..writeByte(1)
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.targetAmount)
+      ..writeByte(3)
+      ..write(obj.createdAt)
+      ..writeByte(4)
+      ..write(obj.updatedAt)
+      ..writeByte(5)
+      ..write(obj.isShared)
+      ..writeByte(6)
+      ..write(obj.ownerProfileId)
+      ..writeByte(7)
+      ..write(obj.notes)
+      ..writeByte(8)
+      ..write(obj.currentAmount)
+      ..writeByte(9)
+      ..write(obj.contributionSplits);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is HouseholdGoalAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
 class SnapshotAdapter extends TypeAdapter<Snapshot> {
   @override
   final int typeId = 4;

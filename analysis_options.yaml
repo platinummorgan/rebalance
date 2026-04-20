@@ -4,8 +4,10 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
+    - "backup*/**"
     - "MILESTONE_BACKUPS/**"
     - "backup_pre_refactor/**"
+    - "archive*/**"
     - "**/*_backup.dart"
     - "**/*_WORKING_*.dart"
     - "**/*_CLEAN_*.dart"

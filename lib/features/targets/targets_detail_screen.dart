@@ -33,10 +33,6 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
   // bool _notificationsEnabled = true; // Commented out with drift alerts
   bool _hasChanges = false;
 
-  // Expense line items for breakdown
-  final List<Map<String, dynamic>> _expenseItems = [];
-  final bool _showExpenseBreakdown = false;
-
   @override
   void initState() {
     super.initState();
@@ -659,13 +655,13 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
     final loc = AppLocalizations.of(context)!;
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: Text(loc.unsavedChanges),
         content: Text(loc.unsavedChangesMessage),
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context); // Close dialog
+              Navigator.pop(dialogContext); // Close dialog
               if (mounted) {
                 context.pop(); // Navigate back using Go Router
               }
@@ -674,17 +670,16 @@ class _TargetsDetailScreenState extends ConsumerState<TargetsDetailScreen> {
           ),
           TextButton(
             onPressed: () {
-              Navigator.pop(context); // Just close dialog
+              Navigator.pop(dialogContext); // Just close dialog
             },
             child: Text(loc.cancel),
           ),
           FilledButton(
             onPressed: () async {
-              Navigator.pop(context); // Close dialog
+              Navigator.pop(dialogContext); // Close dialog
               await _saveSettings();
-              if (mounted) {
-                context.pop(); // Navigate back using Go Router
-              }
+              if (!mounted) return;
+              context.pop(); // Navigate back using Go Router
             },
             child: Text(loc.save),
           ),

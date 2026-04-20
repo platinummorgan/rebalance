@@ -593,42 +593,41 @@ class IncomeScreen extends ConsumerWidget {
     WidgetRef ref,
     Income income,
   ) {
+    final parentContext = context;
     final loc = AppLocalizations.of(context)!;
     showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
+      context: parentContext,
+      builder: (dialogContext) => AlertDialog(
         title: Text(loc.deleteIncomeSource),
         content: Text(loc.areYouSureDeleteIncome),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(dialogContext),
             child: Text(loc.cancel),
           ),
           TextButton(
             onPressed: () async {
-              Navigator.pop(context);
+              Navigator.pop(dialogContext);
               try {
                 await RepositoryService.deleteIncome(income.id);
-                if (context.mounted) {
-                  await ref.read(incomesProvider.notifier).reload();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(loc.deletedSuccessfully),
-                      backgroundColor: Colors.green.shade600,
-                      behavior: SnackBarBehavior.floating,
-                    ),
-                  );
-                }
+                await ref.read(incomesProvider.notifier).reload();
+                if (!parentContext.mounted) return;
+                ScaffoldMessenger.of(parentContext).showSnackBar(
+                  SnackBar(
+                    content: Text(loc.deletedSuccessfully),
+                    backgroundColor: Colors.green.shade600,
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
               } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('${loc.errorDeletingIncome}: $e'),
-                      backgroundColor: Colors.red.shade600,
-                      behavior: SnackBarBehavior.floating,
-                    ),
-                  );
-                }
+                if (!parentContext.mounted) return;
+                ScaffoldMessenger.of(parentContext).showSnackBar(
+                  SnackBar(
+                    content: Text('${loc.errorDeletingIncome}: $e'),
+                    backgroundColor: Colors.red.shade600,
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
               }
             },
             style: TextButton.styleFrom(

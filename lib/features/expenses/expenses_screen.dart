@@ -30,7 +30,7 @@ class ExpensesScreen extends ConsumerWidget {
             children: [
               const Icon(Icons.error, size: 64, color: Colors.red),
               const SizedBox(height: 16),
-              Text('Error loading expenses: $error'),
+              Text(loc.errorLoadingDataWithError(error.toString())),
               const SizedBox(height: 16),
               FilledButton(
                 onPressed: () => ref.read(expensesProvider.notifier).reload(),
@@ -41,7 +41,8 @@ class ExpensesScreen extends ConsumerWidget {
         ),
         data: (expenses) => settingsAsync.when(
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stack) => Center(child: Text('Error: $error')),
+          error: (error, stack) =>
+              Center(child: Text(loc.errorWithMessage(error.toString()))),
           data: (settings) {
             if (expenses.isEmpty) {
               return _buildEmptyState(context);
@@ -163,7 +164,7 @@ class ExpensesScreen extends ConsumerWidget {
                   color: Theme.of(context)
                       .colorScheme
                       .onPrimaryContainer
-                      .withOpacity(0.8),
+                      .withValues(alpha: 0.8),
                   fontSize: 14,
                 ),
               ),

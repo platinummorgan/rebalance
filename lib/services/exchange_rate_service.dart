@@ -3,6 +3,43 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+enum ExchangeRateSource {
+  sameCurrency,
+  live,
+  cacheFresh,
+  cacheStale,
+  fallbackOneToOne,
+}
+
+class ExchangeRateInfo {
+  final double rate;
+  final ExchangeRateSource source;
+  final DateTime? fetchedAt;
+  final String? warning;
+
+  const ExchangeRateInfo({
+    required this.rate,
+    required this.source,
+    this.fetchedAt,
+    this.warning,
+  });
+
+  bool get isStale => source == ExchangeRateSource.cacheStale;
+  bool get isFallback => source == ExchangeRateSource.fallbackOneToOne;
+}
+
+class _CachedRatesEntry {
+  final Map<String, double> rates;
+  final DateTime fetchedAt;
+  final bool isStale;
+
+  const _CachedRatesEntry({
+    required this.rates,
+    required this.fetchedAt,
+    required this.isStale,
+  });
+}
+
 /// Exchange rate service for currency conversion
 /// Uses exchangerate-api.io (free tier: 1500 requests/month)
 class ExchangeRateService {
@@ -12,69 +49,90 @@ class ExchangeRateService {
   static const Duration _cacheDuration =
       Duration(hours: 24); // Cache for 24 hours
 
-  /// Get exchange rate from one currency to another
-  /// Example: getRate('USD', 'EUR') returns ~0.92 (meaning 1 USD = 0.92 EUR)
-  Future<double> getRate(String from, String to) async {
-    if (from == to) return 1.0;
-
-    try {
-      final rates = await _getExchangeRates(from);
-      return rates[to] ?? 1.0;
-    } catch (e) {
-      return 1.0; // Fallback to 1:1 if error
-    }
-  }
-
-  /// Convert amount from one currency to another
-  Future<double> convert(double amount, String from, String to) async {
-    final rate = await getRate(from, to);
-    final converted = amount * rate;
-    return converted;
-  }
-
-  /// Get all exchange rates for a base currency
-  Future<Map<String, double>> _getExchangeRates(String baseCurrency) async {
-    // Try to get from cache first
-    final cachedRates = await _getCachedRates(baseCurrency);
-    if (cachedRates != null) {
-      return cachedRates;
+  /// Rich lookup result including data source and stale/fallback status.
+  Future<ExchangeRateInfo> getRateInfo(String from, String to) async {
+    if (from == to) {
+      return const ExchangeRateInfo(
+        rate: 1.0,
+        source: ExchangeRateSource.sameCurrency,
+      );
     }
 
-    // Fetch from API
+    // Use non-stale cache first.
+    final cached = await _getCachedRatesEntry(from, ignoreExpiry: false);
+    if (cached != null && cached.rates.containsKey(to)) {
+      return ExchangeRateInfo(
+        rate: cached.rates[to] ?? 1.0,
+        source: ExchangeRateSource.cacheFresh,
+        fetchedAt: cached.fetchedAt,
+      );
+    }
+
+    // Fetch from live API.
     try {
       final response = await http
-          .get(Uri.parse('$_baseUrl/$baseCurrency'))
+          .get(Uri.parse('$_baseUrl/$from'))
           .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        // Convert to double, handling both int and double from API
         final ratesData = data['rates'] as Map<String, dynamic>;
         final rates = ratesData
             .map((key, value) => MapEntry(key, (value as num).toDouble()));
 
-        // Cache the rates
-        await _cacheRates(baseCurrency, rates);
+        await _cacheRates(from, rates);
 
-        return rates;
-      } else {
-        throw Exception(
-          'Failed to load exchange rates: ${response.statusCode}',
-        );
+        final liveRate = rates[to];
+        if (liveRate != null) {
+          return ExchangeRateInfo(
+            rate: liveRate,
+            source: ExchangeRateSource.live,
+            fetchedAt: DateTime.now(),
+          );
+        }
       }
-    } catch (e) {
-      // Try to return stale cache if available
-      final staleCache =
-          await _getCachedRates(baseCurrency, ignoreExpiry: true);
-      if (staleCache != null) {
-        return staleCache;
-      }
-      rethrow;
+    } catch (_) {
+      // handled by stale fallback path below
     }
+
+    // Fall back to stale cache if present.
+    final stale = await _getCachedRatesEntry(from, ignoreExpiry: true);
+    if (stale != null && stale.rates.containsKey(to)) {
+      return ExchangeRateInfo(
+        rate: stale.rates[to] ?? 1.0,
+        source: stale.isStale
+            ? ExchangeRateSource.cacheStale
+            : ExchangeRateSource.cacheFresh,
+        fetchedAt: stale.fetchedAt,
+        warning: stale.isStale
+            ? 'Using stale exchange rate; live rates are currently unavailable.'
+            : null,
+      );
+    }
+
+    // Final fallback (explicitly marked so UI can avoid misleading conversion).
+    return const ExchangeRateInfo(
+      rate: 1.0,
+      source: ExchangeRateSource.fallbackOneToOne,
+      warning:
+          'Live exchange rates unavailable. Showing base-currency value instead.',
+    );
   }
 
-  /// Get cached rates if available and not expired
-  Future<Map<String, double>?> _getCachedRates(
+  /// Get exchange rate from one currency to another
+  /// Example: getRate('USD', 'EUR') returns ~0.92 (meaning 1 USD = 0.92 EUR)
+  Future<double> getRate(String from, String to) async {
+    final info = await getRateInfo(from, to);
+    return info.rate;
+  }
+
+  /// Convert amount from one currency to another
+  Future<double> convert(double amount, String from, String to) async {
+    final info = await getRateInfo(from, to);
+    return amount * info.rate;
+  }
+
+  Future<_CachedRatesEntry?> _getCachedRatesEntry(
     String baseCurrency, {
     bool ignoreExpiry = false,
   }) async {
@@ -88,17 +146,18 @@ class ExchangeRateService {
 
       if (cachedData == null || timestamp == null) return null;
 
-      // Check if cache is expired
-      if (!ignoreExpiry) {
-        final cacheTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
-        final age = DateTime.now().difference(cacheTime);
-        if (age > _cacheDuration) {
-          return null;
-        }
-      }
+      final fetchedAt = DateTime.fromMillisecondsSinceEpoch(timestamp);
+      final age = DateTime.now().difference(fetchedAt);
+      final isStale = age > _cacheDuration;
+
+      if (!ignoreExpiry && isStale) return null;
 
       final rates = Map<String, double>.from(json.decode(cachedData));
-      return rates;
+      return _CachedRatesEntry(
+        rates: rates,
+        fetchedAt: fetchedAt,
+        isStale: isStale,
+      );
     } catch (e) {
       return null;
     }
@@ -147,6 +206,12 @@ final exchangeRateProvider =
     FutureProvider.family<double, ExchangeRatePair>((ref, pair) async {
   final service = ref.watch(exchangeRateServiceProvider);
   return await service.getRate(pair.from, pair.to);
+});
+
+final exchangeRateInfoProvider =
+    FutureProvider.family<ExchangeRateInfo, ExchangeRatePair>((ref, pair) async {
+  final service = ref.watch(exchangeRateServiceProvider);
+  return await service.getRateInfo(pair.from, pair.to);
 });
 
 /// Pair of currencies for exchange rate lookup

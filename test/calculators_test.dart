@@ -10,18 +10,8 @@ import 'package:rebalance/data/calculators/actions.dart';
 void main() {
   group('Allocation Calculator', () {
     late List<Account> testAccounts;
-    late Settings testSettings;
 
     setUp(() {
-      testSettings = Settings(
-        riskBand: RiskBand.balanced,
-        monthlyEssentials: 5000.0,
-        liquidityBondHaircut: 0.5,
-        bucketCap: 0.20,
-        employerStockThreshold: 0.10,
-        monthlyIncome: 15000.0,
-        incomeMultiplierFallback: 3.0,
-      );
       testAccounts = [
         Account(
           id: 'test1',

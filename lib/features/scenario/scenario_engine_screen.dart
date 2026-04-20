@@ -363,7 +363,8 @@ class _ScenarioBody extends ConsumerWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Layout flag reserved for future responsive enhancements
+        final double cardWidth =
+            (constraints.maxWidth - 24).clamp(220.0, 360.0).toDouble();
         return SingleChildScrollView(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -414,6 +415,7 @@ class _ScenarioBody extends ConsumerWidget {
                 runSpacing: 16,
                 children: [
                   _InputCard(
+                    width: cardWidth,
                     inputs: inputs,
                     label: AppLocalizations.of(context)!.scenarioA,
                     onCloneToB: () {
@@ -424,17 +426,22 @@ class _ScenarioBody extends ConsumerWidget {
                   ),
                   resultAsync.when(
                     data: (result) => result != null
-                        ? _ResultsCard(result: result, label: 'A')
+                        ? _ResultsCard(
+                            width: cardWidth,
+                            result: result,
+                            label: 'A',
+                          )
                         : const SizedBox(),
-                    loading: () => const SizedBox(
-                      width: 360,
+                    loading: () => SizedBox(
+                      width: cardWidth,
                       height: 200,
-                      child: Center(child: CircularProgressIndicator()),
+                      child: const Center(child: CircularProgressIndicator()),
                     ),
                     error: (_, __) => const SizedBox(),
                   ),
                   if (compareEnabled)
                     _InputCard(
+                      width: cardWidth,
                       inputs: ref.watch(_scenarioInputsBProvider) ?? inputs,
                       label: AppLocalizations.of(context)!.scenarioB,
                       onDisable: () {
@@ -450,17 +457,22 @@ class _ScenarioBody extends ConsumerWidget {
                   if (compareEnabled)
                     resultBAsync.when(
                       data: (resultB) => resultB != null
-                          ? _ResultsCard(result: resultB, label: 'B')
+                          ? _ResultsCard(
+                              width: cardWidth,
+                              result: resultB,
+                              label: 'B',
+                            )
                           : const SizedBox(),
-                      loading: () => const SizedBox(
-                        width: 360,
+                      loading: () => SizedBox(
+                        width: cardWidth,
                         height: 200,
-                        child: Center(child: CircularProgressIndicator()),
+                        child: const Center(child: CircularProgressIndicator()),
                       ),
                       error: (_, __) => const SizedBox(),
                     ),
                   if (deltas != null)
                     _DeltaCard(
+                      width: cardWidth < 260 ? cardWidth : 260,
                       deltas: deltas,
                     ),
                 ],
@@ -490,7 +502,7 @@ class _ScenarioBody extends ConsumerWidget {
                         result: result,
                       ),
                       icon: const Icon(Icons.insights_rounded, size: 18),
-                      label: const Text('Log impact snapshot'),
+                      label: const Text('Log impact'),
                     );
                   },
                   loading: () => const SizedBox(),
@@ -541,6 +553,7 @@ class _ScenarioBody extends ConsumerWidget {
 }
 
 class _InputCard extends ConsumerWidget {
+  final double width;
   final ScenarioInputs inputs;
   final String label;
   final bool isSecondary;
@@ -548,6 +561,7 @@ class _InputCard extends ConsumerWidget {
   final VoidCallback? onDisable;
   final ValueChanged<ScenarioInputs>? onChanged; // for secondary editing
   const _InputCard({
+    required this.width,
     required this.inputs,
     this.label = 'Inputs',
     this.isSecondary = false,
@@ -565,7 +579,7 @@ class _InputCard extends ConsumerWidget {
     );
 
     return SizedBox(
-      width: 360,
+      width: width,
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -574,14 +588,17 @@ class _InputCard extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  Text(
-                    label,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
+                  Expanded(
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
-                  const Spacer(),
                   if (!isSecondary && onCloneToB != null)
                     TextButton.icon(
                       onPressed: onCloneToB,
@@ -694,9 +711,18 @@ class _InputCard extends ConsumerWidget {
       children: [
         Row(
           children: [
-            Expanded(child: Text(label)),
+            Expanded(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const SizedBox(width: 8),
             Text(
               format(value),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontWeight: FontWeight.w600),
             ),
           ],
@@ -716,9 +742,14 @@ class _InputCard extends ConsumerWidget {
 }
 
 class _ResultsCard extends ConsumerWidget {
+  final double width;
   final MonteCarloResult result;
   final String label; // A or B
-  const _ResultsCard({required this.result, this.label = ''});
+  const _ResultsCard({
+    required this.width,
+    required this.result,
+    this.label = '',
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -727,7 +758,7 @@ class _ResultsCard extends ConsumerWidget {
     final currency = settings.currency;
     final pct = NumberFormat.percentPattern();
     return SizedBox(
-      width: 360,
+      width: width,
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -779,8 +810,22 @@ class _ResultsCard extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          Expanded(child: Text(label)),
-          Text(value, style: const TextStyle(fontWeight: FontWeight.w600)),
+          Expanded(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Flexible(
+            child: Text(
+              value,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
+          ),
         ],
       ),
     );
@@ -889,8 +934,12 @@ class _DistributionPainter extends CustomPainter {
 }
 
 class _DeltaCard extends ConsumerWidget {
+  final double width;
   final _ComparisonDeltas deltas;
-  const _DeltaCard({required this.deltas});
+  const _DeltaCard({
+    required this.width,
+    required this.deltas,
+  });
 
   String _fmtPct(double v) =>
       '${(v * 100).toStringAsFixed(v.abs() < 0.01 ? 2 : 1)}%';
@@ -906,7 +955,7 @@ class _DeltaCard extends ConsumerWidget {
     Color colorFor(double v) =>
         v >= 0 ? Colors.green.shade600 : Theme.of(context).colorScheme.error;
     return SizedBox(
-      width: 260,
+      width: width,
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(16),

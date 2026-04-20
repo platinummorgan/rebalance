@@ -666,51 +666,51 @@ class LiabilitiesScreen extends ConsumerWidget {
     WidgetRef ref,
     Liability liability,
   ) {
+    final parentContext = context;
+    final loc = AppLocalizations.of(context)!;
     showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
+      context: parentContext,
+      builder: (dialogContext) => AlertDialog(
         title: const Text('Delete Liability'),
         content: Text(
           'Are you sure you want to delete "${liability.name}"? This action cannot be undone.',
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context)!.cancel),
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(loc.cancel),
           ),
           TextButton(
             onPressed: () async {
-              Navigator.pop(context);
+              Navigator.pop(dialogContext);
               try {
                 await RepositoryService.deleteLiability(liability.id);
-                if (context.mounted) {
-                  // Refresh both providers to update the UI and dashboard calculations
-                  await ref.read(liabilitiesProvider.notifier).reload();
-                  await ref.read(accountsProvider.notifier).reload();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('${liability.name} deleted successfully'),
-                      backgroundColor: Colors.green.shade600,
-                      behavior: SnackBarBehavior.floating,
-                    ),
-                  );
-                }
+                // Refresh both providers to update the UI and dashboard calculations
+                await ref.read(liabilitiesProvider.notifier).reload();
+                await ref.read(accountsProvider.notifier).reload();
+                if (!parentContext.mounted) return;
+                ScaffoldMessenger.of(parentContext).showSnackBar(
+                  SnackBar(
+                    content: Text('${liability.name} deleted successfully'),
+                    backgroundColor: Colors.green.shade600,
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
               } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Error deleting liability: $e'),
-                      backgroundColor: Colors.red.shade600,
-                      behavior: SnackBarBehavior.floating,
-                    ),
-                  );
-                }
+                if (!parentContext.mounted) return;
+                ScaffoldMessenger.of(parentContext).showSnackBar(
+                  SnackBar(
+                    content: Text('Error deleting liability: $e'),
+                    backgroundColor: Colors.red.shade600,
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
               }
             },
             style: TextButton.styleFrom(
               foregroundColor: Colors.red.shade600,
             ),
-            child: Text(AppLocalizations.of(context)!.delete),
+            child: Text(loc.delete),
           ),
         ],
       ),

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 // Temporary script to reset Pro status to false
 // Run with: dart run reset_pro_status.dart
 

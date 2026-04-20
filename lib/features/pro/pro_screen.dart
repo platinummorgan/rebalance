@@ -158,6 +158,16 @@ class _ProScreenState extends ConsumerState<ProScreen> {
 
             _buildActiveFeatureCard(
               context,
+              icon: Icons.groups_2_outlined,
+              title: loc.householdGoalSplitsFeatureTitle,
+              description: loc.householdGoalSplitsFeatureDescription,
+              stat: loc.householdGoalSplitsFeatureOutcome,
+              color: Colors.indigo,
+              onTap: () => context.push(AppRouter.targets),
+            ),
+
+            _buildActiveFeatureCard(
+              context,
               icon: Icons.calculate,
               title: loc.taxSmartAllocation,
               description: loc.taxSmartDescription,
@@ -434,6 +444,17 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                     description: loc.customThresholds,
                     color: Colors.red,
                     onTap: () => context.push(AppRouter.customAlerts),
+                  ),
+
+                  _buildOutcomeFeatureCard(
+                    context,
+                    icon: Icons.groups_2_outlined,
+                    title: loc.householdGoalSplitsFeatureTitle,
+                    personalizedValue: null,
+                    genericOutcome: loc.householdGoalSplitsFeatureOutcome,
+                    description: loc.householdGoalSplitsFeatureDescription,
+                    color: Colors.indigo,
+                    onTap: () => context.push(AppRouter.targets),
                   ),
 
                   _buildOutcomeFeatureCard(

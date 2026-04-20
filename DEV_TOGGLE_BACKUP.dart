@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 // BACKUP OF PRO MEMBERSHIP TOGGLE FOR DEVELOPMENT
 // This code was removed from lib/routes.dart for the release version
 // To restore for development: Copy the sections below back into the About screen

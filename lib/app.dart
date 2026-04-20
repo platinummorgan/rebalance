@@ -117,6 +117,13 @@ final appInitProvider = FutureProvider<bool>((ref) async {
       debugPrint('Restore purchases during init failed: $restoreError');
     }
 
+    // Sync entitlement from backend source of truth when configured.
+    try {
+      await purchaseService.syncEntitlementFromBackend(ref);
+    } catch (syncError) {
+      debugPrint('Entitlement sync during init failed: $syncError');
+    }
+
     // Enforce subscription expiry locally so expired subs lose Pro on launch
     await purchaseService.hasActiveSubscription(ref);
 

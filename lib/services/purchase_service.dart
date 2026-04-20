@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../app.dart';
 import '../data/models.dart';
 import 'analytics_service.dart';
+import 'entitlement_backend_service.dart';
 
 /// Service for handling in-app purchases and subscriptions
 class PurchaseService {
@@ -22,7 +23,14 @@ class PurchaseService {
     lifetimeId,
   };
 
+  static const bool _allowUnverifiedPurchases = bool.fromEnvironment(
+    'ALLOW_UNVERIFIED_PURCHASES',
+    defaultValue: false,
+  );
+
   StreamSubscription<List<PurchaseDetails>>? _subscription;
+  final EntitlementBackendService _entitlementBackendService =
+      EntitlementBackendService();
 
   /// Initialize the purchase service and listen for purchase updates
   Future<void> initialize(Ref ref) async {
@@ -148,12 +156,16 @@ class PurchaseService {
 
       if (purchase.status == PurchaseStatus.purchased ||
           purchase.status == PurchaseStatus.restored) {
-        // Verify purchase (in production, verify with your backend)
-        final valid = await _verifyPurchase(purchase);
+        // Verify purchase with backend entitlement service.
+        final verification = await _verifyPurchase(purchase);
 
-        if (valid) {
-          // Grant Pro access
-          await _grantProAccess(ref, purchase.productID);
+        if (verification.isValid) {
+          if (verification.productId != null) {
+            await _applyEntitlementFromVerification(ref, verification);
+          } else {
+            // Fallback should be extremely rare; keep for safety.
+            await _grantProAccess(ref, purchase.productID);
+          }
 
           // Track successful purchase
           try {
@@ -216,12 +228,108 @@ class PurchaseService {
     }
   }
 
-  /// Verify the purchase (simplified - in production, verify server-side)
-  Future<bool> _verifyPurchase(PurchaseDetails purchase) async {
-    // TODO: In production, send purchase.verificationData to your backend
-    // for server-side verification with Google Play
-    // For now, we trust the local purchase
-    return true;
+  /// Verify a purchase using the entitlement backend.
+  Future<EntitlementVerificationResult> _verifyPurchase(
+    PurchaseDetails purchase,
+  ) async {
+    // In debug-only local environments, allow an escape hatch.
+    if (_allowUnverifiedPurchases && kDebugMode) {
+      debugPrint(
+        'Purchase verification bypass enabled via ALLOW_UNVERIFIED_PURCHASES',
+      );
+      return EntitlementVerificationResult(
+        isValid: true,
+        isPro: true,
+        isLifetime: purchase.productID == lifetimeId,
+        status: 'debug_bypass',
+        expiresAt: null,
+        productId: purchase.productID,
+      );
+    }
+
+    if (!_entitlementBackendService.isConfigured) {
+      debugPrint(
+        'Purchase verification failed: ENTITLEMENT_API_BASE_URL not configured',
+      );
+      return const EntitlementVerificationResult(
+        isValid: false,
+        isPro: false,
+        isLifetime: false,
+        status: 'backend_not_configured',
+        expiresAt: null,
+        productId: null,
+      );
+    }
+
+    final verification =
+        await _entitlementBackendService.verifyGooglePlayPurchase(purchase);
+    if (verification == null) {
+      return const EntitlementVerificationResult(
+        isValid: false,
+        isPro: false,
+        isLifetime: false,
+        status: 'verification_error',
+        expiresAt: null,
+        productId: null,
+      );
+    }
+    return verification;
+  }
+
+  Future<void> _applyEntitlementFromVerification(
+    Ref ref,
+    EntitlementVerificationResult verification,
+  ) async {
+    final currentSettings = await _waitForSettings(ref);
+    if (currentSettings == null) {
+      debugPrint('Cannot apply entitlement: settings not loaded');
+      return;
+    }
+
+    final expiry = verification.isLifetime ? null : verification.expiresAt;
+    final now = DateTime.now();
+    final isActive = verification.isPro &&
+        (verification.isLifetime ||
+            (expiry != null && expiry.isAfter(now)) ||
+            verification.status == 'debug_bypass');
+
+    final updatedSettings = Settings(
+      riskBand: currentSettings.riskBand,
+      monthlyEssentials: currentSettings.monthlyEssentials,
+      driftThresholdPct: currentSettings.driftThresholdPct,
+      notificationsEnabled: currentSettings.notificationsEnabled,
+      usEquityTargetPct: currentSettings.usEquityTargetPct,
+      isPro: isActive,
+      proExpiryDate: expiry,
+      biometricLockEnabled: currentSettings.biometricLockEnabled,
+      darkModeEnabled: currentSettings.darkModeEnabled,
+      colorTheme: currentSettings.colorTheme,
+      liquidityBondHaircut: currentSettings.liquidityBondHaircut,
+      bucketCap: currentSettings.bucketCap,
+      employerStockThreshold: currentSettings.employerStockThreshold,
+      monthlyIncome: currentSettings.monthlyIncome,
+      incomeMultiplierFallback: currentSettings.incomeMultiplierFallback,
+      schemaVersion: currentSettings.schemaVersion,
+      concentrationRiskSnoozedUntil:
+          currentSettings.concentrationRiskSnoozedUntil,
+      concentrationRiskResolvedAt: currentSettings.concentrationRiskResolvedAt,
+      homeCountry: currentSettings.homeCountry,
+      globalDiversificationMode: currentSettings.globalDiversificationMode,
+      intlTargetOverride: currentSettings.intlTargetOverride,
+      intlTolerancePct: currentSettings.intlTolerancePct,
+      intlFloorPct: currentSettings.intlFloorPct,
+      intlPenaltyScale: currentSettings.intlPenaltyScale,
+      financialHealthBaseline: currentSettings.financialHealthBaseline,
+      financialHealthGlobalScale: currentSettings.financialHealthGlobalScale,
+      currency: currentSettings.currency,
+      baseCurrency: currentSettings.baseCurrency,
+      language: currentSettings.language,
+    );
+
+    await ref.read(settingsProvider.notifier).updateSettings(updatedSettings);
+    debugPrint(
+      'Applied entitlement from backend: isPro=$isActive, expiry=$expiry, status=${verification.status}',
+    );
   }
 
   /// Grant Pro access to the user
@@ -374,6 +482,15 @@ class PurchaseService {
     }
 
     return true;
+  }
+
+  /// Sync local Pro flag from backend entitlement state.
+  Future<void> syncEntitlementFromBackend(Ref ref) async {
+    if (!_entitlementBackendService.isConfigured) return;
+
+    final entitlement = await _entitlementBackendService.fetchCurrentEntitlement();
+    if (entitlement == null) return;
+    await _applyEntitlementFromVerification(ref, entitlement);
   }
 
   /// Revoke Pro access when subscription expires

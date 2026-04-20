@@ -7,7 +7,6 @@ import 'package:uuid/uuid.dart';
 import '../../data/models.dart';
 import '../../data/repositories.dart';
 import '../../app.dart';
-import '../../utils/currency_formatter.dart';
 import '../../services/exchange_rate_service.dart';
 import '../../generated/app_localizations.dart';
 

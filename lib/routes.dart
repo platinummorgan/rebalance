@@ -401,15 +401,14 @@ class MainShell extends StatelessWidget {
                 ],
               ),
               child: NavigationBar(
-                height: 74,
+                height: 70,
                 backgroundColor: Colors.transparent,
                 shadowColor: Colors.transparent,
                 indicatorColor: scheme.primary.withValues(alpha: 0.2),
                 selectedIndex: selectedIndex,
                 onDestinationSelected: (index) =>
                     _onDestinationSelected(context, index),
-                labelBehavior:
-                    NavigationDestinationLabelBehavior.onlyShowSelected,
+                labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
                 destinations: [
                   NavigationDestination(
                     icon: const Icon(Icons.dashboard_outlined),

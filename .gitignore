@@ -51,3 +51,6 @@ android/key.properties
 # You can keep a template in the repo to document required keystore fields.
 # The actual file copied to android/key.properties must remain ignored.
 # key.properties.template should be committed (it's safe) — android/key.properties must be kept out of VCS.
+
+# Production dart define values (contains secrets)
+config/dart_defines.production.json

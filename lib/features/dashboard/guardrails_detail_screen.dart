@@ -364,7 +364,7 @@ class _GuardrailsDetailScreenState
             data: SliderTheme.of(context).copyWith(
               activeTrackColor: sliderActiveColor,
               thumbColor: sliderActiveColor,
-              overlayColor: sliderActiveColor.withOpacity(0.2),
+              overlayColor: sliderActiveColor.withValues(alpha: 0.2),
             ),
             child: Slider(
               value: _additionalSpending,
@@ -427,7 +427,8 @@ class _GuardrailsDetailScreenState
               'After this extra ${CurrencyFormatter.format(_additionalSpending, settings.currency)}, you\'ll have ${CurrencyFormatter.format(adjustedSafeToSpend.clamp(0, double.infinity), settings.currency)} left this week.',
               style: TextStyle(
                 fontSize: 13,
-                color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
+                color:
+                    theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
               ),
             ),
             const SizedBox(height: 12),
@@ -479,7 +480,6 @@ class _GuardrailsDetailScreenState
     Color textColor,
     bool isDark,
   ) {
-    final loc = AppLocalizations.of(context)!;
     if (isGreen) {
       // >25% buffer remaining - comfortable
       return Row(
@@ -707,7 +707,7 @@ class _GuardrailsDetailScreenState
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(icon, size: isSubItem ? 16 : 20, color: color),
@@ -721,7 +721,7 @@ class _GuardrailsDetailScreenState
                 style: TextStyle(
                   fontSize: isSubItem ? 13 : 15,
                   color: theme.textTheme.bodyLarge?.color
-                      ?.withOpacity(isSubItem ? 0.8 : 1.0),
+                      ?.withValues(alpha: isSubItem ? 0.8 : 1.0),
                 ),
               ),
               if (editRoute != null) ...[
@@ -809,7 +809,7 @@ class _GuardrailsDetailScreenState
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(

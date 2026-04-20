@@ -4841,6 +4841,108 @@ abstract class AppLocalizations {
   /// **'Add Expense'**
   String get addExpense;
 
+  /// No description provided for @editExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Expense'**
+  String get editExpense;
+
+  /// No description provided for @expenseName.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense Name'**
+  String get expenseName;
+
+  /// No description provided for @expenseNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., Electric Bill, Internet'**
+  String get expenseNameHint;
+
+  /// No description provided for @monthlyAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Amount'**
+  String get monthlyAmount;
+
+  /// No description provided for @category.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get category;
+
+  /// No description provided for @dueDayOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Due Day (Optional)'**
+  String get dueDayOptional;
+
+  /// No description provided for @dueDayHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 15 for 15th of month'**
+  String get dueDayHint;
+
+  /// No description provided for @mustBeBetween1And31.
+  ///
+  /// In en, this message translates to:
+  /// **'Must be between 1 and 31'**
+  String get mustBeBetween1And31;
+
+  /// No description provided for @expenseUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense updated'**
+  String get expenseUpdated;
+
+  /// No description provided for @expenseAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense added'**
+  String get expenseAdded;
+
+  /// No description provided for @deleteExpenseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Expense?'**
+  String get deleteExpenseTitle;
+
+  /// No description provided for @deleteExpenseConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this expense?'**
+  String get deleteExpenseConfirmation;
+
+  /// No description provided for @expenseDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense deleted'**
+  String get expenseDeleted;
+
+  /// No description provided for @expenseCategoryRentMortgage.
+  ///
+  /// In en, this message translates to:
+  /// **'Rent/Mortgage'**
+  String get expenseCategoryRentMortgage;
+
+  /// No description provided for @expenseCategoryUtilities.
+  ///
+  /// In en, this message translates to:
+  /// **'Utilities'**
+  String get expenseCategoryUtilities;
+
+  /// No description provided for @expenseCategoryInsurance.
+  ///
+  /// In en, this message translates to:
+  /// **'Insurance'**
+  String get expenseCategoryInsurance;
+
+  /// No description provided for @expenseCategorySubscriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriptions'**
+  String get expenseCategorySubscriptions;
+
   /// No description provided for @totalMonthlyExpenses.
   ///
   /// In en, this message translates to:
@@ -4882,6 +4984,645 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Complete your profile for better insights'**
   String get completeProfileInsights;
+
+  /// No description provided for @importExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import & Export'**
+  String get importExportTitle;
+
+  /// No description provided for @backupRestoreSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup & Restore'**
+  String get backupRestoreSectionTitle;
+
+  /// No description provided for @exportToCsvTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export to CSV'**
+  String get exportToCsvTitle;
+
+  /// No description provided for @exportToCsvSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Free • Export account balances for spreadsheet analysis'**
+  String get exportToCsvSubtitle;
+
+  /// No description provided for @createCompleteBackupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Complete Backup'**
+  String get createCompleteBackupTitle;
+
+  /// No description provided for @createCompleteBackupSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export all data (accounts, debts, income, settings) to a single file'**
+  String get createCompleteBackupSubtitle;
+
+  /// No description provided for @createEncryptedBackupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Encrypted Backup'**
+  String get createEncryptedBackupTitle;
+
+  /// No description provided for @createEncryptedBackupSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended • Encrypt backup with a passphrase before saving'**
+  String get createEncryptedBackupSubtitle;
+
+  /// No description provided for @restoreFromBackupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore from Backup'**
+  String get restoreFromBackupTitle;
+
+  /// No description provided for @restoreFromBackupSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore all data from a backup file'**
+  String get restoreFromBackupSubtitle;
+
+  /// No description provided for @exportCsvDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export CSV'**
+  String get exportCsvDialogTitle;
+
+  /// No description provided for @exportCsvDialogDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your CSV file will be saved directly to your Downloads folder.'**
+  String get exportCsvDialogDescription;
+
+  /// No description provided for @exportButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get exportButtonLabel;
+
+  /// No description provided for @csvSavedToDownloads.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to Downloads:\\n{filename}'**
+  String csvSavedToDownloads(String filename);
+
+  /// No description provided for @exportFailedWithError.
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed: {error}'**
+  String exportFailedWithError(String error);
+
+  /// No description provided for @encryptedBackupDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Encrypted Backup'**
+  String get encryptedBackupDialogTitle;
+
+  /// No description provided for @backupPassphraseDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Passphrase'**
+  String get backupPassphraseDialogTitle;
+
+  /// No description provided for @newBackupPassphraseDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a strong passphrase (12+ chars with upper/lower/digit/symbol). If lost, this backup cannot be restored.'**
+  String get newBackupPassphraseDescription;
+
+  /// No description provided for @existingBackupPassphraseDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the passphrase used when this encrypted backup was created.'**
+  String get existingBackupPassphraseDescription;
+
+  /// No description provided for @passphraseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Passphrase'**
+  String get passphraseLabel;
+
+  /// No description provided for @confirmPassphraseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm passphrase'**
+  String get confirmPassphraseLabel;
+
+  /// No description provided for @passphraseRequiredError.
+  ///
+  /// In en, this message translates to:
+  /// **'Passphrase is required.'**
+  String get passphraseRequiredError;
+
+  /// No description provided for @passphrasesDoNotMatchError.
+  ///
+  /// In en, this message translates to:
+  /// **'Passphrases do not match.'**
+  String get passphrasesDoNotMatchError;
+
+  /// No description provided for @continueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueLabel;
+
+  /// No description provided for @passphraseMinLengthError.
+  ///
+  /// In en, this message translates to:
+  /// **'Passphrase must be at least 12 characters.'**
+  String get passphraseMinLengthError;
+
+  /// No description provided for @passphraseComplexityError.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at least one uppercase, lowercase, number, and symbol.'**
+  String get passphraseComplexityError;
+
+  /// No description provided for @createBackupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create backup'**
+  String get createBackupFailed;
+
+  /// No description provided for @backupSavedToDownloads.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup saved to Downloads:\\n{filePath}'**
+  String backupSavedToDownloads(String filePath);
+
+  /// No description provided for @backupFailedWithError.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup failed: {error}'**
+  String backupFailedWithError(String error);
+
+  /// No description provided for @createEncryptedBackupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create encrypted backup'**
+  String get createEncryptedBackupFailed;
+
+  /// No description provided for @encryptedBackupSavedToDownloads.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted backup saved to Downloads:\\n{filePath}'**
+  String encryptedBackupSavedToDownloads(String filePath);
+
+  /// No description provided for @encryptedBackupFailedWithError.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted backup failed: {error}'**
+  String encryptedBackupFailedWithError(String error);
+
+  /// No description provided for @restoreConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore from Backup?'**
+  String get restoreConfirmTitle;
+
+  /// No description provided for @restoreConfirmWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'WARNING: This will replace ALL your current data with the data from the backup file.\\n\\nYour current data will be permanently deleted.\\n\\nMake sure you have a backup of your current data before proceeding.'**
+  String get restoreConfirmWarning;
+
+  /// No description provided for @restoreButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get restoreButtonLabel;
+
+  /// No description provided for @restoreTooManyPassphraseAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many incorrect passphrase attempts. Restore was canceled.'**
+  String get restoreTooManyPassphraseAttempts;
+
+  /// No description provided for @restoreSuccessfulTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Successful!'**
+  String get restoreSuccessfulTitle;
+
+  /// No description provided for @restoreFailedWithError.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore failed: {error}'**
+  String restoreFailedWithError(String error);
+
+  /// No description provided for @householdProfilesBetaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Household Profiles (Beta)'**
+  String get householdProfilesBetaTitle;
+
+  /// No description provided for @householdProfilesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Create and switch between profiles. Core financial data now loads per active household profile.'**
+  String get householdProfilesDescription;
+
+  /// No description provided for @householdActiveProfileLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Active profile'**
+  String get householdActiveProfileLabel;
+
+  /// No description provided for @householdNoProfilesAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No profiles available'**
+  String get householdNoProfilesAvailable;
+
+  /// No description provided for @householdAddProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Household Profile'**
+  String get householdAddProfileTitle;
+
+  /// No description provided for @householdRenameProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename Profile'**
+  String get householdRenameProfileTitle;
+
+  /// No description provided for @householdDeleteProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Profile?'**
+  String get householdDeleteProfileTitle;
+
+  /// No description provided for @householdProfileNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile name'**
+  String get householdProfileNameLabel;
+
+  /// No description provided for @householdDeleteProfileDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{name}\" profile? This is allowed only when the profile has no financial records assigned.'**
+  String householdDeleteProfileDescription(String name);
+
+  /// No description provided for @householdCreateAtLeastTwoProfiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Create at least two profiles before moving data.'**
+  String get householdCreateAtLeastTwoProfiles;
+
+  /// No description provided for @householdMoveDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Move Data Between Profiles'**
+  String get householdMoveDataTitle;
+
+  /// No description provided for @householdMoveDataDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'This will reassign selected accounts, liabilities, incomes, expenses, and goals from one profile to another.'**
+  String get householdMoveDataDescription;
+
+  /// No description provided for @householdMoveFromProfileLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'From profile'**
+  String get householdMoveFromProfileLabel;
+
+  /// No description provided for @householdMoveToProfileLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'To profile'**
+  String get householdMoveToProfileLabel;
+
+  /// No description provided for @householdMoveDataTypesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Data types to move'**
+  String get householdMoveDataTypesLabel;
+
+  /// No description provided for @householdDataTypeGoals.
+  ///
+  /// In en, this message translates to:
+  /// **'Goals'**
+  String get householdDataTypeGoals;
+
+  /// No description provided for @householdMoveProfilesMustDiffer.
+  ///
+  /// In en, this message translates to:
+  /// **'Source and target profiles must be different.'**
+  String get householdMoveProfilesMustDiffer;
+
+  /// No description provided for @householdMoveSelectAtLeastOneType.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least one data type to move.'**
+  String get householdMoveSelectAtLeastOneType;
+
+  /// No description provided for @householdGoalsSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Household Goals'**
+  String get householdGoalsSectionTitle;
+
+  /// No description provided for @householdGoalNoGoalsForActive.
+  ///
+  /// In en, this message translates to:
+  /// **'No goals for the active profile yet.'**
+  String get householdGoalNoGoalsForActive;
+
+  /// No description provided for @householdAddGoalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Household Goal'**
+  String get householdAddGoalTitle;
+
+  /// No description provided for @householdEditGoalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Household Goal'**
+  String get householdEditGoalTitle;
+
+  /// No description provided for @householdGoalNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal name'**
+  String get householdGoalNameLabel;
+
+  /// No description provided for @householdGoalTargetAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Target amount'**
+  String get householdGoalTargetAmountLabel;
+
+  /// No description provided for @householdGoalCurrentAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current saved amount'**
+  String get householdGoalCurrentAmountLabel;
+
+  /// No description provided for @householdGoalSharedToggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared goal (visible to all profiles)'**
+  String get householdGoalSharedToggle;
+
+  /// No description provided for @householdGoalOwnerProfileLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner profile'**
+  String get householdGoalOwnerProfileLabel;
+
+  /// No description provided for @householdGoalNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a goal name.'**
+  String get householdGoalNameRequired;
+
+  /// No description provided for @householdGoalTargetInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid target amount.'**
+  String get householdGoalTargetInvalid;
+
+  /// No description provided for @householdGoalCurrentInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid current amount.'**
+  String get householdGoalCurrentInvalid;
+
+  /// No description provided for @householdGoalOwnerRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Select an owner profile.'**
+  String get householdGoalOwnerRequired;
+
+  /// No description provided for @householdGoalScopeShared.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared'**
+  String get householdGoalScopeShared;
+
+  /// No description provided for @householdGoalScopeProfileUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get householdGoalScopeProfileUnknown;
+
+  /// No description provided for @householdGoalScopeProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile: {name}'**
+  String householdGoalScopeProfile(String name);
+
+  /// No description provided for @householdGoalDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete goal?'**
+  String get householdGoalDeleteTitle;
+
+  /// No description provided for @householdGoalDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete goal \"{name}\"?'**
+  String householdGoalDeleteMessage(String name);
+
+  /// No description provided for @householdGoalFailedToAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to add goal: {error}'**
+  String householdGoalFailedToAdd(String error);
+
+  /// No description provided for @householdGoalFailedToDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete goal: {error}'**
+  String householdGoalFailedToDelete(String error);
+
+  /// No description provided for @householdGoalFailedToUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update goal: {error}'**
+  String householdGoalFailedToUpdate(String error);
+
+  /// No description provided for @householdGoalEditSplitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Contribution Splits'**
+  String get householdGoalEditSplitsTitle;
+
+  /// No description provided for @householdGoalEditSplitsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit contribution splits'**
+  String get householdGoalEditSplitsTooltip;
+
+  /// No description provided for @householdGoalSplitNeedPositive.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter split percentages above zero.'**
+  String get householdGoalSplitNeedPositive;
+
+  /// No description provided for @householdGoalFailedToUpdateSplits.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update splits: {error}'**
+  String householdGoalFailedToUpdateSplits(String error);
+
+  /// No description provided for @householdGoalProgressSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress: {current} / {target} ({percent}%)'**
+  String householdGoalProgressSummary(
+      String current, String target, String percent);
+
+  /// No description provided for @householdGoalSplitPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Splits: {splits}'**
+  String householdGoalSplitPreview(String splits);
+
+  /// No description provided for @householdActiveProfileUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Active profile updated'**
+  String get householdActiveProfileUpdated;
+
+  /// No description provided for @householdFailedToUpdateProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update profile: {error}'**
+  String householdFailedToUpdateProfile(String error);
+
+  /// No description provided for @householdFailedToAddProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to add profile: {error}'**
+  String householdFailedToAddProfile(String error);
+
+  /// No description provided for @householdFailedToRenameProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to rename profile: {error}'**
+  String householdFailedToRenameProfile(String error);
+
+  /// No description provided for @householdFailedToDeleteProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete profile: {error}'**
+  String householdFailedToDeleteProfile(String error);
+
+  /// No description provided for @householdFailedToMoveData.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to move data: {error}'**
+  String householdFailedToMoveData(String error);
+
+  /// No description provided for @householdMovedRecordsSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved {total} records (A:{accounts}, L:{liabilities}, I:{incomes}, E:{expenses}, G:{goals}).'**
+  String householdMovedRecordsSummary(int total, int accounts, int liabilities,
+      int incomes, int expenses, int goals);
+
+  /// No description provided for @householdStatusActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get householdStatusActive;
+
+  /// No description provided for @householdStatusInactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
+  String get householdStatusInactive;
+
+  /// No description provided for @householdDeleteTooltipAtLeastOne.
+  ///
+  /// In en, this message translates to:
+  /// **'At least one profile is required'**
+  String get householdDeleteTooltipAtLeastOne;
+
+  /// No description provided for @householdDeleteTooltipMoveDataFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Move data before deleting this profile'**
+  String get householdDeleteTooltipMoveDataFirst;
+
+  /// No description provided for @householdDeleteTooltipDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get householdDeleteTooltipDelete;
+
+  /// No description provided for @householdCountsCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'A:{accounts} L:{liabilities} I:{incomes} E:{expenses} G:{goals}'**
+  String householdCountsCompact(
+      int accounts, int liabilities, int incomes, int expenses, int goals);
+
+  /// No description provided for @householdProfileOptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} ({counts})'**
+  String householdProfileOptionLabel(String name, String counts);
+
+  /// No description provided for @householdMoveAllToActiveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Move All Data To Active Profile'**
+  String get householdMoveAllToActiveButton;
+
+  /// No description provided for @householdMoveAllConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Move All Data To Active Profile?'**
+  String get householdMoveAllConfirmTitle;
+
+  /// No description provided for @householdMoveAllConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will move {totalMovable} records from all other profiles into \"{activeName}\".'**
+  String householdMoveAllConfirmMessage(int totalMovable, String activeName);
+
+  /// No description provided for @householdMoveAllNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data to move from other profiles.'**
+  String get householdMoveAllNoData;
+
+  /// No description provided for @householdMovableFromOtherProfiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Movable from other profiles: {count}'**
+  String householdMovableFromOtherProfiles(int count);
+
+  /// No description provided for @householdFailedToMoveAllData.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to move all data: {error}'**
+  String householdFailedToMoveAllData(String error);
+
+  /// No description provided for @householdGoalSplitsFeatureTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared Household Goals'**
+  String get householdGoalSplitsFeatureTitle;
+
+  /// No description provided for @householdGoalSplitsFeatureOutcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Split contributions by profile and track progress.'**
+  String get householdGoalSplitsFeatureOutcome;
+
+  /// No description provided for @householdGoalSplitsFeatureDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Set shared goals, assign contribution percentages, and keep everyone aligned.'**
+  String get householdGoalSplitsFeatureDescription;
 }
 
 class _AppLocalizationsDelegate

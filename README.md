@@ -22,7 +22,7 @@ A Flutter-based Android app for comprehensive wealth management and portfolio an
 - **No Sign-Up Required**: Start using immediately
 - **Local Storage Only**: All data stays on your device
 - **Encrypted Database**: AES encryption for sensitive information
-- **No Tracking**: Zero analytics, ads, or data collection
+- **No Behavioral Tracking**: No ads and no analytics telemetry
 
 ### 💎 Pro Features
 - Local notifications and alerts
@@ -184,10 +184,22 @@ flutter clean
 flutter pub get
 flutter pub run build_runner build --delete-conflicting-outputs
 
-# Build signed release
-flutter build appbundle --release --obfuscate --split-debug-info=build/symbols/
+# Configure production dart defines (one-time setup)
+cp config/dart_defines.production.example.json config/dart_defines.production.json
+# Edit config/dart_defines.production.json with real ENTITLEMENT_API_BASE_URL and ENTITLEMENT_API_KEY
+
+# Build signed release (with entitlement backend defines)
+flutter build appbundle --release \
+  --dart-define-from-file=config/dart_defines.production.json \
+  --obfuscate \
+  --split-debug-info=build/symbols/
 
 # Output: build/app/outputs/bundle/release/app-release.aab
+```
+
+PowerShell helper (Windows):
+```powershell
+.\tools\build_release_appbundle.ps1
 ```
 
 ### Keystore Setup
@@ -208,7 +220,8 @@ storeFile=/path/to/wealth-dial-key.jks
 ### Local Storage
 - **Hive Database**: Encrypted with AES-256
 - **Secure Key Storage**: Platform keychain integration
-- **No Network**: Offline-first architecture
+- **Offline-First**: Core budgeting/portfolio features run locally
+- **Limited Network Calls**: Optional FX rate lookup and purchase entitlement verification
 - **Data Isolation**: Sandboxed app storage
 
 ### Export Options

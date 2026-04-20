@@ -2587,6 +2587,58 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addExpense => 'Add Expense';
 
   @override
+  String get editExpense => 'Edit Expense';
+
+  @override
+  String get expenseName => 'Expense Name';
+
+  @override
+  String get expenseNameHint => 'e.g., Electric Bill, Internet';
+
+  @override
+  String get monthlyAmount => 'Monthly Amount';
+
+  @override
+  String get category => 'Category';
+
+  @override
+  String get dueDayOptional => 'Due Day (Optional)';
+
+  @override
+  String get dueDayHint => 'e.g., 15 for 15th of month';
+
+  @override
+  String get mustBeBetween1And31 => 'Must be between 1 and 31';
+
+  @override
+  String get expenseUpdated => 'Expense updated';
+
+  @override
+  String get expenseAdded => 'Expense added';
+
+  @override
+  String get deleteExpenseTitle => 'Delete Expense?';
+
+  @override
+  String get deleteExpenseConfirmation =>
+      'Are you sure you want to delete this expense?';
+
+  @override
+  String get expenseDeleted => 'Expense deleted';
+
+  @override
+  String get expenseCategoryRentMortgage => 'Rent/Mortgage';
+
+  @override
+  String get expenseCategoryUtilities => 'Utilities';
+
+  @override
+  String get expenseCategoryInsurance => 'Insurance';
+
+  @override
+  String get expenseCategorySubscriptions => 'Subscriptions';
+
+  @override
   String get totalMonthlyExpenses => 'Total Monthly Expenses';
 
   @override
@@ -2611,4 +2663,402 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get completeProfileInsights =>
       'Complete your profile for better insights';
+
+  @override
+  String get importExportTitle => 'Import & Export';
+
+  @override
+  String get backupRestoreSectionTitle => 'Backup & Restore';
+
+  @override
+  String get exportToCsvTitle => 'Export to CSV';
+
+  @override
+  String get exportToCsvSubtitle =>
+      'Free • Export account balances for spreadsheet analysis';
+
+  @override
+  String get createCompleteBackupTitle => 'Create Complete Backup';
+
+  @override
+  String get createCompleteBackupSubtitle =>
+      'Export all data (accounts, debts, income, settings) to a single file';
+
+  @override
+  String get createEncryptedBackupTitle => 'Create Encrypted Backup';
+
+  @override
+  String get createEncryptedBackupSubtitle =>
+      'Recommended • Encrypt backup with a passphrase before saving';
+
+  @override
+  String get restoreFromBackupTitle => 'Restore from Backup';
+
+  @override
+  String get restoreFromBackupSubtitle => 'Restore all data from a backup file';
+
+  @override
+  String get exportCsvDialogTitle => 'Export CSV';
+
+  @override
+  String get exportCsvDialogDescription =>
+      'Your CSV file will be saved directly to your Downloads folder.';
+
+  @override
+  String get exportButtonLabel => 'Export';
+
+  @override
+  String csvSavedToDownloads(String filename) {
+    return 'Saved to Downloads:\\n$filename';
+  }
+
+  @override
+  String exportFailedWithError(String error) {
+    return 'Export failed: $error';
+  }
+
+  @override
+  String get encryptedBackupDialogTitle => 'Create Encrypted Backup';
+
+  @override
+  String get backupPassphraseDialogTitle => 'Backup Passphrase';
+
+  @override
+  String get newBackupPassphraseDescription =>
+      'Use a strong passphrase (12+ chars with upper/lower/digit/symbol). If lost, this backup cannot be restored.';
+
+  @override
+  String get existingBackupPassphraseDescription =>
+      'Enter the passphrase used when this encrypted backup was created.';
+
+  @override
+  String get passphraseLabel => 'Passphrase';
+
+  @override
+  String get confirmPassphraseLabel => 'Confirm passphrase';
+
+  @override
+  String get passphraseRequiredError => 'Passphrase is required.';
+
+  @override
+  String get passphrasesDoNotMatchError => 'Passphrases do not match.';
+
+  @override
+  String get continueLabel => 'Continue';
+
+  @override
+  String get passphraseMinLengthError =>
+      'Passphrase must be at least 12 characters.';
+
+  @override
+  String get passphraseComplexityError =>
+      'Use at least one uppercase, lowercase, number, and symbol.';
+
+  @override
+  String get createBackupFailed => 'Failed to create backup';
+
+  @override
+  String backupSavedToDownloads(String filePath) {
+    return 'Backup saved to Downloads:\\n$filePath';
+  }
+
+  @override
+  String backupFailedWithError(String error) {
+    return 'Backup failed: $error';
+  }
+
+  @override
+  String get createEncryptedBackupFailed => 'Failed to create encrypted backup';
+
+  @override
+  String encryptedBackupSavedToDownloads(String filePath) {
+    return 'Encrypted backup saved to Downloads:\\n$filePath';
+  }
+
+  @override
+  String encryptedBackupFailedWithError(String error) {
+    return 'Encrypted backup failed: $error';
+  }
+
+  @override
+  String get restoreConfirmTitle => 'Restore from Backup?';
+
+  @override
+  String get restoreConfirmWarning =>
+      'WARNING: This will replace ALL your current data with the data from the backup file.\\n\\nYour current data will be permanently deleted.\\n\\nMake sure you have a backup of your current data before proceeding.';
+
+  @override
+  String get restoreButtonLabel => 'Restore';
+
+  @override
+  String get restoreTooManyPassphraseAttempts =>
+      'Too many incorrect passphrase attempts. Restore was canceled.';
+
+  @override
+  String get restoreSuccessfulTitle => 'Restore Successful!';
+
+  @override
+  String restoreFailedWithError(String error) {
+    return 'Restore failed: $error';
+  }
+
+  @override
+  String get householdProfilesBetaTitle => 'Household Profiles (Beta)';
+
+  @override
+  String get householdProfilesDescription =>
+      'Create and switch between profiles. Core financial data now loads per active household profile.';
+
+  @override
+  String get householdActiveProfileLabel => 'Active profile';
+
+  @override
+  String get householdNoProfilesAvailable => 'No profiles available';
+
+  @override
+  String get householdAddProfileTitle => 'Add Household Profile';
+
+  @override
+  String get householdRenameProfileTitle => 'Rename Profile';
+
+  @override
+  String get householdDeleteProfileTitle => 'Delete Profile?';
+
+  @override
+  String get householdProfileNameLabel => 'Profile name';
+
+  @override
+  String householdDeleteProfileDescription(String name) {
+    return 'Delete \"$name\" profile? This is allowed only when the profile has no financial records assigned.';
+  }
+
+  @override
+  String get householdCreateAtLeastTwoProfiles =>
+      'Create at least two profiles before moving data.';
+
+  @override
+  String get householdMoveDataTitle => 'Move Data Between Profiles';
+
+  @override
+  String get householdMoveDataDescription =>
+      'This will reassign selected accounts, liabilities, incomes, expenses, and goals from one profile to another.';
+
+  @override
+  String get householdMoveFromProfileLabel => 'From profile';
+
+  @override
+  String get householdMoveToProfileLabel => 'To profile';
+
+  @override
+  String get householdMoveDataTypesLabel => 'Data types to move';
+
+  @override
+  String get householdDataTypeGoals => 'Goals';
+
+  @override
+  String get householdMoveProfilesMustDiffer =>
+      'Source and target profiles must be different.';
+
+  @override
+  String get householdMoveSelectAtLeastOneType =>
+      'Select at least one data type to move.';
+
+  @override
+  String get householdGoalsSectionTitle => 'Household Goals';
+
+  @override
+  String get householdGoalNoGoalsForActive =>
+      'No goals for the active profile yet.';
+
+  @override
+  String get householdAddGoalTitle => 'Add Household Goal';
+
+  @override
+  String get householdEditGoalTitle => 'Edit Household Goal';
+
+  @override
+  String get householdGoalNameLabel => 'Goal name';
+
+  @override
+  String get householdGoalTargetAmountLabel => 'Target amount';
+
+  @override
+  String get householdGoalCurrentAmountLabel => 'Current saved amount';
+
+  @override
+  String get householdGoalSharedToggle =>
+      'Shared goal (visible to all profiles)';
+
+  @override
+  String get householdGoalOwnerProfileLabel => 'Owner profile';
+
+  @override
+  String get householdGoalNameRequired => 'Enter a goal name.';
+
+  @override
+  String get householdGoalTargetInvalid => 'Enter a valid target amount.';
+
+  @override
+  String get householdGoalCurrentInvalid => 'Enter a valid current amount.';
+
+  @override
+  String get householdGoalOwnerRequired => 'Select an owner profile.';
+
+  @override
+  String get householdGoalScopeShared => 'Shared';
+
+  @override
+  String get householdGoalScopeProfileUnknown => 'Profile';
+
+  @override
+  String householdGoalScopeProfile(String name) {
+    return 'Profile: $name';
+  }
+
+  @override
+  String get householdGoalDeleteTitle => 'Delete goal?';
+
+  @override
+  String householdGoalDeleteMessage(String name) {
+    return 'Delete goal \"$name\"?';
+  }
+
+  @override
+  String householdGoalFailedToAdd(String error) {
+    return 'Failed to add goal: $error';
+  }
+
+  @override
+  String householdGoalFailedToDelete(String error) {
+    return 'Failed to delete goal: $error';
+  }
+
+  @override
+  String householdGoalFailedToUpdate(String error) {
+    return 'Failed to update goal: $error';
+  }
+
+  @override
+  String get householdGoalEditSplitsTitle => 'Edit Contribution Splits';
+
+  @override
+  String get householdGoalEditSplitsTooltip => 'Edit contribution splits';
+
+  @override
+  String get householdGoalSplitNeedPositive =>
+      'Enter split percentages above zero.';
+
+  @override
+  String householdGoalFailedToUpdateSplits(String error) {
+    return 'Failed to update splits: $error';
+  }
+
+  @override
+  String householdGoalProgressSummary(
+      String current, String target, String percent) {
+    return 'Progress: $current / $target ($percent%)';
+  }
+
+  @override
+  String householdGoalSplitPreview(String splits) {
+    return 'Splits: $splits';
+  }
+
+  @override
+  String get householdActiveProfileUpdated => 'Active profile updated';
+
+  @override
+  String householdFailedToUpdateProfile(String error) {
+    return 'Failed to update profile: $error';
+  }
+
+  @override
+  String householdFailedToAddProfile(String error) {
+    return 'Failed to add profile: $error';
+  }
+
+  @override
+  String householdFailedToRenameProfile(String error) {
+    return 'Failed to rename profile: $error';
+  }
+
+  @override
+  String householdFailedToDeleteProfile(String error) {
+    return 'Failed to delete profile: $error';
+  }
+
+  @override
+  String householdFailedToMoveData(String error) {
+    return 'Failed to move data: $error';
+  }
+
+  @override
+  String householdMovedRecordsSummary(int total, int accounts, int liabilities,
+      int incomes, int expenses, int goals) {
+    return 'Moved $total records (A:$accounts, L:$liabilities, I:$incomes, E:$expenses, G:$goals).';
+  }
+
+  @override
+  String get householdStatusActive => 'Active';
+
+  @override
+  String get householdStatusInactive => 'Inactive';
+
+  @override
+  String get householdDeleteTooltipAtLeastOne =>
+      'At least one profile is required';
+
+  @override
+  String get householdDeleteTooltipMoveDataFirst =>
+      'Move data before deleting this profile';
+
+  @override
+  String get householdDeleteTooltipDelete => 'Delete';
+
+  @override
+  String householdCountsCompact(
+      int accounts, int liabilities, int incomes, int expenses, int goals) {
+    return 'A:$accounts L:$liabilities I:$incomes E:$expenses G:$goals';
+  }
+
+  @override
+  String householdProfileOptionLabel(String name, String counts) {
+    return '$name ($counts)';
+  }
+
+  @override
+  String get householdMoveAllToActiveButton =>
+      'Move All Data To Active Profile';
+
+  @override
+  String get householdMoveAllConfirmTitle => 'Move All Data To Active Profile?';
+
+  @override
+  String householdMoveAllConfirmMessage(int totalMovable, String activeName) {
+    return 'This will move $totalMovable records from all other profiles into \"$activeName\".';
+  }
+
+  @override
+  String get householdMoveAllNoData => 'No data to move from other profiles.';
+
+  @override
+  String householdMovableFromOtherProfiles(int count) {
+    return 'Movable from other profiles: $count';
+  }
+
+  @override
+  String householdFailedToMoveAllData(String error) {
+    return 'Failed to move all data: $error';
+  }
+
+  @override
+  String get householdGoalSplitsFeatureTitle => 'Shared Household Goals';
+
+  @override
+  String get householdGoalSplitsFeatureOutcome =>
+      'Split contributions by profile and track progress.';
+
+  @override
+  String get householdGoalSplitsFeatureDescription =>
+      'Set shared goals, assign contribution percentages, and keep everyone aligned.';
 }

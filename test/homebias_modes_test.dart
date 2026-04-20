@@ -9,6 +9,7 @@ void main() {
       riskBand: RiskBand.balanced,
       monthlyEssentials: 3000.0,
       usEquityTargetPct: 0.65,
+      globalDiversificationMode: 'standard',
     );
 
     final settingsOff = Settings(

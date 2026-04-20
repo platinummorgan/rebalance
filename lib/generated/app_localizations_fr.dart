@@ -2636,6 +2636,58 @@ class AppLocalizationsFr extends AppLocalizations {
   String get addExpense => 'Ajouter une dépense';
 
   @override
+  String get editExpense => 'Modifier la dépense';
+
+  @override
+  String get expenseName => 'Nom de la dépense';
+
+  @override
+  String get expenseNameHint => 'ex. : facture d\'électricité, internet';
+
+  @override
+  String get monthlyAmount => 'Montant mensuel';
+
+  @override
+  String get category => 'Catégorie';
+
+  @override
+  String get dueDayOptional => 'Jour d\'échéance (optionnel)';
+
+  @override
+  String get dueDayHint => 'ex. : 15 pour le 15 du mois';
+
+  @override
+  String get mustBeBetween1And31 => 'Doit être entre 1 et 31';
+
+  @override
+  String get expenseUpdated => 'Dépense mise à jour';
+
+  @override
+  String get expenseAdded => 'Dépense ajoutée';
+
+  @override
+  String get deleteExpenseTitle => 'Supprimer la dépense ?';
+
+  @override
+  String get deleteExpenseConfirmation =>
+      'Voulez-vous vraiment supprimer cette dépense ?';
+
+  @override
+  String get expenseDeleted => 'Dépense supprimée';
+
+  @override
+  String get expenseCategoryRentMortgage => 'Loyer/Crédit immobilier';
+
+  @override
+  String get expenseCategoryUtilities => 'Services publics';
+
+  @override
+  String get expenseCategoryInsurance => 'Assurance';
+
+  @override
+  String get expenseCategorySubscriptions => 'Abonnements';
+
+  @override
   String get totalMonthlyExpenses => 'Total des dépenses mensuelles';
 
   @override
@@ -2660,4 +2712,411 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get completeProfileInsights =>
       'Complétez votre profil pour de meilleures informations';
+
+  @override
+  String get importExportTitle => 'Importation et exportation';
+
+  @override
+  String get backupRestoreSectionTitle => 'Sauvegarde et restauration';
+
+  @override
+  String get exportToCsvTitle => 'Exporter en CSV';
+
+  @override
+  String get exportToCsvSubtitle =>
+      'Gratuit • Exportez les soldes de comptes pour analyse dans un tableur';
+
+  @override
+  String get createCompleteBackupTitle => 'Créer une sauvegarde complète';
+
+  @override
+  String get createCompleteBackupSubtitle =>
+      'Exportez toutes les données (comptes, dettes, revenus, paramètres) dans un seul fichier';
+
+  @override
+  String get createEncryptedBackupTitle => 'Créer une sauvegarde chiffrée';
+
+  @override
+  String get createEncryptedBackupSubtitle =>
+      'Recommandé • Chiffrez la sauvegarde avec une phrase secrète avant l’enregistrement';
+
+  @override
+  String get restoreFromBackupTitle => 'Restaurer depuis une sauvegarde';
+
+  @override
+  String get restoreFromBackupSubtitle =>
+      'Restaurez toutes les données depuis un fichier de sauvegarde';
+
+  @override
+  String get exportCsvDialogTitle => 'Exporter le CSV';
+
+  @override
+  String get exportCsvDialogDescription =>
+      'Votre fichier CSV sera enregistré directement dans votre dossier Téléchargements.';
+
+  @override
+  String get exportButtonLabel => 'Exporter';
+
+  @override
+  String csvSavedToDownloads(String filename) {
+    return 'Enregistré dans Téléchargements :\\n$filename';
+  }
+
+  @override
+  String exportFailedWithError(String error) {
+    return 'Échec de l’export : $error';
+  }
+
+  @override
+  String get encryptedBackupDialogTitle => 'Créer une sauvegarde chiffrée';
+
+  @override
+  String get backupPassphraseDialogTitle => 'Phrase secrète de sauvegarde';
+
+  @override
+  String get newBackupPassphraseDescription =>
+      'Utilisez une phrase secrète forte (12+ caractères avec majuscule/minuscule/chiffre/symbole). Si vous la perdez, cette sauvegarde ne pourra pas être restaurée.';
+
+  @override
+  String get existingBackupPassphraseDescription =>
+      'Entrez la phrase secrète utilisée lors de la création de cette sauvegarde chiffrée.';
+
+  @override
+  String get passphraseLabel => 'Phrase secrète';
+
+  @override
+  String get confirmPassphraseLabel => 'Confirmer la phrase secrète';
+
+  @override
+  String get passphraseRequiredError => 'La phrase secrète est requise.';
+
+  @override
+  String get passphrasesDoNotMatchError =>
+      'Les phrases secrètes ne correspondent pas.';
+
+  @override
+  String get continueLabel => 'Continuer';
+
+  @override
+  String get passphraseMinLengthError =>
+      'La phrase secrète doit contenir au moins 12 caractères.';
+
+  @override
+  String get passphraseComplexityError =>
+      'Utilisez au moins une majuscule, une minuscule, un chiffre et un symbole.';
+
+  @override
+  String get createBackupFailed => 'Échec de la création de la sauvegarde';
+
+  @override
+  String backupSavedToDownloads(String filePath) {
+    return 'Sauvegarde enregistrée dans Téléchargements :\\n$filePath';
+  }
+
+  @override
+  String backupFailedWithError(String error) {
+    return 'Échec de la sauvegarde : $error';
+  }
+
+  @override
+  String get createEncryptedBackupFailed =>
+      'Échec de la création de la sauvegarde chiffrée';
+
+  @override
+  String encryptedBackupSavedToDownloads(String filePath) {
+    return 'Sauvegarde chiffrée enregistrée dans Téléchargements :\\n$filePath';
+  }
+
+  @override
+  String encryptedBackupFailedWithError(String error) {
+    return 'Échec de la sauvegarde chiffrée : $error';
+  }
+
+  @override
+  String get restoreConfirmTitle => 'Restaurer depuis une sauvegarde ?';
+
+  @override
+  String get restoreConfirmWarning =>
+      'ATTENTION : cela remplacera TOUTES vos données actuelles par celles du fichier de sauvegarde.\\n\\nVos données actuelles seront supprimées définitivement.\\n\\nAssurez-vous d’avoir une sauvegarde de vos données actuelles avant de continuer.';
+
+  @override
+  String get restoreButtonLabel => 'Restaurer';
+
+  @override
+  String get restoreTooManyPassphraseAttempts =>
+      'Trop de tentatives incorrectes de phrase secrète. La restauration a été annulée.';
+
+  @override
+  String get restoreSuccessfulTitle => 'Restauration réussie !';
+
+  @override
+  String restoreFailedWithError(String error) {
+    return 'Échec de la restauration : $error';
+  }
+
+  @override
+  String get householdProfilesBetaTitle => 'Profils du foyer (Bêta)';
+
+  @override
+  String get householdProfilesDescription =>
+      'Créez et basculez entre les profils. Les données financières principales se chargent désormais selon le profil actif.';
+
+  @override
+  String get householdActiveProfileLabel => 'Profil actif';
+
+  @override
+  String get householdNoProfilesAvailable => 'Aucun profil disponible';
+
+  @override
+  String get householdAddProfileTitle => 'Ajouter un profil du foyer';
+
+  @override
+  String get householdRenameProfileTitle => 'Renommer le profil';
+
+  @override
+  String get householdDeleteProfileTitle => 'Supprimer le profil ?';
+
+  @override
+  String get householdProfileNameLabel => 'Nom du profil';
+
+  @override
+  String householdDeleteProfileDescription(String name) {
+    return 'Supprimer le profil « $name » ? Ceci est autorisé uniquement si le profil n’a aucun enregistrement financier assigné.';
+  }
+
+  @override
+  String get householdCreateAtLeastTwoProfiles =>
+      'Créez au moins deux profils avant de déplacer des données.';
+
+  @override
+  String get householdMoveDataTitle => 'Déplacer les données entre profils';
+
+  @override
+  String get householdMoveDataDescription =>
+      'Cela réaffectera les comptes, passifs, revenus, dépenses et objectifs sélectionnés d’un profil à un autre.';
+
+  @override
+  String get householdMoveFromProfileLabel => 'Profil source';
+
+  @override
+  String get householdMoveToProfileLabel => 'Profil cible';
+
+  @override
+  String get householdMoveDataTypesLabel => 'Types de données à déplacer';
+
+  @override
+  String get householdDataTypeGoals => 'Objectifs';
+
+  @override
+  String get householdMoveProfilesMustDiffer =>
+      'Les profils source et cible doivent être différents.';
+
+  @override
+  String get householdMoveSelectAtLeastOneType =>
+      'Sélectionnez au moins un type de données à déplacer.';
+
+  @override
+  String get householdGoalsSectionTitle => 'Objectifs du foyer';
+
+  @override
+  String get householdGoalNoGoalsForActive =>
+      'Aucun objectif pour le profil actif pour le moment.';
+
+  @override
+  String get householdAddGoalTitle => 'Ajouter un objectif du foyer';
+
+  @override
+  String get householdEditGoalTitle => 'Modifier l’objectif du foyer';
+
+  @override
+  String get householdGoalNameLabel => 'Nom de l’objectif';
+
+  @override
+  String get householdGoalTargetAmountLabel => 'Montant cible';
+
+  @override
+  String get householdGoalCurrentAmountLabel => 'Montant déjà épargné';
+
+  @override
+  String get householdGoalSharedToggle =>
+      'Objectif partagé (visible par tous les profils)';
+
+  @override
+  String get householdGoalOwnerProfileLabel => 'Profil propriétaire';
+
+  @override
+  String get householdGoalNameRequired => 'Saisissez un nom d’objectif.';
+
+  @override
+  String get householdGoalTargetInvalid => 'Saisissez un montant cible valide.';
+
+  @override
+  String get householdGoalCurrentInvalid =>
+      'Saisissez un montant actuel valide.';
+
+  @override
+  String get householdGoalOwnerRequired =>
+      'Sélectionnez un profil propriétaire.';
+
+  @override
+  String get householdGoalScopeShared => 'Partagé';
+
+  @override
+  String get householdGoalScopeProfileUnknown => 'Profil';
+
+  @override
+  String householdGoalScopeProfile(String name) {
+    return 'Profil : $name';
+  }
+
+  @override
+  String get householdGoalDeleteTitle => 'Supprimer l’objectif ?';
+
+  @override
+  String householdGoalDeleteMessage(String name) {
+    return 'Supprimer l’objectif « $name » ?';
+  }
+
+  @override
+  String householdGoalFailedToAdd(String error) {
+    return 'Échec de l’ajout de l’objectif : $error';
+  }
+
+  @override
+  String householdGoalFailedToDelete(String error) {
+    return 'Échec de la suppression de l’objectif : $error';
+  }
+
+  @override
+  String householdGoalFailedToUpdate(String error) {
+    return 'Échec de la mise à jour de l’objectif : $error';
+  }
+
+  @override
+  String get householdGoalEditSplitsTitle =>
+      'Modifier la répartition des contributions';
+
+  @override
+  String get householdGoalEditSplitsTooltip =>
+      'Modifier la répartition des contributions';
+
+  @override
+  String get householdGoalSplitNeedPositive =>
+      'Saisissez des pourcentages de répartition supérieurs à zéro.';
+
+  @override
+  String householdGoalFailedToUpdateSplits(String error) {
+    return 'Échec de la mise à jour des répartitions : $error';
+  }
+
+  @override
+  String householdGoalProgressSummary(
+      String current, String target, String percent) {
+    return 'Progression : $current / $target ($percent%)';
+  }
+
+  @override
+  String householdGoalSplitPreview(String splits) {
+    return 'Répartition : $splits';
+  }
+
+  @override
+  String get householdActiveProfileUpdated => 'Profil actif mis à jour';
+
+  @override
+  String householdFailedToUpdateProfile(String error) {
+    return 'Échec de la mise à jour du profil : $error';
+  }
+
+  @override
+  String householdFailedToAddProfile(String error) {
+    return 'Échec de l’ajout du profil : $error';
+  }
+
+  @override
+  String householdFailedToRenameProfile(String error) {
+    return 'Échec du renommage du profil : $error';
+  }
+
+  @override
+  String householdFailedToDeleteProfile(String error) {
+    return 'Échec de la suppression du profil : $error';
+  }
+
+  @override
+  String householdFailedToMoveData(String error) {
+    return 'Échec du déplacement des données : $error';
+  }
+
+  @override
+  String householdMovedRecordsSummary(int total, int accounts, int liabilities,
+      int incomes, int expenses, int goals) {
+    return '$total enregistrements déplacés (C:$accounts, P:$liabilities, R:$incomes, D:$expenses, O:$goals).';
+  }
+
+  @override
+  String get householdStatusActive => 'Actif';
+
+  @override
+  String get householdStatusInactive => 'Inactif';
+
+  @override
+  String get householdDeleteTooltipAtLeastOne =>
+      'Au moins un profil est requis';
+
+  @override
+  String get householdDeleteTooltipMoveDataFirst =>
+      'Déplacez les données avant de supprimer ce profil';
+
+  @override
+  String get householdDeleteTooltipDelete => 'Supprimer';
+
+  @override
+  String householdCountsCompact(
+      int accounts, int liabilities, int incomes, int expenses, int goals) {
+    return 'C:$accounts P:$liabilities R:$incomes D:$expenses O:$goals';
+  }
+
+  @override
+  String householdProfileOptionLabel(String name, String counts) {
+    return '$name ($counts)';
+  }
+
+  @override
+  String get householdMoveAllToActiveButton =>
+      'Tout déplacer vers le profil actif';
+
+  @override
+  String get householdMoveAllConfirmTitle =>
+      'Tout déplacer vers le profil actif ?';
+
+  @override
+  String householdMoveAllConfirmMessage(int totalMovable, String activeName) {
+    return 'Cela déplacera $totalMovable enregistrements de tous les autres profils vers « $activeName ».';
+  }
+
+  @override
+  String get householdMoveAllNoData =>
+      'Aucune donnée à déplacer depuis les autres profils.';
+
+  @override
+  String householdMovableFromOtherProfiles(int count) {
+    return 'Déplaçable depuis les autres profils : $count';
+  }
+
+  @override
+  String householdFailedToMoveAllData(String error) {
+    return 'Échec du déplacement de toutes les données : $error';
+  }
+
+  @override
+  String get householdGoalSplitsFeatureTitle => 'Objectifs du foyer partagés';
+
+  @override
+  String get householdGoalSplitsFeatureOutcome =>
+      'Répartissez les contributions par profil et suivez la progression.';
+
+  @override
+  String get householdGoalSplitsFeatureDescription =>
+      'Créez des objectifs partagés, attribuez des pourcentages de contribution et alignez tout le foyer.';
 }

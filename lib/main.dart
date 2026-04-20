@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'app.dart';
 import 'services/analytics_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase
-  try {
-    await Firebase.initializeApp();
-    await AnalyticsService().initialize();
-    debugPrint('[Main] Firebase initialized successfully');
-  } catch (e) {
-    debugPrint('[Main] Firebase initialization failed: $e');
-    // Continue without analytics if Firebase fails
-  }
+  // Analytics is intentionally no-op in privacy-first mode.
+  await AnalyticsService().initialize();
 
   // Set preferred orientations (portrait only for mobile)
   await SystemChrome.setPreferredOrientations([

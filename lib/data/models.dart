@@ -546,6 +546,70 @@ class Settings extends HiveObject {
   double get targetStockPct => 1.0 - targetBondPct;
 }
 
+@HiveType(typeId: 13)
+class HouseholdProfile extends HiveObject {
+  @HiveField(0)
+  String id;
+
+  @HiveField(1)
+  String name;
+
+  @HiveField(2)
+  DateTime createdAt;
+
+  HouseholdProfile({
+    required this.id,
+    required this.name,
+    required this.createdAt,
+  });
+}
+
+@HiveType(typeId: 14)
+class HouseholdGoal extends HiveObject {
+  @HiveField(0)
+  String id;
+
+  @HiveField(1)
+  String name;
+
+  @HiveField(2)
+  double targetAmount;
+
+  @HiveField(3)
+  DateTime createdAt;
+
+  @HiveField(4)
+  DateTime updatedAt;
+
+  @HiveField(5)
+  bool isShared;
+
+  @HiveField(6)
+  String? ownerProfileId;
+
+  @HiveField(7)
+  String? notes;
+
+  @HiveField(8)
+  double currentAmount;
+
+  @HiveField(9)
+  Map<String, double>? contributionSplits;
+
+  HouseholdGoal({
+    required this.id,
+    required this.name,
+    required this.targetAmount,
+    required this.createdAt,
+    required this.updatedAt,
+    this.isShared = false,
+    this.ownerProfileId,
+    this.notes,
+    this.currentAmount = 0,
+    this.contributionSplits,
+  });
+}
+
 @HiveType(typeId: 4)
 class Snapshot extends HiveObject {
   @HiveField(0)

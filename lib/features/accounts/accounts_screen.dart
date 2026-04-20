@@ -695,44 +695,43 @@ void _showDeleteAccountDialog(
   WidgetRef ref,
   Account account,
 ) {
+  final parentContext = context;
   final loc = AppLocalizations.of(context)!;
   showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
+    context: parentContext,
+    builder: (dialogContext) => AlertDialog(
       title: Text(loc.deleteAccount),
       content: Text(loc.areYouSureDeleteAccount),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pop(dialogContext),
           child: Text(loc.cancel),
         ),
         TextButton(
           onPressed: () async {
-            Navigator.pop(context);
+            Navigator.pop(dialogContext);
             try {
               await RepositoryService.deleteAccount(account.id);
-              if (context.mounted) {
-                // Refresh both providers to update the UI and dashboard calculations
-                await ref.read(accountsProvider.notifier).reload();
-                await ref.read(liabilitiesProvider.notifier).reload();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(loc.accountDeletedSuccessfully),
-                    backgroundColor: Colors.green.shade600,
-                    behavior: SnackBarBehavior.floating,
-                  ),
-                );
-              }
+              // Refresh both providers to update the UI and dashboard calculations
+              await ref.read(accountsProvider.notifier).reload();
+              await ref.read(liabilitiesProvider.notifier).reload();
+              if (!parentContext.mounted) return;
+              ScaffoldMessenger.of(parentContext).showSnackBar(
+                SnackBar(
+                  content: Text(loc.accountDeletedSuccessfully),
+                  backgroundColor: Colors.green.shade600,
+                  behavior: SnackBarBehavior.floating,
+                ),
+              );
             } catch (e) {
-              if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('${loc.errorDeletingAccount}: $e'),
-                    backgroundColor: Colors.red.shade600,
-                    behavior: SnackBarBehavior.floating,
-                  ),
-                );
-              }
+              if (!parentContext.mounted) return;
+              ScaffoldMessenger.of(parentContext).showSnackBar(
+                SnackBar(
+                  content: Text('${loc.errorDeletingAccount}: $e'),
+                  backgroundColor: Colors.red.shade600,
+                  behavior: SnackBarBehavior.floating,
+                ),
+              );
             }
           },
           style: TextButton.styleFrom(
