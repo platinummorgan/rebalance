@@ -54,3 +54,9 @@ android/key.properties
 
 # Production dart define values (contains secrets)
 config/dart_defines.production.json
+
+# Local development artifacts (machine-specific)
+.vscode/settings.json
+android/.gradle/
+android/local.properties
+coverage/
